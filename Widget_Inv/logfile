@@ -1,0 +1,19 @@
+--------------------------------- Log file --------------------------------
+DIRECT Version 2.0.4
+ Problem Dimension n                    :      3
+ Eps value                              :   0.1000E-05
+ Maximum number of f-evaluations (maxf) :  10000
+ Maximum number of iterations (MaxT)    :   6000
+ Value of f_global                      :  -0.1000+101
+ Global percentage wanted               :   0.0000E+00
+ Volume percentage wanted               :   0.1000E-02
+ Measure percentage wanted              :  -0.1000E+01
+ Epsilon is constant.
+ Our modification of the DIRECT algorithm is used.
+Bounds on variable x 1    :      5.00000 <= xi <=     20.00000
+Bounds on variable x 2    :      0.00000 <= xi <=      4.00000
+Bounds on variable x 3    :     -3.00000 <= xi <=      3.00000
+---------------------------------------------------------------------------
+ Iteration   # of f-eval.   fmin
+    1           7           9.5105441078
+    2          11           4.2931486466

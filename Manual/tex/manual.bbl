@@ -1,0 +1,49 @@
+\begin{thebibliography}{11}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Belluzzi} {et~al.}(2007){Belluzzi}, {Trujillo Bueno}, \& {Landi
+  Degl'Innocenti}}]{belluzzi07}
+{Belluzzi}, L., {Trujillo Bueno}, J., \& {Landi Degl'Innocenti}, E. 2007, ApJ,
+  666, 588
+
+\bibitem[{{Condon} \& {Shortley}(1935)}]{condon_shortley35}
+{Condon}, E.~U., \& {Shortley}, G.~H. 1935, The Theory of Atomic Spectra
+  (Cambridge: Cambridge University Press)
+
+\bibitem[{{Edmonds}(1960)}]{edmonds60}
+{Edmonds}, A.~R. 1960, Angular Momentum in Quantum Mechanics (Princeton
+  University Press)
+
+\bibitem[{{Jones} {et~al.}(1993){Jones}, {Perttunen}, \&
+  {Stuckmann}}]{Jones_DIRECT93}
+{Jones}, D.~R., {Perttunen}, C.~D., \& {Stuckmann}, B.~E. 1993, Journal of
+  Optimization Theory and Applications, 79, 157
+
+\bibitem[{{Landi Deglinnocenti} \& {Landi Deglinnocenti}(1985)}]{landi_landi85}
+{Landi Deglinnocenti}, E., \& {Landi Deglinnocenti}, M. 1985, Sol. Phys., 97,
+  239
+
+\bibitem[{{Landi Degl'Innocenti} \& {Landolfi}(2004)}]{landi_landolfi04}
+{Landi Degl'Innocenti}, E., \& {Landolfi}, M. 2004, Polarization in Spectral
+  Lines (Kluwer Academic Publishers)
+
+\bibitem[{{Pierce}(2000)}]{pierce00}
+{Pierce}, K. 2000, in Allen's Astrophysical Quantities, ed. A. N. Cox (New
+  York: Springer Verlag and AIP Press)
+
+\bibitem[{{Rees} {et~al.}(1989){Rees}, {Durrant}, \& {Murphy}}]{rees_delo89}
+{Rees}, D.~E., {Durrant}, C.~J., \& {Murphy}, G.~A. 1989, ApJ, 339, 1093
+
+\bibitem[{{Trujillo Bueno}(2003)}]{trujillo03}
+{Trujillo Bueno}, J. 2003, in Stellar Atmosphere Modeling, ed. I.~{Hubeny},
+  D.~{Mihalas}, \& K.~{Werner}, ASP Conf. Ser. 288 (San Francisco: ASP), 551
+
+\bibitem[{{Trujillo Bueno} \& {Asensio Ramos}(2007)}]{trujillo_asensio07}
+{Trujillo Bueno}, J., \& {Asensio Ramos}, A. 2007, ApJ, 655, 642
+
+\bibitem[{{Trujillo Bueno} {et~al.}(2005){Trujillo Bueno}, {Merenda},
+  {Centeno}, {Collados}, \& {Landi Degl'Innocenti}}]{trujillo_merenda05}
+{Trujillo Bueno}, J., {Merenda}, L., {Centeno}, R., {Collados}, M., \& {Landi
+  Degl'Innocenti}, E. 2005, ApJ, 619, L191
+
+\end{thebibliography}

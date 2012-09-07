@@ -1,0 +1,57 @@
+***********************************************
+* File defining the specific experiment to solve
+***********************************************
+
+# Include stimulated emission (0-> no, 1-> yes)
+1
+
+# Include magnetic field (0-> no, 1-> yes)
+1
+
+# Include depolarization rates (0-> no, 1-> yes)
+0
+
+# Value of delta if depolarization rates are included (not used if the previous value is 0)
+0.0000000
+
+# Include Paschen-Back effect (0-> no, 1-> yes)
+1
+
+# Magnetic field strength [G], thetaB [degrees], chiB [degrees]
+40.000000  30.000000  90.000000
+
+# Apparent height (if negative) or real height (if positive) of the He I atoms in arcsec
+20.000000
+
+# Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
+3.0000000
+
+# Source function gradient (only ME)
+2.0000000
+
+# Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
+1.0000000 0.0000000 0.0000000 0.0000000
+
+# Transition where to compute the emission
+1
+
+# Use atomic polarization? (0-> no, 1-> yes)
+1
+
+# Observation angle with respect to the vertical theta,chi,gamma [degrees]
+90.000000  0.0000000  90.000000
+
+# Wavelength axis: minimum, maximum and number of grid points
+-2.1318468 1.2791081 200
+
+# Line wavelength [A], Doppler velocity [km/s] and damping [a]
+10829.091  8.0000000  0.0000000
+
+# Macroscopic velocity [km/s] (>0 is a redshift)
+0.d0
+
+# Include magneto-optical effects in the RT
+0
+
+# Include stimulated emission in the RT
+0

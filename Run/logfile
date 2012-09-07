@@ -1,0 +1,40 @@
+--------------------------------- Log file --------------------------------
+DIRECT Version 2.0.4
+ Problem Dimension n                    :      6
+ Eps value                              :   0.1000E-05
+ Maximum number of f-evaluations (maxf) :  10000
+ Maximum number of iterations (MaxT)    :   6000
+ Value of f_global                      :  -0.1000+101
+ Global percentage wanted               :   0.0000E+00
+ Volume percentage wanted               :   0.1000E-02
+ Measure percentage wanted              :  -0.1000E+01
+ Epsilon is constant.
+ Our modification of the DIRECT algorithm is used.
+Bounds on variable x 1    :      2.00000 <= xi <=     12.00000
+Bounds on variable x 2    :      0.00000 <= xi <=      2.00000
+Bounds on variable x 3    :      0.00000 <= xi <=      5.00000
+Bounds on variable x 4    :      0.00000 <= xi <=      2.00000
+Bounds on variable x 5    :     25.00000 <= xi <=     35.00000
+Bounds on variable x 6    :      2.00000 <= xi <=     12.00000
+---------------------------------------------------------------------------
+ Iteration   # of f-eval.   fmin
+    1          13          11.2150277976
+    2          23           7.9927952049
+    3          31           5.5587930805
+    4          37           3.9164098588
+    5          41           3.3904224051
+    7          57           2.8564222789
+    8          69           2.6959766923
+    9          81           2.6707308492
+DIRECT stopped: Volume of S_min is 0.19D-03% < 0.10D-02% of the original volume.
+--------------------------------- Summary --------------------------------
+Final function value           :    2.6707308
+Number of function evaluations :           89
+Index  Final solution   x(i) - l(i)   u(i) - x(i) 
+    1    9.2222222       7.2222222      2.7777778
+    2    0.5555556       0.5555556      1.4444444
+    3    0.2777778       0.2777778      4.7222222
+    4    1.0000000       1.0000000      1.0000000
+    5   26.6666667       1.6666667      8.3333333
+    6   10.3333333       8.3333333      1.6666667
+---------------------------------------------------------------------------

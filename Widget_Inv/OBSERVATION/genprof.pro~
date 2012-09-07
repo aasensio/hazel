@@ -1,0 +1,4 @@
+pro genprof
+	restore,'Valignment+zeeman.sav'
+	
+end

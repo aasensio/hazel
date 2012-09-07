@@ -1,0 +1,60 @@
+***********************************************
+* File defining the parameters to invert
+***********************************************
+
+# Maximum number of iterations
+20
+
+# Number of cycles
+2
+
+# Invert the magnetic field strength
+1 1 1 1
+
+# Invert the magnetic field inclination
+1 1 1 1
+
+# Invert the magnetic field azimuth
+1 1 0 0
+
+# Invert the Doppler width
+0 0 0 0
+
+# Invert the optical depth or strength of the line
+0 0 0 0
+
+# Invert the D^2 of the lower level
+0 0 0 0
+
+# Invert the macroscopic velocity
+0 0 0 0
+
+# Invert the damping
+0 0 0 0
+
+# Invert the source function gradient
+0 0 0 0
+
+# Invert the height of the He atoms
+0 0 0 0
+
+# Invert the optical depth or strength of the line of component 2
+0 0 0 0
+
+# Invert the macroscopic velocity of component 2
+0 0 0 0
+
+# Weights for Stokes I in each cycle
+1.d0 1.d0 1.d0 1.d0
+
+# Weights for Stokes Q in each cycle
+1.d0 1.d0 1.d0 1.d0
+
+# Weights for Stokes U in each cycle
+1.d0 1.d0 1.d0 1.d0
+
+# Weights for Stokes V in each cycle
+1.d0 1.d0 1.d0 1.d0
+
+# Inversion modes (1-> LM, 2-> DIRECT, 3-> PIKAIA)
+2 1 2 1

@@ -1,0 +1,8 @@
+103713.673 Master    0 - Read observation    1
+103713.673 Master    0 - Sent observation     1 to Slave    1
+103725.657 Master    0 - Received result from Slave    1
+103725.657 Master    0 - Saved result     1 from Slave    1
+103725.658 Master    0 - Sent observation     2 to Slave    1
+103737.634 Master    0 - Received result from Slave    1
+103737.635 Master    0 - Saved result     2 from Slave    1
+103737.635 Kill signal sent to slave    1

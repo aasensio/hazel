@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.6)
+The top-level auxiliary file: manual.aux
+The style file: apj.bst
+Database file #1: apjmnemonic.bib
+Database file #2: /scratch/Dropbox/biblio.bib
+You've used 11 entries,
+            2948 wiz_defined-function locations,
+            1554 strings with 15811 characters,
+and the built_in function-call counts, 4654 in all, are:
+= -- 397
+> -- 248
+< -- 7
++ -- 91
+- -- 78
+* -- 370
+:= -- 859
+add.period$ -- 11
+call.type$ -- 11
+change.case$ -- 69
+chr.to.int$ -- 11
+cite$ -- 11
+duplicate$ -- 211
+empty$ -- 349
+format.name$ -- 114
+if$ -- 933
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 9
+newline$ -- 37
+num.names$ -- 45
+pop$ -- 89
+preamble$ -- 1
+purify$ -- 69
+quote$ -- 0
+skip$ -- 186
+stack$ -- 0
+substring$ -- 195
+swap$ -- 6
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 90
+warning$ -- 0
+while$ -- 41
+width$ -- 0
+write$ -- 114

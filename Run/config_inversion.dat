@@ -1,0 +1,54 @@
+***********************************************
+* Configuration file for the multi-term program
+***********************************************
+
+# Input model file
+'ATOMS/helium.mod'
+
+# Initial parameters file
+'init_parameters.dat'
+
+# Range of parameters for the DIRECT method
+'direct_range.dat'
+
+# Output file for the upper level rho^K_Q(J,J') in the reference frame of the vertical
+'ATOMIC_POL/vertical_upper.rho'
+
+# Output file for the lower level rho^K_Q(J,J') in the reference frame of the vertical
+'ATOMIC_POL/vertical_lower.rho'
+
+# Output file for the upper level rho^K_Q(J,J') in the reference frame of the magnetic field
+'ATOMIC_POL/magnetic_upper.rho'
+
+# Output file for the lower level rho^K_Q(J,J') in the reference frame of the magnetic field
+'ATOMIC_POL/magnetic_lower.rho'
+
+# Output absorption/emission coefficients
+'INVERTED/rtcoef.emer'
+
+# Output absorption/emission coefficients neglecting atomic polarization
+'INVERTED/rtcoef_noatompol.emer'
+
+# File with the observed profiles
+'OBSERVATION/test_2comp.prof'
+
+# File with the inverted profiles
+'test.inversion'
+
+# File with the parameters from the inversion
+'test.parameters'
+
+# File that sets the parameters to invert
+'invert_parameters.dat'
+
+# Verbose mode (0-> no, 1-> yes)
+0
+
+# Linear system solver (0-> LU, 1-> CG)
+0
+
+# Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3), simplified slab (4), exact slab (5)
+5
+
+# Synthesis mode -> 0 , Inversion mode -> 1
+1

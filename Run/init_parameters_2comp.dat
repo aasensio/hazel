@@ -1,0 +1,60 @@
+***********************************************
+* File defining the specific experiment to solve
+***********************************************
+
+# Include stimulated emission (0-> no, 1-> yes)
+1
+
+# Include magnetic field (0-> no, 1-> yes)
+1
+
+# Include depolarization rates (0-> no, 1-> yes)
+0
+
+# Value of delta if depolarization rates are included (not used if the previous value is 0)
+1.d14
+
+# Include Paschen-Back effect (0-> no, 1-> yes)
+1
+
+# Magnetic field strength [G], thetaB [degrees], chiB [degrees]
+0.3d0 90.d0 90.d0
+
+# Apparent height (if negative) or real height (if positive) of the atoms in arcsec
+3.d0
+
+# Number of slabs
+1
+
+# Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
+1.0d0
+
+# Source function gradient (only ME)
+9.4d0
+
+# Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
+4.098d-5 0.d0 0.d0 0.d0
+
+# Transition where to compute the emergent Stokes profiles
+1
+
+# Include atomic level polarization? (0-> no, 1-> yes)
+1
+
+# Observation angle with respect to the local solar vertical theta,chi,gamma [degrees]
+0.d0 0.d0 90.d0
+
+# Wavelength axis: minimum, maximum and number of grid points
+-3.d0 2.5d0 200
+
+# Line wavelength [A], Doppler velocity [km/s] and damping [a]
+10829.0911d0   6.5d0   0.d0
+
+# Macroscopic velocity [km/s] (>0 is a redshift)
+0.d0
+
+# Include magneto-optical effects in the RT
+1
+
+# Include stimulated emission in the RT
+1
