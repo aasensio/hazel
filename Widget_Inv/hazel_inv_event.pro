@@ -788,6 +788,20 @@ pro inv_event, event
 		   widget_control, info.buttonsMacro2, sensitive=0
 		   widget_control, info.buttonstau2, sensitive=0
 		   widget_control, info.buttonsff, sensitive=0
+		   info.inv_vmacro2 = [0,0,0,0]
+		   info.inv_Bfield2 = [0,0,0,0]
+		   info.inv_thetaB2 = [0,0,0,0]
+		   info.inv_chiB2 = [0,0,0,0]
+		   info.inv_vdopp2 = [0,0,0,0]
+		   info.inv_tau2 = [0,0,0,0]
+			info.inv_ff = [0,0,0,0]
+			widget_control, info.buttonsB2, SET_VALUE = info.inv_Bfield2
+			widget_control, info.buttonsthetaB2, SET_VALUE = info.inv_thetaB2
+			widget_control, info.buttonschiB2, SET_VALUE = info.inv_chiB2
+			widget_control, info.buttonsDoppler2, SET_VALUE = info.inv_vdopp2
+			widget_control, info.buttonsMacro2, SET_VALUE = info.inv_vmacro2
+			widget_control, info.buttonstau2, SET_VALUE = info.inv_tau2
+			widget_control, info.buttonsff, SET_VALUE = info.inv_ff
 		 end
 		 'TWO_SLABS' : begin
 		 	info.number_slabs = 2
@@ -805,6 +819,16 @@ pro inv_event, event
 		   widget_control, info.buttonsMacro2, sensitive=1
 		   widget_control, info.buttonstau2, sensitive=1
 		   widget_control, info.buttonsff, sensitive=0
+		   info.inv_Bfield2 = [0,0,0,0]
+		   info.inv_thetaB2 = [0,0,0,0]
+		   info.inv_chiB2 = [0,0,0,0]
+		   info.inv_vdopp2 = [0,0,0,0]
+			info.inv_ff = [0,0,0,0]
+			widget_control, info.buttonsB2, SET_VALUE = info.inv_Bfield2
+			widget_control, info.buttonsthetaB2, SET_VALUE = info.inv_thetaB2
+			widget_control, info.buttonschiB2, SET_VALUE = info.inv_chiB2
+			widget_control, info.buttonsDoppler2, SET_VALUE = info.inv_vdopp2
+			widget_control, info.buttonsff, SET_VALUE = info.inv_ff
 		  end
 		 'TWO_SLABS_DIFFIELD' : begin
 		 	info.number_slabs = 3
@@ -822,6 +846,8 @@ pro inv_event, event
 		   widget_control, info.buttonsMacro2, sensitive=1
 		   widget_control, info.buttonstau2, sensitive=1
 		   widget_control, info.buttonsff, sensitive=0
+			info.inv_ff = [0,0,0,0]
+			widget_control, info.buttonsff, SET_VALUE = info.inv_ff
 		  end
 		  'TWO_SLABS_COMPO' : begin
 		 	info.number_slabs = -2
