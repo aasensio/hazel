@@ -48,7 +48,7 @@
 -3.d0 2.5d0 200
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10829.091  0.0000000  -1.0000000
+10829.091  0.0000000  0.0000000
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
 0.0000000

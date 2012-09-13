@@ -18,16 +18,16 @@
 1
  
 # Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B (add field below))
-3
+1
  
-# Magnetic field strength [G], thetaB [degrees], chiB [degrees], B2 [G], thetaB2 [degrees], chiB2 [degrees]
-   0.0000     90.00     90.00      0.0000     90.00     90.00
+# Magnetic field strength [G], thetaB [degrees], chiB [degrees]
+   0.0000     90.00     90.00
  
 # Apparent height of the He I atoms in arcsec
   3.000
  
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-  0.4646    0.9500
+  0.1000
  
 # Source function gradient (only ME)
   9.4000
@@ -47,11 +47,11 @@
 # Wavelength axis: minimum, maximum and number of grid points
   -3.00000000000000        2.50000000000000              150
 
-# Line wavelength [A], Doppler velocity [km/s], Doppler velocity 2 [km/s] and damping [a]
-10829.0911   11.392   10.333    0.0000
+# Line wavelength [A], Doppler velocity [km/s] and damping [a]
+10829.0911    2.000    0.0000
  
 # Macroscopic velocity [km/s] (>0 is a redshift)
-  0.186   26.829
+  0.000
  
 # Include magneto-optical effects in the RT
 1

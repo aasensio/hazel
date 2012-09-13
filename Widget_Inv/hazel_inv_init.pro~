@@ -559,7 +559,7 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
 ; Azimuth
    tAzi = widget_base(t4, /ROW)
    label = widget_label(tAzi, VALUE='chiB [deg]', XSIZE=textsize)
-   info.chiBtext2 = widget_text(tAzi, VALUE=strtrim(string(info.chiB2,FORMAT='(F6.2)'),2), UVALUE='CHIVALU2E', /EDITABLE, XSIZE=8, YSIZE=1)
+   info.chiBtext2 = widget_text(tAzi, VALUE=strtrim(string(info.chiB2,FORMAT='(F6.2)'),2), UVALUE='CHIVALUE2', /EDITABLE, XSIZE=8, YSIZE=1)
    info.buttonschiB2 = cw_bgroup(tAzi, ['1','2','3','4'], /ROW, /NONEXCLUSIVE, LABEL_LEFT='Cycles', SET_VALUE=info.inv_chiB2, UVALUE='CYC_CHIB2')
 	ind = where(info.inv_chiB2 eq 0)
 	if (n_elements(ind) eq 4) then begin
@@ -655,7 +655,7 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
 	
 ; Inversion modes
    tModeLM = widget_base(trightglob, /ROW, FRAME=1)
-   tCyc1 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 1', SET_VALUE=info.inversion_mode(0)-1, UVALUE='INVMODE_CYC1')
+   tCyc1 = cw_bgroup(tModeLM, ['LM','DIRECT','SIMPLE'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 1', SET_VALUE=info.inversion_mode(0)-1, UVALUE='INVMODE_CYC1')
    tCyc2 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 2', SET_VALUE=info.inversion_mode(1)-1, UVALUE='INVMODE_CYC2')
    tCyc3 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 3', SET_VALUE=info.inversion_mode(2)-1, UVALUE='INVMODE_CYC3')
    tCyc4 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 4', SET_VALUE=info.inversion_mode(3)-1, UVALUE='INVMODE_CYC4')

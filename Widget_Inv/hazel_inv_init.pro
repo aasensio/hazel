@@ -655,10 +655,10 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
 	
 ; Inversion modes
    tModeLM = widget_base(trightglob, /ROW, FRAME=1)
-   tCyc1 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 1', SET_VALUE=info.inversion_mode(0)-1, UVALUE='INVMODE_CYC1')
-   tCyc2 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 2', SET_VALUE=info.inversion_mode(1)-1, UVALUE='INVMODE_CYC2')
-   tCyc3 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 3', SET_VALUE=info.inversion_mode(2)-1, UVALUE='INVMODE_CYC3')
-   tCyc4 = cw_bgroup(tModeLM, ['LM','DIRECT'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 4', SET_VALUE=info.inversion_mode(3)-1, UVALUE='INVMODE_CYC4')
+   tCyc1 = cw_bgroup(tModeLM, ['LM','DIRECT','SIMPLE'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 1', SET_VALUE=info.inversion_mode(0)-1, UVALUE='INVMODE_CYC1')
+   tCyc2 = cw_bgroup(tModeLM, ['LM','DIRECT','SIMPLE'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 2', SET_VALUE=info.inversion_mode(1)-1, UVALUE='INVMODE_CYC2')
+   tCyc3 = cw_bgroup(tModeLM, ['LM','DIRECT','SIMPLE'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 3', SET_VALUE=info.inversion_mode(2)-1, UVALUE='INVMODE_CYC3')
+   tCyc4 = cw_bgroup(tModeLM, ['LM','DIRECT','SIMPLE'], /COLUMN, /EXCLUSIVE, LABEL_TOP='Cycle 4', SET_VALUE=info.inversion_mode(3)-1, UVALUE='INVMODE_CYC4')
 
 
 	case(info.number_slabs) of

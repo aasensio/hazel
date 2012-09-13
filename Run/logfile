@@ -1,6 +1,6 @@
 --------------------------------- Log file --------------------------------
 DIRECT Version 2.0.4
- Problem Dimension n                    :      6
+ Problem Dimension n                    :      3
  Eps value                              :   0.1000E-05
  Maximum number of f-evaluations (maxf) :  10000
  Maximum number of iterations (MaxT)    :   6000
@@ -11,30 +11,26 @@ DIRECT Version 2.0.4
  Epsilon is constant.
  Our modification of the DIRECT algorithm is used.
 Bounds on variable x 1    :      2.00000 <= xi <=     12.00000
-Bounds on variable x 2    :      0.00000 <= xi <=      2.00000
-Bounds on variable x 3    :      0.00000 <= xi <=      5.00000
-Bounds on variable x 4    :      0.00000 <= xi <=      2.00000
-Bounds on variable x 5    :     25.00000 <= xi <=     35.00000
-Bounds on variable x 6    :      2.00000 <= xi <=     12.00000
+Bounds on variable x 2    :      0.10000 <= xi <=      2.00000
+Bounds on variable x 3    :     -5.00000 <= xi <=      5.00000
 ---------------------------------------------------------------------------
  Iteration   # of f-eval.   fmin
-    1          13          11.2150277976
-    2          23           7.9927952049
-    3          31           5.5587930805
-    4          37           3.9164098588
-    5          41           3.3904224051
-    7          57           2.8564222789
-    8          69           2.6959766923
-    9          81           2.6707308492
-DIRECT stopped: Volume of S_min is 0.19D-03% < 0.10D-02% of the original volume.
+    1           7          85.0569133487
+    2          11          73.1624096969
+    3          13          72.7227669994
+    4          21          63.5290778548
+    5          27          63.0861735034
+    7          43          62.3474301615
+    8          51          62.2832856298
+    9          61          62.2762276209
+   10          73          62.1775180034
+   11          79          62.1443810569
+DIRECT stopped: Volume of S_min is 0.56D-03% < 0.10D-02% of the original volume.
 --------------------------------- Summary --------------------------------
-Final function value           :    2.6707308
-Number of function evaluations :           89
+Final function value           :   62.1443811
+Number of function evaluations :           79
 Index  Final solution   x(i) - l(i)   u(i) - x(i) 
-    1    9.2222222       7.2222222      2.7777778
-    2    0.5555556       0.5555556      1.4444444
-    3    0.2777778       0.2777778      4.7222222
-    4    1.0000000       1.0000000      1.0000000
-    5   26.6666667       1.6666667      8.3333333
-    6   10.3333333       8.3333333      1.6666667
+    1    3.0493827       1.0493827      8.9506173
+    2    0.1117284       0.0117284      1.8882716
+    3   -2.9629630       2.0370370      7.9629630
 ---------------------------------------------------------------------------

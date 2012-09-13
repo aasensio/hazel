@@ -24,13 +24,13 @@
 2.d0  12.d0
 
 # dtau (0 .. 5)
-0.d0  2.d0
+0.1d0  2.d0
 
 # delta_collision (0 .. 18)
 0.d0  18.d0
 
 # vmacro (-10 .. 10)
-0.d0  5.d0
+-5.d0  5.d0
 
 # damping (0 .. 4)
 0.d0  4.d0

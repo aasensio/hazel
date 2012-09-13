@@ -935,9 +935,9 @@ contains
 ! 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
 ! 			endif
 
-			onum2 = 0.d0
+			onum0 = 0.d0
 			onum1 = 0.09d0*1.d-8 / (fixed%wl*1.d-8)**2
-			onum0 = 1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
 			inversion%stokes_unperturbed(0,:) = profile(adamp,(onum0-onum-va)/dnum) + &
 				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
 				0.2*profile(adamp,(onum2-onum-va)/dnum)

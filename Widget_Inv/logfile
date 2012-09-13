@@ -1,6 +1,6 @@
 --------------------------------- Log file --------------------------------
 DIRECT Version 2.0.4
- Problem Dimension n                    :      3
+ Problem Dimension n                    :      4
  Eps value                              :   0.1000E-05
  Maximum number of f-evaluations (maxf) :  10000
  Maximum number of iterations (MaxT)    :   6000
@@ -12,8 +12,27 @@ DIRECT Version 2.0.4
  Our modification of the DIRECT algorithm is used.
 Bounds on variable x 1    :      5.00000 <= xi <=     20.00000
 Bounds on variable x 2    :      0.00000 <= xi <=      4.00000
-Bounds on variable x 3    :     -3.00000 <= xi <=      3.00000
+Bounds on variable x 3    :    -10.00000 <= xi <=     10.00000
+Bounds on variable x 4    :      0.00000 <= xi <=      0.50000
 ---------------------------------------------------------------------------
  Iteration   # of f-eval.   fmin
-    1           7           9.5105441078
-    2          11           4.2931486466
+    1           9         547.5848162749
+    2          15         511.8049291612
+    3          19         471.8131504826
+    5          31         449.5357341281
+    6          41         434.4413879737
+    7          47         421.0118026834
+    8          51         411.9216728133
+    9          63         404.8933495368
+   10          71         400.5595867289
+   11          77         397.7722038470
+DIRECT stopped: Volume of S_min is 0.56D-03% < 0.10D-02% of the original volume.
+--------------------------------- Summary --------------------------------
+Final function value           :  397.7722038
+Number of function evaluations :           77
+Index  Final solution   x(i) - l(i)   u(i) - x(i) 
+    1   19.7222222      14.7222222      0.2777778
+    2    1.5555556       1.5555556      2.4444444
+    3    9.6296296      19.6296296      0.3703704
+    4    0.4907407       0.4907407      0.0092593
+---------------------------------------------------------------------------

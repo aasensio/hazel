@@ -39,10 +39,10 @@
 0 0 0 0
 
 # Invert the optical depth or strength of the line of component 2
-1 1 0 0
+0 0 0 0
 
 # Invert the macroscopic velocity of component 2
-1 1 0 0
+0 0 0 0
 
 # Invert the magnetic field strength of component 2
 0 0 1 1
@@ -54,7 +54,7 @@
 0 0 1 1
 
 # Invert the Doppler width of component 2
-1 1 0 0
+0 0 0 0
 
 # Invert filling factor
 0 0 0 0
@@ -72,4 +72,4 @@
 0.d0 0.d0 1.d0 1.d0
 
 # Inversion modes (1-> LM, 2-> DIRECT, 3-> PIKAIA)
-2 1 2 1
+4 1 2 1
