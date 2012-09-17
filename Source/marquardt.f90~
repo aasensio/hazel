@@ -547,6 +547,16 @@ contains
 		
 		np = in_params%n_total
 		call svdcmp(alpha,np,np,np,np,w,v)
+
+! Regularize the linear system by setting all singular values below a certain
+! threshold equal to zero
+		wmax = maxval(w)
+		do i = 1, np
+			if (w(i) < wmax * 1.d-6) then
+				w(i) = 0.d0
+			endif
+		enddo
+		
 		call svbksb(alpha,w,v,np,np,np,np,beta,x)				
 
 		do i = 1, np
@@ -983,8 +993,6 @@ contains
 			endif
 			va = params%vmacro2*1.d5 / (fixed%wl*1.d-8*PC)
 			adamp = params%damping
-
-
 
 			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
 			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2

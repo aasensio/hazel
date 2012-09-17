@@ -262,31 +262,6 @@ implicit none
 ! 				call print_parameters(params,'-Final Parameters : ',.TRUE.)
 ! 				print *, 'Final chi^2 : ', inversion%chisq
 ! 			endif
-
-!*********************************
-!** INVERSION MODE WITH SIMPLIFIED TRANSFER FOR Stokes I
-!*********************************
-! 			if (inversion%algorithm(loop_cycle) == 4) then
-! 				print *, 'SIMPLIFIED MODE'
-! 
-! 				trial = params
-! 				call invert_with_simplified_transfer(trial)
-! 				params = trial
-! 
-! 				call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed)
-! 				inversion%chisq = compute_chisq(observation,inversion)
-! 
-! 	! Write the final profiles
-! 				call write_final_profiles(output_inverted_profiles,observation,inversion)
-! 
-! 	! Write the final parameters in a file so that it can be used for restarting the inversion code
-! 				call write_experiment(params, fixed)
-! 
-! 				call print_parameters(params,'-Final Parameters : ',.TRUE.)
-! 				print *, 'Final chi^2 : ', inversion%chisq
-! 
-! 				stop
-! 			endif
 			
 			print *
 			write(*,FMT='(A)') '*******************************'

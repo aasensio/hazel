@@ -497,7 +497,7 @@ contains
 	type(type_inversion) :: in_inversion
 	type(type_observation) :: in_observation
 	real(kind=8), allocatable :: alpha(:,:), beta(:), w(:), v(:,:), x(:)
-	real(kind=8) :: obs, syn, sig, weight
+	real(kind=8) :: obs, syn, sig, weight, wmax
 	integer :: i, j, k, l, np
 			
 		in_trial = in_params		
@@ -547,6 +547,16 @@ contains
 		
 		np = in_params%n_total
 		call svdcmp(alpha,np,np,np,np,w,v)
+
+! Regularize the linear system by setting all singular values below a certain
+! threshold equal to zero
+		wmax = maxval(w)
+		do i = 1, np
+			if (w(i) < wmax * 1.d-6) then
+				w(i) = 0.d0
+			endif
+		enddo
+		
 		call svbksb(alpha,w,v,np,np,np,np,beta,x)				
 
 		do i = 1, np

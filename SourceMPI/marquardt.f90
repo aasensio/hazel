@@ -491,7 +491,7 @@ contains
 	type(type_inversion) :: in_inversion
 	type(type_observation) :: in_observation
 	real(kind=8), allocatable :: alpha(:,:), beta(:), w(:), v(:,:), x(:)
-	real(kind=8) :: obs, syn, sig, weight
+	real(kind=8) :: obs, syn, sig, weight, wmax
 	integer :: i, j, k, l, np
 			
 		in_trial = in_params		
@@ -541,6 +541,16 @@ contains
 
 		np = in_params%n_total
 		call svdcmp(alpha,np,np,np,np,w,v)
+
+! Regularize the linear system by setting all singular values below a certain
+! threshold equal to zero
+		wmax = maxval(w)
+		do i = 1, np
+			if (w(i) < wmax * 1.d-6) then
+				w(i) = 0.d0
+			endif
+		enddo
+		
 		call svbksb(alpha,w,v,np,np,np,np,beta,x)				
 
 		do i = 1, np
@@ -646,9 +656,9 @@ contains
 !------------------------------------------------------------
 ! Invert some parameters with the DIRECT method
 !------------------------------------------------------------
-	subroutine invert_with_direct(out_params, in_fixed, myrank, error)
+	subroutine invert_with_direct(out_params, in_fixed, myrank, synth_option, error)
 	real(kind=8) :: DIReps, DIRf
-	integer :: ndim, DIRmaxf, DIRmaxT, myrank, DIRmaxf_input
+	integer :: ndim, DIRmaxf, DIRmaxT, myrank, DIRmaxf_input, synth_option
 	integer :: DIRalg, error
 	integer :: IError, logfile
 	real(kind=8) :: fglobal, fglper, volper, sigmaper, volper_input
@@ -703,8 +713,14 @@ contains
 
 		DIRmaxf_input = in_fixed%DIRmaxf
 		volper_input = in_fixed%volper
-		call DIRECT(fcn,DIRx,ndim,DIReps,DIRmaxf_input,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
-			fglobal, fglper, volper_input, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize, verbose)
+
+		if (synth_option == 2) then
+			call DIRECT(fcn,DIRx,ndim,DIReps,DIRmaxf_input,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
+				fglobal, fglper, volper_input, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize, verbose)
+		else
+			call DIRECT(fcn_simplified_StokesI,DIRx,ndim,DIReps,DIRmaxf,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
+				fglobal, fglper, volper, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize)
+		endif
 		
 ! If Ierror < 0, then some fatal error occured
 		if (Ierror < 0) then
@@ -866,6 +882,211 @@ contains
 		if (error /= 0) flag = 1
 
 	end subroutine fcn
+
+!------------------------------------------------------------
+! Function that returns the chi^2 for the DIRECT problem. This solves an approximate RT problem for Stokes I
+!------------------------------------------------------------
+	subroutine fcn_simplified_StokesI(n, x, f, flag, iidata, iisize, ddata, idsize, cdata, icsize)
+	integer :: n,flag
+   real(kind=8) :: x(n)
+	real(kind=8) :: f
+	integer :: iisize, idsize, icsize, i, j
+	integer :: iidata(iisize)
+	real(kind=8) :: ddata(idsize)
+	character(len=40) :: cdata(icsize)
+	type(variable_parameters) :: trial
+	character(len=120) :: temporal_file
+	real(kind=8), allocatable :: onum(:), prof(:), prof2(:)
+	real(kind=8) :: va, dnum, adamp, onum0, onum1, onum2
+
+		temporal_file = 'temporal.prof'
+
+		j = 1
+		do i = 1, params%n_total
+			if (params%inverted(i) == 1) then
+				select case(i)
+					case(1)
+						params%bgauss = x(j)
+					case(2)
+						params%thetabd = x(j)
+					case(3)
+						params%chibd = x(j)
+					case(4)
+						params%vdopp = x(j)
+					case(5)
+						params%dtau = x(j)
+					case(6)
+						params%delta_collision = x(j)
+					case(7)
+						params%vmacro = x(j)
+					case(8)
+						params%damping = x(j)
+					case(9)
+						params%beta = x(j)
+					case(10)
+						params%height = x(j)
+					case(11)
+						params%dtau2 = x(j)
+					case(12)
+						params%vmacro2 = x(j)
+					case(13)
+						params%bgauss2 = x(j)
+					case(14)
+						params%thetabd2 = x(j)
+					case(15)
+						params%chibd2 = x(j)
+					case(16)
+						params%vdopp2 = x(j)
+					case(17)
+						params%ff = x(j)
+				end select
+				j = j + 1
+			endif
+		enddo
+
+		allocate(onum(fixed%no))
+		allocate(prof(fixed%no))
+
+		onum = -1.d8 * observation%wl / fixed%wl**2
+
+		inversion%stokes_unperturbed = 0.d0
+
+! Only one slab
+		if (params%nslabs == 1) then
+			dnum = params%vdopp*1.d5 / (fixed%wl*1.d-8*PC)
+			va = params%vmacro*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			inversion%stokes_unperturbed(0,:) = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+			if (fixed%Stokes_incident(0) == 0) then
+				inversion%stokes_unperturbed(0,:) = 1.d0 - exp(-params%dtau / 1.56d0 * inversion%stokes_unperturbed(0,:))
+			else
+				inversion%stokes_unperturbed(0,:) = exp(-params%dtau / 1.56d0 * inversion%stokes_unperturbed(0,:))
+			endif
+		endif
+
+! Two slabs
+ 		if (params%nslabs == 2 .or. params%nslabs == 3) then
+! First slab
+			dnum = params%vdopp*1.d5 / (fixed%wl*1.d-8*PC)
+			va = params%vmacro*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+			if (fixed%Stokes_incident(0) == 0) then
+				inversion%stokes_unperturbed(0,:) = 1.d0 - exp(-params%dtau / 1.56d0 * prof)
+			else
+				inversion%stokes_unperturbed(0,:) = exp(-params%dtau / 1.56d0 * prof)
+			endif
+
+! Second slab
+! If nslabs=3, then we use a different Doppler width. If not, we use the same for both components
+			if (params%nslabs == 3) then
+				dnum = params%vdopp2*1.d5 / (fixed%wl*1.d-8*PC)
+				if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp2*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			endif
+			va = params%vmacro2*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+			inversion%stokes_unperturbed(0,:) = exp(-params%dtau2 / 1.56d0 * prof) * inversion%stokes_unperturbed(0,:)
+
+ 		endif
+
+! Two slabs on the same pixel
+		if (params%nslabs == -2) then
+
+			allocate(prof2(fixed%no))
+
+! First slab
+			dnum = params%vdopp*1.d5 / (fixed%wl*1.d-8*PC)
+			va = params%vmacro*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+! Second slab
+			dnum = params%vdopp2*1.d5 / (fixed%wl*1.d-8*PC)
+			va = params%vmacro2*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp2*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof2 = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+			if (fixed%Stokes_incident(0) == 0) then
+				inversion%stokes_unperturbed(0,:) = params%ff * (1.d0 - exp(-params%dtau / 1.56d0 * prof)) + &
+					(1.d0-params%ff) * (1.d0 - exp(-params%dtau2 / 1.56d0 * prof2))
+			else
+				inversion%stokes_unperturbed(0,:) = params%ff * exp(-params%dtau / 1.56d0 * prof) + &
+					(1.d0-params%ff) * exp(-params%dtau2 / 1.56d0 * prof2)
+			endif
+
+			deallocate(prof2)
+		endif
+
+
+		f = compute_chisq(observation,inversion)
+
+		deallocate(onum)
+		deallocate(prof)
+
+ 		call write_final_profiles(temporal_file, observation, inversion)
+
+		call print_parameters(params,'      -Parameters : ',.TRUE.)
+
+ 		print *, 'chi^2 : ', f
+		write(25,FMT='(11(E15.5,2X))') x, f
+
+		flag = 0
+
+	end subroutine fcn_simplified_StokesI
+
 
 !*************************************************************
 !*************************************************************
