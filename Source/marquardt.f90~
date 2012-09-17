@@ -779,8 +779,6 @@ contains
 			
 		close(23)
 		close(25)
-
-		stop
 			
 	end subroutine invert_with_direct
 	
@@ -871,7 +869,7 @@ contains
 	character(len=40) :: cdata(icsize)
 	type(variable_parameters) :: trial
 	character(len=120) :: temporal_file
-	real(kind=8), allocatable :: onum(:)
+	real(kind=8), allocatable :: onum(:), prof(:), prof2(:)
 	real(kind=8) :: va, dnum, adamp, onum0, onum1, onum2
 
 		temporal_file = 'temporal.prof'
@@ -920,6 +918,7 @@ contains
 		enddo
 
 		allocate(onum(fixed%no))
+		allocate(prof(fixed%no))
 
 		onum = -1.d8 * observation%wl / fixed%wl**2
 
@@ -931,13 +930,13 @@ contains
 			va = params%vmacro*1.d5 / (fixed%wl*1.d-8*PC)
 			adamp = params%damping
 
-! 			if (fixed%damping_treatment == 1) then
-! 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
-! 			endif
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
 
-			onum0 = 0.d0
-			onum1 = 0.09d0*1.d-8 / (fixed%wl*1.d-8)**2
-			onum2 = 1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
 			inversion%stokes_unperturbed(0,:) = profile(adamp,(onum0-onum-va)/dnum) + &
 				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
 				0.2*profile(adamp,(onum2-onum-va)/dnum)
@@ -949,32 +948,108 @@ contains
 			endif
 		endif
 
-! Only one slab
-! 		if (params%nslabs == 1) then
-! 			dnum = params%vdopp*1.d5 / (fixed%wl*1.d-8*PC)
-! 			va = params%vmacro*1.d5 / (fixed%wl*1.d-8*PC)
-! 			adamp = params%damping
-! 
-! 			onum0 = 0.d0
-! 			onum1 = -0.09d0*1.d-8 / (fixed%wl*1.d-8)**2
-! 			onum2 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
-! 			inversion%stokes_unperturbed(0,:) = profile(adamp,(onum0-onum-va)/dnum) + &
-! 				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
-! 				0.2*profile(adamp,(onum2-onum-va)/dnum)
-! 
-! 			if (fixed%Stokes_incident(0) == 0) then
-! 				inversion%stokes_unperturbed(0,:) = 1.d0 - exp(-params%dtau * inversion%stokes_unperturbed(0,:))
-! 			else
-! 				inversion%stokes_unperturbed(0,:) = exp(-params%dtau * inversion%stokes_unperturbed(0,:))
-! 			endif
-! 		endif
+! Two slabs
+ 		if (params%nslabs == 2 .or. params%nslabs == 3) then
+! First slab
+			dnum = params%vdopp*1.d5 / (fixed%wl*1.d-8*PC)
+			va = params%vmacro*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
 
-		
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+			if (fixed%Stokes_incident(0) == 0) then
+				inversion%stokes_unperturbed(0,:) = 1.d0 - exp(-params%dtau / 1.56d0 * prof)
+			else
+				inversion%stokes_unperturbed(0,:) = exp(-params%dtau / 1.56d0 * prof)
+			endif
+
+! Second slab
+! If nslabs=3, then we use a different Doppler width. If not, we use the same for both components
+			if (params%nslabs == 3) then
+				dnum = params%vdopp2*1.d5 / (fixed%wl*1.d-8*PC)
+				if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp2*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+ 			
+			endif
+			va = params%vmacro2*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+			inversion%stokes_unperturbed(0,:) = exp(-params%dtau2 / 1.56d0 * prof) * inversion%stokes_unperturbed(0,:)
+
+ 		endif
+
+! Two slabs on the same pixel
+		if (params%nslabs == -2) then
+
+			allocate(prof2(fixed%no))
+
+! First slab
+			dnum = params%vdopp*1.d5 / (fixed%wl*1.d-8*PC)
+			va = params%vmacro*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+! Second slab
+			dnum = params%vdopp2*1.d5 / (fixed%wl*1.d-8*PC)
+			va = params%vmacro2*1.d5 / (fixed%wl*1.d-8*PC)
+			adamp = params%damping
+
+ 			if (fixed%damping_treatment == 1) then
+ 				adamp = fixed%wl * 1.d-8 / (params%vdopp2*1.d5) * aesto(fixed%nemiss) * abs(params%damping)
+ 			endif
+
+			onum0 = -1.26d0*1.d-8 / (fixed%wl*1.d-8)**2
+			onum1 = (-1.26d0+0.09d0)*1.d-8 / (fixed%wl*1.d-8)**2
+			onum2 = 0.d0
+			prof2 = profile(adamp,(onum0-onum-va)/dnum) + &
+				0.6*profile(adamp,(onum1-onum-va)/dnum) + &
+				0.2*profile(adamp,(onum2-onum-va)/dnum)
+
+			if (fixed%Stokes_incident(0) == 0) then
+				inversion%stokes_unperturbed(0,:) = params%ff * (1.d0 - exp(-params%dtau / 1.56d0 * prof)) + &
+					(1.d0-params%ff) * (1.d0 - exp(-params%dtau2 / 1.56d0 * prof2))
+			else
+				inversion%stokes_unperturbed(0,:) = params%ff * exp(-params%dtau / 1.56d0 * prof) + &
+					(1.d0-params%ff) * exp(-params%dtau2 / 1.56d0 * prof2)
+			endif
+
+			deallocate(prof2)
+		endif
+
 
 		f = compute_chisq(observation,inversion)
 
-
 		deallocate(onum)
+		deallocate(prof)
 
  		call write_final_profiles(temporal_file, observation, inversion)
 
