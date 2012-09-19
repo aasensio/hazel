@@ -206,7 +206,8 @@ contains
 				endif
 					
 				trial = params
-				call invert_with_direct(trial,fixed, myrank, inversion%algorithm(loop_cycle), error)				
+				call invert_with_direct(trial,fixed, myrank, inversion%algorithm(loop_cycle), error)
+
 				if (error == 1) return
 				params = trial
 				

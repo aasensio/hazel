@@ -660,7 +660,6 @@ contains
 		endif
 
 ! If no final pixel selected, run until the end
-		print *, final_pixel, in_observation%npixel
 		if (final_pixel == -99) then
 			final_pixel = in_observation%npixel
 		endif
@@ -746,8 +745,8 @@ contains
 				call check( nf90_get_var(in_observation%obs_id, in_observation%map_id, values, start=start, count=count) )
 
 ! Put the profile on the arrays				
-				in_observation%stokes = values(1:4,:)
-				in_observation%sigma = values(5:8,:)
+				in_observation%stokes(0:3,:) = values(1:4,:)
+				in_observation%sigma(0:3,:) = values(5:8,:)
 				
 				deallocate(values, start, count)
 								

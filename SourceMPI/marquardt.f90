@@ -718,8 +718,8 @@ contains
 			call DIRECT(fcn,DIRx,ndim,DIReps,DIRmaxf_input,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
 				fglobal, fglper, volper_input, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize, verbose)
 		else
-			call DIRECT(fcn_simplified_StokesI,DIRx,ndim,DIReps,DIRmaxf,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
-				fglobal, fglper, volper, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize)
+			call DIRECT(fcn_simplified_StokesI,DIRx,ndim,DIReps,DIRmaxf_input,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
+				fglobal, fglper, volper_input, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize, verbose)
 		endif
 		
 ! If Ierror < 0, then some fatal error occured
@@ -890,7 +890,7 @@ contains
 	integer :: n,flag
    real(kind=8) :: x(n)
 	real(kind=8) :: f
-	integer :: iisize, idsize, icsize, i, j
+	integer :: iisize, idsize, icsize, i, j, error
 	integer :: iidata(iisize)
 	real(kind=8) :: ddata(idsize)
 	character(len=40) :: cdata(icsize)
@@ -972,7 +972,7 @@ contains
 				inversion%stokes_unperturbed(0,:) = 1.d0 - exp(-params%dtau / 1.56d0 * inversion%stokes_unperturbed(0,:))
 			else
 				inversion%stokes_unperturbed(0,:) = exp(-params%dtau / 1.56d0 * inversion%stokes_unperturbed(0,:))
-			endif
+			endif			
 		endif
 
 ! Two slabs
@@ -1070,23 +1070,30 @@ contains
 			deallocate(prof2)
 		endif
 
-
 		f = compute_chisq(observation,inversion)
 
 		deallocate(onum)
 		deallocate(prof)
 
- 		call write_final_profiles(temporal_file, observation, inversion)
+		if (iidata(1) == 0) then
+			call write_final_profiles(temporal_file, observation, inversion)
+		endif
 
-		call print_parameters(params,'      -Parameters : ',.TRUE.)
+		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
 
- 		print *, 'chi^2 : ', f
-		write(25,FMT='(11(E15.5,2X))') x, f
+		if (iidata(1) == 0) then
+ 			call print_parameters(params,'      -Parameters : ',.TRUE.)
+
+			print *, 'chi^2 : ', f
+			write(25,FMT='(11(E15.5,2X))') x, f
+		endif
 
 		flag = 0
 
-	end subroutine fcn_simplified_StokesI
+! If there was an error, return a non-zero flag
+! 		if (error /= 0) flag = 1
 
+	end subroutine fcn_simplified_StokesI
 
 !*************************************************************
 !*************************************************************

@@ -35,7 +35,7 @@ end
 ; mask is an array of the original dimensions of the observations that is used later to
 ;   reconstruct the inverted maps [nx,ny]
 pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boundary, height, $
-	obs_theta, obs_gamma, outputfile, mask
+	obs_theta, obs_gamma, mask, outputfile
 
 	npixel = n_elements(stI[*,0])
 	nlambda = n_elements(lambda)
@@ -67,9 +67,9 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	height_id = ncdf_vardef(file_id, 'height', [nx_dim], /double)
 	obstheta_id = ncdf_vardef(file_id, 'obs_theta', [nx_dim], /double)
 	obsgamma_id = ncdf_vardef(file_id, 'obs_gamma', [nx_dim], /double)
-	mask_id = ncdf_vardef(file_id, 'mask', [nxmap_dim, nymap_dim])
-
+	mask_id = ncdf_vardef(file_id, 'mask', [nxmap_dim, nymap_dim], /short)
 	ncdf_control, file_id, /endef
+	
 	ncdf_varput, file_id, lambda_id, lambda
 	ncdf_varput, file_id, stI_id, map
 	ncdf_varput, file_id, boundary_id, boundary
@@ -83,23 +83,26 @@ end
 
 pro test
 	dat = ddread('prominence_ApJ_642_554.prof',offset=1,/count,/double)
+	dat2 = congrid(dat,9,100)
+	
 	nlambda = n_elements(dat[0,*])
-	npixel = 2
+	npixel = 4
 	map = dblarr(npixel,8,nlambda)
 	lambda = reform(dat[0,*])
 	for i = 0, npixel-1 do begin
 		map[i,*,*] = dat[1:*,*]
 	endfor
 	
-	mu = [1.d0, 0.3d0]
+	mu = [1.d0, 0.3d0, 1.d0, 0.3d0]
 	obs_theta = acos(mu) * 180.d0 / !DPI
  	boundary = fltarr(npixel,4)
  	boundary[*,0] = i0_allen(10830.d0, mu)
- 	height = [3.d0, 5.d0]
+ 	height = [3.d0, 5.d0, 3.d0, 5.d0]
  	obs_gamma = replicate(90.d0,npixel)
+	mask = replicate(1.0,2,2)
  	
 	gen_netcdf, lambda, reform(map[*,0,*]), reform(map[*,1,*]), reform(map[*,2,*]), reform(map[*,3,*]), $
 		reform(map[*,4,*]), reform(map[*,5,*]), reform(map[*,6,*]), reform(map[*,7,*]), boundary,$
-		height, obs_theta, obs_gamma, 'test.nc'
+		height, obs_theta, obs_gamma, mask, 'test.nc'
 	stop
 end
