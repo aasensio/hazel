@@ -147,17 +147,17 @@ function hazel_init, reset_state=reset_state
 	 BSliderMax = widget_text(maxBBase,VALUE=strtrim(string(state.Bfieldmax2),2),$
 	 	UVALUE='BSliderMax2',/EDITABLE,XSIZE=8,YSIZE=1)	 
 	 state.BSlider2 = cw_fslider(BSliderBase,TITLE='Magnetic field strength [G]',UVALUE='BSlider2',$
-	 	  XSIZE=255,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax2,VALUE=state.Bfield)
+	 	  XSIZE=255,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax2,VALUE=state.Bfield2)
 
 ; Magnetic field inclination
 	 thetaBSliderBase = widget_base(fieldBase, /ROW)
 	 thetaBSlider = widget_slider(thetaBSliderBase,TITLE='Magnetic field inclination [deg]',UVALUE='thetaBSlider2',$
-	 	  XSIZE=255,MAXIMUM=180.d0,VALUE=state.thetaBfield)
+	 	  XSIZE=255,MAXIMUM=180.d0,VALUE=state.thetaBfield2)
 	 
 ; Magnetic field azimuth	 
 	 chiBSliderBase = widget_base(fieldBase, /ROW)
 	 chiBSlider = widget_slider(chiBSliderBase,TITLE='Magnetic field azimuth [deg]',UVALUE='chiBSlider2',$
-	 	  XSIZE=255,MINIMUM=-180.d0,MAXIMUM=180.d0,VALUE=state.chiBfield)
+	 	  XSIZE=255,MINIMUM=-180.d0,MAXIMUM=180.d0,VALUE=state.chiBfield2)
 		  
 
 	 observationBase = widget_base(slidersBase, /COLUMN, FRAME=1)

@@ -777,7 +777,7 @@ contains
 				
 				status = 1
 			else
-				write(*,*) 'I have nothing to do. Killing slave...'
+				write(*,*) 'N
 				status = 0
 			endif
 		endif
