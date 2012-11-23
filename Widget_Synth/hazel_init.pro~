@@ -205,7 +205,7 @@ function hazel_init, reset_state=reset_state
 	 DopplerSlider = widget_slider(multiBase,TITLE='Doppler velocity 2 [km/s]',UVALUE='DopplerSlider2',$
 	 	  XSIZE=200,MAXIMUM=25,MINIMUM=0.1,VALUE=state.Doppler2)
 	 heightSlider = widget_slider(multiBase,TITLE='Height (<0 if apparent) ["]',UVALUE='heightSlider',$
-	 	  XSIZE=255,MINIMUM=-100.d0,MAXIMUM=50000.d0,VALUE=state.height)
+	 	  XSIZE=255,MINIMUM=-100.d0,MAXIMUM=100.d0,VALUE=state.height)
 	 
 	 
 	 i0 = return_i0_allen(state)
