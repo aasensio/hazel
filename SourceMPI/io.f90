@@ -592,6 +592,7 @@ contains
   			call check( nf90_inq_varid(in_observation%obs_id, "height", in_observation%height_id) )
   			call check( nf90_inq_varid(in_observation%obs_id, "obs_theta", in_observation%obstheta_id) )
   			call check( nf90_inq_varid(in_observation%obs_id, "obs_gamma", in_observation%obsgamma_id) )
+  			call check( nf90_inq_varid(in_observation%obs_id, "pars_initial", in_observation%parsInit_id) )
   			
   			
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%pix_id, name_var, npixel) )
@@ -772,6 +773,70 @@ contains
 					start=(/ pixel /), count=(/ 1 /) ) )
 
 				in_fixed%gammad = values_vec(1)
+
+! Read the initial values for the parameters. Those that are inverted will be modified (starting from these values if using LM)
+! but those that are kept fixed
+				deallocate(values_vec)
+
+				allocate(values_vec(nparam))
+				call check( nf90_get_var(in_observation%obs_id, in_observation%parsInit_id, values_vec,&
+					start=(/ pixel, 1 /), count=(/ 1, nparam /)) )
+
+! Set all initial values, except for the height, which is already set before
+				if (nparam == 9) then
+					in_params%bgauss = values_vec(1)
+					in_params%thetabd = values_vec(2)
+					in_params%chibd = values_vec(3)
+					in_params%dtau = values_vec(5)
+					in_params%vdopp = values_vec(6)
+					in_params%damping = values_vec(7)
+					in_params%vmacro = values_vec(8)
+				endif
+
+				if (nparam == 11) then
+					in_params%bgauss = values_vec(1)
+					in_params%thetabd = values_vec(2)
+					in_params%chibd = values_vec(3)
+					in_params%dtau = values_vec(5)
+					in_params%dtau2 = values_vec(6)
+					in_params%vdopp = values_vec(7)
+					in_params%damping = values_vec(8)
+					in_params%vmacro = values_vec(9)
+					in_params%vmacro2 = values_vec(10)
+				endif
+
+				if (nparam == 15) then
+					in_params%bgauss = values_vec(1)
+					in_params%thetabd = values_vec(2)
+					in_params%chibd = values_vec(3)
+					in_params%bgauss2 = values_vec(4)
+					in_params%thetabd2 = values_vec(5)
+					in_params%chibd2 = values_vec(6)
+					in_params%dtau = values_vec(8)
+					in_params%dtau2 = values_vec(9)
+					in_params%vdopp = values_vec(10)
+					in_params%vdopp2 = values_vec(11)
+					in_params%damping = values_vec(12)
+					in_params%vmacro = values_vec(13)
+					in_params%vmacro2 = values_vec(14)
+				endif
+
+				if (nparam == 16) then
+					in_params%bgauss = values_vec(1)
+					in_params%thetabd = values_vec(2)
+					in_params%chibd = values_vec(3)
+					in_params%bgauss2 = values_vec(4)
+					in_params%thetabd2 = values_vec(5)
+					in_params%chibd2 = values_vec(6)
+					in_params%dtau = values_vec(8)
+					in_params%dtau2 = values_vec(9)
+					in_params%vdopp = values_vec(10)
+					in_params%vdopp2 = values_vec(11)
+					in_params%damping = values_vec(12)
+					in_params%vmacro = values_vec(13)
+					in_params%vmacro2 = values_vec(14)
+					in_params%ff = values_vec(16)
+				endif
 								
 				deallocate(values_vec)
 				

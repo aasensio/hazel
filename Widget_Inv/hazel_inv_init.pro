@@ -44,13 +44,15 @@ function inv_init, reset_state=reset_state
 	xs=scrsz[0]
 	ys=scrsz[1]
 
-	if (xs ge 750 and ys ge 950) then begin
-		info.baseWidget = widget_base(TITLE='Hazel Inversion', x_scroll_size=750, y_scroll_size=950,/scroll)
-	endif else begin
-		if xs lt 750 then xwind = xs else xwind = 750
-		if ys lt 950 then ywind = ys else ywind = 950
-		info.baseWidget = widget_base(TITLE='Hazel Inversion', x_scroll_size=xwind,y_scroll_size=ywind*.9,/scroll)
-	endelse
+; 	if (xs ge 750 and ys ge 950) then begin
+; 		info.baseWidget = widget_base(TITLE='Hazel Inversion', x_scroll_size=750, y_scroll_size=950)
+; 	endif else begin
+; 		if xs lt 750 then xwind = xs else xwind = 750
+; 		if ys lt 950 then ywind = ys else ywind = 950
+; 		info.baseWidget = widget_base(TITLE='Hazel Inversion', x_scroll_size=xwind,y_scroll_size=ywind*.9,/scroll)
+; 	endelse
+
+	info.baseWidget = widget_base(TITLE='Hazel Inversion')
 		
 ;    info.baseWidget = widget_base(TITLE='Hazel Inversion')
 

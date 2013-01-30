@@ -234,7 +234,39 @@ contains
 		call MPI_Pack(fixed%Stokes_incident,4, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		call MPI_Pack(fixed%thetad,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		call MPI_Pack(params%height,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+
+		call MPI_Pack(params%bgauss,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		call MPI_Pack(params%thetabd,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		call MPI_Pack(params%chibd,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+
+		if (params%nslabs == 3 .or. params%nslabs == -2) then
+			call MPI_Pack(params%bgauss2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+			call MPI_Pack(params%thetabd2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+			call MPI_Pack(params%chibd2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)			
+		endif
+
+		call MPI_Pack(params%dtau,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		
+		if (params%nslabs == 2 .or. params%nslabs == 3 .or. params%nslabs == -2) then
+			call MPI_Pack(params%dtau2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		endif
+		
+		if (params%nslabs == -2) then
+			call MPI_Pack(params%ff,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		endif
+
+		call MPI_Pack(params%vdopp,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)		
+		if (params%nslabs == 3 .or. params%nslabs == -2) then
+			call MPI_Pack(params%vdopp2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		endif
+
+		call MPI_Pack(params%damping,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+
+		call MPI_Pack(params%vmacro,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		if (params%nslabs /= 1) then
+			call MPI_Pack(params%vmacro2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		endif
+
 		call MPI_Send(buffer, packagesize, MPI_PACKED, slave, 10, MPI_COMM_WORLD, ierr)
  		
  	end subroutine send_observation
@@ -263,6 +295,41 @@ contains
 			call MPI_Unpack(buffer, packagesize, pos, fixed%Stokes_incident, 4, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 			call MPI_Unpack(buffer, packagesize, pos, fixed%thetad, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 			call MPI_Unpack(buffer, packagesize, pos, params%height, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+
+			call MPI_Unpack(buffer, packagesize, pos, params%bgauss, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			call MPI_Unpack(buffer, packagesize, pos, params%thetabd, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			call MPI_Unpack(buffer, packagesize, pos, params%chibd, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			
+			if (params%nslabs == 3 .or. params%nslabs == -2) then
+				call MPI_Unpack(buffer, packagesize, pos, params%bgauss2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+				call MPI_Unpack(buffer, packagesize, pos, params%thetabd2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+				call MPI_Unpack(buffer, packagesize, pos, params%chibd2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			endif
+
+			call MPI_Unpack(buffer, packagesize, pos, params%dtau, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+
+			if (params%nslabs == 2 .or. params%nslabs == 3 .or. params%nslabs == -2) then
+				call MPI_Unpack(buffer, packagesize, pos, params%dtau2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)				
+			endif
+
+			if (params%nslabs == -2) then
+				call MPI_Unpack(buffer, packagesize, pos, params%ff, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			endif
+
+			call MPI_Unpack(buffer, packagesize, pos, params%vdopp, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+		
+			if (params%nslabs == 3 .or. params%nslabs == -2) then
+				call MPI_Unpack(buffer, packagesize, pos, params%vdopp2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			endif
+
+			call MPI_Unpack(buffer, packagesize, pos, params%damping, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+
+			call MPI_Unpack(buffer, packagesize, pos, params%vmacro, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			
+			if (params%nslabs /= 1) then
+				call MPI_Unpack(buffer, packagesize, pos, params%vmacro2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			endif
+		
 			return
 		endif
 

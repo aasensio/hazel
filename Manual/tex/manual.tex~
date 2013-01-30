@@ -135,7 +135,7 @@ also available. This manual considers both distributions.
 
 \subsection{Credits}
 The code has grown since the first version thanks to the suggestions of many people. We
-thank Rebecca Centeno Elliot, Yukio Katsukawa, Marian Mart\'{\i}nez Gonz\'alez, Rafael Manso Sainz, Tom Schad
+thank Rebecca Centeno Elliot, Yukio Katsukawa, Marian Mart\'{\i}nez Gonz\'alez, Rafael Manso Sainz and Tom Schad
 for their help on testing the code and proposing (and partially coding, in some cases) some of the
 options of the code.
 
@@ -912,7 +912,12 @@ consists of the following variables:
 the associated standard deviation of the noise $(\sigma_I,\sigma_Q,\sigma_U,\sigma_V)$.
 \item boundary: array of size \textit{(npixel,4)} containing the boundary condition for every inverted pixel.
 \item height: vector of size \textit{npixel} which contains the height of the slabs for every pixel.
-\item obs\_angle: vector of size \textit{npixel} which contains the observing angle $\theta$ for every pixel.
+\item obs\_theta: vector of size \textit{npixel} which contains the observing angle $\theta$ for every pixel.
+\item obs\_gamma: vector of size \textit{npixel} which contains the observing angle $\gamma$ that defines the positive
+reference for Stokes $Q$ for every pixel.
+\item mask: array of size \textit{nx,ny} which tells whether this pixel will be inverted.
+\item pars: array of size \textit{npixel,npars} which contains the initial value for the model parameters. These will be
+used to reinvert some pixels or, for instance, to refine the ambiguous solutions.
 \end{itemize}
 The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} shows a function that
 generates such a file by passing all the variables as parameters.
@@ -938,6 +943,23 @@ h,[\tau]_1,[\tau]_2,[v_\mathrm{th}]_1,[v_\mathrm{th}]_2,a,[v_\mathrm{mac}]_1,[v_
 \end{itemize}
 The file \texttt{read\_results.pro} on the \texttt{RunMPI} directory shows how to read the
 files from IDL.
+
+\subsection{Ambiguities}
+You have to remember that the results of Hazel are potentially affected by ambiguities and you have
+to take them into account. There is an utility written in IDL that, given an inverted map, obtains
+all the other solutions which are ambiguous in the saturation regime. This can be called, including the
+appropriate paths and discarding the final \texttt{.nc} extension, by:
+\begin{verbatim}
+IDL> disamb, 'file_with_inversions', 'file_with_observations', angleObs
+\end{verbatim}
+where \texttt{angleObs} is the observation angle $\theta$ (so that it is 90$^\circ$ for an observation
+exactly at the limb.
+This program can be called with the additional \texttt{/gen\_files\_inversion}, which then generates
+a set of observations, configuration files and a file to run \HM. This is useful in case the line is not
+in the saturation regime. In this case, the ambiguous solutions that are found by the code are
+not strictly valid and one should refine them with a final LM cycle in which $B$, $\theta_B$ and $\chi_B$
+are left free. The solution to the ambiguities in the saturation regime is shown in Section \ref{sec:ambiguities}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1385,6 +1407,14 @@ inclination and azimuth.
 In any case, although we have found very good results with this procedure, the
 specific inversion scheme
 is fully configurable and can be tuned for specific problems.
+
+Our experience has proved that the following strategy is appropriate for inverting
+prominences. Two initial DIRECT+LM cycles with weights $(1,0,0,0)$ to
+invert the thermodynamical parameters. Then, two LM cycles in which $B$, $\theta_B$
+and $\chi_B$ are left free with weights $(0,0.1,0.1,1)$ which tries to set the
+correct polarity of the field given by Stokes $V$. An additional LM cycle in which
+we fit only $\theta_B$ and $\chi_B$ with the weights $(0,1,1,0.3)$ and a last
+LM cycle with weights $(0,0.3,0.3,1)$ leaving the full magnetic field vector free.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

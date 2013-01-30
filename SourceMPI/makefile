@@ -19,6 +19,7 @@ COMPILER = mpif90
 # ------------------ CHANGE THIS ACCORDING TO YOUR COMPILER ------------------
 # If mpif90 calls ifort, uncomment the following line
 OPTIONS = -c -O3
+# OPTIONS = -c -g -traceback
 
 FLAGS =
 

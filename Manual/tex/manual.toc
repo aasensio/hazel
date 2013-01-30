@@ -16,12 +16,18 @@
 \contentsline {section}{\numberline {6}\textsc {P-Hazel}\ input/output files}{20}{section.6}
 \contentsline {subsection}{\numberline {6.1}Input files}{20}{subsection.6.1}
 \contentsline {subsection}{\numberline {6.2}Output files}{20}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Ambiguities}{21}{subsection.6.3}
 \contentsline {section}{\numberline {7}Basic Equations}{21}{section.7}
-\contentsline {subsection}{\numberline {7.1}The radiative transfer approach}{21}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.1}The radiative transfer approach}{22}{subsection.7.1}
 \contentsline {subsection}{\numberline {7.2}The multipolar components of the atomic density matrix}{25}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Statistical equilibrium equations}{26}{subsection.7.3}
-\contentsline {subsection}{\numberline {7.4}Emission and absorption coefficients}{27}{subsection.7.4}
+\contentsline {subsection}{\numberline {7.3}Statistical equilibrium equations}{27}{subsection.7.3}
+\contentsline {subsection}{\numberline {7.4}Emission and absorption coefficients}{28}{subsection.7.4}
 \contentsline {section}{\numberline {8}Inversion}{28}{section.8}
-\contentsline {subsection}{\numberline {8.1}Global Optimization techniques}{28}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Convergence}{29}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Stopping criterium}{29}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.1}Global Optimization techniques}{29}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Convergence}{30}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Stopping criterium}{30}{subsection.8.3}
+\contentsline {section}{\numberline {9}Ambiguities in the Hanle effect in the saturation regime}{30}{section.9}
+\contentsline {section}{\numberline {10}$\Phi _B' = \Phi _B$}{32}{section.10}
+\contentsline {section}{\numberline {11}$\Phi _B' = \Phi _B+\pi $}{33}{section.11}
+\contentsline {section}{\numberline {12}$\Phi _B' = \Phi _B+\pi /2$}{33}{section.12}
+\contentsline {section}{\numberline {13}$\Phi _B' = \Phi _B-\pi /2$}{34}{section.13}

@@ -1,46 +1,58 @@
-This is BibTeX, Version 0.99c (Web2C 7.5.6)
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: manual.aux
 The style file: apj.bst
-Database file #1: apjmnemonic.bib
-Database file #2: /scratch/Dropbox/biblio.bib
-You've used 11 entries,
+I found no \bibdata command---while reading file manual.aux
+Warning--I didn't find a database entry for "belluzzi07"
+Warning--I didn't find a database entry for "pierce00"
+Warning--I didn't find a database entry for "landi_landolfi04"
+Warning--I didn't find a database entry for "trujillo03"
+Warning--I didn't find a database entry for "landi_landi85"
+Warning--I didn't find a database entry for "rees_delo89"
+Warning--I didn't find a database entry for "trujillo_asensio07"
+Warning--I didn't find a database entry for "trujillo_merenda05"
+Warning--I didn't find a database entry for "condon_shortley35"
+Warning--I didn't find a database entry for "edmonds60"
+Warning--I didn't find a database entry for "Jones_DIRECT93"
+You've used 0 entries,
             2948 wiz_defined-function locations,
-            1554 strings with 15811 characters,
-and the built_in function-call counts, 4654 in all, are:
-= -- 397
-> -- 248
-< -- 7
-+ -- 91
-- -- 78
-* -- 370
-:= -- 859
-add.period$ -- 11
-call.type$ -- 11
-change.case$ -- 69
-chr.to.int$ -- 11
-cite$ -- 11
-duplicate$ -- 211
-empty$ -- 349
-format.name$ -- 114
-if$ -- 933
+            655 strings with 4702 characters,
+and the built_in function-call counts, 23 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 2
+:= -- 8
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 9
-newline$ -- 37
-num.names$ -- 45
-pop$ -- 89
+missing$ -- 0
+newline$ -- 4
+num.names$ -- 0
+pop$ -- 0
 preamble$ -- 1
-purify$ -- 69
+purify$ -- 0
 quote$ -- 0
-skip$ -- 186
+skip$ -- 1
 stack$ -- 0
-substring$ -- 195
-swap$ -- 6
+substring$ -- 0
+swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 90
+type$ -- 0
 warning$ -- 0
-while$ -- 41
+while$ -- 0
 width$ -- 0
-write$ -- 114
+write$ -- 3
+(There was 1 error message)

@@ -789,6 +789,17 @@ contains
 			
 		close(23)
 		close(25)
+
+! K-means clustering
+! Read the sampling carried out by DIRECT
+! 		open(unit=25,file=location_file_direct,action='read',status='old')
+! 		
+! 		close(25)
+! 		call cluster_initialize_5 ( 2, point_num, cluster_num, point, &
+! 			cluster_center )
+! 
+! 		call kmeans_01 ( dim_num, point_num, cluster_num, it_max, it, point, &
+! 			cluster, cluster_center, cluster_population, cluster_energy )
 			
 	end subroutine invert_with_direct
 	

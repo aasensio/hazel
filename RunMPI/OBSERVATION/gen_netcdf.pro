@@ -34,8 +34,9 @@ end
 ; obs_gamma is an array of size [npixel] indicating the angle of the reference for Stokes Q
 ; mask is an array of the original dimensions of the observations that is used later to
 ;   reconstruct the inverted maps [nx,ny]
+; pars is an array of size [npixel,nparameters] that gives the initial value of the parameters
 pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boundary, height, $
-	obs_theta, obs_gamma, mask, outputfile
+	obs_theta, obs_gamma, mask, pars, outputfile
 
 	npixel = n_elements(stI[*,0])
 	nlambda = n_elements(lambda)
@@ -58,6 +59,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	nx_dim = ncdf_dimdef(file_id, 'npixel', npixel)
 	ncol_dim = ncdf_dimdef(file_id, 'ncolumns', ncol)
 	nstokespar_dim = ncdf_dimdef(file_id, 'nstokes_par', 4)
+	npars_dim = ncdf_dimdef(file_id, 'nparameters', 9)
 	nlambda_dim = ncdf_dimdef(file_id, 'nlambda', nlambda)
 	nxmap_dim = ncdf_dimdef(file_id, 'nx', reform(dim_map[0]))
 	nymap_dim = ncdf_dimdef(file_id, 'ny', reform(dim_map[1]))
@@ -68,6 +70,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	obstheta_id = ncdf_vardef(file_id, 'obs_theta', [nx_dim], /double)
 	obsgamma_id = ncdf_vardef(file_id, 'obs_gamma', [nx_dim], /double)
 	mask_id = ncdf_vardef(file_id, 'mask', [nxmap_dim, nymap_dim], /short)
+	parsInit_id = ncdf_vardef(file_id, 'pars_initial', [nx_dim, npars_dim], /double)
 	ncdf_control, file_id, /endef
 	
 	ncdf_varput, file_id, lambda_id, lambda
@@ -77,6 +80,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	ncdf_varput, file_id, obstheta_id, obs_theta
 	ncdf_varput, file_id, obsgamma_id, obs_gamma
 	ncdf_varput, file_id, mask_id, mask
+	ncdf_varput, file_id, parsInit_id, pars
 	ncdf_close, file_id		
 end
 
@@ -100,9 +104,32 @@ pro test
  	height = [3.d0, 5.d0, 3.d0, 5.d0]
  	obs_gamma = replicate(90.d0,npixel)
 	mask = replicate(1.0,2,2)
+
+	pars = fltarr(npixel,9)
+	
+; B
+	pars[*,0] = [10.d0, 10.d0, 20.d0, 30.d0]
+
+; thB
+	pars[*,1] = replicate(0.d0,npixel)
+
+; chiB
+	pars[*,2] = replicate(0.d0,npixel)
+
+; tau
+	pars[*,4] = replicate(1.d0,npixel)
+
+; vdop
+	pars[*,5] = replicate(6.d0,npixel)
+
+; damp
+	pars[*,6] = replicate(0.2d0,npixel)
+
+; vmac
+	pars[*,7] = replicate(0.d0,npixel)
  	
 	gen_netcdf, lambda, reform(map[*,0,*]), reform(map[*,1,*]), reform(map[*,2,*]), reform(map[*,3,*]), $
 		reform(map[*,4,*]), reform(map[*,5,*]), reform(map[*,6,*]), reform(map[*,7,*]), boundary,$
-		height, obs_theta, obs_gamma, mask, 'test.nc'
+		height, obs_theta, obs_gamma, mask, pars, 'test.nc'
 	stop
 end

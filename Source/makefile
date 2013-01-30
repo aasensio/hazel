@@ -25,7 +25,7 @@ OPTIONS = -c -O3
 FINAL_EXECUTABLE = hazel
 
 hazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o pikaia.o marquardt.o hazel.o DIRect.o \
-	DIRserial.o DIRsubrout.o singleton.o lbfgsb.o
+	DIRserial.o DIRsubrout.o singleton.o lbfgsb.o 
 	$(COMPILER) vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o pikaia.o marquardt.o hazel.o \
 		DIRect.o DIRserial.o DIRsubrout.o singleton.o lbfgsb.o -o $(FINAL_EXECUTABLE)
 	cp $(FINAL_EXECUTABLE) ../Run
@@ -87,7 +87,7 @@ lbfgsb.o: lbfgsb.f90
 
 singleton.o: singleton.f90
 	$(COMPILER) $(OPTIONS)  singleton.f90
-	
+
 hazel.o: hazel.f90 allen.o synth.o marquardt.o rt_coef.o SEE.o maths.o vars.o
 	$(COMPILER) $(OPTIONS)  hazel.f90
 	

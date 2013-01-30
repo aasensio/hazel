@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'/scratch/CODIGOS/HAZEL/Widget_Inv/OBSERVATION/pix_222_30.prof'
+'/scratch/GIT/HAZEL/Widget_Inv/OBSERVATION/punto_no_amb3.prof'
 
 # File with the inverted profiles
 'out.dat'

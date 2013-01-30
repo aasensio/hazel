@@ -135,18 +135,18 @@ implicit none
 		package_size_model = 3*sizeof(params%nslabs) + 8*sizeof(params%bgauss) + 4*sizeof(observation%wl)
 			
 		if (params%nslabs == 2) then
-			package_size_model = package_size_model + 2**sizeof(params%bgauss)
+			package_size_model = package_size_model + 2*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == 3) then
-			package_size_model = package_size_model + 6**sizeof(params%bgauss)
+			package_size_model = package_size_model + 6*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == -2) then
-			package_size_model = package_size_model + 7**sizeof(params%bgauss)
+			package_size_model = package_size_model + 7*sizeof(params%bgauss)
 		endif		
 
 		package_size_obs = sizeof(observation%wl) + sizeof(observation%stokes(0:3,:)) + &
 			sizeof(observation%sigma(0:3,:)) + sizeof(n_procs_done) + sizeof(params%height) + &
-			sizeof(fixed%Stokes_incident) + sizeof(fixed%thetad)
+			sizeof(fixed%Stokes_incident) + sizeof(fixed%thetad) + 7*params%n_total
  		
 		if (.not.associated(inversion%stokes_unperturbed)) allocate(inversion%stokes_unperturbed(0:3,observation%n))
 		if (.not.associated(inversion%stokes_perturbed)) allocate(inversion%stokes_perturbed(0:3,observation%n))

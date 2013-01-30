@@ -27,7 +27,7 @@ FINAL_EXECUTABLE = hazel
 hazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o pikaia.o marquardt.o hazel.o DIRect.o \
 	DIRserial.o DIRsubrout.o singleton.o lbfgsb.o
 	$(COMPILER) vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o pikaia.o marquardt.o hazel.o \
-		DIRect.o DIRserial.o DIRsubrout.o singleton.o lbfgsb -o $(FINAL_EXECUTABLE)
+		DIRect.o DIRserial.o DIRsubrout.o singleton.o lbfgsb.o -o $(FINAL_EXECUTABLE)
 	cp $(FINAL_EXECUTABLE) ../Run
 	cp $(FINAL_EXECUTABLE) ../Widget_Synth
 	cp $(FINAL_EXECUTABLE) ../Widget_Inv
