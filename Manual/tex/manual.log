@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2012.2.7)  25 JAN 2013 14:03
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2012.2.7)  30 JAN 2013 13:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**manual.tex
+**manual
 (./manual.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
@@ -383,6 +383,6 @@ Here is how much of TeX's memory you used:
  8116 multiletter control sequences out of 15000+200000
  25131 words of font info for 94 fonts, out of 3000000 for 9000
  809 hyphenation exceptions out of 8191
- 32i,12n,22p,1100b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,12n,22p,1096b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on manual.dvi (35 pages, 125236 bytes).
+Output written on manual.dvi (35 pages, 125252 bytes).
