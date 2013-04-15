@@ -18,8 +18,8 @@ COMPILER = mpif90
 
 # ------------------ CHANGE THIS ACCORDING TO YOUR COMPILER ------------------
 # If mpif90 calls ifort, uncomment the following line
-# OPTIONS = -c -O3
-OPTIONS = -c -g -traceback
+OPTIONS = -c -O3
+# OPTIONS = -c -g -traceback
 
 FLAGS =
 
@@ -75,20 +75,17 @@ rt_coef.o: rt_coef.f90 vars.o maths.o
 synth.o: synth.f90 rt_coef.o SEE.o vars.o
 	$(COMPILER) $(OPTIONS)  synth.f90
 
-pikaia.o: pikaia.f
-	$(COMPILER) $(OPTIONS)  pikaia.f
-
 marquardt.o: marquardt.f90 maths.o svd.o synth.o rt_coef.o SEE.o vars.o
 	$(COMPILER) $(OPTIONS) $(NETCDF_INCLUDE) marquardt.f90
 	
-DIRect.o: DIRect.f
-	$(COMPILER) $(OPTIONS)  DIRect.f
+DIRect.o: DIRect.f90
+	$(COMPILER) $(OPTIONS)  DIRect.f90
 	
-DIRserial.o: DIRserial.f
-	$(COMPILER) $(OPTIONS)  DIRserial.f
+DIRserial.o: DIRserial.f90
+	$(COMPILER) $(OPTIONS)  DIRserial.f90
 	
-DIRsubrout.o: DIRsubrout.f
-	$(COMPILER) $(OPTIONS)  DIRsubrout.f
+DIRsubrout.o: DIRsubrout.f90
+	$(COMPILER) $(OPTIONS)  DIRsubrout.f90
 
 singleton.o: singleton.f90
 	$(COMPILER) $(OPTIONS)  singleton.f90

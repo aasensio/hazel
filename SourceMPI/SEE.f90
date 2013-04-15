@@ -54,7 +54,7 @@ contains
 			lu2 = lsto2(atom%ntermu(nt))
 			ll2 = lsto2(atom%nterml(nt))
 			gei(0) = nbar
-			gei(1) = nbar * j10
+			gei(1) = nbar * atom%j10(nt)
 			gei(2) = nbar * w / sqrt(2.d0)
 
 			

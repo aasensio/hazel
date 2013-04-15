@@ -88,7 +88,7 @@ implicit none
 	type(atom_model) :: atom
 	
 	character(len=6) :: parameters_name(17) = (/ 'B     ','thetaB','chiB  ', 'vdopp ', &
-		'dtau  ','D^(2) ','v_mac ','damp  ','beta  ','h     ','dtau2  ', 'v_mac2',&
+		'dtau  ','D^(2) ','v_mac ','damp  ','beta  ','h     ','dtau2 ', 'v_mac2',&
 		'B2    ', 'thetB2', 'chiB2 ', 'vdopp2','ff1   '/)
 	real(kind=8), parameter :: minim_pikaia(10) = (/0.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0, -15.d0, 0.d0, 0.d0, 0.d0/)
 	real(kind=8), parameter :: maxim_pikaia(10) = (/4000.d0, 180.d0, 180.d0, 20.d0, 3.d0, 18.d0, 40.d0, 10.d0, 10.d0, 100.d0/)

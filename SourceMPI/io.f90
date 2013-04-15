@@ -10,7 +10,7 @@ contains
 !------------------------------------------------------------
 	subroutine read_config
 	character(len=100) :: config_file, buffer
-	integer :: nargs, ios
+	integer :: nargs, ios, iargc
 
 ! Verify if a configuration file is passed as an argument
 ! If not, use the default 'config' file
@@ -999,7 +999,7 @@ contains
 		write(13,*)
 
 		write(13,FMT='(A)') '# Value of delta if depolarization rates are included (not used if the previous value is 0)'
-		write(13,FMT='(E9.3)') in_params%delta_collision
+		write(13,FMT='(E10.3)') in_params%delta_collision
 		write(13,*)
 		
 		write(13,FMT='(A)') '# Include Paschen-Back effect (0-> no, 1-> yes)'
@@ -1042,7 +1042,7 @@ contains
 		write(13,*)
 		
 		write(13,FMT='(A)') '# Boundary Stokes parameters (I0,Q0,U0,V0)'
-		write(13,FMT='(4(E9.3,2X))') (in_fixed%Stokes_incident(i),i=0,3)
+		write(13,FMT='(4(E10.3,2X))') (in_fixed%Stokes_incident(i),i=0,3)
 		write(13,*)
 		
 		write(13,FMT='(A)') '# Transition where to compute the emission'
@@ -1127,7 +1127,7 @@ contains
 			if (synthesis_mode == 0) then
 				if (params%inverted(6) == 1) then
 					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       D^(2)    vmacro      a        h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,E8.2,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
+					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
 						params%chibd, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height
 				else
 					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       vmacro       a       h'
@@ -1168,7 +1168,7 @@ contains
 			if (synthesis_mode == 0) then
 				if (params%inverted(6) == 1) then
 					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       D^(2)    vmacro      a        h      v_th2'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,E8.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
+					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
 						params%chibd, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height, params%vmacro2
 				else
 					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       vmacro       a       h     v_th2'
@@ -1209,7 +1209,7 @@ contains
 			if (synthesis_mode == 0) then
 				if (params%inverted(6) == 1) then
 					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th      v_th2      D^(2)    vmacro     vmacro2    a        h'
-					write(*,FMT='(A,6(F9.4,1X),E8.2,1X,5(F9.4,1X))') text, params%bgauss, params%thetabd, &
+					write(*,FMT='(A,6(F9.4,1X),E9.2,1X,5(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, 10.d0**params%delta_collision, &
 						params%vmacro, params%vmacro2, params%damping, params%height
 				else
@@ -1253,7 +1253,7 @@ contains
 			if (synthesis_mode == 0) then
 				if (params%inverted(6) == 1) then
 					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th      v_th2      D^(2)    vmacro     vmacro2   ff    a        h'
-					write(*,FMT='(A,6(F9.4,1X),E8.2,1X,5(F9.4,1X))') text, params%bgauss, params%thetabd, &
+					write(*,FMT='(A,6(F9.4,1X),E9.2,1X,5(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, 10.d0**params%delta_collision, &
 						params%vmacro, params%vmacro2, params%ff, params%damping, params%height
 				else

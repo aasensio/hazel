@@ -35,7 +35,7 @@ NETCDF_LIB = /scratch/LIBS/NETCDF/lib
 LIBS =  -L$(NETCDF_LIB) -lnetcdf -lcurl 
 FINAL_EXECUTABLE = phazel
 
-OBJECTS = vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o pikaia.o marquardt.o hazel.o DIRect.o \
+OBJECTS = vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o marquardt.o hazel.o DIRect.o \
 	DIRserial.o DIRsubrout.o singleton.o mpi_routines.o inversion.o
 	
 hazel: $(OBJECTS)
@@ -75,20 +75,17 @@ rt_coef.o: rt_coef.f90 vars.o maths.o
 synth.o: synth.f90 rt_coef.o SEE.o vars.o
 	$(COMPILER) $(OPTIONS)  synth.f90
 
-pikaia.o: pikaia.f
-	$(COMPILER) $(OPTIONS)  pikaia.f
-
 marquardt.o: marquardt.f90 maths.o svd.o synth.o rt_coef.o SEE.o vars.o
 	$(COMPILER) $(OPTIONS) $(NETCDF_INCLUDE) marquardt.f90
 	
-DIRect.o: DIRect.f
-	$(COMPILER) $(OPTIONS)  DIRect.f
+DIRect.o: DIRect.f90
+	$(COMPILER) $(OPTIONS)  DIRect.f90
 	
-DIRserial.o: DIRserial.f
-	$(COMPILER) $(OPTIONS)  DIRserial.f
+DIRserial.o: DIRserial.f90
+	$(COMPILER) $(OPTIONS)  DIRserial.f90
 	
-DIRsubrout.o: DIRsubrout.f
-	$(COMPILER) $(OPTIONS)  DIRsubrout.f
+DIRsubrout.o: DIRsubrout.f90
+	$(COMPILER) $(OPTIONS)  DIRsubrout.f90
 
 singleton.o: singleton.f90
 	$(COMPILER) $(OPTIONS)  singleton.f90

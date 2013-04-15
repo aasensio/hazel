@@ -718,7 +718,8 @@ C+-----------------------------------------------------------------------+
 C+-----------------------------------------------------------------------+
 C| Give out a summary of the run.                                        |
 C+-----------------------------------------------------------------------+
-      CALL DIRsummary(logfile,x,l,u,n,fmin,fglobal, numfunc, Ierror)
+      CALL DIRsummary(logfile,x,l,u,n,fmin,fglobal, numfunc, Ierror,
+     + verbose)
 
 C+-----------------------------------------------------------------------+
 C| Format statements.                                                    |
