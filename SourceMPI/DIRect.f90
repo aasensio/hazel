@@ -146,7 +146,7 @@
 !| The maximal dimension of the problem.                                 |
 !+-----------------------------------------------------------------------+
       INTEGER maxfunc, maxdeep, maxdiv, MaxDim, mdeep
-      PARAMETER (Maxfunc = 90000)
+      PARAMETER (Maxfunc = 20000)
       PARAMETER (maxdeep = 600)
       PARAMETER (maxdiv = 3000)
       PARAMETER (MaxDim = 64)
