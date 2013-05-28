@@ -102,7 +102,7 @@ contains
 						call print_parameters(trial,'  -New parameters : ',.FALSE.)
 					endif
 
- 					write(*,FMT='(10X,A,I4,A,F18.8)') 'LM - chi^2(', myrank, ') : ', inversion%chisq
+!  					write(*,FMT='(10X,A,I4,A,F18.8)') 'LM - chi^2(', myrank, ') : ', inversion%chisq
 	
 					if (correct) then
 						call do_synthesis(trial, fixed, observation, inversion%stokes_unperturbed, error)

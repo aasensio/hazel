@@ -2,7 +2,7 @@
 @angle_transformation
 @get_ambiguities_general
 @polarity
-@generateInversionAmbiguos
+@generateInversionAmbiguous
 
 ; Disambiguation of a map based on the saturation regime
 ; disamb, '24apr11.010_artificial_98deg_new', '../OBSERVATION/24apr11.010_artificial'

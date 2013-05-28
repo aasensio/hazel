@@ -858,7 +858,6 @@ contains
 			endif
 		enddo
 		
-		print *, x
 			
 		call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
 
@@ -869,7 +868,7 @@ contains
 		
 		f = compute_chisq(observation,inversion)
 
- 		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
+!  		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
 		
 		if (iidata(1) == 0) then
  			call print_parameters(params,'      -Parameters : ',.TRUE.)
@@ -1081,7 +1080,7 @@ contains
 			call write_final_profiles(temporal_file, observation, inversion)
 		endif
 
-		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
+! 		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
 
 		if (iidata(1) == 0) then
  			call print_parameters(params,'      -Parameters : ',.TRUE.)
