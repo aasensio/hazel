@@ -30,7 +30,7 @@ implicit none
 	allocate(slave_active(nprocs-1))
 	if (myrank == 0) then
 		slave_active = 1
-		open(unit=24,file='logfile',action='write',status='replace')
+! 		open(unit=24,file='logfile',action='write',status='replace')
 	else
 		slave_active = 0
 	endif
@@ -172,31 +172,32 @@ implicit none
 ! Loop over all process in the initial state distributing processes
 				do while (status_obs == 1 .and. (n_procs_done - starting_pixel + 1) <= nprocs-1)					
 					call read_observation(input_observed_profiles, fixed, observation, params, n_procs_done, status_obs)
-					write(*,FMT='(A,I4,A,I4)') 'Master ', myrank, ' - Read observation ', n_procs_done
 					call date_and_time(date, time, zone, values)
-					write(24,FMT='(A10,A,I4,A,I4)') time, ' Master ', myrank, ' - Read observation ', n_procs_done
+					write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Read observation ', n_procs_done
+					
+! 					write(24,FMT='(A10,A,I4,A,I4)') time, ' Master ', myrank, ' - Read observation ', n_procs_done
 					if (status_obs == 1) then
 						call send_observation(observation, package_size_obs, (n_procs_done - starting_pixel + 1), n_procs_done)
-						write(*,FMT='(A,I4,A,I5,A,I4)') 'Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', (n_procs_done - starting_pixel + 1)
 						call date_and_time(date, time, zone, values)
-						write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', &
-							(n_procs_done - starting_pixel + 1)
+						write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' - Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', (n_procs_done - starting_pixel + 1)
+						
+! 						write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', &
+! 							(n_procs_done - starting_pixel + 1)
 						n_procs_done = n_procs_done + 1
 					endif					
 				enddo				
 
-! If the number of observations is smaller than the number of slaves, kill the remaining slaves
-				print *, n_procs_done, starting_pixel, nprocs
+! If the number of observations is smaller than the number of slaves, kill the remaining slaves				
 				if ((n_procs_done - starting_pixel + 1) < nprocs) then
 					do slave = (n_procs_done - starting_pixel + 1), nprocs-1
 						call kill_slave(slave)
 						write(*,FMT='(A,I4)') 'Too many slaves. Kill signal sent to Slave ', slave				
-						write(24,FMT='(A,I4)') 'Too many slaves. Kill signal sent to Slave ', slave
+! 						write(24,FMT='(A,I4)') 'Too many slaves. Kill signal sent to Slave ', slave
 						slave_active(slave) = 0
 					enddo
 				endif
 
-				call Flush(24)
+! 				call Flush(24)
 				
 			endif
 			
@@ -207,29 +208,33 @@ implicit none
 				if (myrank == 0) then				
 
 					call receive_model(params, observation, inversion, package_size_model, slave, index_obs)
-					write(*,FMT='(A,I4,A,I4)') 'Master ', myrank, ' - Received result from Slave ', slave
 					call date_and_time(date, time, zone, values)
-					write(24,FMT='(A10,A,I4,A,I4)') time, ' Master ', myrank, ' - Received result from Slave ', slave
+					write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Received result from Slave ', slave
+					
+! 					write(24,FMT='(A10,A,I4,A,I4)') time, ' Master ', myrank, ' - Received result from Slave ', slave
 
 					call write_results(fixed, observation, inversion, params, index_obs)
-					write(*,FMT='(A,I4,A,I5,A,I4)') 'Master ', myrank, ' - Saved result ', index_obs, ' from Slave ', slave
 					call date_and_time(date, time, zone, values)
-					write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Saved result ', index_obs, ' from Slave ', slave
+					write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' - Master ', myrank, ' - Saved result ', index_obs, ' from Slave ', slave
+					
+! 					write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Saved result ', index_obs, ' from Slave ', slave
 					
 					call read_observation(input_observed_profiles, fixed, observation, params, n_procs_done, status_obs)
 
 					if (status_obs == 1) then
 						call send_observation(observation, package_size_obs, slave, n_procs_done)
-						write(*,FMT='(A,I4,A,I5,A,I4)') 'Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', slave
 						call date_and_time(date, time, zone, values)
-						write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', slave
+						write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' - Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', slave
+						
+! 						write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', slave
 					else
 ! No more observations, so send a kill order to the slave
 						if (slave_active(slave) == 1) then
 							call kill_slave(slave)
-							write(*,FMT='(A,I4)') 'Kill signal sent to slave ', slave
 							call date_and_time(date, time, zone, values)
-							write(24,FMT='(A10,A,I4)') time, ' Kill signal sent to slave ', slave
+							write(*,FMT='(A10,A,I4)') time, ' - Kill signal sent to slave ', slave
+							
+! 							write(24,FMT='(A10,A,I4)') time, ' Kill signal sent to slave ', slave
 							slave_active(slave) = 0
 						endif
 					endif
@@ -237,7 +242,7 @@ implicit none
 
 					n_procs_done = n_procs_done + 1
 
-					call Flush(24)
+! 					call Flush(24)
 					
 				endif
 
@@ -248,15 +253,15 @@ implicit none
 
 ! If we received a new observation, do the inversion
 					if (kill == 0) then
-						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Received observation'
-						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Doing inversion'
+! 						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Received observation'
+! 						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Doing inversion'
 						call doinversion(params, fixed, observation, inversion, myrank, error)
 						if (error == 0) then
 							call send_model(params, observation, inversion, package_size_model, myrank, index_obs)
 						else
-							write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Model not converged'
+! 							write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Model not converged'
 						endif
-						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Sent back result'
+! 						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Sent back result'
 					else
 
 ! If not, quit

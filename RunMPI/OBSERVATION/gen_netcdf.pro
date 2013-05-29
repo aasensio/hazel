@@ -42,16 +42,16 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	nlambda = n_elements(lambda)
 	ncol = 8
 
-	map = dblarr(npixel,8,nlambda)
+	map = dblarr(8,nlambda,npixel)
 
-	map[*,0,*] = stI
-	map[*,1,*] = stQ
-	map[*,2,*] = stU
-	map[*,3,*] = stV
-	map[*,4,*] = sigmaI
-	map[*,5,*] = sigmaQ
-	map[*,6,*] = sigmaU
-	map[*,7,*] = sigmaV
+	map[0,*,*] = transpose(stI)
+	map[1,*,*] = transpose(stQ)
+	map[2,*,*] = transpose(stU)
+	map[3,*,*] = transpose(stV)
+	map[4,*,*] = transpose(sigmaI)
+	map[5,*,*] = transpose(sigmaQ)
+	map[6,*,*] = transpose(sigmaU)
+	map[7,*,*] = transpose(sigmaV)
 	
 	dim_map = size(mask, /dimensions)
 			
@@ -64,7 +64,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	nxmap_dim = ncdf_dimdef(file_id, 'nx', reform(dim_map[0]))
 	nymap_dim = ncdf_dimdef(file_id, 'ny', reform(dim_map[1]))
 	lambda_id = ncdf_vardef(file_id, 'lambda', [nlambda_dim], /double)
-	stI_id = ncdf_vardef(file_id, 'map', [nx_dim,ncol_dim,nlambda_dim], /double)
+	stI_id = ncdf_vardef(file_id, 'map', [ncol_dim,nlambda_dim,nx_dim], /double)
 	boundary_id = ncdf_vardef(file_id, 'boundary', [nx_dim, nstokespar_dim], /double)
 	height_id = ncdf_vardef(file_id, 'height', [nx_dim], /double)
 	obstheta_id = ncdf_vardef(file_id, 'obs_theta', [nx_dim], /double)

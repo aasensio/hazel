@@ -326,7 +326,7 @@ contains
 		
 		nrhos = 0
 		
-		open(unit=13,file='mterm.tab',action='write',status='replace')		
+!		open(unit=13,file='mterm.tab',action='write',status='replace')		
 		
 		jlimit2 = 0
 		do i = 1, n_terms
@@ -426,7 +426,7 @@ contains
 										qtab(nrhos) = q
 										irtab(nrhos) = ir
 										rnutab(nrhos) = rnujjp
-										write(13,FMT='(7(1X,I5),6X,E12.5)') nrhos, n, j2, jp2, k, q, ir, rnujjp
+!										write(13,FMT='(7(1X,I5),6X,E12.5)') nrhos, n, j2, jp2, k, q, ir, rnujjp
 									endif
 								enddo
 							endif
@@ -477,12 +477,12 @@ contains
 
 		read(24,*) in_fixed%DIRmaxf
 		if (in_fixed%DIRmaxf < 0) in_fixed%DIRmaxf = 10000
-		print *, 'Maximum number of function evaluations : ', in_fixed%DIRmaxf
+!		print *, 'Maximum number of function evaluations : ', in_fixed%DIRmaxf
 		
 		call lb(24,2)
 		read(24,*) in_fixed%volper
 		if (in_fixed%volper < 0) in_fixed%volper = 1.d-20
-		print *, 'Stopping when the hypervolume with respect to the original is less than ', in_fixed%volper
+!		print *, 'Stopping when the hypervolume with respect to the original is less than ', in_fixed%volper
 		
 		do i = 1, 17
 			call lb(24,2)
@@ -620,7 +620,7 @@ contains
 				call check( nf90_def_var(in_fixed%syn_id, "lambda", NF90_DOUBLE, &
 					(/ in_fixed%nlambda_syn_id /), in_fixed%lambda_syn_id) )
 				call check( nf90_def_var(in_fixed%syn_id, "map", NF90_DOUBLE, &
-					(/ in_fixed%pix_syn_id, in_fixed%col_syn_id, in_fixed%nlambda_syn_id /), in_fixed%map_syn_id) )
+					(/ in_fixed%col_syn_id, in_fixed%nlambda_syn_id, in_fixed%pix_syn_id /), in_fixed%map_syn_id) )
 				call check( nf90_enddef(in_fixed%syn_id) )
 				
 ! Set dimensions and set variables for the inverted values
@@ -685,6 +685,10 @@ contains
 	real(kind=8) :: SI_max, SQ_max, SU_max, SV_max, Noise, MinAmpli
 	real(kind=8), allocatable :: values(:,:), values_vec(:)
 	integer, allocatable :: start(:), count(:)
+	character(len=8) :: date
+	character(len=10) :: time
+	character(len=5) :: zone
+	integer :: valuesTime(8)
 
 ! If we are doing one-profile inversion, just read data
 		if (in_observation%observation_format == 0 .or. in_observation%observation_format == 1) then
@@ -733,44 +737,68 @@ contains
 ! If we are inverting a map, read the appropriate point and put it onto the arrays
 		if (in_observation%observation_format == 2) then			
 			if (pixel <= final_pixel) then
-				write(*,FMT='(A,I6,A,I6)') 'Pixel ', pixel, ' from ', final_pixel
+			
+				call date_and_time(date, time, zone, valuesTime)
+				write(*,FMT='(A10,A,I6,A,I6)') time, ' - Reading pixel ', pixel, ' from ', final_pixel
+				
 				allocate(values(8,in_observation%n))
 				
 				allocate(start(3))
 				allocate(count(3))
-				start = (/ pixel, 1, 1 /)
-				count = (/ 1, 8, in_observation%n /)
-
+				start = (/ 1, 1, pixel /)
+				count = (/ 8, in_observation%n, 1 /)
+				
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' first'
+				
 ! Read data for the appropriate pixel				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%lambda_id, in_observation%wl) )
 				call check( nf90_get_var(in_observation%obs_id, in_observation%map_id, values, start=start, count=count) )
+				
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' second'
 
 ! Put the profile on the arrays				
-				in_observation%stokes(0:3,:) = values(1:4,:)
+				in_observation%stokes(0:3,:) = values(1:4,:)				
 				in_observation%sigma(0:3,:) = values(5:8,:)
 				
 				deallocate(values, start, count)
+				
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' third'
 								
 ! Read incident Stokes parameter
 				call check( nf90_get_var(in_observation%obs_id, in_observation%boundary_id, in_fixed%Stokes_incident,&
 					start=(/ pixel, 1 /), count=(/ 1, 4 /)) )
+					
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' fourth'
 									
 ! Read height
 				allocate(values_vec(1))
 				call check( nf90_get_var(in_observation%obs_id, in_observation%height_id, values_vec,&
 					start=(/ pixel /), count=(/ 1 /) ) )
+					
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' fifth'
 				
 				in_params%height = values_vec(1)
 				
 ! Read observation theta angle
 				call check( nf90_get_var(in_observation%obs_id, in_observation%obstheta_id, values_vec,&
 					start=(/ pixel /), count=(/ 1 /) ) )
+					
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' sixth'
 				
 				in_fixed%thetad = values_vec(1)
 
 ! Read observation reference gamma angle
 				call check( nf90_get_var(in_observation%obs_id, in_observation%obsgamma_id, values_vec,&
 					start=(/ pixel /), count=(/ 1 /) ) )
+					
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' seventh'
 
 				in_fixed%gammad = values_vec(1)
 
@@ -781,6 +809,9 @@ contains
 				allocate(values_vec(nparam))
 				call check( nf90_get_var(in_observation%obs_id, in_observation%parsInit_id, values_vec,&
 					start=(/ pixel, 1 /), count=(/ 1, nparam /)) )
+					
+				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A)') time, ' eighth'
 
 ! Set all initial values, except for the height, which is already set before
 				if (nparam == 9) then
@@ -839,6 +870,9 @@ contains
 				endif
 								
 				deallocate(values_vec)
+				
+				call date_and_time(date, time, zone, valuesTime)
+				write(*,FMT='(A10,A,I6,A,I6)') time, ' - Read pixel ', pixel, ' from ', final_pixel
 				
 				status = 1
 			else

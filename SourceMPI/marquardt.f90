@@ -731,19 +731,19 @@ contains
 ! If Ierror > 0, then
 		if (Ierror > 0) then
 			if (Ierror == 1) then
-				write(*,*) 'DIRECT - Number of function evaluations done is larger than ', in_fixed%DIRmaxf
+!				write(*,*) 'DIRECT - Number of function evaluations done is larger than ', in_fixed%DIRmaxf
 			endif
 			if (Ierror == 2) then
-				write(*,*) 'DIRECT - Number of iterations is equal to ', DIRmaxT
+!				write(*,*) 'DIRECT - Number of iterations is equal to ', DIRmaxT
 			endif
 			if (Ierror == 3) then
-				write(*,*) 'DIRECT - The best function value found is within ', fglper
+!				write(*,*) 'DIRECT - The best function value found is within ', fglper
 			endif
 			if (Ierror == 4) then
-				write(*,*) 'DIRECT - The volume of the hyperrectangle is less than ', in_fixed%volper
+!				write(*,*) 'DIRECT - The volume of the hyperrectangle is less than ', in_fixed%volper
 			endif
 			if (Ierror == 5) then
-				write(*,*) 'DIRECT - The measure of the hyperrectangle is less than ', sigmaper
+!				write(*,*) 'DIRECT - The measure of the hyperrectangle is less than ', sigmaper
 			endif
 		endif
 				

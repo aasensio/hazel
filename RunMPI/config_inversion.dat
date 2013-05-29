@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'OBSERVATION/test.nc'
+'OBSERVATION/31aug12.001_h3arcsec.nc'
 
 # File with the inverted profiles
 'test_inversion.nc'
