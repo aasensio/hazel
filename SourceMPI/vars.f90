@@ -61,7 +61,7 @@ implicit none
 	end type fixed_parameters
 	
 	type type_observation
-		integer :: n, npixel, ny, pix_id, col_id, nlambda_id, lambda_id, map_id, obs_id
+		integer :: n, npixel, ny, pix_id, col_id, nlambda_id, lambda_id, map_id, obs_id, nstokespar_id
 		integer :: observation_format, boundary_id, height_id, obstheta_id, obsgamma_id, parsInit_id
 		real(kind=8), pointer :: wl(:), stokes(:,:), sigma(:,:)
 	end type type_observation

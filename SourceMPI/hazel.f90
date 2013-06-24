@@ -173,13 +173,13 @@ implicit none
 				do while (status_obs == 1 .and. (n_procs_done - starting_pixel + 1) <= nprocs-1)					
 					call read_observation(input_observed_profiles, fixed, observation, params, n_procs_done, status_obs)
 					call date_and_time(date, time, zone, values)
-					write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Read observation ', n_procs_done
+! 					write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Read observation ', n_procs_done
 					
 ! 					write(24,FMT='(A10,A,I4,A,I4)') time, ' Master ', myrank, ' - Read observation ', n_procs_done
 					if (status_obs == 1) then
 						call send_observation(observation, package_size_obs, (n_procs_done - starting_pixel + 1), n_procs_done)
 						call date_and_time(date, time, zone, values)
-						write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' - Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', (n_procs_done - starting_pixel + 1)
+						write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' * Master - Sent observation ', n_procs_done, ' to slave ', (n_procs_done - starting_pixel + 1)
 						
 ! 						write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', &
 ! 							(n_procs_done - starting_pixel + 1)
@@ -191,7 +191,7 @@ implicit none
 				if ((n_procs_done - starting_pixel + 1) < nprocs) then
 					do slave = (n_procs_done - starting_pixel + 1), nprocs-1
 						call kill_slave(slave)
-						write(*,FMT='(A,I4)') 'Too many slaves. Kill signal sent to Slave ', slave				
+						write(*,FMT='(A,I4)') 'Too many slaves. Kill signal sent to slave ', slave				
 ! 						write(24,FMT='(A,I4)') 'Too many slaves. Kill signal sent to Slave ', slave
 						slave_active(slave) = 0
 					enddo
@@ -208,14 +208,14 @@ implicit none
 				if (myrank == 0) then				
 
 					call receive_model(params, observation, inversion, package_size_model, slave, index_obs)
-					call date_and_time(date, time, zone, values)
-					write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Received result from Slave ', slave
+! 					call date_and_time(date, time, zone, values)
+! 					write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Received result from Slave ', slave
 					
 ! 					write(24,FMT='(A10,A,I4,A,I4)') time, ' Master ', myrank, ' - Received result from Slave ', slave
 
 					call write_results(fixed, observation, inversion, params, index_obs)
 					call date_and_time(date, time, zone, values)
-					write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' - Master ', myrank, ' - Saved result ', index_obs, ' from Slave ', slave
+					write(*,FMT='(A10,A,I5,A,I4)') time, ' * Master - Received and saved result ', index_obs, ' from slave ', slave
 					
 ! 					write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Saved result ', index_obs, ' from Slave ', slave
 					
@@ -224,7 +224,7 @@ implicit none
 					if (status_obs == 1) then
 						call send_observation(observation, package_size_obs, slave, n_procs_done)
 						call date_and_time(date, time, zone, values)
-						write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' - Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', slave
+						write(*,FMT='(A10,A,I5,A,I4)') time, ' * Master - Sent observation ', n_procs_done, ' to slave ', slave
 						
 ! 						write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', slave
 					else
@@ -232,7 +232,7 @@ implicit none
 						if (slave_active(slave) == 1) then
 							call kill_slave(slave)
 							call date_and_time(date, time, zone, values)
-							write(*,FMT='(A10,A,I4)') time, ' - Kill signal sent to slave ', slave
+							write(*,FMT='(A10,A,I4)') time, ' * Master - Kill signal sent to slave ', slave
 							
 ! 							write(24,FMT='(A10,A,I4)') time, ' Kill signal sent to slave ', slave
 							slave_active(slave) = 0

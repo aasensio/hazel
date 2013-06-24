@@ -14,6 +14,10 @@ contains
 
 ! Verify if a configuration file is passed as an argument
 ! If not, use the default 'config' file
+
+! Call the code with
+! phazel config_inversion.dat 1 5000
+
 		nargs = iargc()
 
 		if (nargs == 0) then
@@ -585,7 +589,9 @@ contains
 ! Get the varid of the data variable, based on its name.
   			call check( nf90_inq_dimid(in_observation%obs_id, "npixel", in_observation%pix_id) )
   			call check( nf90_inq_dimid(in_observation%obs_id, "ncolumns", in_observation%col_id) )
+  			call check( nf90_inq_dimid(in_observation%obs_id, "nstokes_par", in_observation%nstokespar_id) )
   			call check( nf90_inq_dimid(in_observation%obs_id, "nlambda", in_observation%nlambda_id) )
+  			
   			call check( nf90_inq_varid(in_observation%obs_id, "map", in_observation%map_id) )
   			call check( nf90_inq_varid(in_observation%obs_id, "lambda", in_observation%lambda_id) )
   			call check( nf90_inq_varid(in_observation%obs_id, "boundary", in_observation%boundary_id) )
@@ -599,10 +605,10 @@ contains
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%col_id, name_var, ncol) )
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%nlambda_id, name_var, nlambda) )
 			
-			if (verbose_mode == 1) then
-				write(*,FMT='(A,I4,2X,I4)') 'Number of pixels : ', npixel
+ 			if (verbose_mode == 1) then
+				write(*,FMT='(A,I6)') 'Number of pixels : ', npixel
 				write(*,FMT='(A,I4)') 'Number of wavelengths : ', nlambda
-			endif
+ 			endif
 
 ! Now that we have opened the file with the observations, open two files with the
 ! results and the inverted profiles
@@ -626,7 +632,7 @@ contains
 ! Set dimensions and set variables for the inverted values
 				call check( nf90_def_dim(in_fixed%par_id, "npixel", npixel, in_fixed%pix_par_id) )
 				call check( nf90_def_dim(in_fixed%par_id, "ncolumns", nparam, in_fixed%col_par_id) )
-				call check( nf90_def_var(in_fixed%par_id, "map", NF90_DOUBLE, (/ in_fixed%pix_par_id,  in_fixed%col_par_id/), in_fixed%map_par_id) )
+				call check( nf90_def_var(in_fixed%par_id, "map", NF90_DOUBLE, (/ in_fixed%col_par_id, in_fixed%pix_par_id/), in_fixed%map_par_id) )
 				call check( nf90_enddef(in_fixed%par_id) )
 
 			endif
@@ -739,7 +745,7 @@ contains
 			if (pixel <= final_pixel) then
 			
 				call date_and_time(date, time, zone, valuesTime)
-				write(*,FMT='(A10,A,I6,A,I6)') time, ' - Reading pixel ', pixel, ' from ', final_pixel
+				write(*,FMT='(A10,A,I6,A,I6)') time, ' * Master - Reading pixel ', pixel, ' from ', final_pixel
 				
 				allocate(values(8,in_observation%n))
 				
@@ -749,30 +755,27 @@ contains
 				count = (/ 8, in_observation%n, 1 /)
 				
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' first'
+
 				
 ! Read data for the appropriate pixel				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%lambda_id, in_observation%wl) )
 				call check( nf90_get_var(in_observation%obs_id, in_observation%map_id, values, start=start, count=count) )
 				
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' second'
 
 ! Put the profile on the arrays				
-				in_observation%stokes(0:3,:) = values(1:4,:)				
+				in_observation%stokes(0:3,:) = values(1:4,:)
 				in_observation%sigma(0:3,:) = values(5:8,:)
-				
+												
 				deallocate(values, start, count)
 				
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' third'
 								
 ! Read incident Stokes parameter
 				call check( nf90_get_var(in_observation%obs_id, in_observation%boundary_id, in_fixed%Stokes_incident,&
-					start=(/ pixel, 1 /), count=(/ 1, 4 /)) )
+					start=(/ 1, pixel /), count=(/ 4, 1 /)) )
 					
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' fourth'
 									
 ! Read height
 				allocate(values_vec(1))
@@ -780,7 +783,6 @@ contains
 					start=(/ pixel /), count=(/ 1 /) ) )
 					
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' fifth'
 				
 				in_params%height = values_vec(1)
 				
@@ -789,7 +791,6 @@ contains
 					start=(/ pixel /), count=(/ 1 /) ) )
 					
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' sixth'
 				
 				in_fixed%thetad = values_vec(1)
 
@@ -798,7 +799,6 @@ contains
 					start=(/ pixel /), count=(/ 1 /) ) )
 					
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' seventh'
 
 				in_fixed%gammad = values_vec(1)
 
@@ -808,10 +808,9 @@ contains
 
 				allocate(values_vec(nparam))
 				call check( nf90_get_var(in_observation%obs_id, in_observation%parsInit_id, values_vec,&
-					start=(/ pixel, 1 /), count=(/ 1, nparam /)) )
-					
+					start=(/ 1, pixel /), count=(/ nparam, 1 /)) )
+										
 				call date_and_time(date, time, zone, valuesTime)
-! 				write(*,FMT='(A10,A)') time, ' eighth'
 
 ! Set all initial values, except for the height, which is already set before
 				if (nparam == 9) then
@@ -871,8 +870,8 @@ contains
 								
 				deallocate(values_vec)
 				
-				call date_and_time(date, time, zone, valuesTime)
-				write(*,FMT='(A10,A,I6,A,I6)') time, ' - Read pixel ', pixel, ' from ', final_pixel
+! 				call date_and_time(date, time, zone, valuesTime)
+! 				write(*,FMT='(A10,A,I6,A,I6)') time, ' - Read pixel ', pixel, ' from ', final_pixel
 				
 				status = 1
 			else
@@ -903,11 +902,11 @@ contains
 
 ! Get profiles
   			values = in_inversion%stokes_unperturbed(0:3,:)
-			
+  			
 			allocate(start(3))
 			allocate(count(3))
-			start = (/ pixel, 1, 1 /)
-			count = (/ 1, 4, in_observation%n /)
+			start = (/ 1, 1, pixel /)
+			count = (/ 4, in_observation%n, 1 /)
 			call check( nf90_put_var(in_fixed%syn_id, in_fixed%map_syn_id, values, start=start, count=count) )
 
 			deallocate(values, start, count)
@@ -940,8 +939,8 @@ contains
 			
 		allocate(start(2))
 		allocate(count(2))
-		start = (/ pixel, 1 /)
-		count = (/ 1, nparam /)
+		start = (/ 1, pixel /)
+		count = (/ nparam, 1 /)
 		call check( nf90_put_var(in_fixed%par_id, in_fixed%map_par_id, values_vec, start=start, count=count) )
 
 		deallocate(values_vec, start, count)
