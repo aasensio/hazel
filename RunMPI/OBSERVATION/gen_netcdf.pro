@@ -55,24 +55,28 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	
 	dim_map = size(mask, /dimensions)
 			
+; Variable dimensions
 	file_id = ncdf_create(outputfile, /clobber)
-	nx_dim = ncdf_dimdef(file_id, 'npixel', npixel)
+	npix_dim = ncdf_dimdef(file_id, 'npixel', npixel)
 	ncol_dim = ncdf_dimdef(file_id, 'ncolumns', ncol)
 	nstokespar_dim = ncdf_dimdef(file_id, 'nstokes_par', 4)
 	npars_dim = ncdf_dimdef(file_id, 'nparameters', 9)
 	nlambda_dim = ncdf_dimdef(file_id, 'nlambda', nlambda)
 	nxmap_dim = ncdf_dimdef(file_id, 'nx', reform(dim_map[0]))
 	nymap_dim = ncdf_dimdef(file_id, 'ny', reform(dim_map[1]))
+	
+; Variable definition
 	lambda_id = ncdf_vardef(file_id, 'lambda', [nlambda_dim], /double)
 	stI_id = ncdf_vardef(file_id, 'map', [ncol_dim,nlambda_dim,nx_dim], /double)
-	boundary_id = ncdf_vardef(file_id, 'boundary', [nx_dim, nstokespar_dim], /double)
+	boundary_id = ncdf_vardef(file_id, 'boundary', [nstokespar_dim, nx_dim], /double)
 	height_id = ncdf_vardef(file_id, 'height', [nx_dim], /double)
 	obstheta_id = ncdf_vardef(file_id, 'obs_theta', [nx_dim], /double)
 	obsgamma_id = ncdf_vardef(file_id, 'obs_gamma', [nx_dim], /double)
 	mask_id = ncdf_vardef(file_id, 'mask', [nxmap_dim, nymap_dim], /short)
-	parsInit_id = ncdf_vardef(file_id, 'pars_initial', [nx_dim, npars_dim], /double)
+	parsInit_id = ncdf_vardef(file_id, 'pars_initial', [npars_dim, npix_dim], /double)
 	ncdf_control, file_id, /endef
 	
+; Variable write	
 	ncdf_varput, file_id, lambda_id, lambda
 	ncdf_varput, file_id, stI_id, map
 	ncdf_varput, file_id, boundary_id, boundary
