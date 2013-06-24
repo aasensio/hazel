@@ -480,7 +480,7 @@ contains
 		call lb(24,5)
 
 		read(24,*) in_fixed%DIRmaxf
-		if (in_fixed%DIRmaxf < 0) in_fixed%DIRmaxf = 10000
+		if (in_fixed%DIRmaxf < 0) in_fixed%DIRmaxf = 1000
 !		print *, 'Maximum number of function evaluations : ', in_fixed%DIRmaxf
 		
 		call lb(24,2)

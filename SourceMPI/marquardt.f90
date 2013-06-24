@@ -684,7 +684,7 @@ contains
 		sigmaper  = -1.d0
 		
 		DIReps = 1.d-6
-		DIRmaxT = 6000
+		DIRmaxT = 1000
 		
 		ndim = sum(params%inverted)
 		allocate(u(ndim))
@@ -714,9 +714,9 @@ contains
 		DIRmaxf_input = in_fixed%DIRmaxf
 		volper_input = in_fixed%volper
 
-		if (synth_option == 2) then
+		if (synth_option == 2) then			
 			call DIRECT(fcn,DIRx,ndim,DIReps,DIRmaxf_input,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
-				fglobal, fglper, volper_input, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize, verbose)
+				fglobal, fglper, volper_input, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize, verbose)			
 		else
 			call DIRECT(fcn_simplified_StokesI,DIRx,ndim,DIReps,DIRmaxf_input,DIRmaxT, DIRf, l, u, DIRalg, Ierror, logfile, &
 				fglobal, fglper, volper_input, sigmaper, iidata, iisize, ddata, idsize, cdata, icsize, verbose)
@@ -868,7 +868,7 @@ contains
 		
 		f = compute_chisq(observation,inversion)
 
-!  		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
+!   		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
 		
 		if (iidata(1) == 0) then
  			call print_parameters(params,'      -Parameters : ',.TRUE.)
