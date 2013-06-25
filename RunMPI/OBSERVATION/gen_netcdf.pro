@@ -67,11 +67,11 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	
 ; Variable definition
 	lambda_id = ncdf_vardef(file_id, 'lambda', [nlambda_dim], /double)
-	stI_id = ncdf_vardef(file_id, 'map', [ncol_dim,nlambda_dim,nx_dim], /double)
-	boundary_id = ncdf_vardef(file_id, 'boundary', [nstokespar_dim, nx_dim], /double)
-	height_id = ncdf_vardef(file_id, 'height', [nx_dim], /double)
-	obstheta_id = ncdf_vardef(file_id, 'obs_theta', [nx_dim], /double)
-	obsgamma_id = ncdf_vardef(file_id, 'obs_gamma', [nx_dim], /double)
+	stI_id = ncdf_vardef(file_id, 'map', [ncol_dim,nlambda_dim,npix_dim], /double)
+	boundary_id = ncdf_vardef(file_id, 'boundary', [nstokespar_dim, npix_dim], /double)
+	height_id = ncdf_vardef(file_id, 'height', [npix_dim], /double)
+	obstheta_id = ncdf_vardef(file_id, 'obs_theta', [npix_dim], /double)
+	obsgamma_id = ncdf_vardef(file_id, 'obs_gamma', [npix_dim], /double)
 	mask_id = ncdf_vardef(file_id, 'mask', [nxmap_dim, nymap_dim], /short)
 	parsInit_id = ncdf_vardef(file_id, 'pars_initial', [npars_dim, npix_dim], /double)
 	ncdf_control, file_id, /endef
