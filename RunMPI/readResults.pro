@@ -1,7 +1,6 @@
-pro read_results
-
-	file = 'test_inversion.nc'
-   file_id = ncdf_open(file)
+pro readResults
+		
+   file_id = ncdf_open('test_inversion.nc')
 
 	nx_dim = ncdf_dimid(file_id, 'npixel')
 	ncol_dim = ncdf_dimid(file_id, 'ncolumns')
@@ -17,10 +16,9 @@ pro read_results
 	ncdf_varget, file_id, lambda_id, lambda_syn
 	ncdf_varget, file_id, map_id, syn
 	ncdf_close, file_id
+	
 
-
-	file = 'OBSERVATION/test.nc'
-   file_id = ncdf_open(file)
+   file_id = ncdf_open('/scratch/OBSERVATIONS/TIP2012/31aug12/REDUCTION/31aug12.001_h3arcsec.nc')
 
 	nx_dim = ncdf_dimid(file_id, 'npixel')
 	ncol_dim = ncdf_dimid(file_id, 'ncolumns')
@@ -36,9 +34,8 @@ pro read_results
 	ncdf_varget, file_id, lambda_id, lambda_obs
 	ncdf_varget, file_id, map_id, obs
 	ncdf_close, file_id
-
-	file = 'test_parameters.nc'
-   file_id = ncdf_open(file)
+	
+   file_id = ncdf_open('test_parameters.nc')
 
 	nx_dim = ncdf_dimid(file_id, 'npixel')
 	ncol_dim = ncdf_dimid(file_id, 'ncolumns')

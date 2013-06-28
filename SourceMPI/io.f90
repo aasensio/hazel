@@ -774,7 +774,7 @@ contains
 ! Read incident Stokes parameter
 				call check( nf90_get_var(in_observation%obs_id, in_observation%boundary_id, in_fixed%Stokes_incident,&
 					start=(/ 1, pixel /), count=(/ 4, 1 /)) )
-					
+										
 				call date_and_time(date, time, zone, valuesTime)
 									
 ! Read height
@@ -901,7 +901,7 @@ contains
   			call check( nf90_put_var(in_fixed%syn_id, in_fixed%lambda_syn_id, in_observation%wl) )
 
 ! Get profiles
-  			values = in_inversion%stokes_unperturbed(0:3,:)
+  			values = in_inversion%stokes_unperturbed(0:3,:)  			  			
   			
 			allocate(start(3))
 			allocate(count(3))

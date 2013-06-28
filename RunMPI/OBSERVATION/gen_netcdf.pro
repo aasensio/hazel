@@ -103,8 +103,8 @@ pro test
 	
 	mu = [1.d0, 0.3d0, 1.d0, 0.3d0]
 	obs_theta = acos(mu) * 180.d0 / !DPI
- 	boundary = fltarr(npixel,4)
- 	boundary[*,0] = i0_allen(10830.d0, mu)
+ 	boundary = fltarr(4, npixel)
+ 	boundary[0,*] = i0_allen(10830.d0, mu)
  	height = [3.d0, 5.d0, 3.d0, 5.d0]
  	obs_gamma = replicate(90.d0,npixel)
 	mask = replicate(1.0,2,2)
