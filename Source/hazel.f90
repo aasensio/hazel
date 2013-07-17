@@ -94,7 +94,7 @@ implicit none
 			write(*,FMT='(A,I2,A)') ' Inverting ', sum(params%inverted),' parameters'
 			write(*,FMT='(A)') '*******************************'
 				
-			write(*,FMT='(A,4(2X,F5.3))') 'Stokes parameters weights : ', inversion%stokes_weights(0:3,loop_cycle)
+			write(*,FMT='(A,4(2X,F6.3))') 'Stokes parameters weights : ', inversion%stokes_weights(0:3,loop_cycle)
 	
 	! LEVENBERG-MARQUARDT		
 			if (inversion%algorithm(loop_cycle) == 1) then
