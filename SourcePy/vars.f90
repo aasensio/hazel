@@ -81,4 +81,7 @@ implicit none
 	
 	character(len=80), dimension(23) :: internalFileHelium
 	
+	real(kind=8), dimension(4) :: nbarExternal, omegaExternal
+	
+	
 end module vars

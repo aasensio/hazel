@@ -21,9 +21,15 @@ dampingInput = 0.e0
 dopplerVelocityInput = 0.e0
 dopplerVelocity2Input = 0.e0
 ffInput = 0.e0
+nbar = [0.1,0.1,0.1,0.1]
+omega = [0.21,0.1,0.1,0.1]
 
 print hazel.hazel.__doc__
-# Compute the Stokes parameters using many default parameters		
+# Compute the Stokes parameters using many default parameters, using ad-hoc anisotropy and number of photons per mode
+#[l, stokes, etaOutput, epsOutput] = hazel.hazel(B1Input, hInput, tau1Input, boundaryInput, anglesInput, lambdaAxisInput, nLambdaInput, 
+						#dopplerWidthInput, dampingInput, dopplerVelocityInput, nbarinput=nbar, omegainput=omega)
+
+# Compute the Stokes parameters using many default parameters, using Allen's data
 [l, stokes, etaOutput, epsOutput] = hazel.hazel(B1Input, hInput, tau1Input, boundaryInput, anglesInput, lambdaAxisInput, nLambdaInput, 
 						dopplerWidthInput, dampingInput, dopplerVelocityInput)
 

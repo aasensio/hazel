@@ -49,8 +49,13 @@ contains
 				reduction_factor, reduction_factor_omega, j10
 			
 ! Use Allen's tables to calculate the anisotropy and the value of nbar
-			nbar = nbar_allen(wavelength, in_fixed, in_params, reduction_factor)
-			w = omega_allen(wavelength, in_fixed, in_params, reduction_factor_omega)
+			if (nbarExternal(nt) /= 0 .and. omegaExternal(nt) /= 0) then
+				nbar = nbarExternal(nt)
+				w = omegaExternal(nt)
+			else
+				nbar = nbar_allen(wavelength, in_fixed, in_params, reduction_factor)
+				w = omega_allen(wavelength, in_fixed, in_params, reduction_factor_omega)
+			endif
 
 ! Neglect the influence of anisotropy
 			if (in_fixed%use_atomic_pol == -1) then
