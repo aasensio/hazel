@@ -10,10 +10,10 @@ subroutine hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input,
 !f2py real(8), intent(in), dimension(4) :: boundaryInput
 !f2py real(8) optional , intent(in):: tau2Input=0, dopplerWidth2Input=0, dopplerVelocity2Input=0, ffInput=0
 !f2py real(8), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput
-!f2py real(8), intent(out), dimension(nLambdaInput) :: wavelengthOutput
-!f2py real(8), intent(out), dimension(4,nLambdaInput) :: stokesOutput
-!f2py real(8), intent(out), dimension(4,nLambdaInput) :: epsOutput
-!f2py real(8), intent(out), dimension(4,4,nLambdaInput) :: etaOutput
+!f2py real(8), intent(out), dimension(nLambdaInput), depend(nLambdaInput) :: wavelengthOutput
+!f2py real(8), intent(out), dimension(4,nLambdaInput), depend(nLambdaInput) :: stokesOutput
+!f2py real(8), intent(out), dimension(4,nLambdaInput), depend(nLambdaInput) :: epsOutput
+!f2py real(8), intent(out), dimension(4,4,nLambdaInput), depend(nLambdaInput) :: etaOutput
 
 use vars
 use maths
@@ -160,9 +160,9 @@ implicit none
 	
 ! Fill the emission vector and absorption matrix
 	do i = 1, 4
-		epsOutput(i,:) = epsilon(i-1,:)		
+		epsOutput(i,:) = epsilon(i-1,:)
 	enddo
-	
+		
 	etaOutput(1,1,:) = eta(0,:) - eta_stim(0,:)
 	etaOutput(2,2,:) = eta(0,:) - eta_stim(0,:)
 	etaOutput(3,3,:) = eta(0,:) - eta_stim(0,:)
@@ -178,7 +178,7 @@ implicit none
 	etaOutput(2,4,:) = -mag_opt(2,:) - mag_opt_stim(2,:)
 	etaOutput(4,2,:) = mag_opt(2,:) - mag_opt_stim(2,:)				 
 	etaOutput(3,4,:) = mag_opt(1,:) - mag_opt_stim(1,:)
-	etaOutput(4,3,:) = -mag_opt(1,:) - mag_opt_stim(1,:)	
+	etaOutput(4,3,:) = -mag_opt(1,:) - mag_opt_stim(1,:)
 	
 	open(unit=31,file=input_model_file,action='write',status='replace')
 	close(31,status='delete')

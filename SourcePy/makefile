@@ -28,6 +28,7 @@ OPTIONS = -c -fPIC -O3
 #-O3
  
 FINAL_EXECUTABLE = hazel
+F2PY = /usr/pkg/python/Python-2.7.4/bin/f2py
 
 all:
 # 	make hazel
@@ -35,11 +36,11 @@ all:
 	
 hazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o test.o
 	$(COMPILER) -l$(LIBS) vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o test.o -o $(FINAL_EXECUTABLE)
-	/usr/pkg/python/Python-2.7.4/bin/f2py -lifcore --fcompiler=$(PYCOMPILER) -c hazel.pyf *.o
+	$(F2PY) -lifcore --fcompiler=$(PYCOMPILER) -c hazel.pyf *.o
 	cp $(FINAL_EXECUTABLE) ../RunPy
 	
 pyhazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o	
-	/usr/pkg/python/Python-2.7.4/bin/f2py --fcompiler=intelem $(LIBS) -c hazel.pyf vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o	
+	$(F2PY) --fcompiler=intelem $(LIBS) -c hazel.pyf vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o	
 	cp hazel.so ../RunPy
 
 clean: 

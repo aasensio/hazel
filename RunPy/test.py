@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 import hazel
 import matplotlib.pyplot as p
 
@@ -24,7 +24,7 @@ ffInput = 0.e0
 
 print hazel.hazel.__doc__
 # Compute the Stokes parameters using many default parameters		
-[l, stokes, eps, eta] = hazel.hazel(B1Input, hInput, tau1Input, boundaryInput, anglesInput, lambdaAxisInput, nLambdaInput, 
+[l, stokes, etaOutput, epsOutput] = hazel.hazel(B1Input, hInput, tau1Input, boundaryInput, anglesInput, lambdaAxisInput, nLambdaInput, 
 						dopplerWidthInput, dampingInput, dopplerVelocityInput)
 
 # Now plot the Stokes parameters
