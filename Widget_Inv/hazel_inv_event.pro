@@ -61,11 +61,44 @@ pro inv_event, event
 			;widget_control, Event.id, GET_VALUE=value
 			value = dialog_pickfile(PATH=info.path_obs, GET_PATH=path_obs, /read)
 			if (value ne '') then begin
-				info.path_obs = path_obs
-				info.obs_file = value			
-				widget_control, handler, SET_UVALUE=info
-				widget_control, info.obs_file_widget, SET_VALUE=value
+				if (strpos(value,'.nc') eq -1) then begin
+					info.path_obs = path_obs
+					info.obs_file = value
+					widget_control, handler, SET_UVALUE=info
+					widget_control, info.obs_file_widget, SET_VALUE=value
+				endif else begin
+					info.path_obs = path_obs
+					info.mapFile = value
+					info.obs_file = 'OBSERVATION/hazel.prof'
+					file_id = ncdf_open(value)
+					nx_dim = ncdf_dimid(file_id, 'npixel')
+					ncdf_diminq, file_id, nx_dim, name, npixel					
+					ncdf_close, file_id
+					widget_control, info.pixelWidget, sensitive=1
+					widget_control, info.pixelWidget, set_slider_max=npixel-1
+					widget_control, handler, SET_UVALUE=info
+					widget_control, info.obs_file_widget, SET_VALUE=value
+				endelse
 			endif
+		end
+		'XPOS': begin
+			widget_control, Event.id, GET_VALUE=pixel
+			
+			file_id = ncdf_open(info.mapFile)
+			lambda_id = ncdf_varid(file_id, 'lambda')
+			map_id = ncdf_varid(file_id, 'map')
+			ncdf_varget, file_id, lambda_id, lambda
+			ncdf_varget, file_id, map_id, map
+			ncdf_close, file_id
+						
+			openw,2,info.obs_file,width=150
+			nLambda = n_elements(map[0,0,*])
+			printf,2,nLambda
+			for i = 0, nLambda-1 do begin
+				printf,2,lambda[i],reform(map[pixel,*,i])
+			endfor
+			close,2
+			plot_observation, info.obs_file, info.obsplotWidget			
 		end
 		'PLOT_OBSERVATION': begin			
 			plot_observation, info.obs_file, info.obsplotWidget

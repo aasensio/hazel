@@ -1,32 +1,24 @@
 --------------------------------- Log file --------------------------------
 DIRECT Version 2.0.4
- Problem Dimension n                    :      2
+ Problem Dimension n                    :      7
  Eps value                              :   0.1000E-05
  Maximum number of f-evaluations (maxf) :  10000
  Maximum number of iterations (MaxT)    :   6000
  Value of f_global                      :  -0.1000+101
  Global percentage wanted               :   0.0000E+00
- Volume percentage wanted               :   0.1000E-05
+ Volume percentage wanted               :   0.1000E-02
  Measure percentage wanted              :  -0.1000E+01
  Epsilon is constant.
  Our modification of the DIRECT algorithm is used.
-Bounds on variable x 1    :      0.00000 <= xi <=    180.00000
-Bounds on variable x 2    :   -180.00000 <= xi <=    180.00000
+Bounds on variable x 1    :      0.00000 <= xi <=     20.00000
+Bounds on variable x 2    :      0.00000 <= xi <=      1.00000
+Bounds on variable x 3    :    -10.00000 <= xi <=     10.00000
+Bounds on variable x 4    :      0.00000 <= xi <=      4.00000
+Bounds on variable x 5    :      0.00000 <= xi <=      1.00000
+Bounds on variable x 6    :    -10.00000 <= xi <=     10.00000
+Bounds on variable x 7    :      0.00000 <= xi <=     20.00000
 ---------------------------------------------------------------------------
  Iteration   # of f-eval.   fmin
-    1           5           3.0610445561
-    6          25           1.9556748364
-    8          41           0.9415649442
-   10          53           0.9073028612
-   12          71           0.9015237521
-   14          89           0.9010625096
-   16         115           0.9008609330
-   18         149           0.9008409858
-DIRECT stopped: Volume of S_min is 0.77D-06% < 0.10D-05% of the original volume.
---------------------------------- Summary --------------------------------
-Final function value           :    0.9008410
-Number of function evaluations :          149
-Index  Final solution   x(i) - l(i)   u(i) - x(i) 
-    1   26.0859625      26.0859625    153.9140375
-    2   -0.1646091     179.8353909    180.1646091
----------------------------------------------------------------------------
+    1          15          98.3786079770
+    2          27          28.8219608178
+    3          37          20.7185674347

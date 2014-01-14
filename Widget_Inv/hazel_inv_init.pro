@@ -35,7 +35,7 @@ function inv_init, reset_state=reset_state
 			Tautext2: 0L, Macrotext2: 0L, i0_allen: 0L, Btext2: 0L, thetaBtext2: 0L, chiBtext2: 0L,$
 			Dopplertext2: 0L, buttonsB2: 0L, buttonsthetaB2: 0L, buttonschiB2: 0L,$
 			buttonsDoppler2: 0L, buttonsMacro2: 0L, buttonstau2: 0L, j10: '0.0',$
-			fftext: 0L, buttonsff: 0L}
+			fftext: 0L, buttonsff: 0L, pixelWidget: 0L, mapFile: ''}
 	endif else begin	
 		restore,'state.idl'
 	endelse
@@ -142,6 +142,7 @@ function inv_init, reset_state=reset_state
    obsLabel = widget_label(obsBase, VALUE='File with observations : ')
    info.obs_file_widget = widget_text(obsBase, VALUE=info.obs_file, /EDITABLE, XSIZE=70,YSIZE=1, UVALUE='OBS_FILE')
    obsButton = widget_button(obsBase, VALUE='Load observation',  UVALUE='OBS_FILE_DIALOG')
+   info.pixelWidget = widget_slider(filesBase,TITLE='Pixel',UVALUE='XPOS',XSIZE=100,MAXIMUM=1,MINIMUM=0,VALUE=0,SENSITIVE=0)
    plotBase = widget_base(filesBase, /ROW)
    plotObsButton = widget_button(plotBase, VALUE='Plot observation', UVALUE='PLOT_OBSERVATION')
 

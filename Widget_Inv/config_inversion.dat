@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'/scratch/GIT/HAZEL/Widget_Inv/OBSERVATION/punto_no_amb3.prof'
+'OBSERVATION/hazel.prof'
 
 # File with the inverted profiles
 'out.dat'
@@ -48,7 +48,7 @@
 0
 
 # Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3), simplified slab (4), exact slab (5)
-5
+3
 
 # Synthesis mode -> 0 , Inversion mode -> 1
 1
