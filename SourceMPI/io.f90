@@ -555,7 +555,7 @@ contains
 	type(type_observation) :: in_observation
 	type(fixed_parameters) :: in_fixed
 	integer :: i, j, format_file, res, number_columns
-	integer :: ncid, npixel, ncol, nlambda
+	integer :: ncid, npixel, ncol, nlambda, test(2)
 
 ! Test if this is a single file (ending in .prof) or a NetCDF file with a map
 		if (index(file_obs, '.prof') /= 0) then
@@ -604,6 +604,14 @@ contains
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%pix_id, name_var, npixel) )
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%col_id, name_var, ncol) )
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%nlambda_id, name_var, nlambda) )
+  			
+!   			call check( nf90_inquire_variable(in_observation%obs_id, in_observation%boundary_id, dimids = test) )
+!   			do i = 1, 2
+! 				call check( nf90_inquire_dimension(in_observation%obs_id, test(i), name_var, npixel) )
+! 				print *, name_var, npixel
+! 			enddo
+!   			print *,  test
+!   			stop
 			
  			if (verbose_mode == 1) then
 				write(*,FMT='(A,I6)') 'Number of pixels : ', npixel
@@ -760,25 +768,25 @@ contains
 ! Read data for the appropriate pixel				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%lambda_id, in_observation%wl) )
 				call check( nf90_get_var(in_observation%obs_id, in_observation%map_id, values, start=start, count=count) )
-				
+												
 				call date_and_time(date, time, zone, valuesTime)
 
 ! Put the profile on the arrays				
 				in_observation%stokes(0:3,:) = values(1:4,:)
 				in_observation%sigma(0:3,:) = values(5:8,:)
-												
+																
 				deallocate(values, start, count)
 				
 				call date_and_time(date, time, zone, valuesTime)
 								
-! Read incident Stokes parameter
+! Read incident Stokes parameter			
 				call check( nf90_get_var(in_observation%obs_id, in_observation%boundary_id, in_fixed%Stokes_incident,&
 					start=(/ 1, pixel /), count=(/ 4, 1 /)) )
-										
-				call date_and_time(date, time, zone, valuesTime)
+															
+				call date_and_time(date, time, zone, valuesTime)				
 									
 ! Read height
-				allocate(values_vec(1))
+				allocate(values_vec(1))				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%height_id, values_vec,&
 					start=(/ pixel /), count=(/ 1 /) ) )
 					
@@ -786,7 +794,7 @@ contains
 				
 				in_params%height = values_vec(1)
 				
-! Read observation theta angle
+! Read observation theta angle				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%obstheta_id, values_vec,&
 					start=(/ pixel /), count=(/ 1 /) ) )
 					
@@ -794,7 +802,7 @@ contains
 				
 				in_fixed%thetad = values_vec(1)
 
-! Read observation reference gamma angle
+! Read observation reference gamma angle				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%obsgamma_id, values_vec,&
 					start=(/ pixel /), count=(/ 1 /) ) )
 					
@@ -806,10 +814,10 @@ contains
 ! but those that are kept fixed
 				deallocate(values_vec)
 
-				allocate(values_vec(nparam))
+				allocate(values_vec(nparam))				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%parsInit_id, values_vec,&
 					start=(/ 1, pixel /), count=(/ nparam, 1 /)) )
-										
+																				
 				call date_and_time(date, time, zone, valuesTime)
 
 ! Set all initial values, except for the height, which is already set before
@@ -939,10 +947,11 @@ contains
 			
 		allocate(start(2))
 		allocate(count(2))
+		
 		start = (/ 1, pixel /)
 		count = (/ nparam, 1 /)
 		call check( nf90_put_var(in_fixed%par_id, in_fixed%map_par_id, values_vec, start=start, count=count) )
-
+		
 		deallocate(values_vec, start, count)
 		
 		

@@ -485,7 +485,9 @@ If the Milne-Eddington solution is used, this number is the gradient of the sour
 point out that in the present version of \H\ the Milne-Eddington solution is only valid when
 neglecting the presence of atomic level polarization. For the moment, the slab model is the one
 which allows the user to account for the joint action of the atomic level polarization and the
-Hanle and Zeeman effects.
+Hanle and Zeeman effects. If two components (one after the other) are used, this number is a
+multiplicative factor for the source function of the second component. This allows us to 
+simulate self-absorption in the code.
 
 \begin{verbatim}
 # Boundary Stokes parameters (I0,Q0,U0,V0)

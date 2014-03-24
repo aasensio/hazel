@@ -6,7 +6,7 @@
 20
 
 # Number of cycles
-4
+2
 
 # Invert the magnetic field strength
 0 0 1 1 
@@ -45,19 +45,19 @@
 1 1 0 0 
 
 # Invert the magnetic field strength of component 2
-0 0 1 1 
+0 0 0 0 
 
 # Invert the magnetic field inclination of component 2
-0 0 1 1 
+0 0 0 0 
 
 # Invert the magnetic field azimuth of component 2
-0 0 1 1 
+0 0 0 0 
 
 # Invert the Doppler width of component 2
 1 1 0 0 
 
 # Invert filling factor
-0 0 1 1 
+0 0 0 0 
  
 # Weights for Stokes I in each cycle
 1.0000000 1.0000000 1.0000000 1.0000000 

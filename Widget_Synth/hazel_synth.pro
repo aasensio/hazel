@@ -53,6 +53,7 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 		file[29] = strtrim(string(state.dtau_desired),2)+ ' '+strtrim(string(state.dtau_desired2),2)+ ' '+strtrim(string(state.ff),2)
 	endif
 
+	file[32] = strtrim(string(state.beta),2)
 	file[35] = strtrim(string(state.stokes0[0]),2)+ ' '+strtrim(string(state.stokes0[1]),2)+ ' '+$
 		strtrim(string(state.stokes0[2]),2)+ ' '+strtrim(string(state.stokes0[3]),2)
 

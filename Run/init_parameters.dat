@@ -29,8 +29,8 @@
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
 1.0d0 
 
-# Source function gradient (only ME)
-9.4d0
+# Source function gradient 
+1.0d0
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
 4.098d-5 0.d0 0.d0 0.d0

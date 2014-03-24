@@ -175,6 +175,12 @@ contains
 ! Two components one after the other
 				if (in_params%nslabs == 3) then
 
+! Modify the source function of the second slab by a multiplier
+				   epsI = epsI * in_params%beta
+				   epsQ = epsQ * in_params%beta
+				   epsU = epsU * in_params%beta
+				   epsV = epsV * in_params%beta
+				   
 				   output(0,:) = output(0,:) * exp(-dtau) + epsI/etaI * (1.d0-exp(-dtau))
 
 					output(1,:) = output(1,:) * exp(-dtau) + epsQ/etaI * (1.d0-exp(-dtau)) - epsI * etaQ/etaI**2 * (1.d0-exp(-dtau)) + &
@@ -564,7 +570,8 @@ contains
 					if (in_params%nslabs == 3) then
 						StokesM(1:4) = output(0:3,i)
 
-						Stokes0 = matmul(m2,matmul(m1,StokesM)+(psim+psi0)*source)
+! Modify the source function of the second slab by a multiplier
+						Stokes0 = matmul(m2,matmul(m1,StokesM)+(psim+psi0)*source*in_params%beta)
 
 						output(0,i) = Stokes0(1)
 						output(1,i) = Stokes0(2)
@@ -740,13 +747,14 @@ contains
 ! Two components one after the other
 				if (in_params%nslabs == 3) then
 
-					output(1,:) = output(1,:) + (epsQ - etaQ * output(0,:)) * in_params%dtau2 !dtau / etaI
+! Modify the source function of the second slab by a multiplier
+					output(1,:) = output(1,:) + (epsQ * in_params%beta - etaQ * output(0,:)) * in_params%dtau2 !dtau / etaI
 
-					output(2,:) = output(2,:) + (epsU - etaU * output(0,:)) * in_params%dtau2 !dtau / etaI
+					output(2,:) = output(2,:) + (epsU * in_params%beta - etaU * output(0,:)) * in_params%dtau2 !dtau / etaI
 
-					output(3,:) = output(3,:) + (epsV - etaV * output(0,:)) * in_params%dtau2 !dtau / etaI
+					output(3,:) = output(3,:) + (epsV * in_params%beta - etaV * output(0,:)) * in_params%dtau2 !dtau / etaI
 
-					output(0,:) = output(0,:) + (epsI - etaI * output(0,:)) * in_params%dtau2 !dtau / etaI
+					output(0,:) = output(0,:) + (epsI * in_params%beta - etaI * output(0,:)) * in_params%dtau2 !dtau / etaI
 				endif
 
 ! Two components side by side inside the pixel with a filling factor
@@ -1020,7 +1028,7 @@ contains
 					if (in_params%nslabs == 3) then
 						StokesM(1:4) = output(0:3,i)
 					
-						Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source)
+						Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
 					
 						output(0,i) = Stokes0(1)
 						output(1,i) = Stokes0(2)

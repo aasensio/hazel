@@ -1,6 +1,6 @@
 subroutine hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, &
 	transInput, atomicPolInput, anglesInput, lambdaAxisInput, nLambdaInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
-	dopplerVelocityInput, dopplerVelocity2Input, ffInput, nbarInput, omegaInput, wavelengthOutput, stokesOutput, epsOutput, etaOutput)
+	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, nbarInput, omegaInput, wavelengthOutput, stokesOutput, epsOutput, etaOutput)
 
 !f2py integer optional, intent(in) :: synModeInput=5, nSlabsInput=1, transInput=1, atomicPolInput=1
 !f2py integer, intent(in) :: nLambdaInput
@@ -8,7 +8,7 @@ subroutine hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input,
 !f2py real(8), intent(in), dimension(3) :: B1Input, anglesInput
 !f2py real(8) optional, intent(in), dimension(3) :: B2Input=(0.,0.,0.)
 !f2py real(8), intent(in), dimension(4) :: boundaryInput
-!f2py real(8) optional , intent(in):: tau2Input=0, dopplerWidth2Input=0, dopplerVelocity2Input=0, ffInput=0
+!f2py real(8) optional , intent(in):: tau2Input=0, dopplerWidth2Input=0, dopplerVelocity2Input=0, ffInput=0, betaInput=0
 !f2py real(8) optional , intent(in):: nbarInput=(0.,0.,0.,0.), omegaInput=(0.,0.,0.,0.)
 !f2py real(8), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput
 !f2py real(8), intent(out), dimension(nLambdaInput), depend(nLambdaInput) :: wavelengthOutput
@@ -31,7 +31,7 @@ implicit none
 	real(kind=8), dimension(2) :: lambdaAxisInput
 	real(kind=8), dimension(3) :: B1Input, B2Input, anglesInput
 	real(kind=8), dimension(4) :: boundaryInput, nbarInput, omegaInput
-	real(kind=8) :: hInput, tau1Input, tau2Input, dopplerWidthInput, dopplerWidth2Input, dampingInput, dopplerVelocityInput, dopplerVelocity2Input, ffInput
+	real(kind=8) :: hInput, tau1Input, tau2Input, dopplerWidthInput, dopplerWidth2Input, dampingInput, dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput
 	
 	real(kind=8), dimension(4,nLambdaInput) :: stokesOutput
 	real(kind=8), dimension(nLambdaInput) :: wavelengthOutput
@@ -98,7 +98,7 @@ implicit none
 		params%dtau2 = tau2Input
 		params%ff = ffInput
 	endif
-	params%beta = 0.d0
+	params%beta = betaInput
 	fixed%Stokes_incident = boundaryInput
 	fixed%nemiss = transInput
 	fixed%use_atomic_pol = atomicPolInput

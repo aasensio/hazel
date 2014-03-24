@@ -8,7 +8,7 @@ function hazel_init, reset_state=reset_state
 	 	  		thetaBfield: 30.d0, thetaBfield2: 30.d0, chiBfield: 90.d0, chiBfield2: 90.d0, $
 	 	   	thetaObs: 90.d0, chiObs: 0.d0, gammaObs: 90.d0, Multiplet: 1L, Doppler: 8.d0, Doppler2: 8.d0, auto: 0L, BSlider: 0L, BSlider2: 0L, $
 		   	paschen: 1L, effects: 0L, observation: 0L, stokes0: [1.d0,0.d0,0.d0,0.d0], dtau_desired: 3.d0, height: 20.d0, $
-		   	postcript: 0L, dtaured: 3.d0, beta: 2.d0, damping: 0.d0, stimulated: 0, magneto_opt: 0, obs_file: '', $
+		   	postcript: 0L, dtaured: 3.d0, beta: 1.d0, damping: 0.d0, stimulated: 0, magneto_opt: 0, obs_file: '', $
 				i0_allen: 0L, D2: 0.d0, factor_10830_nbar: 1.d0, factor_10830_omega: 1.d0, waveaxis: [-3.d0,2.5d0,200.d0],$
 				which_atom: 0L, MultipletSlider: 0L, normaliz: 1L, j10: 0.d0, which_code: 0,$
 				bfield_var: [1.d-4,1.d3,15], which_rho_plot: 0L, which_refframe: 0L,$
@@ -233,6 +233,8 @@ function hazel_init, reset_state=reset_state
 	 damp_wid = widget_text(formalBase, VALUE=strtrim(string(state.damping,FORMAT='(F6.3)'),2),UVALUE='DAMPING',/EDITABLE,XSIZE=8,YSIZE=1)
 	 ddamplb = widget_label(formalBase, VALUE='ff(1):')
 	 ff_wid = widget_text(formalBase, VALUE=strtrim(string(state.ff,FORMAT='(F6.3)'),2),UVALUE='FF',/EDITABLE,XSIZE=8,YSIZE=1)
+	 ddamplb = widget_label(formalBase, VALUE='S2/S1:')
+	 ff_wid = widget_text(formalBase, VALUE=strtrim(string(state.beta,FORMAT='(F6.3)'),2),UVALUE='S2/S1',/EDITABLE,XSIZE=8,YSIZE=1)
 	 	 	 	 
 	 buttonBase = widget_base(hanleBase, /ROW, /ALIGN_LEFT)
 

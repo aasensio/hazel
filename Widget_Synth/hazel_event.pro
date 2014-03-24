@@ -291,6 +291,11 @@ pro hazel_Event, event
 		   		 	   		 state.ff = value
 									 widget_control, hand, SET_UVALUE=state
 		   		 	   	end
+		  'S2/S1' : 	begin
+		   		 	   		 widget_control, Event.id, GET_VALUE=value
+		   		 	   		 state.beta = value
+									 widget_control, hand, SET_UVALUE=state
+		   		 	   	end
 	 	  'STIM' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.stimulated = 1

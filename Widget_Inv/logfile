@@ -11,14 +11,32 @@ DIRECT Version 2.0.4
  Epsilon is constant.
  Our modification of the DIRECT algorithm is used.
 Bounds on variable x 1    :      0.00000 <= xi <=     20.00000
-Bounds on variable x 2    :      0.00000 <= xi <=      1.00000
+Bounds on variable x 2    :      0.00000 <= xi <=      5.00000
 Bounds on variable x 3    :    -10.00000 <= xi <=     10.00000
-Bounds on variable x 4    :      0.00000 <= xi <=      4.00000
-Bounds on variable x 5    :      0.00000 <= xi <=      1.00000
-Bounds on variable x 6    :    -10.00000 <= xi <=     10.00000
+Bounds on variable x 4    :      0.00000 <= xi <=      0.50000
+Bounds on variable x 5    :      0.00000 <= xi <=      2.00000
+Bounds on variable x 6    :     15.00000 <= xi <=     40.00000
 Bounds on variable x 7    :      0.00000 <= xi <=     20.00000
 ---------------------------------------------------------------------------
  Iteration   # of f-eval.   fmin
-    1          15          98.3786079770
-    2          27          28.8219608178
-    3          37          20.7185674347
+    1          15          49.7658569954
+    2          27          24.3468693186
+    3          37          18.0094740762
+    4          45          10.8412884544
+    5          51           9.1140926475
+    7          71           4.4663623867
+    8          87           3.4935214543
+    9          99           3.4251082902
+DIRECT stopped: Volume of S_min is  0.21D-04% <  0.10D-02% of the original volume.
+--------------------------------- Summary --------------------------------
+Final function value           :    3.4251083
+Number of function evaluations :          109
+Index  Final solution   x(i) - l(i)   u(i) - x(i) 
+    1   10.0000000      10.0000000     10.0000000
+    2    4.1666667       4.1666667      0.8333333
+    3   -4.4444444       5.5555556     14.4444444
+    4    0.2500000       0.2500000      0.2500000
+    5    0.3333333       0.3333333      1.6666667
+    6   16.3888889       1.3888889     23.6111111
+    7   14.4444444      14.4444444      5.5555556
+---------------------------------------------------------------------------
