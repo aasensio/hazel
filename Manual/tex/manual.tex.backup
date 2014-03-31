@@ -119,6 +119,7 @@ interesting applications in solar and stellar physics.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
+\subsection{Description}
 \H\ (an acronym for HAnle and ZEeman Light) is a computer program for the synthesis and inversion of Stokes profiles caused by the
 joint action of atomic level polarization and the Hanle and Zeeman effects. It is
 based on the quantum theory of spectral line polarization, which takes into account
@@ -131,6 +132,12 @@ be an easy task. In any case, two front-ends coded in IDL are given as a part of
 distribution in order to facilitate a user-friendly execution of the program.
 A parallel version of the code using Message Passing Interface (MPI) is
 also available. This manual considers both distributions.
+
+\subsection{Credits}
+The code has grown since the first version thanks to the suggestions of many people. We
+thank Rebecca Centeno Elliot, Yukio Katsukawa, Marian Mart\'{\i}nez Gonz\'alez, Rafael Manso Sainz and Tom Schad
+for their help on testing the code and proposing (and partially coding, in some cases) some of the
+options of the code.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,7 +177,7 @@ default compiler is the \texttt{ifort}, although you can use any other
 compiler through the variable \texttt{COMPILER}.
 In order to obtain the executable file, just type:
 \begin{verbatim}       
-       make
+       make all
 \end{verbatim}
 After compiling and linking, the executable is copied to the \H\ \texttt{Run/},
 \texttt{Widget\_Synth/} and \texttt{Widget\_Inv/} directories. Running the
@@ -183,28 +190,22 @@ The generated object and module files can be cleaned typing:
 \end{verbatim}
 
 \subsection{Parallel version}
-The package comes in a single compressed file \texttt{phazel.tar.gz}. After
-unpacking with \texttt{tar zxvf phazel.tar.gz}, the \HM\ directory
+The package also decompresses the \HM\ directory tree that
 will contain the following subdirectories:
 
 \begin{enumerate}
 \item
-{\tt Source} contains the Fortran 90 sources and a makefile that can be used
+{\tt SourceMPI} contains the Fortran 90 sources and a makefile that can be used
 to build the binary file.
 \item
-{\tt Run} contains a directory tree structure with the appropriate configuration files
+{\tt RunMPI} contains a directory tree structure with the appropriate configuration files
 to run the code in command line mode.
-\item
-{\tt IDL\_routines} contains some IDL routines that are needed by the 
-front-ends.
-\item
-{\tt Manual} contains this manual. 
 \end{enumerate}
 
-The source code is in the \texttt{Source/} directory. The compilation depends
+The source code is in the \texttt{SourceMPI/} directory. The compilation depends
 on the precompiled library NetCDF\footnote{\texttt{http://www.unidata.ucar.edu/software/netcdf/}}
 for reading and writing output files. NetCDF is a standard for platform independent
-binary files. The compilation is performed
+binary files that you need to have installed in your system. The compilation is performed
 with the supplied \texttt{makefile}. It is quite simple and easy to modify, and
 contains additional comments about compiling. The
 default compiler is \texttt{mpif90}, although you can use any other
@@ -218,9 +219,9 @@ In order to obtain the executable file, just type:
 \begin{verbatim}
        make
 \end{verbatim}
-After compiling and linking, the executable is copied to the \HM\ \texttt{Run/} 
+After compiling and linking, the executable is copied to the \HM\ \texttt{RunMPI/} 
 directory, where the code is run. Running the
-program in the \texttt{Run/} directory should produce the correct output 
+program in the \texttt{RunMPI/} directory should produce the correct output 
 depending on the exact form of the input files.
 
 The generated object and module files can be cleaned typing:
@@ -228,7 +229,7 @@ The generated object and module files can be cleaned typing:
        make clean
 \end{verbatim}
 
-The code is run from the \texttt{Run} directory. Use your MPI launcher to select
+The code is run from the \texttt{RunMPI} directory. Use your MPI launcher to select
 the number of processors. For example:
 \begin{verbatim}
 mpiexec -n 50 hazel_mpi config_inversion.dat 2000 5000
@@ -241,6 +242,7 @@ some pixels.
 \item Final pixel of the inversion. This is used if you want to rerun the inversion of
 some pixels.
 \end{itemize}
+See \S\ref{sec:phazel_files} for details on the input files.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -433,13 +435,14 @@ calculate the wavelength positions and the strengths of the $\pi$ and $\sigma$ c
 The difference in the computational work between both approaches is rather small.
 
 \begin{verbatim}
-# Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B (add field below))
-3
+# Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B, -2 -> 2 slabs with filling factor)
 \end{verbatim}
-\H\ can be used using one slab (option 1) of constant physical properties or two (options 2 and 3). The
+\H\ can be used using one slab (option 1) of constant physical properties or two (options 2 and 3 and -2). The
 difference between options 2 and 3 is that option 2 considers both slabs to have exactly the
 same field while option 3 considers two different fields. As a consequence, the computing time
-is smaller in option 2.
+is smaller in option 2. In both options, the second slab is placed in front of the first one, so that
+the boundary condition of the second slab is the emergent radiation from the first. In option -2, the
+radiation emerging from both slabs is added weighted with a filling factor, which is indicated below.
 
 \begin{verbatim}
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
@@ -450,7 +453,7 @@ azimuth angles in degrees define the magnetic field vector. The angles are defin
 vertical direction in the atmosphere, as shown in Fig. \ref{fig:geometry}. Note that, if
 the azimuth of the field is set to 999, the random azimuth solution is obtained following
 the strategy explained in Appendix C of \cite{belluzzi07}.
-If two slabs are used (setting option 3 above), put the two field vectors next to each one in the format $(B,\theta_B,\chi_B)_1 (B,\theta_B,\chi_B)_2$.
+If two slabs are used (setting option 3 or -2 above), put the two field vectors next to each one in the format $(B,\theta_B,\chi_B)_1 (B,\theta_B,\chi_B)_2$.
 
 \begin{verbatim}
 # Apparent height (if <0) or real height (if >0) of the atoms in arcsec
@@ -471,7 +474,8 @@ This quantity is the optical depth of the slab at the wavelength position of the
 or emission in Stokes $I$. For example, for the 10830 \AA\ multiplet of He \textsc{i}, this is the 
 position of the red blended component. In case the Milne-Eddington solution of the radiative transfer
 equation is used, this is equivalent to the strength of the line, usually referred to
-as $\eta_0$. If two slabs (option 2/3) are used, put the two optical depths together.
+as $\eta_0$. If two slabs with option 2 or 3 are used, put the two optical depths together. If option -2 is
+used, then add the filling factor as a third number.
 
 \begin{verbatim}
 # Source function gradient (only ME)
@@ -481,7 +485,9 @@ If the Milne-Eddington solution is used, this number is the gradient of the sour
 point out that in the present version of \H\ the Milne-Eddington solution is only valid when
 neglecting the presence of atomic level polarization. For the moment, the slab model is the one
 which allows the user to account for the joint action of the atomic level polarization and the
-Hanle and Zeeman effects.
+Hanle and Zeeman effects. If two components (one after the other) are used, this number is a
+multiplicative factor for the source function of the second component. This allows us to 
+simulate self-absorption in the code.
 
 \begin{verbatim}
 # Boundary Stokes parameters (I0,Q0,U0,V0)
@@ -529,15 +535,18 @@ the observation and these numbers are overridden.
 This line is used to define the wavelength of the multiplet (wavelength of the 
 $(L,S) \to (L',S')$ transition), the Doppler width of the
 line in km s$^{-1}$ and the reduced damping constant.
-If two slabs (through option 3) are used, add the Doppler width of the second component
+If two slabs (through options 3 or -2) are used, add the Doppler width of the second component
 next to the first one.
+Concerning the reduced damping constant, if its value is negative, it is computed using the natural
+damping and using the Doppler broadening. The absolute value of the input value is used then as
+an enhancement factor (so you should use $-1$ is you want to use the natural width).
 
 \begin{verbatim} 
 # Macroscopic velocity [km/s] (>0 is a redshift)
 0.d0
 \end{verbatim}
 This defines the wavelength shift produced by the presence of a bulk motion of the plasma.
-Note that positive velocities imply redshifts. If two components (options 2/3)
+Note that positive velocities imply redshifts. If two components (options 2, 3 or -2)
 are used, put the two bulk velocities.
 
 \begin{verbatim} 
@@ -757,7 +766,6 @@ algorithm needs makes it difficult to beat the DIRECT+LM combination.
 Atomic models have to be defined in \H\ in order to carry out a calculation. This
 section describes the model atom file in detail by using the example \texttt{helium.mod}
 that is included in the present version of \H.
-\newpage
 
 \begin{verbatim}
  2
@@ -906,14 +914,54 @@ consists of the following variables:
 the associated standard deviation of the noise $(\sigma_I,\sigma_Q,\sigma_U,\sigma_V)$.
 \item boundary: array of size \textit{(npixel,4)} containing the boundary condition for every inverted pixel.
 \item height: vector of size \textit{npixel} which contains the height of the slabs for every pixel.
-\item obs\_angle: vector of size \textit{npixel} which contains the observing angle $\theta$ for every pixel.
+\item obs\_theta: vector of size \textit{npixel} which contains the observing angle $\theta$ for every pixel.
+\item obs\_gamma: vector of size \textit{npixel} which contains the observing angle $\gamma$ that defines the positive
+reference for Stokes $Q$ for every pixel.
+\item mask: array of size \textit{nx,ny} which tells whether this pixel will be inverted.
+\item pars: array of size \textit{npixel,npars} which contains the initial value for the model parameters. These will be
+used to reinvert some pixels or, for instance, to refine the ambiguous solutions.
 \end{itemize}
-The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} presents a function that
+The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} shows a function that
 generates such a file by passing all the variables as parameters.
 
 \subsection{Output files}
-The results of the inversion are saved on two files defined on the \texttt{config_inversion.dat} configuration
-file.
+The results of the inversion are saved on two files defined on the \texttt{config\_inversion.dat} configuration
+file. The file with the inverted profiles contains the following variables:
+\begin{itemize}
+\item lambda: vector of size \textit{nlambda} containing the wavelength axis with respect to the center of the multiplet.
+\item map: array of size \textit{(npixel,4,nlambda)} containing the synthetic Stokes vector $(I,Q,U,V)$ for every pixel.
+\end{itemize}
+The file with the inverted parameters contains the following variable:
+\begin{itemize}
+\item map: array of size \textit{(npixel,ncolumns)} containing the parameters of the inversion. 
+\end{itemize}
+The number of columns depends on the selected model:
+\begin{itemize}
+\item One-slab: nine columns with the vector $(B,\theta_B,\chi_B,h,\tau,v_\mathrm{th},a,v_\mathrm{mac},\beta)$.
+\item Two-slab with same magnetic field: eleven columns with the vector \\ $(B,\theta_B,\chi_B,h,[\tau]_1,[\tau]_2,v_\mathrm{th},a,[v_\mathrm{mac}]_1,
+[v_\mathrm{mac}]_2,\beta)$.
+\item Two-slab with different magnetic field: fifteen columns with the vector \\ $([B]_1,[\theta_B]_1,[\chi_B]_1,[B]_2,[\theta_B]_2,[\chi_B]_2,
+h,[\tau]_1,[\tau]_2,[v_\mathrm{th}]_1,[v_\mathrm{th}]_2,a,[v_\mathrm{mac}]_1,[v_\mathrm{mac}]_2,\beta)$.
+\end{itemize}
+The file \texttt{read\_results.pro} on the \texttt{RunMPI} directory shows how to read the
+files from IDL.
+
+\subsection{Ambiguities}
+You have to remember that the results of Hazel are potentially affected by ambiguities and you have
+to take them into account. There is an utility written in IDL that, given an inverted map, obtains
+all the other solutions which are ambiguous in the saturation regime. This can be called, including the
+appropriate paths and discarding the final \texttt{.nc} extension, by:
+\begin{verbatim}
+IDL> disamb, 'file_with_inversions', 'file_with_observations', angleObs
+\end{verbatim}
+where \texttt{angleObs} is the observation angle $\theta$ (so that it is 90$^\circ$ for an observation
+exactly at the limb.
+This program can be called with the additional \texttt{/gen\_files\_inversion}, which then generates
+a set of observations, configuration files and a file to run \HM. This is useful in case the line is not
+in the saturation regime. In this case, the ambiguous solutions that are found by the code are
+not strictly valid and one should refine them with a final LM cycle in which $B$, $\theta_B$ and $\chi_B$
+are left free. The solution to the ambiguities in the saturation regime is shown in Section \ref{sec:ambiguities}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1362,6 +1410,14 @@ In any case, although we have found very good results with this procedure, the
 specific inversion scheme
 is fully configurable and can be tuned for specific problems.
 
+Our experience has proved that the following strategy is appropriate for inverting
+prominences. Two initial DIRECT+LM cycles with weights $(1,0,0,0)$ to
+invert the thermodynamical parameters. Then, two DIRECT+LM cycles in which $B$, $\theta_B$
+and $\chi_B$ are left free with weights $(0,0.1,0.1,1)$ which tries to set the
+correct polarity of the field given by Stokes $V$. An additional LM cycle in which
+we fit only $\theta_B$ and $\chi_B$ with the weights $(0,1,1,0.3)$ and a last
+LM cycle with weights $(0,0.3,0.3,1)$ leaving the full magnetic field vector free.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1401,6 +1457,192 @@ other good
 option, suggested by \cite{Jones_DIRECT93}, is to stop after a fixed number of
 evaluations of the merit function.  
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ambiguities in the Hanle effect in the saturation regime}
+\label{sec:ambiguities}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In the saturation regime of the Hanle effect, Stokes $Q$ and $U$ are insensitive to the field
+strength, but are sensitive to the geometry of the field. For a $J=0 \to J=1$ transition, the linear
+polarization can be written as:
+\begin{eqnarray}
+Q &=& \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \cos 2\Phi_B \nonumber \\
+U &=& \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \sin 2\Phi_B.
+\end{eqnarray}
+These expressions contain a mixture of angles to make it clear that the polarization amplitude
+depends on both the angle between the vertical and the magnetic field and between the magnetic
+field and the line-of-sight (LOS).
+
+The coordinates of the magnetic field vector $\mathbf{B}$ in the reference system of the vertical
+and the reference system of the LOS are:
+\begin{eqnarray}
+\mathbf{B} &=& B \left(\sin \theta_B \cos \phi_B \mathbf{i}+\sin \theta_B \sin \phi_B \mathbf{j}+\cos \theta_B \mathbf{k} \right) \nonumber \\
+\mathbf{B} &=& B \left(\sin \Theta_B \cos \Phi_B \mathbf{i}'+\sin \Theta_B \sin \Phi_B \mathbf{j}'+\cos \Theta_B \mathbf{k}' \right),
+\end{eqnarray}
+where the unit vectors are related by a simple rotation:
+\begin{eqnarray}
+\mathbf{i}' &=& \cos \theta \mathbf{i} - \sin \theta \mathbf{k} \nonumber \\
+\mathbf{k}' &=& \sin \theta \mathbf{i} + \cos \theta \mathbf{k}.
+\end{eqnarray}
+Introducing these relations on the expression for the magnetic field, we find that the
+following has to be fulfilled, given that the magnetic field vector is the same in both reference systems:
+\begin{eqnarray}
+\sin \theta_B \cos \phi_B &=& \sin \Theta_B \cos \Phi_B \cos \theta + \cos \Theta_B + \sin \theta \nonumber \\
+\sin \theta_B \sin \phi_B &=& \sin \Theta_B \sin \Phi_B \nonumber \\
+\cos \theta_B &=& \cos \Theta_B \cos \theta - \sin \Theta_B \cos \Phi_B \sin \theta.
+\end{eqnarray}
+Solving the previous three equations in the two directions, we find the following transformations
+between the angles in the vertical reference system and the LOS reference system:
+\begin{eqnarray}
+\cos \Theta_B &=& \cos\theta \cos\theta_B + \sin\theta \sin\theta_B \cos\phi_B \nonumber \\
+\sin \Theta_B &=& +\sqrt{1-\cos^2\Theta_B} \nonumber \\
+\cos \Phi_B &=& \frac{\cos\theta \sin\theta_B \cos\phi_B - \cos\theta_B \sin\theta}{\sin \Theta_B} \nonumber \\
+\sin \Phi_B &=& \frac{\sin\theta_B \sin\phi_B}{\sin\Theta_B}
+\end{eqnarray}
+and
+\begin{eqnarray}
+\cos \theta_B &=& \cos\theta \cos\Theta_B - \sin\theta \sin\Theta_B \cos\Phi_B \nonumber \\
+\sin \theta_B &=& +\sqrt{1-\cos^2\theta_B} \nonumber \\
+\cos \phi_B &=& \frac{\cos\theta \sin\Theta_B \cos\Phi_B + \cos\Theta_B \sin\theta}{\sin \theta_B} \nonumber \\
+\sin \phi_B &=& \frac{\sin\Theta_B \sin\Phi_B}{\sin\theta_B}.
+\end{eqnarray}
+Note that, since $\Theta_B \in [0,\pi]$, we can safely use the square root and take the positive value.
+In order to transform from one reference system to the other, we can compute the
+inclination easily by inverting the sinus or the cosinus. However, the situation is different
+for the azimuth, because the range of variation is $[-\pi,\pi]$. Therefore, one has to compute the 
+cosinus and the sinus separately and the decide which is the correct quadrant fo the angle in terms
+of the signs of both quantities.
+
+% \begin{center}
+% \input{figure_geometry}
+% \end{center}
+
+Four possible kinds of ambiguities can exist for the Stokes $Q$ and $U$ parameters. The idea is that $\Phi_B$
+can be modified and still obtain the same $Q$ and $U$ by properly adjusting the value of $\Theta_B$. It is
+clear that, given that the term that can be used to compensate for the change in the azimuth on the LOS
+reference system is the same for Stokes $Q$ and $U$, we can only compensate for changes in the sign. Therefore,
+we have the following potential ambiguities:
+\begin{eqnarray}
+\Phi_B' &=& \Phi_B \nonumber \\
+\Phi_B' &=& \Phi_B -\pi/2 \nonumber \\
+\Phi_B' &=& \Phi_B + \pi/2 \nonumber \\
+\Phi_B' &=& \Phi_B + \pi.
+\end{eqnarray}
+For each case, we have to compute the value of $\Theta_B'$ that keeps the value of $Q$ and $U$ unchanged. Therefore,
+once we find a solution to the inversion problem in the form of the pair $(\theta_B,\phi_B)$, we can find
+the remaining solutions in the saturation regime following the recipes that we present now. Remember that, unless
+one knows the polarity of the field, or in other words, the sign $\cos\Theta_B$, the number of potential
+ambiguous solutions is 8. If the polarity of the field is known, the number is typically reduced to 4 (or 2
+if no 90$^\circ$ ambiguity is present).
+
+\section{$\Phi_B' = \Phi_B$}
+Under this change, we have that
+\begin{equation}
+\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = \cos \Phi_B, \quad \sin \Phi_B' = \sin \Phi_B.
+\end{equation}
+Making use of the previous relations between the angles wrt to the vertical and the LOS, we have to solve the 
+following equation:
+\begin{equation}
+\left( 3 \cos^2\theta_B'-1 \right) \sin^2 \Theta_B' = \left( 3 \cos^2\theta_B-1 \right) \sin^2 \Theta_B,
+\end{equation}
+which can be written as:
+\begin{equation}
+\left[ 3 \left( \cos \Theta_B' \cos \theta - \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' = 
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{equation}
+After some algebra and doing the substitution $t=\sin\Theta_B'$, we end up with the following equation to be
+solved:
+\begin{equation}
+A t^4 + Bt^2 + C t^3 \sqrt{1-t^2} = K,
+\end{equation}
+where
+\begin{eqnarray}
+A &=& -3\cos^2 \theta + 3\sin^2 \theta \cos^2 \Phi_B \nonumber \\
+B &=& 3\cos^2 \theta - 1 \nonumber \\
+C &=& -6 \cos\theta \sin\theta \cos \Phi_B \nonumber \\
+K &=& \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{eqnarray}
+The previous equation can be solved if we make the change of variables $t=\pm \sqrt{Z}$, resulting in:
+\begin{equation}
+(C^2+A^2) Z^4 + (-C^2+2AB) Z^3 + (-2AK+B^2) Z^2 - 2BKZ + K^2 = 0.
+\end{equation}
+This polynomial of 4-th order can have four different solutions. From these solutions, we have to take only
+the real solutions which are larger than 0, given the range of variation of $\Theta_B$:
+\begin{equation}
+t \in \mathbb{R}, \qquad 0 \leq t \leq 1.
+\end{equation}
+Once the solutions for $t$ are found, we make $\Theta_B' = \arcsin t$. Note that, for a fixed value of $t$,
+two values of $\Theta_B'$ are possible. We choose the correct one by evaluating the expressions for 
+$Q$ and $U$ and testing which of the two possible choices give the values equal (or very similar) to the original ones.
+
+The angles $(\theta_B,\phi_B)$ are obtained by doing the transformation from $(\Theta_B',\Phi_B)$ to the
+vertical reference system.
+
+\section{$\Phi_B' = \Phi_B+\pi$}
+Under this change, we have:
+\begin{equation}
+\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = -\cos \Phi_B, \quad \sin \Phi_B' = -\sin \Phi_B.
+\end{equation}
+Following the same approach, we have to solve for $\Theta_B'$ in 
+\begin{equation}
+\left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' = 
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{equation}
+The solution are obtained as the roots of the same equations as before but now
+\begin{eqnarray}
+A &=& -3\cos^2 \theta + 3\sin^2 \theta \cos^2 \Phi_B \nonumber \\
+B &=& 3\cos^2 \theta - 1 \nonumber \\
+C &=& 6 \cos\theta \sin\theta \cos \Phi_B \nonumber \\
+K &=& \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{eqnarray}
+
+The angles $(\theta_B,\phi_B)$ are obtained by doing the transformation from $(\Theta_B',\Phi_B+\pi)$ to the
+vertical reference system.
+
+\section{$\Phi_B' = \Phi_B+\pi/2$}
+Under this change, we have:
+\begin{equation}
+\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = -\sin \Phi_B, \quad \sin \Phi_B' = \cos \Phi_B.
+\end{equation}
+Following the same approach, we have to solve for $\Theta_B'$ in 
+\begin{equation}
+\left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' = 
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{equation}
+The solution are obtained as the roots of the same equations as before but now
+\begin{eqnarray}
+A &=& -3\cos^2 \theta + 3\sin^2 \theta \sin^2 \Phi_B \nonumber \\
+B &=& 3\cos^2 \theta - 1 \nonumber \\
+C &=& 6 \cos\theta \sin\theta \sin \Phi_B \nonumber \\
+K &=& -\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{eqnarray}
+
+The angles $(\theta_B,\phi_B)$ are obtained by doing the transformation from $(\Theta_B',\Phi_B+\pi/2)$ to the
+vertical reference system.
+
+
+\section{$\Phi_B' = \Phi_B-\pi/2$}
+Under this change, we have:
+\begin{equation}
+\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = \sin \Phi_B, \quad \sin \Phi_B' = -\cos \Phi_B.
+\end{equation}
+Following the same approach, we have to solve for $\Theta_B'$ in 
+\begin{equation}
+\left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' = 
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{equation}
+The solution are obtained as the roots of the same equations as before but now
+\begin{eqnarray}
+A &=& -3\cos^2 \theta + 3\sin^2 \theta \sin^2 \Phi_B \nonumber \\
+B &=& 3\cos^2 \theta - 1 \nonumber \\
+C &=& -6 \cos\theta \sin\theta \sin \Phi_B \nonumber \\
+K &=& -\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.
+\end{eqnarray}
+
+The angles $(\theta_B,\phi_B)$ are obtained by doing the transformation from $(\Theta_B',\Phi_B-\pi/2)$ to the
+vertical reference system.
+
 
 \section*{Acknowledgements}
 We would like to thank Egidio Landi Degl'Innocenti and Marco Landolfi
@@ -1412,6 +1654,57 @@ the European Commission through the SOLAIRE network (MTRN-CT-2006-035484) is gra
 
 
 \bibliographystyle{apj}
-\bibliography{apjmnemonic,/home/aasensio/Dropbox/biblio}
+% \bibliography{apjmnemonic,/scratch/Dropbox/biblio}
+
+\begin{thebibliography}{11}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Belluzzi} {et~al.}(2007){Belluzzi}, {Trujillo Bueno}, \& {Landi
+  Degl'Innocenti}}]{belluzzi07}
+{Belluzzi}, L., {Trujillo Bueno}, J., \& {Landi Degl'Innocenti}, E. 2007, ApJ,
+  666, 588
+
+\bibitem[{{Condon} \& {Shortley}(1935)}]{condon_shortley35}
+{Condon}, E.~U., \& {Shortley}, G.~H. 1935, The Theory of Atomic Spectra
+  (Cambridge: Cambridge University Press)
+
+\bibitem[{{Edmonds}(1960)}]{edmonds60}
+{Edmonds}, A.~R. 1960, Angular Momentum in Quantum Mechanics (Princeton
+  University Press)
+
+\bibitem[{{Jones} {et~al.}(1993){Jones}, {Perttunen}, \&
+  {Stuckmann}}]{Jones_DIRECT93}
+{Jones}, D.~R., {Perttunen}, C.~D., \& {Stuckmann}, B.~E. 1993, Journal of
+  Optimization Theory and Applications, 79, 157
+
+\bibitem[{{Landi Deglinnocenti} \& {Landi Deglinnocenti}(1985)}]{landi_landi85}
+{Landi Deglinnocenti}, E., \& {Landi Deglinnocenti}, M. 1985, Sol. Phys., 97,
+  239
+
+\bibitem[{{Landi Degl'Innocenti} \& {Landolfi}(2004)}]{landi_landolfi04}
+{Landi Degl'Innocenti}, E., \& {Landolfi}, M. 2004, Polarization in Spectral
+  Lines (Kluwer Academic Publishers)
+
+\bibitem[{{Pierce}(2000)}]{pierce00}
+{Pierce}, K. 2000, in Allen's Astrophysical Quantities, ed. A. N. Cox (New
+  York: Springer Verlag and AIP Press)
+
+\bibitem[{{Rees} {et~al.}(1989){Rees}, {Durrant}, \& {Murphy}}]{rees_delo89}
+{Rees}, D.~E., {Durrant}, C.~J., \& {Murphy}, G.~A. 1989, ApJ, 339, 1093
+
+\bibitem[{{Trujillo Bueno}(2003)}]{trujillo03}
+{Trujillo Bueno}, J. 2003, in Stellar Atmosphere Modeling, ed. I.~{Hubeny},
+  D.~{Mihalas}, \& K.~{Werner}, ASP Conf. Ser. 288 (San Francisco: ASP), 551
+
+\bibitem[{{Trujillo Bueno} \& {Asensio Ramos}(2007)}]{trujillo_asensio07}
+{Trujillo Bueno}, J., \& {Asensio Ramos}, A. 2007, ApJ, 655, 642
+
+\bibitem[{{Trujillo Bueno} {et~al.}(2005){Trujillo Bueno}, {Merenda},
+  {Centeno}, {Collados}, \& {Landi Degl'Innocenti}}]{trujillo_merenda05}
+{Trujillo Bueno}, J., {Merenda}, L., {Centeno}, R., {Collados}, M., \& {Landi
+  Degl'Innocenti}, E. 2005, ApJ, 619, L191
+
+\end{thebibliography}
+
 
 \end{document}

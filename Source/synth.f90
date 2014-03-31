@@ -29,8 +29,10 @@ contains
 		call calc_rt_coef(in_params, in_fixed, in_observation, 1)
 						
 !****************		
+!****************		
 ! Only emission
 !****************
+!****************		
 		if (synthesis_mode == 0) then
 			if (in_fixed%use_atomic_pol == 1 .or. in_fixed%use_atomic_pol == -1) then
 				Imax = maxval(epsilon(0,:))
@@ -46,8 +48,10 @@ contains
 		endif
 		
 !****************		
+!****************		
 ! Slab case
 !****************
+!****************		
 		if (synthesis_mode == 1) then
 						
 			if (.not.allocated(epsI)) allocate(epsI(in_fixed%no))
@@ -168,52 +172,51 @@ contains
 					etaU = eta_zeeman(2,:) - use_stim_emission_RT * eta_stim_zeeman(2,:) + 1.d-20
 					etaV = eta_zeeman(3,:) - use_stim_emission_RT * eta_stim_zeeman(3,:) + 1.d-20
 				endif
+			endif
 
-				ds = in_params%dtau2 / maxval(etaI)
-				dtau = etaI * ds
+			ds = in_params%dtau2 / maxval(etaI)
+			dtau = etaI * ds
 
 ! Two components one after the other
-				if (in_params%nslabs == 3) then
-					
+			if (in_params%nslabs == 2 .or. in_params%nslabs == 3) then
+				
 ! Modify the source function of the second slab by a multiplier
-				   epsI = epsI * in_params%beta
-				   epsQ = epsQ * in_params%beta
-				   epsU = epsU * in_params%beta
-				   epsV = epsV * in_params%beta
-				   
-				   output(0,:) = output(0,:) * exp(-dtau) + epsI/etaI * (1.d0-exp(-dtau))
+				epsI = epsI * in_params%beta
+				epsQ = epsQ * in_params%beta
+				epsU = epsU * in_params%beta
+				epsV = epsV * in_params%beta
+				
+				output(0,:) = output(0,:) * exp(-dtau) + epsI/etaI * (1.d0-exp(-dtau))
 
-					output(1,:) = output(1,:) * exp(-dtau) + epsQ/etaI * (1.d0-exp(-dtau)) - epsI * etaQ/etaI**2 * (1.d0-exp(-dtau)) + &
-						etaQ/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
+				output(1,:) = output(1,:) * exp(-dtau) + epsQ/etaI * (1.d0-exp(-dtau)) - epsI * etaQ/etaI**2 * (1.d0-exp(-dtau)) + &
+					etaQ/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
 
-					output(2,:) = output(2,:) * exp(-dtau) + epsU/etaI * (1.d0-exp(-dtau)) - epsI * etaU/etaI**2 * (1.d0-exp(-dtau)) + &
-						etaU/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
+				output(2,:) = output(2,:) * exp(-dtau) + epsU/etaI * (1.d0-exp(-dtau)) - epsI * etaU/etaI**2 * (1.d0-exp(-dtau)) + &
+					etaU/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
 
-					output(3,:) = output(3,:) * exp(-dtau) + epsV/etaI * (1.d0-exp(-dtau)) - epsI * etaV/etaI**2 * (1.d0-exp(-dtau)) + &
-						etaV/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
-				endif
+				output(3,:) = output(3,:) * exp(-dtau) + epsV/etaI * (1.d0-exp(-dtau)) - epsI * etaV/etaI**2 * (1.d0-exp(-dtau)) + &
+					etaV/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
+			endif
 
 ! Two components side by side inside the pixel with a filling factor
-				if (in_params%nslabs == -2) then
+			if (in_params%nslabs == -2) then
 
-					output(0,:) = in_params%ff * output(0,:) + (1.d0-in_params%ff) * (I0 * exp(-dtau) + epsI/etaI * (1.d0-exp(-dtau)))
+				output(0,:) = in_params%ff * output(0,:) + (1.d0-in_params%ff) * (I0 * exp(-dtau) + epsI/etaI * (1.d0-exp(-dtau)))
 
-					output(1,:) = in_params%ff * output(1,:) + (1.d0-in_params%ff) * &
-						(Q0 * exp(-dtau) + epsQ/etaI * (1.d0-exp(-dtau)) - epsI * etaQ/etaI**2 * (1.d0-exp(-dtau)) + &
-						etaQ/etaI * dtau * exp(-dtau) * (epsI/etaI-I0))
+				output(1,:) = in_params%ff * output(1,:) + (1.d0-in_params%ff) * &
+					(Q0 * exp(-dtau) + epsQ/etaI * (1.d0-exp(-dtau)) - epsI * etaQ/etaI**2 * (1.d0-exp(-dtau)) + &
+					etaQ/etaI * dtau * exp(-dtau) * (epsI/etaI-I0))
 
-					output(2,:) = in_params%ff * output(2,:) + (1.d0-in_params%ff) * &
-						(U0 * exp(-dtau) + epsU/etaI * (1.d0-exp(-dtau)) - epsI * etaU/etaI**2 * (1.d0-exp(-dtau)) + &
-						etaU/etaI * dtau * exp(-dtau) * (epsI/etaI-I0))
+				output(2,:) = in_params%ff * output(2,:) + (1.d0-in_params%ff) * &
+					(U0 * exp(-dtau) + epsU/etaI * (1.d0-exp(-dtau)) - epsI * etaU/etaI**2 * (1.d0-exp(-dtau)) + &
+					etaU/etaI * dtau * exp(-dtau) * (epsI/etaI-I0))
 
-					output(3,:) = in_params%ff * output(3,:) + (1.d0-in_params%ff) * &
-						(V0 * exp(-dtau) + epsV/etaI * (1.d0-exp(-dtau)) - epsI * etaV/etaI**2 * (1.d0-exp(-dtau)) + &
-						etaV/etaI * dtau * exp(-dtau) * (epsI/etaI-I0))
-		   	
-				endif
-			
+				output(3,:) = in_params%ff * output(3,:) + (1.d0-in_params%ff) * &
+					(V0 * exp(-dtau) + epsV/etaI * (1.d0-exp(-dtau)) - epsI * etaV/etaI**2 * (1.d0-exp(-dtau)) + &
+					etaV/etaI * dtau * exp(-dtau) * (epsI/etaI-I0))
+		
 			endif
-			
+				
 
 			Imax = maxval(output(0,:))
 			do i = 0, 3
@@ -224,122 +227,10 @@ contains
 		
 
 !****************		
-! Milne-Eddington without magneto-optical effects
-!****************
-! 		if (synthesis_mode == 2) then
-! 						
-! 			if (.not.allocated(epsI)) allocate(epsI(in_fixed%no))
-! 			if (.not.allocated(epsQ)) allocate(epsQ(in_fixed%no))
-! 			if (.not.allocated(epsU)) allocate(epsU(in_fixed%no))
-! 			if (.not.allocated(epsV)) allocate(epsV(in_fixed%no))
-! 			if (.not.allocated(etaI)) allocate(etaI(in_fixed%no))
-! 			if (.not.allocated(etaQ)) allocate(etaQ(in_fixed%no))
-! 			if (.not.allocated(etaU)) allocate(etaU(in_fixed%no))
-! 			if (.not.allocated(etaV)) allocate(etaV(in_fixed%no))
-! 			if (.not.allocated(rhoQ)) allocate(rhoQ(in_fixed%no))
-! 			if (.not.allocated(rhoU)) allocate(rhoU(in_fixed%no))
-! 			if (.not.allocated(rhoV)) allocate(rhoV(in_fixed%no))
-! 			if (.not.allocated(dtau)) allocate(dtau(in_fixed%no))
-! 						
-! 						
-! 			if (in_fixed%use_atomic_pol == 1 .or. in_fixed%use_atomic_pol == -1) then
-! 				epsI = epsilon(0,:)
-! 				epsQ = epsilon(1,:)
-! 				epsU = epsilon(2,:)
-! 				epsV = epsilon(3,:)
-! 				
-! ! Include stimulated emission depending on the flag
-! 				etaI = eta(0,:) - use_stim_emission_RT * eta_stim(0,:)
-! 				etaQ = eta(1,:) - use_stim_emission_RT * eta_stim(1,:)
-! 				etaU = eta(2,:) - use_stim_emission_RT * eta_stim(2,:)
-! 				etaV = eta(3,:) - use_stim_emission_RT * eta_stim(3,:)
-! 				
-! ! Magneto-optical terms				
-! 				if (use_mag_opt_RT == 1) then
-! 					rhoQ = mag_opt(1,:) - use_stim_emission_RT * mag_opt_stim(1,:)
-! 					rhoU = mag_opt(2,:) - use_stim_emission_RT * mag_opt_stim(2,:)
-! 					rhoV = mag_opt(3,:) - use_stim_emission_RT * mag_opt_stim(3,:)
-! 				else
-! 					rhoQ = 0.d0
-! 					rhoU = 0.d0
-! 					rhoV = 0.d0
-! 				endif
-! 			else
-! 				epsI = epsilon(0,:)
-! 				epsQ = epsilon(1,:)
-! 				epsU = epsilon(2,:)
-! 				epsV = epsilon(3,:)
-! 				
-! ! Include stimulated emission depending on the flag				
-! 				etaI = eta_zeeman(0,:) - use_stim_emission_RT * eta_stim_zeeman(0,:)
-! 				etaQ = eta_zeeman(1,:) - use_stim_emission_RT * eta_stim_zeeman(1,:)
-! 				etaU = eta_zeeman(2,:) - use_stim_emission_RT * eta_stim_zeeman(2,:)
-! 				etaV = eta_zeeman(3,:) - use_stim_emission_RT * eta_stim_zeeman(3,:)
-! 				
-! ! Magneto-optical terms
-! 				if (use_mag_opt_RT == 1) then
-! 					rhoQ = mag_opt_zeeman(1,:) - use_stim_emission_RT * mag_opt_stim_zeeman(1,:)
-! 					rhoU = mag_opt_zeeman(2,:) - use_stim_emission_RT * mag_opt_stim_zeeman(2,:)
-! 					rhoV = mag_opt_zeeman(3,:) - use_stim_emission_RT * mag_opt_stim_zeeman(3,:)
-! 				else
-! 					rhoQ = 0.d0
-! 					rhoU = 0.d0
-! 					rhoV = 0.d0
-! 				endif
-! 			endif
-! 			
-! 			mu = cos(in_fixed%thetad*PI/180.d0)
-! 			Ic = (1.d0 + in_params%beta*mu)						
-! 
-! ! The eta_0 parameter in the ME model is given by eq. 9.31 in the book: eta_0 = k_L / (k_c * Delta_nu)
-! ! where k_L=h*nu/(4*Pi)*Blu*N
-! ! Since the eta parameters already include part of k_L, I have to divide my etaI by this quantity to
-! ! transform them in the kI, kQ, kU and kV quantities in eq. 9.39 in the book
-! 			factor = PH * in_fixed%nu / (4.d0*PI) * in_fixed%Blu
-! 			eta0 = in_params%dtau
-! 			
-! ! MILNE-EDDINGTON INCLUDING MAGNETO-OPTICAL EFFECTS
-! 			etaI = etaI / factor
-! 			etaQ = etaQ / factor
-! 			etaU = etaU / factor
-! 			etaV = etaV / factor
-! 			rhoQ = rhoQ / factor
-! 			rhoU = rhoU / factor
-! 			rhoV = rhoV / factor
-! 
-! 			etaI = etaI * eta0
-! 			etaQ = etaQ * eta0
-! 			etaU = etaU * eta0
-! 			etaV = etaV * eta0
-! 			rhoQ = rhoQ * eta0
-! 			rhoU = rhoU * eta0
-! 			rhoV = rhoV * eta0
-! 
-! 			if (.not.allocated(delta)) allocate(delta(in_fixed%no))
-! 			delta = (1.d0+etaI)**4 + (1.d0+etaI)**2 * (rhoQ**2+rhoU**2+rhoV**2-etaQ**2-etaU**2-etaV**2) - &
-! 				(etaQ*rhoQ+etaU*rhoU+etaV*rhoV)**2
-! 
-! 			output(0,:) = 1.d0+in_params%beta * mu / delta * (1.d0+etaI) * ((1.d0+etaI)**2 + rhoQ**2 + rhoU**2 + rhoV**2)
-! 
-! 			output(1,:) = -in_params%beta * mu / delta * ((1.d0+etaI)**2 * etaQ - (1.d0+etaI)*(etaU*rhoV-etaV*rhoU) + &
-! 				rhoQ*(etaQ*rhoQ + etaU*rhoU + etaV*rhoV))
-! 
-! 			output(2,:) = -in_params%beta * mu / delta * ((1.d0+etaI)**2 * etaU - (1.d0+etaI)*(etaV*rhoQ-etaQ*rhoV) + &
-! 				rhoU*(etaQ*rhoQ + etaU*rhoU + etaV*rhoV))
-! 
-! 			output(3,:) = -in_params%beta * mu / delta * ((1.d0+etaI)**2 * etaV - (1.d0+etaI)*(etaQ*rhoU-etaU*rhoQ) + &
-! 				rhoV*(etaQ*rhoQ + etaU*rhoU + etaV*rhoV))								
-! 			
-! ! Normalization to the continuum intensity
-! 			do i = 0, 3
-! 				output(i,:) = output(i,:) / Ic
-! 			enddo
-! 			
-! 		endif
-		
 !****************		
 ! Slab case with DELOPAR
 !****************
+!****************		
 		if (synthesis_mode == 3) then
 			if (.not.allocated(epsI)) allocate(epsI(in_fixed%no))
 			if (.not.allocated(epsQ)) allocate(epsQ(in_fixed%no))
@@ -423,6 +314,7 @@ contains
 				endif
 			endif
 			
+! Two components with the same field
 			if (in_params%nslabs == 2) then
 ! Now the Doppler shift
 ! First calculate the difference in wavelength between the two components
@@ -1060,6 +952,121 @@ contains
 		endif
 		
 		in_fixed%total_forward_modeling = in_fixed%total_forward_modeling + 1
+		
+!****************		
+! Milne-Eddington without magneto-optical effects
+!****************
+! 		if (synthesis_mode == 2) then
+! 						
+! 			if (.not.allocated(epsI)) allocate(epsI(in_fixed%no))
+! 			if (.not.allocated(epsQ)) allocate(epsQ(in_fixed%no))
+! 			if (.not.allocated(epsU)) allocate(epsU(in_fixed%no))
+! 			if (.not.allocated(epsV)) allocate(epsV(in_fixed%no))
+! 			if (.not.allocated(etaI)) allocate(etaI(in_fixed%no))
+! 			if (.not.allocated(etaQ)) allocate(etaQ(in_fixed%no))
+! 			if (.not.allocated(etaU)) allocate(etaU(in_fixed%no))
+! 			if (.not.allocated(etaV)) allocate(etaV(in_fixed%no))
+! 			if (.not.allocated(rhoQ)) allocate(rhoQ(in_fixed%no))
+! 			if (.not.allocated(rhoU)) allocate(rhoU(in_fixed%no))
+! 			if (.not.allocated(rhoV)) allocate(rhoV(in_fixed%no))
+! 			if (.not.allocated(dtau)) allocate(dtau(in_fixed%no))
+! 						
+! 						
+! 			if (in_fixed%use_atomic_pol == 1 .or. in_fixed%use_atomic_pol == -1) then
+! 				epsI = epsilon(0,:)
+! 				epsQ = epsilon(1,:)
+! 				epsU = epsilon(2,:)
+! 				epsV = epsilon(3,:)
+! 				
+! ! Include stimulated emission depending on the flag
+! 				etaI = eta(0,:) - use_stim_emission_RT * eta_stim(0,:)
+! 				etaQ = eta(1,:) - use_stim_emission_RT * eta_stim(1,:)
+! 				etaU = eta(2,:) - use_stim_emission_RT * eta_stim(2,:)
+! 				etaV = eta(3,:) - use_stim_emission_RT * eta_stim(3,:)
+! 				
+! ! Magneto-optical terms				
+! 				if (use_mag_opt_RT == 1) then
+! 					rhoQ = mag_opt(1,:) - use_stim_emission_RT * mag_opt_stim(1,:)
+! 					rhoU = mag_opt(2,:) - use_stim_emission_RT * mag_opt_stim(2,:)
+! 					rhoV = mag_opt(3,:) - use_stim_emission_RT * mag_opt_stim(3,:)
+! 				else
+! 					rhoQ = 0.d0
+! 					rhoU = 0.d0
+! 					rhoV = 0.d0
+! 				endif
+! 			else
+! 				epsI = epsilon(0,:)
+! 				epsQ = epsilon(1,:)
+! 				epsU = epsilon(2,:)
+! 				epsV = epsilon(3,:)
+! 				
+! ! Include stimulated emission depending on the flag				
+! 				etaI = eta_zeeman(0,:) - use_stim_emission_RT * eta_stim_zeeman(0,:)
+! 				etaQ = eta_zeeman(1,:) - use_stim_emission_RT * eta_stim_zeeman(1,:)
+! 				etaU = eta_zeeman(2,:) - use_stim_emission_RT * eta_stim_zeeman(2,:)
+! 				etaV = eta_zeeman(3,:) - use_stim_emission_RT * eta_stim_zeeman(3,:)
+! 				
+! ! Magneto-optical terms
+! 				if (use_mag_opt_RT == 1) then
+! 					rhoQ = mag_opt_zeeman(1,:) - use_stim_emission_RT * mag_opt_stim_zeeman(1,:)
+! 					rhoU = mag_opt_zeeman(2,:) - use_stim_emission_RT * mag_opt_stim_zeeman(2,:)
+! 					rhoV = mag_opt_zeeman(3,:) - use_stim_emission_RT * mag_opt_stim_zeeman(3,:)
+! 				else
+! 					rhoQ = 0.d0
+! 					rhoU = 0.d0
+! 					rhoV = 0.d0
+! 				endif
+! 			endif
+! 			
+! 			mu = cos(in_fixed%thetad*PI/180.d0)
+! 			Ic = (1.d0 + in_params%beta*mu)						
+! 
+! ! The eta_0 parameter in the ME model is given by eq. 9.31 in the book: eta_0 = k_L / (k_c * Delta_nu)
+! ! where k_L=h*nu/(4*Pi)*Blu*N
+! ! Since the eta parameters already include part of k_L, I have to divide my etaI by this quantity to
+! ! transform them in the kI, kQ, kU and kV quantities in eq. 9.39 in the book
+! 			factor = PH * in_fixed%nu / (4.d0*PI) * in_fixed%Blu
+! 			eta0 = in_params%dtau
+! 			
+! ! MILNE-EDDINGTON INCLUDING MAGNETO-OPTICAL EFFECTS
+! 			etaI = etaI / factor
+! 			etaQ = etaQ / factor
+! 			etaU = etaU / factor
+! 			etaV = etaV / factor
+! 			rhoQ = rhoQ / factor
+! 			rhoU = rhoU / factor
+! 			rhoV = rhoV / factor
+! 
+! 			etaI = etaI * eta0
+! 			etaQ = etaQ * eta0
+! 			etaU = etaU * eta0
+! 			etaV = etaV * eta0
+! 			rhoQ = rhoQ * eta0
+! 			rhoU = rhoU * eta0
+! 			rhoV = rhoV * eta0
+! 
+! 			if (.not.allocated(delta)) allocate(delta(in_fixed%no))
+! 			delta = (1.d0+etaI)**4 + (1.d0+etaI)**2 * (rhoQ**2+rhoU**2+rhoV**2-etaQ**2-etaU**2-etaV**2) - &
+! 				(etaQ*rhoQ+etaU*rhoU+etaV*rhoV)**2
+! 
+! 			output(0,:) = 1.d0+in_params%beta * mu / delta * (1.d0+etaI) * ((1.d0+etaI)**2 + rhoQ**2 + rhoU**2 + rhoV**2)
+! 
+! 			output(1,:) = -in_params%beta * mu / delta * ((1.d0+etaI)**2 * etaQ - (1.d0+etaI)*(etaU*rhoV-etaV*rhoU) + &
+! 				rhoQ*(etaQ*rhoQ + etaU*rhoU + etaV*rhoV))
+! 
+! 			output(2,:) = -in_params%beta * mu / delta * ((1.d0+etaI)**2 * etaU - (1.d0+etaI)*(etaV*rhoQ-etaQ*rhoV) + &
+! 				rhoU*(etaQ*rhoQ + etaU*rhoU + etaV*rhoV))
+! 
+! 			output(3,:) = -in_params%beta * mu / delta * ((1.d0+etaI)**2 * etaV - (1.d0+etaI)*(etaQ*rhoU-etaU*rhoQ) + &
+! 				rhoV*(etaQ*rhoQ + etaU*rhoU + etaV*rhoV))								
+! 			
+! ! Normalization to the continuum intensity
+! 			do i = 0, 3
+! 				output(i,:) = output(i,:) / Ic
+! 			enddo
+! 			
+! 		endif
+
 	
 	end subroutine do_synthesis
 end module synth

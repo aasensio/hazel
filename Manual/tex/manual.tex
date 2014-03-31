@@ -923,6 +923,15 @@ used to reinvert some pixels or, for instance, to refine the ambiguous solutions
 \end{itemize}
 The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} shows a function that
 generates such a file by passing all the variables as parameters.
+The order of pars is the following, depending on the number of slabs:
+\begin{itemize}
+\item 1-component (vector of size 9): $B$, $\theta_B$, $\chi_B$, $\tau$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac}$
+\item 2-component 1+1 with same field (vector of size 11): $B$, $\theta_B$, $\chi_B$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
+\item 2-component 1+1 with different field (vector of size 15): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
+\item 2-component 2 with different field with filling factor (vector of size 16): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, 
+$v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\mathrm{ff}$
+\end{itemize}
+
 
 \subsection{Output files}
 The results of the inversion are saved on two files defined on the \texttt{config\_inversion.dat} configuration

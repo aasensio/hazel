@@ -34,7 +34,7 @@ end
 ; obs_gamma is an array of size [npixel] indicating the angle of the reference for Stokes Q
 ; mask is an array of the original dimensions of the observations that is used later to
 ;   reconstruct the inverted maps [nx,ny]
-; pars is an array of size [npixel,nparameters] that gives the initial value of the parameters
+; pars is an array of size [nparameters,npixel] that gives the initial value of the parameters
 pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boundary, height, $
 	obs_theta, obs_gamma, mask, pars, outputfile
 
@@ -60,7 +60,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	npix_dim = ncdf_dimdef(file_id, 'npixel', npixel)
 	ncol_dim = ncdf_dimdef(file_id, 'ncolumns', ncol)
 	nstokespar_dim = ncdf_dimdef(file_id, 'nstokes_par', 4)
-	npars_dim = ncdf_dimdef(file_id, 'nparameters', 9)
+	npars_dim = ncdf_dimdef(file_id, 'nparameters', 7)
 	nlambda_dim = ncdf_dimdef(file_id, 'nlambda', nlambda)
 	nxmap_dim = ncdf_dimdef(file_id, 'nx', reform(dim_map[0]))
 	nymap_dim = ncdf_dimdef(file_id, 'ny', reform(dim_map[1]))
@@ -109,28 +109,28 @@ pro test
  	obs_gamma = replicate(90.d0,npixel)
 	mask = replicate(1.0,2,2)
 
-	pars = fltarr(npixel,9)
+	pars = fltarr(7,npixel)
 	
 ; B
-	pars[*,0] = [10.d0, 10.d0, 20.d0, 30.d0]
+	pars[0,*] = [10.d0, 10.d0, 20.d0, 30.d0]
 
 ; thB
-	pars[*,1] = replicate(0.d0,npixel)
+	pars[1,*] = replicate(0.d0,npixel)
 
 ; chiB
-	pars[*,2] = replicate(0.d0,npixel)
+	pars[2,*] = replicate(0.d0,npixel)
 
 ; tau
-	pars[*,4] = replicate(1.d0,npixel)
+	pars[3,*] = replicate(1.d0,npixel)
 
 ; vdop
-	pars[*,5] = replicate(6.d0,npixel)
+	pars[4,*] = replicate(6.d0,npixel)
 
 ; damp
-	pars[*,6] = replicate(0.2d0,npixel)
+	pars[5,*] = replicate(0.2d0,npixel)
 
 ; vmac
-	pars[*,7] = replicate(0.d0,npixel)
+	pars[6,*] = replicate(0.d0,npixel)
  	
 	gen_netcdf, lambda, reform(map[*,0,*]), reform(map[*,1,*]), reform(map[*,2,*]), reform(map[*,3,*]), $
 		reform(map[*,4,*]), reform(map[*,5,*]), reform(map[*,6,*]), reform(map[*,7,*]), boundary,$

@@ -88,6 +88,7 @@ contains
 		call MPI_Bcast(params%vmacro,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 		if (params%nslabs /= 1) then
 			call MPI_Bcast(params%vmacro2,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+			call MPI_Bcast(params%beta,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 		endif
 		
 		call MPI_Bcast(use_mag_opt_RT,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
@@ -265,6 +266,7 @@ contains
 		call MPI_Pack(params%vmacro,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		if (params%nslabs /= 1) then
 			call MPI_Pack(params%vmacro2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+			call MPI_Pack(params%beta,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		endif
 
 		call MPI_Send(buffer, packagesize, MPI_PACKED, slave, 10, MPI_COMM_WORLD, ierr)
@@ -328,6 +330,7 @@ contains
 			
 			if (params%nslabs /= 1) then
 				call MPI_Unpack(buffer, packagesize, pos, params%vmacro2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+				call MPI_Unpack(buffer, packagesize, pos, params%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 			endif
 		
 			return
@@ -385,6 +388,7 @@ contains
 		
 		if (params%nslabs /= 1) then
 			call MPI_Pack(params%vmacro2, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+			call MPI_Pack(params%beta, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		endif
 
 		if (params%nslabs == -2) then
@@ -446,6 +450,7 @@ contains
 		call MPI_Unpack(buffer, packagesize, pos, params%vmacro, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 		if (params%nslabs /= 1) then
 			call MPI_Unpack(buffer, packagesize, pos, params%vmacro2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+			call MPI_Unpack(buffer, packagesize, pos, params%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 		endif
 
 		if (params%nslabs == -2) then

@@ -702,7 +702,7 @@ contains
 	character(len=8) :: date
 	character(len=10) :: time
 	character(len=5) :: zone
-	integer :: valuesTime(8)
+	integer :: valuesTime(8), nParamRead
 
 ! If we are doing one-profile inversion, just read data
 		if (in_observation%observation_format == 0 .or. in_observation%observation_format == 1) then
@@ -782,6 +782,8 @@ contains
 ! Read incident Stokes parameter			
 				call check( nf90_get_var(in_observation%obs_id, in_observation%boundary_id, in_fixed%Stokes_incident,&
 					start=(/ 1, pixel /), count=(/ 4, 1 /)) )
+					
+				print *, in_fixed%Stokes_incident
 															
 				call date_and_time(date, time, zone, valuesTime)				
 									
@@ -793,7 +795,7 @@ contains
 				call date_and_time(date, time, zone, valuesTime)
 				
 				in_params%height = values_vec(1)
-				
+								
 ! Read observation theta angle				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%obstheta_id, values_vec,&
 					start=(/ pixel /), count=(/ 1 /) ) )
@@ -814,66 +816,92 @@ contains
 ! but those that are kept fixed
 				deallocate(values_vec)
 
-				allocate(values_vec(nparam))				
+! 1-component (vector of size 7): B, thetaB, chiB, tau, vdop, a, vmac
+! 2-component 1+1 with same field (vector of size 10): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta
+! 2-component 1+1 with different field (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta
+! 2-component 2 with different field with ff (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff
+				select case(in_params%nslabs)
+					case(1)
+						allocate(values_vec(7))
+						nParamRead = 7
+					case(2)
+						allocate(values_vec(10))
+						nParamRead = 10
+					case(3)
+						allocate(values_vec(14))
+						nParamRead = 14
+					case(-2)
+						allocate(values_vec(14))
+						nParamRead = 14
+				end select
+								
 				call check( nf90_get_var(in_observation%obs_id, in_observation%parsInit_id, values_vec,&
-					start=(/ 1, pixel /), count=(/ nparam, 1 /)) )
+					start=(/ 1, pixel /), count=(/ nParamRead, 1 /)) )
 																				
 				call date_and_time(date, time, zone, valuesTime)
+				
+				print *, values_vec
 
 ! Set all initial values, except for the height, which is already set before
-				if (nparam == 9) then
+! Single component case
+				if (in_params%nslabs == 1) then
 					in_params%bgauss = values_vec(1)
 					in_params%thetabd = values_vec(2)
 					in_params%chibd = values_vec(3)
-					in_params%dtau = values_vec(5)
+					in_params%dtau = values_vec(4)
+					in_params%vdopp = values_vec(5)
+					in_params%damping = values_vec(6)
+					in_params%vmacro = values_vec(7)
+				endif
+
+! Two components one after the other with the same field
+				if (in_params%nslabs == 2) then
+					in_params%bgauss = values_vec(1)
+					in_params%thetabd = values_vec(2)
+					in_params%chibd = values_vec(3)					
+					in_params%dtau = values_vec(4)
+					in_params%dtau2 = values_vec(5)
 					in_params%vdopp = values_vec(6)
 					in_params%damping = values_vec(7)
 					in_params%vmacro = values_vec(8)
+					in_params%vmacro2 = values_vec(9)
+					in_params%beta = values_vec(10)
 				endif
 
-				if (nparam == 11) then
-					in_params%bgauss = values_vec(1)
-					in_params%thetabd = values_vec(2)
-					in_params%chibd = values_vec(3)
-					in_params%dtau = values_vec(5)
-					in_params%dtau2 = values_vec(6)
-					in_params%vdopp = values_vec(7)
-					in_params%damping = values_vec(8)
-					in_params%vmacro = values_vec(9)
-					in_params%vmacro2 = values_vec(10)
-				endif
-
-				if (nparam == 15) then
+! Two components one after the other with different fields
+				if (in_params%nslabs == 3) then
 					in_params%bgauss = values_vec(1)
 					in_params%thetabd = values_vec(2)
 					in_params%chibd = values_vec(3)
 					in_params%bgauss2 = values_vec(4)
 					in_params%thetabd2 = values_vec(5)
 					in_params%chibd2 = values_vec(6)
-					in_params%dtau = values_vec(8)
-					in_params%dtau2 = values_vec(9)
-					in_params%vdopp = values_vec(10)
-					in_params%vdopp2 = values_vec(11)
-					in_params%damping = values_vec(12)
-					in_params%vmacro = values_vec(13)
-					in_params%vmacro2 = values_vec(14)
+					in_params%dtau = values_vec(7)
+					in_params%dtau2 = values_vec(8)
+					in_params%vdopp = values_vec(9)
+					in_params%vdopp2 = values_vec(10)
+					in_params%damping = values_vec(11)
+					in_params%vmacro = values_vec(12)
+					in_params%vmacro2 = values_vec(13)
+					in_params%beta = values_vec(14)
 				endif
 
-				if (nparam == 16) then
+! Two components with filling factor
+				if (in_params%nslabs == -2) then
 					in_params%bgauss = values_vec(1)
 					in_params%thetabd = values_vec(2)
 					in_params%chibd = values_vec(3)
 					in_params%bgauss2 = values_vec(4)
 					in_params%thetabd2 = values_vec(5)
-					in_params%chibd2 = values_vec(6)
-					in_params%dtau = values_vec(8)
-					in_params%dtau2 = values_vec(9)
-					in_params%vdopp = values_vec(10)
-					in_params%vdopp2 = values_vec(11)
-					in_params%damping = values_vec(12)
-					in_params%vmacro = values_vec(13)
-					in_params%vmacro2 = values_vec(14)
-					in_params%ff = values_vec(16)
+					in_params%chibd2 = values_vec(6)					
+					in_params%dtau = values_vec(7)
+					in_params%dtau2 = values_vec(8)
+					in_params%vdopp = values_vec(9)
+					in_params%vdopp2 = values_vec(10)
+					in_params%damping = values_vec(11)
+					in_params%vmacro = values_vec(12)
+					in_params%vmacro2 = values_vec(13)
+					in_params%ff = values_vec(14)
 				endif
 								
 				deallocate(values_vec)

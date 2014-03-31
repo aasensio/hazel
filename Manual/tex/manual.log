@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=latex 2013.9.6)  24 MAR 2014 12:04
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=latex 2013.9.6)  31 MAR 2014 12:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -325,17 +325,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 842--849
 [][]  []
  []
 
-[17] [18] [19]
-Overfull \hbox (15.20026pt too wide) in paragraph at lines 932--933
+[17] [18] [19] [20]
+Overfull \hbox (15.20026pt too wide) in paragraph at lines 941--942
 []\OT1/cmr/m/n/12 map: ar-ray of size \OT1/cmr/m/it/12 (npixel,4,nlambda) \OT1/
 cmr/m/n/12 con-tain-ing the syn-thetic Stokes vec-tor $(\OML/cmm/m/it/12 I; Q; 
 U; V\OT1/cmr/m/n/12 )$
  []
 
-[20] [21]
+[21]
 File: f1.eps Graphic file (type eps)
  <f1.eps>
-Overfull \hbox (21.04814pt too wide) in paragraph at lines 1027--1031
+Overfull \hbox (21.04814pt too wide) in paragraph at lines 1036--1040
 \OT1/cmr/m/n/12 where $\OML/cmm/m/it/12 s$ \OT1/cmr/m/n/12 is the ge-o-met-ri-c
 al dis-tance along the ray un-der con-sid-er-a-tion, $\OML/cmm/b/it/12 ^^O\OT1/
 cmr/m/n/12 (\OML/cmm/m/it/12 ^^W; \OT1/cmr/bx/sc/12 
@@ -344,45 +344,45 @@ cmr/m/n/12 (\OML/cmm/m/it/12 ^^W; \OT1/cmr/bx/sc/12
  []
 
 [22] [23] [24] [25] [26] [27] [28] [29] [30] [31]
-Overfull \hbox (83.00797pt too wide) detected at line 1553
+Overfull \hbox (83.00797pt too wide) detected at line 1562
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 [32]
-Overfull \hbox (82.8134pt too wide) detected at line 1591
+Overfull \hbox (82.8134pt too wide) detected at line 1600
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 
-Overfull \hbox (81.50786pt too wide) detected at line 1612
+Overfull \hbox (81.50786pt too wide) detected at line 1621
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 [33]
-Overfull \hbox (81.50786pt too wide) detected at line 1634
+Overfull \hbox (81.50786pt too wide) detected at line 1643
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 [34]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1710.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1719.
  [35]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1710.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1719.
  (./manual.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1710.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1710.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1719.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1719.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1710.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1719.
  ) 
 Here is how much of TeX's memory you used:
- 5005 strings out of 493910
- 73177 string characters out of 6153369
- 154359 words of memory out of 5000000
- 8383 multiletter control sequences out of 15000+600000
+ 5007 strings out of 493910
+ 73223 string characters out of 6153369
+ 153359 words of memory out of 5000000
+ 8385 multiletter control sequences out of 15000+600000
  25131 words of font info for 94 fonts, out of 8000000 for 9000
  599 hyphenation exceptions out of 8191
  32i,12n,24p,1100b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on manual.dvi (35 pages, 125776 bytes).
+Output written on manual.dvi (35 pages, 126960 bytes).
