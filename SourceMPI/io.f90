@@ -783,8 +783,6 @@ contains
 				call check( nf90_get_var(in_observation%obs_id, in_observation%boundary_id, in_fixed%Stokes_incident,&
 					start=(/ 1, pixel /), count=(/ 4, 1 /)) )
 					
-				print *, in_fixed%Stokes_incident
-															
 				call date_and_time(date, time, zone, valuesTime)				
 									
 ! Read height
@@ -840,8 +838,6 @@ contains
 																				
 				call date_and_time(date, time, zone, valuesTime)
 				
-				print *, values_vec
-
 ! Set all initial values, except for the height, which is already set before
 ! Single component case
 				if (in_params%nslabs == 1) then
