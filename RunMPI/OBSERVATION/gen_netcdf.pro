@@ -60,7 +60,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	npix_dim = ncdf_dimdef(file_id, 'npixel', npixel)
 	ncol_dim = ncdf_dimdef(file_id, 'ncolumns', ncol)
 	nstokespar_dim = ncdf_dimdef(file_id, 'nstokes_par', 4)
-	npars_dim = ncdf_dimdef(file_id, 'nparameters', 7)
+	npars_dim = ncdf_dimdef(file_id, 'nparameters', n_elements(pars[*,0]))
 	nlambda_dim = ncdf_dimdef(file_id, 'nlambda', nlambda)
 	nxmap_dim = ncdf_dimdef(file_id, 'nx', reform(dim_map[0]))
 	nymap_dim = ncdf_dimdef(file_id, 'ny', reform(dim_map[1]))
