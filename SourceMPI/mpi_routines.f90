@@ -227,23 +227,23 @@ contains
 	integer :: ierr
 	include 'mpif.h'
 
-		pos = 0
+		pos = 0		
 		call MPI_Pack(index_obs, 1, MPI_INTEGER, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		call MPI_Pack(observation%wl, observation%n, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-		call MPI_Pack(observation%stokes(0:3,:), 4*observation%n, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		call MPI_Pack(observation%stokes(0:3,:), 4*observation%n, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)		
 		call MPI_Pack(observation%sigma(0:3,:), 4*observation%n, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-		call MPI_Pack(fixed%Stokes_incident,4, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-		call MPI_Pack(fixed%thetad,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		call MPI_Pack(fixed%Stokes_incident,4, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)		
+		call MPI_Pack(fixed%thetad,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)		
 		call MPI_Pack(params%height,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-
-		call MPI_Pack(params%bgauss,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-		call MPI_Pack(params%thetabd,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		
+		call MPI_Pack(params%bgauss,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)		
+		call MPI_Pack(params%thetabd,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)		
 		call MPI_Pack(params%chibd,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 
 		if (params%nslabs == 3 .or. params%nslabs == -2) then
-			call MPI_Pack(params%bgauss2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-			call MPI_Pack(params%thetabd2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-			call MPI_Pack(params%chibd2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)			
+			call MPI_Pack(params%bgauss2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)			
+			call MPI_Pack(params%thetabd2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)			
+			call MPI_Pack(params%chibd2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		endif
 
 		call MPI_Pack(params%dtau,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
@@ -256,7 +256,8 @@ contains
 			call MPI_Pack(params%ff,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		endif
 
-		call MPI_Pack(params%vdopp,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)		
+		call MPI_Pack(params%vdopp,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		
 		if (params%nslabs == 3 .or. params%nslabs == -2) then
 			call MPI_Pack(params%vdopp2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		endif
@@ -265,10 +266,10 @@ contains
 
 		call MPI_Pack(params%vmacro,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		if (params%nslabs /= 1) then
-			call MPI_Pack(params%vmacro2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+			call MPI_Pack(params%vmacro2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)			
 			call MPI_Pack(params%beta,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		endif
-
+		
 		call MPI_Send(buffer, packagesize, MPI_PACKED, slave, 10, MPI_COMM_WORLD, ierr)
  		
  	end subroutine send_observation
