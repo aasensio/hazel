@@ -2,7 +2,8 @@
 ; Initialization routine. Draws the widget
 ;-----------------------------------------
 function hazel_init, reset_state=reset_state
-
+	
+	 sliderSize = 128
 	 if (keyword_set(reset_state) or file_test('state.idl') eq 0) then begin	 	  
 	 	  state = {baseWidget: 0L, plotWidget: 0L, Bfield: 40.d0, Bfield2: 40.d0, Bfieldmax: 500.d0, Bfieldmax2: 500.d0, $
 	 	  		thetaBfield: 30.d0, thetaBfield2: 30.d0, chiBfield: 90.d0, chiBfield2: 90.d0, $
@@ -65,12 +66,12 @@ function hazel_init, reset_state=reset_state
 	 t4 = widget_base(rightBase, /COLUMN)
 	 lab4 = widget_label(t4, VALUE='Observation')	 
 	 obsBase = widget_base(t4, /COLUMN, /EXCLUSIVE)
-	 emissionButton = widget_button(obsBase, VALUE='Slab (optically thin)', UVALUE='EMISSION')
-	 simpleslabButton = widget_button(obsBase, VALUE='Simplified slab', UVALUE='SIMPLE_SLAB')
-	 formalButton = widget_button(obsBase, VALUE='Slab (no MO)', UVALUE='FORMAL')
-	 deloparButton = widget_button(obsBase, VALUE='Slab (DELO)', UVALUE='DELOPAR')
-	 exactslabButton = widget_button(obsBase, VALUE='Slab (exact)', UVALUE='EXACT_SLAB')
-	 milneButton = widget_button(obsBase, VALUE='Milne-Eddington', UVALUE='MILNE')
+	 emissionButton = widget_button(obsBase, VALUE='Optically thin', UVALUE='EMISSION')
+	 simpleslabButton = widget_button(obsBase, VALUE='Simplified', UVALUE='SIMPLE_SLAB')
+	 formalButton = widget_button(obsBase, VALUE='No MO', UVALUE='FORMAL')
+	 deloparButton = widget_button(obsBase, VALUE='DELO', UVALUE='DELOPAR')
+	 exactslabButton = widget_button(obsBase, VALUE='Exact', UVALUE='EXACT_SLAB')
+; 	 milneButton = widget_button(obsBase, VALUE='Milne-Eddington', UVALUE='MILNE')
 	 
 	 case state.observation of
 	 	0: begin
@@ -121,19 +122,21 @@ function hazel_init, reset_state=reset_state
 	 BSlidertext = widget_label(maxBBase, VALUE='B_max:')
 	 BSliderMax = widget_text(maxBBase,VALUE=strtrim(string(state.Bfieldmax),2),$
 	 	UVALUE='BSliderMax',/EDITABLE,XSIZE=8,YSIZE=1)	 
-	 state.BSlider = cw_fslider(BSliderBase,TITLE='Magnetic field strength [G]',UVALUE='BSlider',$
-	 	  XSIZE=255,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax,VALUE=state.Bfield)	 
+	 state.BSlider = cw_fslider(BSliderBase,TITLE='B1 strength [G]',UVALUE='BSlider',$
+	 	  XSIZE=sliderSize,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax,VALUE=state.Bfield)	 
 
 ; Magnetic field inclination
 	 thetaBSliderBase = widget_base(fieldBase, /ROW)
-	 thetaBSlider = widget_slider(thetaBSliderBase,TITLE='Magnetic field inclination [deg]',UVALUE='thetaBSlider',$
-	 	  XSIZE=255,MAXIMUM=180.d0,VALUE=state.thetaBfield)
+	 thetaBSlider = widget_slider(thetaBSliderBase,TITLE='B1 incl. [deg]',UVALUE='thetaBSlider',$
+	 	  XSIZE=sliderSize,MAXIMUM=180.d0,VALUE=state.thetaBfield)
 	 
 ; Magnetic field azimuth	 
 	 chiBSliderBase = widget_base(fieldBase, /ROW)
-	 chiBSlider = widget_slider(chiBSliderBase,TITLE='Magnetic field azimuth [deg]',UVALUE='chiBSlider',$
-	 	  XSIZE=255,MINIMUM=-180.d0,MAXIMUM=180.d0,VALUE=state.chiBfield)
-	 chiBrandomBase = widget_base(chiBSliderBase, /COLUMN, /EXCLUSIVE)
+	 chiBSlider = widget_slider(chiBSliderBase,TITLE='B1 azimuth [deg]',UVALUE='chiBSlider',$
+	 	  XSIZE=sliderSize,MINIMUM=-180.d0,MAXIMUM=180.d0,VALUE=state.chiBfield)
+	 	  
+; 	 chiBrandomBase = widget_base(chiBSliderBase, /COLUMN, /EXCLUSIVE)
+	 chiBrandomBase = widget_base(fieldBase, /COLUMN, /EXCLUSIVE)
 	 chiBrandButton = widget_button(chiBrandomBase, VALUE='Random azi', UVALUE='RANDOMAZI_ON')
 	 chiBnorandButton = widget_button(chiBrandomBase, VALUE='Normal azi', UVALUE='RANDOMAZI_OFF')
 	 widget_control, (state.randomazimuth) ? chiBrandButton : chiBnorandButton, /SET_BUTTON
@@ -146,29 +149,29 @@ function hazel_init, reset_state=reset_state
 	 BSlidertext = widget_label(maxBBase, VALUE='B_max:')
 	 BSliderMax = widget_text(maxBBase,VALUE=strtrim(string(state.Bfieldmax2),2),$
 	 	UVALUE='BSliderMax2',/EDITABLE,XSIZE=8,YSIZE=1)	 
-	 state.BSlider2 = cw_fslider(BSliderBase,TITLE='Magnetic field strength [G]',UVALUE='BSlider2',$
-	 	  XSIZE=255,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax2,VALUE=state.Bfield2)
+	 state.BSlider2 = cw_fslider(BSliderBase,TITLE='B2 strength [G]',UVALUE='BSlider2',$
+	 	  XSIZE=sliderSize,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax2,VALUE=state.Bfield2)
 
 ; Magnetic field inclination
 	 thetaBSliderBase = widget_base(fieldBase, /ROW)
-	 thetaBSlider = widget_slider(thetaBSliderBase,TITLE='Magnetic field inclination [deg]',UVALUE='thetaBSlider2',$
-	 	  XSIZE=255,MAXIMUM=180.d0,VALUE=state.thetaBfield2)
+	 thetaBSlider = widget_slider(thetaBSliderBase,TITLE='B2 inclin [deg]',UVALUE='thetaBSlider2',$
+	 	  XSIZE=sliderSize,MAXIMUM=180.d0,VALUE=state.thetaBfield2)
 	 
 ; Magnetic field azimuth	 
 	 chiBSliderBase = widget_base(fieldBase, /ROW)
-	 chiBSlider = widget_slider(chiBSliderBase,TITLE='Magnetic field azimuth [deg]',UVALUE='chiBSlider2',$
-	 	  XSIZE=255,MINIMUM=-180.d0,MAXIMUM=180.d0,VALUE=state.chiBfield2)
+	 chiBSlider = widget_slider(chiBSliderBase,TITLE='B2 azimuth [deg]',UVALUE='chiBSlider2',$
+	 	  XSIZE=sliderSize,MINIMUM=-180.d0,MAXIMUM=180.d0,VALUE=state.chiBfield2)
 		  
 
 	 observationBase = widget_base(slidersBase, /COLUMN, FRAME=1)
-	 thetaOSlider = widget_slider(observationBase,TITLE='Observing theta angle [deg]',UVALUE='thetaOSlider',$
-	 	  XSIZE=255,MAXIMUM=180.d0,VALUE=state.thetaObs)
+	 thetaOSlider = widget_slider(observationBase,TITLE='Obs theta [deg]',UVALUE='thetaOSlider',$
+	 	  XSIZE=sliderSize,MAXIMUM=180.d0,VALUE=state.thetaObs)
 
-	 chiOSlider = widget_slider(observationBase,TITLE='Observing chi angle [deg]',UVALUE='chiOSlider',$
-	 	  XSIZE=255,MAXIMUM=360.d0,VALUE=state.chiObs)
+	 chiOSlider = widget_slider(observationBase,TITLE='Obs. chi [deg]',UVALUE='chiOSlider',$
+	 	  XSIZE=sliderSize,MAXIMUM=360.d0,VALUE=state.chiObs)
 		  
-	 gammaOSlider = widget_slider(observationBase,TITLE='Observing gamma angle [deg]',UVALUE='gammaOSlider',$
-	 	  XSIZE=255,MAXIMUM=180.d0,VALUE=state.gammaObs)
+	 gammaOSlider = widget_slider(observationBase,TITLE='Obs. gamma [deg]',UVALUE='gammaOSlider',$
+	 	  XSIZE=sliderSize,MAXIMUM=180.d0,VALUE=state.gammaObs)
 		  	 		  
 ; Synthesize
 	 synth_globBase = widget_base(hanleBase, /ROW, /ALIGN_LEFT)
@@ -179,37 +182,41 @@ function hazel_init, reset_state=reset_state
 	 	if (state.which_atom eq 0) then begin
 	 	  	state.MultipletSlider =$
 	 	  		widget_slider(multiBase,TITLE='Multiplet',UVALUE='MultipletSlider',$
-	 	   	XSIZE=120,MAXIMUM=4,MINIMUM=1,VALUE=state.multiplet)	 
+	 	   	XSIZE=0.5*sliderSize,MAXIMUM=4,MINIMUM=1,VALUE=state.multiplet)	 
 	 	endif
 	 	if (state.which_atom eq 1) then begin
 	 	  	state.MultipletSlider =$
 	 	  		widget_slider(multiBase,TITLE='Multiplet',UVALUE='MultipletSlider',$
-	 	   	XSIZE=120,MAXIMUM=4,MINIMUM=1,VALUE=state.multiplet,sensitive=0)
+	 	   	XSIZE=0.5*sliderSize,MAXIMUM=4,MINIMUM=1,VALUE=state.multiplet,sensitive=0)
 	 	endif
 	 	if (state.which_atom eq 2) then begin
 	 	  	state.MultipletSlider =$
 	 	  		widget_slider(multiBase,TITLE='Multiplet',UVALUE='MultipletSlider',$
-	 	   	XSIZE=120,MAXIMUM=4,MINIMUM=1,VALUE=state.multiplet,sensitive=0)
+	 	   	XSIZE=0.5*sliderSize,MAXIMUM=4,MINIMUM=1,VALUE=state.multiplet,sensitive=0)
 	 	endif
 	 endif
 	 if (state.which_code eq 1) then begin
 	 	if (state.which_atom eq 0) then begin
 	 	  	state.MultipletSlider =$
 	 	  		widget_slider(multiBase,TITLE='Multiplet',UVALUE='MultipletSlider',$
-	 	   	XSIZE=120,MAXIMUM=2,MINIMUM=1,VALUE=state.multiplet,sensitive=1)
+	 	   	XSIZE=0.5*sliderSize,MAXIMUM=2,MINIMUM=1,VALUE=state.multiplet,sensitive=1)
 	 	endif
 	 endif
 	 
-	 DopplerSlider = widget_slider(multiBase,TITLE='Doppler velocity [km/s]',UVALUE='DopplerSlider',$
-	 	  XSIZE=200,MAXIMUM=25,MINIMUM=0.1,VALUE=state.Doppler)
-	 DopplerSlider = widget_slider(multiBase,TITLE='Doppler velocity 2 [km/s]',UVALUE='DopplerSlider2',$
-	 	  XSIZE=200,MAXIMUM=25,MINIMUM=0.1,VALUE=state.Doppler2)
-	 heightSlider = widget_slider(multiBase,TITLE='Height (<0 if apparent) ["]',UVALUE='heightSlider',$
-	 	  XSIZE=255,MINIMUM=-100.d0,MAXIMUM=100.d0,VALUE=state.height)
-	 
+	 DopplerSlider = widget_slider(multiBase,TITLE='Doppler v1 [km/s]',UVALUE='DopplerSlider',$
+	 	  XSIZE=sliderSize,MAXIMUM=25,MINIMUM=0.1,VALUE=state.Doppler)
+	 DopplerSlider = widget_slider(multiBase,TITLE='Doppler v2 [km/s]',UVALUE='DopplerSlider2',$
+	 	  XSIZE=sliderSize,MAXIMUM=25,MINIMUM=0.1,VALUE=state.Doppler2)
+	 heightSlider = widget_slider(multiBase,TITLE='Height ["]',UVALUE='heightSlider',$
+	 	  XSIZE=sliderSize,MINIMUM=-100.d0,MAXIMUM=100.d0,VALUE=state.height)	 	  	 	 
 	 
 	 i0 = return_i0_allen(state)
 	 state.i0_allen = widget_label(multiBase, VALUE='Allen: '+strtrim(string(i0),2))
+	 
+	 buttonsBase = widget_base(multiBase, /ROW)
+	 observ_include = widget_button(buttonsBase,VALUE='Load Observation',UVALUE='LOAD_OBSERVATION')
+	 reset_observ = widget_button(buttonsBase,VALUE='Reset Observation',UVALUE='RESET_OBSERVATION')
+	 synthButton = widget_button(buttonsBase,VALUE='Calculate',UVALUE='Calculate')
 	 	 	 	 
 		  	 	 
 	 formalBase = widget_base(synthBase, /ROW, FRAME=1)
@@ -328,27 +335,27 @@ function hazel_init, reset_state=reset_state
 	 	-2: widget_control, twocompButton, /SET_BUTTON
 	 endcase
 	 
-	 buttonsBase = widget_base(synth_globBase, /COLUMN)
-	 observ_include = widget_button(buttonsBase,VALUE='Load Observation',UVALUE='LOAD_OBSERVATION')
-	 reset_observ = widget_button(buttonsBase,VALUE='Reset Observation',UVALUE='RESET_OBSERVATION')
+; 	 buttonsBase = widget_base(synth_globBase, /COLUMN)
+; 	 observ_include = widget_button(buttonsBase,VALUE='Load Observation',UVALUE='LOAD_OBSERVATION')
+; 	 reset_observ = widget_button(buttonsBase,VALUE='Reset Observation',UVALUE='RESET_OBSERVATION')
 	 
-	 bfieldvarBase = widget_base(buttonsBase,/ROW)
-	 bfield_var = widget_button(bfieldvarBase,$
-	 	VALUE='rho(B)',UVALUE='FIELD_VARIATION')
-	 dnfields = widget_label(bfieldvarBase, VALUE='N:')
-	 nfields = widget_text(bfieldvarBase,$
-	 	VALUE=strtrim(string(state.bfield_var[2],FORMAT='(I3)'),2),$
-	 	UVALUE='NFIELDS_RHO',/EDITABLE,XSIZE=3,YSIZE=1)
-	 dBmin = widget_label(bfieldvarBase, VALUE='Bmin:')
-	 bmin = widget_text(bfieldvarBase,$
-	 	VALUE=strtrim(string(state.bfield_var[0]),2),UVALUE='BMIN_RHO',$
-	 	/EDITABLE,XSIZE=5,YSIZE=1)
-	 dBmax = widget_label(bfieldvarBase, VALUE='Bmax:')
-	 bmax = widget_text(bfieldvarBase,$
-	 	VALUE=strtrim(string(state.bfield_var[1]),2),UVALUE='BMAX_RHO',$
-	 	/EDITABLE,XSIZE=5,YSIZE=1)
+; 	 bfieldvarBase = widget_base(buttonsBase,/ROW)
+; 	 bfield_var = widget_button(bfieldvarBase,$
+; 	 	VALUE='rho(B)',UVALUE='FIELD_VARIATION')
+; 	 dnfields = widget_label(bfieldvarBase, VALUE='N:')
+; 	 nfields = widget_text(bfieldvarBase,$
+; 	 	VALUE=strtrim(string(state.bfield_var[2],FORMAT='(I3)'),2),$
+; 	 	UVALUE='NFIELDS_RHO',/EDITABLE,XSIZE=3,YSIZE=1)
+; 	 dBmin = widget_label(bfieldvarBase, VALUE='Bmin:')
+; 	 bmin = widget_text(bfieldvarBase,$
+; 	 	VALUE=strtrim(string(state.bfield_var[0]),2),UVALUE='BMIN_RHO',$
+; 	 	/EDITABLE,XSIZE=5,YSIZE=1)
+; 	 dBmax = widget_label(bfieldvarBase, VALUE='Bmax:')
+; 	 bmax = widget_text(bfieldvarBase,$
+; 	 	VALUE=strtrim(string(state.bfield_var[1]),2),UVALUE='BMAX_RHO',$
+; 	 	/EDITABLE,XSIZE=5,YSIZE=1)
 	 	
-	 synthButton = widget_button(buttonsBase,VALUE='Calculate',UVALUE='Calculate')
+; 	 synthButton = widget_button(buttonsBase,VALUE='Calculate',UVALUE='Calculate')
 	 
 	 widget_control, widget_info(state.baseWidget, /CHILD), SET_UVALUE=state
 	 

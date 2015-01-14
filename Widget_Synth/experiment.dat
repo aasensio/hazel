@@ -18,22 +18,22 @@
 1
 
 # Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B (add field below))
-3
+1
 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-0.0000000  80.000000  41.000000 0.0000000  124.00000  49.000000
+6.4515000  47.000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
 3.0000000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-6.0000000 1.5000000 0.50000000
+1.0000000
 
 # Source function gradient (only ME)
 0.50000000
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
-0.0000000 0.0000000 0.0000000 0.0000000
+3.9877000e-05 0.0000000 0.0000000 0.0000000
 
 # Transition where to compute the emission
 1
@@ -42,16 +42,16 @@
 1
 
 # Observation angle with respect to the vertical theta,chi,gamma [degrees]
-90.000000  0.0000000  90.000000
+27.000000  0.0000000  90.000000
 
 # Wavelength axis: minimum, maximum and number of grid points
 -2.1318468 1.2791081 100
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10829.091  13.000000  8.0000000  0.0000000
+10829.091  7.0000000  0.0000000
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
-0.0000000 0.0000000
+0.0000000
 
 # Include magneto-optical effects in the RT
 1
