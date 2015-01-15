@@ -972,6 +972,18 @@ in the saturation regime. In this case, the ambiguous solutions that are found b
 not strictly valid and one should refine them with a final LM cycle in which $B$, $\theta_B$ and $\chi_B$
 are left free. The solution to the ambiguities in the saturation regime is shown in Section \ref{sec:ambiguities}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calling Hazel from Python}
+We have developed a wrapper to allow the user to call the synthesis routines of Hazel in Python.
+To do so, just enter into the directory \texttt{SourcePy} and type
+\begin{verbatim}
+python setup.py build_ext --inplace
+\end{verbatim}
+and a library \texttt{pyhazel.so} will be generated (and also copied to the directory
+\texttt{RunPy}. In this very same directory you can see the \texttt{test.py} file that
+shows how to call the code to wrapper.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

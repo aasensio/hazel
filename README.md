@@ -12,4 +12,4 @@ configuration files are heavily commented, so that their edition should
 be an easy task. In any case, two front-ends coded in IDL are given as a part of the 
 distribution in order to facilitate a user-friendly execution of the program.
 A parallel version of the code using Message Passing Interface (MPI) is
-also available.
+also available as well as a Python wrapper.

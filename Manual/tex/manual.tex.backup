@@ -435,7 +435,8 @@ calculate the wavelength positions and the strengths of the $\pi$ and $\sigma$ c
 The difference in the computational work between both approaches is rather small.
 
 \begin{verbatim}
-# Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B, -2 -> 2 slabs with filling factor)
+# Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 
+3-> 2 slabs with different B, -2 -> 2 slabs with filling factor)
 \end{verbatim}
 \H\ can be used using one slab (option 1) of constant physical properties or two (options 2 and 3 and -2). The
 difference between options 2 and 3 is that option 2 considers both slabs to have exactly the
@@ -923,6 +924,15 @@ used to reinvert some pixels or, for instance, to refine the ambiguous solutions
 \end{itemize}
 The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} shows a function that
 generates such a file by passing all the variables as parameters.
+The order of pars is the following, depending on the number of slabs:
+\begin{itemize}
+\item 1-component (vector of size 9): $B$, $\theta_B$, $\chi_B$, $\tau$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac}$
+\item 2-component 1+1 with same field (vector of size 11): $B$, $\theta_B$, $\chi_B$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
+\item 2-component 1+1 with different field (vector of size 15): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
+\item 2-component 2 with different field with filling factor (vector of size 16): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, 
+$v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\mathrm{ff}$
+\end{itemize}
+
 
 \subsection{Output files}
 The results of the inversion are saved on two files defined on the \texttt{config\_inversion.dat} configuration
@@ -961,6 +971,17 @@ a set of observations, configuration files and a file to run \HM. This is useful
 in the saturation regime. In this case, the ambiguous solutions that are found by the code are
 not strictly valid and one should refine them with a final LM cycle in which $B$, $\theta_B$ and $\chi_B$
 are left free. The solution to the ambiguities in the saturation regime is shown in Section \ref{sec:ambiguities}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calling Hazel from Python}
+We have developed a wrapper to allow the user to call the synthesis routines of Hazel in Python.
+To do so, just enter into the directory \texttt{SourcePy} and type
+\begin{verbatim}
+python setup.py build_ext --inplace
+\end{verbatim}
+and a library \texttt{pyhazel.so} will be generated (and also copied to the directory
+\texttt{RunPy}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

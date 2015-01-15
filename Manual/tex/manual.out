@@ -17,17 +17,18 @@
 \BOOKMARK [2][-]{subsection.6.1}{Input files}{section.6}% 17
 \BOOKMARK [2][-]{subsection.6.2}{Output files}{section.6}% 18
 \BOOKMARK [2][-]{subsection.6.3}{Ambiguities}{section.6}% 19
-\BOOKMARK [1][-]{section.7}{Basic Equations}{}% 20
-\BOOKMARK [2][-]{subsection.7.1}{The radiative transfer approach}{section.7}% 21
-\BOOKMARK [2][-]{subsection.7.2}{The multipolar components of the atomic density matrix}{section.7}% 22
-\BOOKMARK [2][-]{subsection.7.3}{Statistical equilibrium equations}{section.7}% 23
-\BOOKMARK [2][-]{subsection.7.4}{Emission and absorption coefficients}{section.7}% 24
-\BOOKMARK [1][-]{section.8}{Inversion}{}% 25
-\BOOKMARK [2][-]{subsection.8.1}{Global Optimization techniques}{section.8}% 26
-\BOOKMARK [2][-]{subsection.8.2}{Convergence}{section.8}% 27
-\BOOKMARK [2][-]{subsection.8.3}{Stopping criterium}{section.8}% 28
-\BOOKMARK [1][-]{section.9}{Ambiguities in the Hanle effect in the saturation regime}{}% 29
-\BOOKMARK [1][-]{section.10}{B' = B}{}% 30
-\BOOKMARK [1][-]{section.11}{B' = B+}{}% 31
-\BOOKMARK [1][-]{section.12}{B' = B+/2}{}% 32
-\BOOKMARK [1][-]{section.13}{B' = B-/2}{}% 33
+\BOOKMARK [1][-]{section.7}{Calling Hazel from Python}{}% 20
+\BOOKMARK [1][-]{section.8}{Basic Equations}{}% 21
+\BOOKMARK [2][-]{subsection.8.1}{The radiative transfer approach}{section.8}% 22
+\BOOKMARK [2][-]{subsection.8.2}{The multipolar components of the atomic density matrix}{section.8}% 23
+\BOOKMARK [2][-]{subsection.8.3}{Statistical equilibrium equations}{section.8}% 24
+\BOOKMARK [2][-]{subsection.8.4}{Emission and absorption coefficients}{section.8}% 25
+\BOOKMARK [1][-]{section.9}{Inversion}{}% 26
+\BOOKMARK [2][-]{subsection.9.1}{Global Optimization techniques}{section.9}% 27
+\BOOKMARK [2][-]{subsection.9.2}{Convergence}{section.9}% 28
+\BOOKMARK [2][-]{subsection.9.3}{Stopping criterium}{section.9}% 29
+\BOOKMARK [1][-]{section.10}{Ambiguities in the Hanle effect in the saturation regime}{}% 30
+\BOOKMARK [1][-]{section.11}{B' = B}{}% 31
+\BOOKMARK [1][-]{section.12}{B' = B+}{}% 32
+\BOOKMARK [1][-]{section.13}{B' = B+/2}{}% 33
+\BOOKMARK [1][-]{section.14}{B' = B-/2}{}% 34
