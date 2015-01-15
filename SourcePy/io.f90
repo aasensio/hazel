@@ -268,6 +268,7 @@ contains
 		read(31,*) is2
 		read(31,*) n_terms		
 		
+		if (allocated(lsto2)) deallocate(lsto2)
 		allocate(lsto2(n_terms))
 		
 		nrhos = 0
@@ -290,6 +291,7 @@ contains
 			jlimit2 = max(jmax2,jlimit2)
 		enddo
 		
+		if (allocated(energy)) deallocate(energy)
 		allocate(energy(n_terms,0:jlimit2))
 		
 		rewind(31)
@@ -332,7 +334,14 @@ contains
 		rewind(31)
 		call lb(31,2)
 
-
+		if (allocated(ntab)) deallocate(ntab)
+		if (allocated(j2tab)) deallocate(j2tab)
+		if (allocated(jp2tab)) deallocate(jp2tab)
+		if (allocated(ktab)) deallocate(ktab)
+		if (allocated(qtab)) deallocate(qtab)
+		if (allocated(irtab)) deallocate(irtab)
+		if (allocated(rnutab)) deallocate(rnutab)
+		
 		allocate(ntab(nrhos))
 		allocate(j2tab(nrhos))
 		allocate(jp2tab(nrhos))

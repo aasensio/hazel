@@ -1,21 +1,5 @@
-subroutine hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, &
-	transInput, atomicPolInput, anglesInput, lambdaAxisInput, nLambdaInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
-	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, nbarInput, omegaInput, wavelengthOutput, stokesOutput, epsOutput, etaOutput)
-
-!f2py integer optional, intent(in) :: synModeInput=5, nSlabsInput=1, transInput=1, atomicPolInput=1
-!f2py integer, intent(in) :: nLambdaInput
-!f2py real(8), intent(in), dimension(2) :: lambdaAxisInput
-!f2py real(8), intent(in), dimension(3) :: B1Input, anglesInput
-!f2py real(8) optional, intent(in), dimension(3) :: B2Input=(0.,0.,0.)
-!f2py real(8), intent(in), dimension(4) :: boundaryInput
-!f2py real(8) optional , intent(in):: tau2Input=0, dopplerWidth2Input=0, dopplerVelocity2Input=0, ffInput=0, betaInput=0
-!f2py real(8) optional , intent(in):: nbarInput=(0.,0.,0.,0.), omegaInput=(0.,0.,0.,0.)
-!f2py real(8), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput
-!f2py real(8), intent(out), dimension(nLambdaInput), depend(nLambdaInput) :: wavelengthOutput
-!f2py real(8), intent(out), dimension(4,nLambdaInput), depend(nLambdaInput) :: stokesOutput
-!f2py real(8), intent(out), dimension(4,nLambdaInput), depend(nLambdaInput) :: epsOutput
-!f2py real(8), intent(out), dimension(4,4,nLambdaInput), depend(nLambdaInput) :: etaOutput
-
+module pyHazelMod
+use iso_c_binding, only: c_int, c_double
 use vars
 use maths
 use io
@@ -25,32 +9,39 @@ use synth
 use allen
 implicit none
 
-! Input variables
-	integer :: synModeInput, nSlabsInput, transInput, atomicPolInput, nLambdaInput
-	
-	real(kind=8), dimension(2) :: lambdaAxisInput
-	real(kind=8), dimension(3) :: B1Input, B2Input, anglesInput
-	real(kind=8), dimension(4) :: boundaryInput, nbarInput, omegaInput
-	real(kind=8) :: hInput, tau1Input, tau2Input, dopplerWidthInput, dopplerWidth2Input, dampingInput, dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput
-	
-	real(kind=8), dimension(4,nLambdaInput) :: stokesOutput
-	real(kind=8), dimension(nLambdaInput) :: wavelengthOutput
-	real(kind=8), dimension(4,nLambdaInput) :: epsOutput
-	real(kind=8), dimension(4,4,nLambdaInput) :: etaOutput
+contains
+subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, &
+	transInput, atomicPolInput, anglesInput, lambdaAxisInput, nLambdaInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
+	dopplerVelocityInput, dopplerVelocity2Input, ffInput, nbarInput, omegaInput, &
+	wavelengthOutput, stokesOutput, epsOutput, etaOutput) bind(c)
+
+	integer(c_int), intent(in) :: synModeInput, nSlabsInput, transInput, atomicPolInput
+	integer(c_int), intent(in) :: nLambdaInput
+	real(c_double), intent(in), dimension(2) :: lambdaAxisInput
+	real(c_double), intent(in), dimension(3) :: B1Input, anglesInput
+	real(c_double), intent(in), dimension(3) :: B2Input
+	real(c_double), intent(in), dimension(4) :: boundaryInput
+	real(c_double), intent(in):: tau2Input, dopplerWidth2Input, dopplerVelocity2Input, ffInput
+	real(c_double), intent(in), dimension(4) :: nbarInput, omegaInput
+	real(c_double), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput
+	real(c_double), intent(out), dimension(nLambdaInput) :: wavelengthOutput
+	real(c_double), intent(out), dimension(4,nLambdaInput) :: stokesOutput
+	real(c_double), intent(out), dimension(4,nLambdaInput) :: epsOutput
+	real(c_double), intent(out), dimension(4,4,nLambdaInput) :: etaOutput
 	
 	integer :: n, nterml, ntermu
-	real(kind=8) :: ae, wavelength, reduction_factor, reduction_factor_omega, j10
 	
+	real(c_double) :: ae, wavelength, reduction_factor, reduction_factor_omega, j10
 	integer :: i, j
 		
 ! Initialize the random number generator
-	call random_seed
+! 	call random_seed
 		
 ! Initialize Allen's data
-	call read_allen_data
+! 	call read_allen_data
 		
 ! Fill the factorial array
-	call factrl
+! 	call factrl
 				
 ! Read the configuration file	
 ! 	call read_config
@@ -62,7 +53,7 @@ implicit none
 	working_mode = 0
 	
 ! Read the atomic model	
-	call read_model_file(input_model_file)
+! 	call read_model_file(input_model_file)
 	
 ! Set the variables for the experiment from the parameters of the subroutine
 	isti = 1
@@ -98,7 +89,7 @@ implicit none
 		params%dtau2 = tau2Input
 		params%ff = ffInput
 	endif
-	params%beta = betaInput
+	params%beta = 0.0
 	fixed%Stokes_incident = boundaryInput
 	fixed%nemiss = transInput
 	fixed%use_atomic_pol = atomicPolInput
@@ -185,7 +176,27 @@ implicit none
 	etaOutput(3,4,:) = mag_opt(1,:) - mag_opt_stim(1,:)
 	etaOutput(4,3,:) = -mag_opt(1,:) - mag_opt_stim(1,:)
 	
-	open(unit=31,file=input_model_file,action='write',status='replace')
-	close(31,status='delete')
+! 	open(unit=31,file=input_model_file,action='write',status='replace')
+! 	close(31,status='delete')
 		
-end subroutine hazel
+end subroutine c_hazel
+
+subroutine c_init() bind(c)
+		
+! Initialize the random number generator
+	call random_seed
+		
+! Initialize Allen's data
+	call read_allen_data
+		
+! Fill the factorial array
+	call factrl
+				
+	input_model_file = 'helium.mod'
+	
+! Read the atomic model	
+	call read_model_file(input_model_file)
+	
+end subroutine c_init
+
+end module pyHazelMod

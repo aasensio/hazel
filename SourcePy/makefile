@@ -12,42 +12,33 @@
 # It should be easy to find the equivalent flags in your compiler
 
 # gfortran (comment these lines if you want to use another compiler)
-# COMPILER = gfortran
+COMPILER = gfortran
 # PYCOMPILER = gnu95
 # FLAGS =
-# OPTIONS = -c -ffree-line-length-none -fPIC
+OPTIONS = -c -ffree-line-length-none -fPIC -O3
  
 # ifort (comment these lines if you want to use another compiler)
-COMPILER = ifort
-PYCOMPILER = intelem
-LIBS = -lifcore -lsvml
-OPTIONS = -c -fPIC -O3
+# COMPILER = ifort
+# PYCOMPILER = intel
+# LIBS = -lifcore -lsvml -limf
+# OPTIONS = -c -g -traceback -fPIC -limf
+#-fPIC -O3
 # -g -traceback
 # 
 
 #-O3
  
-FINAL_EXECUTABLE = hazel
-F2PY = /usr/pkg/python/Python-2.7.4/bin/f2py
 
 all:
-# 	make hazel
 	make pyhazel
-	
-hazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o test.o
-	$(COMPILER) -l$(LIBS) vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o test.o -o $(FINAL_EXECUTABLE)
-	$(F2PY) -lifcore --fcompiler=$(PYCOMPILER) -c hazel.pyf *.o
-	cp $(FINAL_EXECUTABLE) ../RunPy
-	
-pyhazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o	
-	$(F2PY) --fcompiler=intelem $(LIBS) -c hazel.pyf vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o	
-	cp hazel.so ../RunPy
+
+pyhazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o hazel.o singleton.o
 
 clean: 
 	find . -maxdepth 2 -name "*.o" -delete ; find . -maxdepth 1 -name "*.mod" -delete ;
 	find . -maxdepth 1 -name "*.f90~" -delete ; find . -maxdepth 2 -name "*.a" -delete ;
-	find . -maxdepth 1 -name "hazel.so" -delete
-	find ../ -maxdepth 2 -name "hazel.so" -delete
+	find . -maxdepth 1 -name "pyhazel.so" -delete ; find . -maxdepth 1 -name "*.pyf" -delete
+	find ../ -maxdepth 2 -name "pyhazel.so" -delete ; find . -maxdepth 1 -name "*.c" -delete
 	
 vars.o: vars.f90
 	$(COMPILER) $(OPTIONS)  vars.f90
@@ -81,5 +72,3 @@ test.o: test.f90
 
 hazel.o: hazel.f90 allen.o synth.o rt_coef.o SEE.o maths.o vars.o io.o
 	$(COMPILER) $(OPTIONS)  hazel.f90
-	/usr/pkg/python/Python-2.7.4/bin/f2py --overwrite-signature -m hazel -h hazel.pyf hazel.f90
-	

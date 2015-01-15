@@ -380,14 +380,10 @@ contains
       x0 = dfloat(lu2+1)
 		nfreq = in_fixed%no
 		
-!$OMP PARALLEL DEFAULT(PRIVATE) SHARED(epsilon,mag_opt_stim,epsilon_zeeman,mag_opt_stim_zeeman,lu2,jmaxl2,jmaxu2,ll2,&
-!$OMP  is2,njlevl,njlevu,autu,autl,dnum,va,onum,cl,cu,tr,rhomu,adamp,jminu2,jminl2,x0,nfreq,nloop)
-!		call OMP_SET_NUM_THREADS(2)
 		if (.not.allocated(tmp1)) allocate(tmp1(nfreq))
 		if (.not.allocated(tmp2)) allocate(tmp2(nfreq))
 		if (.not.allocated(prof)) allocate(prof(nfreq))
 
-!$OMP DO SCHEDULE(DYNAMIC)
       do ml2 = -jmaxl2, jmaxl2, 2
       	do mu2 = -jmaxu2, jmaxu2, 2
 	      	q2 = ml2-mu2
@@ -477,12 +473,10 @@ contains
 				endif
 			enddo  ! Mu
 		enddo  ! Ml		
-!$OMP END DO
 		deallocate(tmp1)
 		deallocate(tmp2)
 		deallocate(prof)
 
-!$OMP END PARALLEL
 		
 		call date_and_time(values=values_end)
 		start_time = values_start(5) * 3600 + values_start(6) * 60 + values_start(7) + 0.001 * values_start(8)
@@ -500,14 +494,10 @@ contains
 			nloop = 0
       	x0 = dfloat(lu2+1)   ! It is (2Lu+1) because we need B_lu, which is equal to (2Lu+1)/(2Ll+1)*B_ul
 
-!$OMP PARALLEL DEFAULT(PRIVATE) SHARED(eta,mag_opt,eta_zeeman,mag_opt_zeeman,lu2,jmaxl2,jmaxu2,ll2,&
-!$OMP  is2,njlevl,njlevu,autu,autl,dnum,va,onum,cl,cu,tr,rhoml,adamp,jminu2,jminl2,x0,nfreq,nloop)
-!			call OMP_SET_NUM_THREADS(2)
 			if (.not.allocated(tmp1)) allocate(tmp1(nfreq))
 			if (.not.allocated(tmp2)) allocate(tmp2(nfreq))
 			if (.not.allocated(prof)) allocate(prof(nfreq))
 
-!$OMP DO SCHEDULE(GUIDED)		
       	do ml2 = -jmaxl2, jmaxl2, 2
       		do mu2 = -jmaxu2, jmaxu2, 2
 	      		q2 = ml2-mu2
@@ -597,11 +587,9 @@ contains
 					endif
 				enddo  ! Mu
 			enddo  ! Ml		
-!$OMP END DO
 			deallocate(tmp1)
 			deallocate(tmp2)
 			deallocate(prof)						
-!$OMP END PARALLEL
 		
 		endif
 		

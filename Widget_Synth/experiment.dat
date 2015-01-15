@@ -21,7 +21,7 @@
 1
 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-6.4515000  47.000000  0.0000000
+6.4515000  106.00000  -60.000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
 3.0000000
@@ -42,7 +42,7 @@
 1
 
 # Observation angle with respect to the vertical theta,chi,gamma [degrees]
-27.000000  0.0000000  90.000000
+0.0000000  0.0000000  90.000000
 
 # Wavelength axis: minimum, maximum and number of grid points
 -2.1318468 1.2791081 100

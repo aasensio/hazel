@@ -568,7 +568,6 @@ contains
 			vv(i) = 1.d0 / aamax
 		enddo
 		
-!$OMP PARALLEL DO PRIVATE(I,J,K,sum,aamax,imax,d,dum) SHARED (A,indx)
 		do j = 1, n
 			do i = 1, j-1
 				sum = a(i,j)
@@ -608,7 +607,6 @@ contains
 				enddo
 			endif
 		enddo
-!$OMP END PARALLEL DO
 
 !		call date_and_time(values=values_end)
 !		start_time = values_start(5) * 3600 + values_start(6) * 60 + values_start(7) + 0.001 * values_start(8)

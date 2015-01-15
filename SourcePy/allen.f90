@@ -9,7 +9,9 @@ contains
 !------------------------------------------------------------
 	subroutine read_allen_data
 	integer :: i, j
-			
+		
+		if (allocated(allen_ic)) deallocate(allen_ic)
+		if (allocated(allen_cl)) deallocate(allen_cl)
 		allocate(allen_ic(43,2))
 		allocate(allen_cl(22,3))
 		
