@@ -21,19 +21,19 @@
 1
 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-6.4515000  106.00000  -60.000000
+25.000000  38.000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
-3.0000000
+16.000000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
 1.0000000
 
 # Source function gradient (only ME)
-0.50000000
+0.050000000
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
-3.9877000e-05 0.0000000 0.0000000 0.0000000
+4.0980000e-05 0.0000000 0.0000000 0.0000000
 
 # Transition where to compute the emission
 1
