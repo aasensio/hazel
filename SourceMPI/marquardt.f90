@@ -31,7 +31,7 @@ contains
 			weight = in_inversion%stokes_weights(i,in_inversion%loop_cycle)			
 			compute_chisq = compute_chisq + weight * &
 				sum((in_observation%stokes(i,:)-in_inversion%stokes_unperturbed(i,:))**2/in_observation%sigma(i,:)**2) / &
-				(4.d0*in_observation%n)
+				(4.d0*in_observation%n)			
 		enddo
 		
 	end function compute_chisq
@@ -568,6 +568,120 @@ contains
 		deallocate(x)
 	
 	end subroutine compute_trial_params
+	
+!------------------------------------------------------------
+! Calculate the derivatives of the Stokes profiles
+!------------------------------------------------------------
+	subroutine compute_uncertainty(in_params,in_fixed,in_inversion,in_observation,error)
+	type(variable_parameters) :: in_params, in_scaled, in_temp, error
+	type(fixed_parameters) :: in_fixed
+	type(type_inversion) :: in_inversion
+	type(type_observation) :: in_observation
+	real(kind=8), allocatable :: alpha(:,:), beta(:,:), w(:), v(:,:), x(:)
+	real(kind=8) :: obs, syn, sig, weight, wmax, value
+	integer :: i, j, k, l, np
+					
+		call compress_parameters(in_params,in_scaled)
+		in_temp = in_scaled
+				
+		np = in_params%n_total
+				
+		allocate(alpha(np,np))		
+		allocate(beta(np,np))
+		allocate(v(np,np))
+		allocate(w(np))
+		allocate(x(np))
+		
+		alpha = 0.d0
+		beta = 0.d0
+								
+		do i = 1, in_fixed%no
+			do j = 0, 3				
+				do k = 1, np
+					
+					obs = in_observation%stokes(j,i)
+					syn = in_inversion%stokes_unperturbed(j,i)
+					sig = in_observation%sigma(j,i)
+															
+					if (in_params%inverted(k) == 1) then
+						do l = 1, np
+							if (in_params%inverted(l) == 1) then
+								alpha(k,l) = alpha(k,l) + 2.d0 * in_inversion%dydx(j,i,k) * in_inversion%dydx(j,i,l) / sig**2
+							endif
+						enddo
+					endif
+				enddo
+			enddo
+		enddo
+		
+		beta = 0.d0
+		alpha = 0.5d0 * alpha
+						
+		np = in_params%n_total
+		call svdcmp(alpha,np,np,np,np,w,v)
+
+! Invert the diagonal matrix
+		wmax = maxval(w)
+		do i = 1, np
+			if (w(i) < wmax * 1.d-6) then
+				beta(i,i) = 0.d0
+			else
+				beta(i,i) = 1.0 / w(i)
+			endif
+		enddo
+		
+		alpha = matmul(matmul(v, beta), transpose(alpha))
+		
+		do i = 1, np			
+			if (params%inverted(i) == 1) then
+				value = sqrt(abs(alpha(i,i)) * chi2Level)
+				select case(i)
+					case(1) 
+						error%bgauss = value
+					case(2) 
+						error%thetabd = value
+					case(3) 
+						error%chibd = value
+					case(4) 
+						error%vdopp = value
+					case(5) 
+						error%dtau = value
+					case(6) 
+						error%delta_collision = value
+					case(7)
+						error%vmacro = value
+					case(8)
+						error%damping = value
+					case(9)
+						error%beta = value
+					case(10)
+						error%height = value
+					case(11)
+						error%dtau2 = value
+					case(12)
+						error%vmacro2 = value
+					case(13) 
+						error%bgauss2 = value
+					case(14) 
+						error%thetabd2 = value
+					case(15) 
+						error%chibd2 = value
+					case(16) 
+						error%vdopp2 = value
+					case(17) 
+						error%ff = value
+				end select								
+			endif			
+		enddo
+						
+		deallocate(alpha)
+		deallocate(beta)
+		deallocate(v)
+		deallocate(w)
+		deallocate(x)
+	
+	end subroutine compute_uncertainty
+
 	
 !------------------------------------------------------------
 ! Re-scale the parameters to make them of the order of unity

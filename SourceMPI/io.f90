@@ -80,6 +80,8 @@ contains
 		call lb(12,2)
 		read(12,*) output_final_parameters
 		call lb(12,2)
+		read(12,*) output_error_parameters
+		call lb(12,2)
 		read(12,*) input_inverted_parameters
 		call lb(12,2)
 		read(12,*) verbose_mode
@@ -625,6 +627,7 @@ contains
 			if (starting_pixel == 1) then
 				call check( nf90_create(output_inverted_profiles, NF90_CLOBBER, in_fixed%syn_id) )
 				call check( nf90_create(output_final_parameters, NF90_CLOBBER, in_fixed%par_id) )
+				call check( nf90_create(output_error_parameters, NF90_CLOBBER, in_fixed%error_id) )
 				
 ! Set dimensions and set variables for the synthetic profiles
 				call check( nf90_def_dim(in_fixed%syn_id, "npixel", npixel, in_fixed%pix_syn_id) )
@@ -642,6 +645,12 @@ contains
 				call check( nf90_def_dim(in_fixed%par_id, "ncolumns", nparam, in_fixed%col_par_id) )
 				call check( nf90_def_var(in_fixed%par_id, "map", NF90_DOUBLE, (/ in_fixed%col_par_id, in_fixed%pix_par_id/), in_fixed%map_par_id) )
 				call check( nf90_enddef(in_fixed%par_id) )
+				
+! Set dimensions and set variables for the inverted values
+				call check( nf90_def_dim(in_fixed%error_id, "npixel", npixel, in_fixed%pix_error_id) )
+				call check( nf90_def_dim(in_fixed%error_id, "ncolumns", nparam, in_fixed%col_error_id) )
+				call check( nf90_def_var(in_fixed%error_id, "map", NF90_DOUBLE, (/ in_fixed%col_error_id, in_fixed%pix_error_id/), in_fixed%map_error_id) )
+				call check( nf90_enddef(in_fixed%error_id) )
 
 			endif
 
@@ -649,6 +658,7 @@ contains
 ! Open file with results
 				call check( nf90_open(output_inverted_profiles, NF90_WRITE, in_fixed%syn_id) )
 				call check( nf90_open(output_final_parameters, NF90_WRITE, in_fixed%par_id) )
+				call check( nf90_open(output_error_parameters, NF90_WRITE, in_fixed%error_id) )
 
 ! Inquire dimensions
 				call check( nf90_inq_dimid(in_fixed%syn_id, "npixel", in_fixed%pix_syn_id) )
@@ -656,11 +666,14 @@ contains
 				call check( nf90_inq_dimid(in_fixed%syn_id, "nlambda", in_fixed%nlambda_syn_id) )
 				call check( nf90_inq_dimid(in_fixed%par_id, "npixel", in_fixed%pix_par_id) )
 				call check( nf90_inq_dimid(in_fixed%par_id, "ncolumns", in_fixed%col_par_id) )
+				call check( nf90_inq_dimid(in_fixed%error_id, "npixel", in_fixed%pix_error_id) )
+				call check( nf90_inq_dimid(in_fixed%error_id, "ncolumns", in_fixed%col_error_id) )
 
 ! Define variables
 				call check( nf90_inq_varid(in_fixed%syn_id, "lambda", in_fixed%lambda_syn_id) )
 				call check( nf90_inq_varid(in_fixed%syn_id, "map", in_fixed%map_syn_id) )
 				call check( nf90_inq_varid(in_fixed%par_id, "map", in_fixed%map_par_id) )
+				call check( nf90_inq_varid(in_fixed%error_id, "map", in_fixed%map_error_id) )
 
 ! Get some dimensions
 				call check( nf90_inquire_dimension(in_fixed%syn_id, in_fixed%nlambda_syn_id, name_var, nlambda) )
@@ -917,11 +930,11 @@ contains
 !------------------------------------------------------------
 ! Write results in multipixel inversion
 !------------------------------------------------------------
-	subroutine write_results(in_fixed,in_observation,in_inversion,in_params,pixel)
+	subroutine write_results(in_fixed,in_observation,in_inversion,in_params,error,pixel)
 	type(fixed_parameters) :: in_fixed
 	type(type_observation) :: in_observation
 	type(type_inversion) :: in_inversion
-	type(variable_parameters) :: in_params
+	type(variable_parameters) :: in_params, error
 	integer :: pixel
 	real(kind=8), allocatable :: values(:,:), values_vec(:)
 	integer, allocatable :: start(:), count(:)
@@ -975,6 +988,31 @@ contains
 		start = (/ 1, pixel /)
 		count = (/ nparam, 1 /)
 		call check( nf90_put_var(in_fixed%par_id, in_fixed%map_par_id, values_vec, start=start, count=count) )
+		
+! Set the error array according to the number of components
+		if (nparam == 9) then
+			values_vec = (/ error%bgauss, error%thetabd, error%chibd, error%height, error%dtau, error%vdopp, &
+				error%damping, error%vmacro, error%beta /)
+		endif
+
+		if (nparam == 11) then
+			values_vec = (/ error%bgauss, error%thetabd, error%chibd, error%height, error%dtau, error%dtau2, &
+				error%vdopp, error%damping, error%vmacro, error%vmacro2, error%beta /)
+		endif
+
+		if (nparam == 15) then
+			values_vec = (/ error%bgauss, error%thetabd, error%chibd, error%bgauss2, error%thetabd2, error%chibd2,&
+				error%height, error%dtau, error%dtau2, error%vdopp, error%vdopp2, error%damping, &
+				error%vmacro, error%vmacro2, error%beta /)
+		endif
+
+		if (nparam == 16) then
+			values_vec = (/ error%bgauss, error%thetabd, error%chibd, error%bgauss2, error%thetabd2, error%chibd2,&
+				error%height, error%dtau, error%dtau2, error%vdopp, error%vdopp2, error%damping, &
+				error%vmacro, error%vmacro2, error%beta, error%ff /)
+		endif
+		
+		call check( nf90_put_var(in_fixed%error_id, in_fixed%map_error_id, values_vec, start=start, count=count) )
 		
 		deallocate(values_vec, start, count)
 		

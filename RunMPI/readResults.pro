@@ -18,7 +18,7 @@ pro readResults
 	ncdf_close, file_id
 	
 
-   file_id = ncdf_open('/scratch/OBSERVATIONS/TIP2012/31aug12/REDUCTION/31aug12.001_h3arcsec.nc')
+   file_id = ncdf_open('OBSERVATION/test.nc')
 
 	nx_dim = ncdf_dimid(file_id, 'npixel')
 	ncol_dim = ncdf_dimid(file_id, 'ncolumns')
@@ -46,6 +46,19 @@ pro readResults
 	map_id = ncdf_varid(file_id, 'map')
 
 	ncdf_varget, file_id, map_id, pars
+	ncdf_close, file_id
+	
+	file_id = ncdf_open('test_errors.nc')
+
+	nx_dim = ncdf_dimid(file_id, 'npixel')
+	ncol_dim = ncdf_dimid(file_id, 'ncolumns')
+
+	ncdf_diminq, file_id, nx_dim, name, npixel
+	ncdf_diminq, file_id, ncol_dim, name, ncol
+
+	map_id = ncdf_varid(file_id, 'map')
+
+	ncdf_varget, file_id, map_id, errors
 	ncdf_close, file_id
 
 	stop

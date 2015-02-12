@@ -1,7 +1,7 @@
 # makefile for the MPI version of Hazel (P-Hazel)
 
 # COMPILER (MPI)
-COMPILER = mpif90
+COMPILER = /net/nas4/fis/aasensio/scratch/MPICH/bin/mpif90
 
 # The following lines are used to choose the compiler
 # We have tested gfortran and ifort
@@ -18,7 +18,7 @@ COMPILER = mpif90
 
 # ------------------ CHANGE THIS ACCORDING TO YOUR COMPILER ------------------
 # If mpif90 calls ifort, uncomment the following line
-OPTIONS = -c -O3
+OPTIONS = -c -O3 -I/net/nas4/fis/aasensio/scratch/MPICH/include
 # OPTIONS = -c -g -traceback
 
 FLAGS =
@@ -28,11 +28,11 @@ OPTIONS_LINK =
 
 # NETCDF
 # Indicate the directories for the include files and lib of NetCDF
-NETCDF_INCLUDE = -I/scratch/LIBS/NETCDF/include
-NETCDF_LIB = /scratch/LIBS/NETCDF/lib
+NETCDF_INCLUDE = -I/net/nas4/fis/aasensio/scratch/LIBS/NETCDF/include
+NETCDF_LIB = /net/nas4/fis/aasensio/scratch/LIBS/NETCDF/lib
 
 
-LIBS =  -L$(NETCDF_LIB) -lnetcdf -lcurl 
+LIBS =  -L$(NETCDF_LIB) -lnetcdf -lcurl -L/net/nas4/fis/aasensio/scratch/MPICH/lib
 FINAL_EXECUTABLE = phazel
 
 OBJECTS = vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o marquardt.o hazel.o DIRect.o \

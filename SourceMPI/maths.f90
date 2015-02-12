@@ -1333,5 +1333,166 @@ contains
          fft_shift = real(fft(ff * exp(k*sh), inv=.TRUE.))
 		
 		end function fft_shift
+
+		function erf(x)
+		real(kind=8) :: erf, x, dumerfc, t, z
+
+			z = abs(x)
+			t = 1.0 / ( 1.0 + 0.5 * z )
+
+			dumerfc =       t * exp(-z * z - 1.26551223 + t *	    &
+	         ( 1.00002368 + t * ( 0.37409196 + t *		&
+             ( 0.09678418 + t * (-0.18628806 + t *		&
+			 ( 0.27886807 + t * (-1.13520398 + t *		&
+             ( 1.48851587 + t * (-0.82215223 + t * 0.17087277 )))))))))
+
+			if ( x.lt.0.0 ) dumerfc = 2.0 - dumerfc
+     
+			erf = 1.0 - dumerfc
+
+		end function erf
+		
+! ---------------------------------------------------------
+! Solve a one-dimensional equality using the secant method
+! ---------------------------------------------------------
+	function confidenceLevel(x, nu, P)
+	real(kind=8) :: confidenceLevel, x, nu, P
+		confidenceLevel = gammq(0.5*nu,0.5*x) + P - 1.d0
+		return 
+	end function confidenceLevel
+
+! ---------------------------------------------------------
+! Solve a one-dimensional equality using the secant method
+! ---------------------------------------------------------
+	function secantConfidenceLevel(nu,P)
+	real(kind=8) :: func, x1, x2, xacc, fl, f, secantConfidenceLevel, xl, swap, dx, nu,P
+	integer :: j
+	integer, parameter :: maxit=30
+		xacc = 1e-3
+		x1 = nu-0.1
+		x2 = nu+14.d0
+		fl=confidenceLevel(x1,nu,P)
+		f=confidenceLevel(x2,nu,P)		
+      if(abs(fl).lt.abs(f))then
+        secantConfidenceLevel=x1
+        xl=x2
+        swap=fl
+        fl=f
+        f=swap
+      else
+        xl=x1
+        secantConfidenceLevel=x2
+      endif
+      do j=1,maxit
+        dx=(xl-secantConfidenceLevel)*f/(f-fl)
+        xl=secantConfidenceLevel
+        fl=f
+        secantConfidenceLevel=secantConfidenceLevel+dx
+        f=confidenceLevel(secantConfidenceLevel,nu,P)
+        if(abs(dx).lt.xacc.or.f.eq.0.)return
+	  enddo
+      print *, 'rtsec exceed maximum iterations'
+      end function secantConfidenceLevel
+
+! ---------------------------------------------------------
+! Return the log of the gamma function
+! ---------------------------------------------------------
+      function gammln(xx)
+      real(kind=8) :: cof(6),stp,half,one,fpf,x,tmp,ser,gammln, dx, xx
+      data cof,stp/76.18009173d0,-86.50532033d0,24.01409822d0,-1.231739516d0,.120858003d-2,-.536382d-5,2.50662827465d0/
+      data half,one,fpf/0.5d0,1.0d0,5.5d0/
+      integer :: j
+      x=xx-one
+      tmp=x+fpf
+      tmp=(x+half)*log(tmp)-tmp
+      ser=one
+      do j=1,6
+        x=x+one
+        ser=ser+cof(j)/x
+	  enddo
+      gammln=tmp+log(stp*ser)
+      return
+      end function gammln
+
+! ---------------------------------------------------------
+! 
+! ---------------------------------------------------------
+     subroutine gcf(gammcf,a,x,gln)
+     real(kind=8) :: gammcf, a, x, gln, gold, a0, a1, b0, b1, fac, an, ana, anf, g
+     real(kind=8), parameter :: eps=3e-7
+     integer, parameter :: itmax=100
+     integer :: n
+     
+      gln=gammln(a)
+      gold=0.
+      a0=1.
+      a1=x
+      b0=0.
+      b1=1.
+      fac=1.
+      do n=1,itmax
+        an=float(n)
+        ana=an-a
+        a0=(a1+a0*ana)*fac
+        b0=(b1+b0*ana)*fac
+        anf=an*fac
+        a1=x*a0+anf*a1
+        b1=x*b0+anf*b1
+        if(a1.ne.0.)then
+          fac=1./a1
+          g=b1*fac
+          if(abs((g-gold)/g).lt.eps) then
+			gammcf=exp(-x+a*log(x)-gln)*g
+			return
+		  endif
+          gold=g
+        endif
+	  enddo
+		print *, 'a too large, itmax too small'
+      end subroutine gcf
+      
+	  subroutine gser(gamser,a,x,gln)
+      real(kind=8) :: gamser, a, x, gln, ap, sum, del
+      real(kind=8), parameter :: eps=3e-7
+      integer, parameter :: itmax=100
+      integer :: n
+          
+      gln=gammln(a)
+      if(x.le.0.)then        
+        gamser=0.
+        return
+      endif
+      ap=a
+      sum=1./a
+      del=sum
+      do n=1,itmax
+        ap=ap+1.
+        del=del*x/ap
+        sum=sum+del
+        if(abs(del).lt.abs(sum)*eps) then
+            gamser=sum*exp(-x+a*log(x)-gln)
+			return
+        endif
+	  enddo
+      print *, 'a too large, itmax too small'
+      end subroutine gser
+      
+	function gammq(a,x)
+	real(kind=8) :: gammq, a, x, gln, gamser, gammcf
+      if(x.lt.0..or.a.le.0.) then
+		print *, x, a
+		stop
+	endif
+      if(x.lt.a+1.)then
+        call gser(gamser,a,x,gln)
+        gammq=1.-gamser
+      else
+        call gcf(gammcf,a,x,gln)
+        gammq=gammcf
+      endif
+      return
+      end function gammq
+
+
 	
 end module maths

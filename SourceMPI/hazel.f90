@@ -25,8 +25,8 @@ implicit none
 	call MPI_COMM_RANK(MPI_COMM_WORLD, myrank, mpi_status)
 	call MPI_COMM_SIZE(MPI_COMM_WORLD, nprocs, mpi_status)
 
-	write(*,FMT='(A,I3,A,I3)') 'Node ', myrank, '/', nprocs
-	
+	write(*,FMT='(A,I3,A,I3)') 'Node ', myrank, '/', nprocs	
+			
 	allocate(slave_active(nprocs-1))
 	if (myrank == 0) then
 		slave_active = 1
@@ -132,16 +132,16 @@ implicit none
 		allocate(observation%sigma(0:3,observation%n))
 
 ! Compute size of package for models and observations
-		package_size_model = 3*sizeof(params%nslabs) + 8*sizeof(params%bgauss) + 4*sizeof(observation%wl)
+		package_size_model = 3*sizeof(params%nslabs) + 2*8*sizeof(params%bgauss) + 4*sizeof(observation%wl)
 			
 		if (params%nslabs == 2) then
-			package_size_model = package_size_model + 3*sizeof(params%bgauss)
+			package_size_model = package_size_model + 2*3*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == 3) then
-			package_size_model = package_size_model + 7*sizeof(params%bgauss)
+			package_size_model = package_size_model + 2*7*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == -2) then
-			package_size_model = package_size_model + 8*sizeof(params%bgauss)
+			package_size_model = package_size_model + 2*8*sizeof(params%bgauss)
 		endif		
 
 		package_size_obs = sizeof(n_procs_done) + sizeof(observation%wl) + sizeof(observation%stokes(0:3,:)) + &
@@ -217,13 +217,13 @@ implicit none
 ! If master, receive final model, read new observation and send it to the slave that finished the work
 				if (myrank == 0) then				
 
-					call receive_model(params, observation, inversion, package_size_model, slave, index_obs)
+					call receive_model(params, errorparams, observation, inversion, package_size_model, slave, index_obs)
 ! 					call date_and_time(date, time, zone, values)
 ! 					write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Received result from Slave ', slave
 					
 ! 					write(24,FMT='(A10,A,I4,A,I4)') time, ' Master ', myrank, ' - Received result from Slave ', slave
 
-					call write_results(fixed, observation, inversion, params, index_obs)
+					call write_results(fixed, observation, inversion, params, errorparams, index_obs)
 					call date_and_time(date, time, zone, values)
 					write(*,FMT='(A10,A,I5,A,I4)') time, ' * Master - Received and saved result ', index_obs, ' from slave ', slave
 					
@@ -265,9 +265,9 @@ implicit none
 					if (kill == 0) then
 ! 						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Received observation'
 ! 						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Doing inversion'
-						call doinversion(params, fixed, observation, inversion, myrank, error)
+						call doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
 						if (error == 0) then
-							call send_model(params, observation, inversion, package_size_model, myrank, index_obs)
+							call send_model(params, errorparams, observation, inversion, package_size_model, myrank, index_obs)
 						else
 ! 							write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Model not converged'
 						endif
@@ -289,7 +289,7 @@ implicit none
 			status_obs = 1
 			do while (status_obs == 1)
 				call read_observation(input_observed_profiles, fixed, observation, params, n_procs_done, status_obs)
-				call doinversion(params, fixed, observation, inversion, myrank, error)
+				call doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
 			enddo
 			
 		endif
@@ -299,6 +299,7 @@ implicit none
 			call check( nf90_close(observation%obs_id) )
 			call check( nf90_close(fixed%syn_id) )
 			call check( nf90_close(fixed%par_id) )
+			call check( nf90_close(fixed%error_id) )
 		endif
 	
 	endif

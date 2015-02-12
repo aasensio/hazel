@@ -50,6 +50,7 @@ contains
 		call lb(12,2)
 		read(12,*) output_final_parameters
 		call lb(12,2)
+		output_final_errors = trim(adjustl(output_final_parameters))//'.errors'
 		read(12,*) input_inverted_parameters
 		call lb(12,2)
 		read(12,*) verbose_mode
@@ -706,7 +707,129 @@ contains
 		close(13)
 	
 	end subroutine write_experiment	
+
+!------------------------------------------------------------
+! Write a file with the final parameters so that it can be used for initializing again the inversion
+!------------------------------------------------------------
+	subroutine write_errors(in_params,in_fixed)
+	character(len=120) :: tmp
+	type(variable_parameters) :: in_params
+	type(fixed_parameters) :: in_fixed
+	integer :: i
 	
+		open(unit=13,file=output_final_errors,action='write',status='replace')
+
+		write(13,FMT='(A)') '***********************************************'
+		write(13,FMT='(A)') '* File defining the specific experiment to solve'
+		write(13,FMT='(A)') '***********************************************'
+		write(13,*)
+		write(13,FMT='(A)') '# Include stimulated emission (0-> no, 1-> yes)'
+		write(13,FMT='(I1)') isti
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Include magnetic field (0-> no, 1-> yes)'
+		write(13,FMT='(I1)') imag
+		write(13,*)
+
+		write(13,FMT='(A)') '# Include depolarization rates (0-> no, 1-> yes)'
+		write(13,FMT='(I1)') idep
+		write(13,*)
+
+		write(13,FMT='(A)') '# Value of delta if depolarization rates are included (not used if the previous value is 0)'
+		write(13,FMT='(E10.3)') in_params%delta_collision
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Include Paschen-Back effect (0-> no, 1-> yes)'
+		write(13,FMT='(I1)') use_paschen_back
+		write(13,*)
+
+		write(13,FMT='(A)') '# Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B (add field below))'
+		write(13,FMT='(I1)') in_params%nslabs
+		write(13,*)
+		
+		if (in_params%nslabs == 1 .or. in_params%nslabs == 2) then
+			write(13,FMT='(A)') '# Magnetic field strength [G], thetaB [degrees], chiB [degrees]'
+			write(13,FMT='(F9.4,3X,F7.2,3X,F7.2)') in_params%bgauss, in_params%thetabd, in_params%chibd
+			write(13,*)
+		endif
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2) then
+			write(13,FMT='(A)') '# Magnetic field strength [G], thetaB [degrees], chiB [degrees], B2 [G], thetaB2 [degrees], chiB2 [degrees]'
+			write(13,FMT='(F9.4,3X,F7.2,3X,F7.2,3X,F9.4,3X,F7.2,3X,F7.2)') in_params%bgauss, in_params%thetabd, in_params%chibd, in_params%bgauss2, in_params%thetabd2, in_params%chibd2
+			write(13,*)
+		endif
+		
+		write(13,FMT='(A)') '# Apparent height of the He I atoms in arcsec'
+		write(13,FMT='(F7.3)') in_params%height
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)'
+		if (in_params%nslabs == 1) then
+			write(13,FMT='(F8.4)') in_params%dtau
+		endif
+		if (in_params%nslabs == 2 .or. in_params%nslabs == 3) then
+			write(13,FMT='(F8.4,2X,F8.4)') in_params%dtau, in_params%dtau2
+		endif
+		if (in_params%nslabs == -2) then
+			write(13,FMT='(F8.4,2X,F8.4)') in_params%dtau, in_params%dtau2, in_params%ff
+		endif
+		
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Source function gradient (only ME)'
+		write(13,FMT='(F8.4)') in_params%beta
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Boundary Stokes parameters (I0,Q0,U0,V0)'
+		write(13,FMT='(4(E10.3,2X))') (in_fixed%Stokes_incident(i),i=0,3)
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Transition where to compute the emission'
+		write(13,FMT='(I1)') in_fixed%nemiss
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Use atomic polarization? (0-> no, 1-> yes)'
+		write(13,FMT='(I1)') in_fixed%use_atomic_pol
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Observation angle with respect to the vertical theta,chi,gamma [degrees]'
+		write(13,FMT='(3(F7.2,2X))') in_fixed%thetad, in_fixed%chid, in_fixed%gammad
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Wavelength axis: minimum, maximum and number of grid points'
+		write(13,*) in_fixed%omin, in_fixed%omax, in_fixed%no
+		write(13,FMT='(3(F7.2,2X))')
+
+		if (in_params%nslabs == 1 .or. in_params%nslabs == 2) then
+			write(13,FMT='(A)') '# Line wavelength [A], Doppler velocity [km/s] and damping [a]'
+			write(13,FMT='(F10.4,3X,F6.3,3X,F7.4)') in_fixed%wl, in_params%vdopp, in_params%damping
+			write(13,*)
+		endif
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2) then
+			write(13,FMT='(A)') '# Line wavelength [A], Doppler velocity [km/s], Doppler velocity 2 [km/s] and damping [a]'
+			write(13,FMT='(F10.4,3X,F6.3,3X,F6.3,3X,F7.4)') in_fixed%wl, in_params%vdopp, in_params%vdopp2, in_params%damping
+			write(13,*)
+		endif
+		
+		write(13,FMT='(A)') '# Macroscopic velocity [km/s] (>0 is a redshift)'
+		if (in_params%nslabs == 1) then
+			write(13,FMT='(F7.3)') in_params%vmacro
+		else
+			write(13,FMT='(F7.3,2X,F7.3)') in_params%vmacro, in_params%vmacro2
+		endif
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Include magneto-optical effects in the RT'
+		write(13,FMT='(I1)') use_mag_opt_RT
+		write(13,*)
+		
+		write(13,FMT='(A)') '# Include stimulated emission in the RT'
+		write(13,FMT='(I1)') use_stim_emission_RT
+		write(13,*)
+		
+		close(13)
+	
+	end subroutine write_errors
+
 !------------------------------------------------------------
 ! Save the inverted profiles
 !------------------------------------------------------------

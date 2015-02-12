@@ -1,6 +1,7 @@
 module inversion_mod
 use vars, only : variable_parameters, fixed_parameters, type_observation, type_inversion
 use marquardt
+use maths, only : secantConfidenceLevel
 implicit none
 contains
 
@@ -9,18 +10,25 @@ contains
 ! If myrank /= 0, then we are using a master/slave strategy and we output
 ! only relevant information
 !------------------------------------------------------------
-	subroutine doinversion(params, fixed, observation, inversion, myrank, error)
-	type(variable_parameters) :: params
+	subroutine doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
+	type(variable_parameters) :: params, errorparams
 	type(fixed_parameters) :: fixed
 	type(type_observation) :: observation
 	type(type_inversion) :: inversion
 	integer :: myrank, error
 
 	integer :: iter, nworst_chisq, loop_cycle, successful
-	real(kind=8) :: chisq_relative_change, params_relative_change
+	real(kind=8) :: chisq_relative_change, params_relative_change, nu
 	logical :: correct
 
 		error = 0
+		
+! Compute confidence level depending on the number of degrees of freedom
+! We use an approximation to the number of degrees of freedom using the total number of parameters
+! because this is dominated by the number of observations
+		nu = 4.d0 * observation%n - params%n_total
+		chi2Level = secantConfidenceLevel(nu, erf(1.d0/sqrt(2.d0)))
+
 		
 ! If the first cycle is LM, carry out a first synthesis
 ! with the original values of the parameters
@@ -29,7 +37,9 @@ contains
 			call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
 			if (error == 1) return
 			inversion%chisq = compute_chisq(observation,inversion)
-		endif		
+		endif
+		
+		errorparams = params
 		
 ! Loop over the number of cycles
 		do loop_cycle = 1, inversion%n_cycles
@@ -110,6 +120,8 @@ contains
 						
 						inversion%chisq_old = inversion%chisq
 						inversion%chisq = compute_chisq(observation,inversion)
+						
+						call compute_uncertainty(trial,fixed,inversion,observation,errorparams)
 	
 ! Verify if the chisq is smaller or larger than the previous fit
 ! Better model

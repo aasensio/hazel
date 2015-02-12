@@ -79,7 +79,9 @@ implicit none
 			inversion%loop_cycle = 1		
 			call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed)
 			inversion%chisq = compute_chisq(observation,inversion)
-		endif		
+		endif
+		
+		error = params
 		
 	! Loop over the number of cycles
 		do loop_cycle = 1, inversion%n_cycles
@@ -137,13 +139,17 @@ implicit none
 					call check_boundaries(params,trial,correct)
 					
 					call print_parameters(params,'  -Old parameters : ',.TRUE.)
-					call print_parameters(trial,'  -New parameters : ',.FALSE.)
+					call print_parameters(trial,'  -New parameters : ',.FALSE.)					
 	
 					if (correct) then
 						call do_synthesis(trial, fixed, observation, inversion%stokes_unperturbed)
 						
 						inversion%chisq_old = inversion%chisq
 						inversion%chisq = compute_chisq(observation,inversion)
+						
+						call compute_uncertainty(trial,fixed,inversion,observation,error)
+						
+						call print_parameters(error,'  -Error          : ',.FALSE.)
 	
 ! Verify if the chisq is smaller or larger than the previous fit
 ! Better model
@@ -211,7 +217,11 @@ implicit none
 	! Write the final parameters in a file so that it can be used for restarting the inversion code
 				call write_experiment(params, fixed)
 				
+	! Write the final errors in a file so that it can be used for restarting the inversion code
+				call write_errors(error, fixed)
+				
 				call print_parameters(params,'-Final Parameters : ',.TRUE.)
+				call print_parameters(error, '-Error            : ',.FALSE.)
 				print *, 'Final chi^2 : ', inversion%chisq
 			endif
 				

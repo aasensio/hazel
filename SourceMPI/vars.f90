@@ -16,7 +16,7 @@ implicit none
 	real(kind=8) :: fact(0:301)
 	character(len=120) :: input_model_file, input_experiment, output_rho_vertical_upper, output_rho_magnetic_upper
 	character(len=120) :: output_rho_vertical_lower, output_rho_magnetic_lower, output_rtcoef, output_rtcoef_zeeman
-	character(len=120) :: input_observed_profiles, input_inverted_parameters, output_inverted_profiles
+	character(len=120) :: input_observed_profiles, input_inverted_parameters, output_inverted_profiles, output_error_parameters
 	character(len=120) :: direct_ranges, output_final_parameters
 	integer :: n_terms, nrhos, file_pointer, ntran, is2, jlimit2, nparam
 	
@@ -54,6 +54,7 @@ implicit none
 		integer :: no, nemiss, use_atomic_pol, total_forward_modeling
 		integer :: pix_syn_id, col_syn_id, nlambda_syn_id, lambda_syn_id, map_syn_id, syn_id
 		integer :: pix_par_id, col_par_id, map_par_id, par_id
+		integer :: pix_error_id, col_error_id, map_error_id, error_id
 		integer :: damping_treatment
 		real(kind=8), pointer :: upper_direct(:), lower_direct(:)
 		real(kind=8) :: volper
@@ -81,7 +82,7 @@ implicit none
 	end type atom_model
 		
 	
-	type(variable_parameters) :: params, trial, scaled_params
+	type(variable_parameters) :: params, trial, scaled_params, errorparams
 	type(fixed_parameters) :: fixed
 	type(type_observation) :: observation
 	type(type_inversion) :: inversion
@@ -95,5 +96,7 @@ implicit none
 
 	integer :: starting_pixel, final_pixel
 	
+	real(kind=8) :: chi2Level
+		
 	
 end module vars

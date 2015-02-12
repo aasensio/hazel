@@ -18,22 +18,22 @@
 1
  
 # Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B (add field below))
-3
+1
  
-# Magnetic field strength [G], thetaB [degrees], chiB [degrees], B2 [G], thetaB2 [degrees], chiB2 [degrees]
-   0.0000      0.00      0.00      0.0000      0.00      0.00
+# Magnetic field strength [G], thetaB [degrees], chiB [degrees]
+   0.0000      0.00      0.00
  
 # Apparent height of the He I atoms in arcsec
-  0.000
+  4.000
  
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-  3.9880    0.3174
+  1.1494
  
 # Source function gradient (only ME)
   0.0000
  
 # Boundary Stokes parameters (I0,Q0,U0,V0)
- 0.000E+00   0.000E+00   0.000E+00   0.000E+00
+ 0.404E-04   0.000E+00   0.000E+00   0.000E+00
  
 # Transition where to compute the emission
 1
@@ -42,16 +42,16 @@
 1
  
 # Observation angle with respect to the vertical theta,chi,gamma [degrees]
-  90.00    90.00     0.00
+  20.00     0.00    90.00
  
 # Wavelength axis: minimum, maximum and number of grid points
-  -3.00000000000000        2.50000000000000              101
+  -3.00000000000000        2.50000000000000              200
 
-# Line wavelength [A], Doppler velocity [km/s], Doppler velocity 2 [km/s] and damping [a]
-10829.0910   10.548   13.935    0.2467
+# Line wavelength [A], Doppler velocity [km/s] and damping [a]
+10829.0910    8.320    0.0295
  
 # Macroscopic velocity [km/s] (>0 is a redshift)
- -4.360   15.489
+  0.167
  
 # Include magneto-optical effects in the RT
 1

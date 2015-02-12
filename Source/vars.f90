@@ -16,7 +16,7 @@ implicit none
 	real(kind=8) :: fact(0:301)
 	character(len=120) :: input_model_file, input_experiment, output_rho_vertical_upper, output_rho_magnetic_upper
 	character(len=120) :: output_rho_vertical_lower, output_rho_magnetic_lower, output_rtcoef, output_rtcoef_zeeman
-	character(len=120) :: input_observed_profiles, input_inverted_parameters, output_inverted_profiles
+	character(len=120) :: input_observed_profiles, input_inverted_parameters, output_inverted_profiles, output_final_errors
 	character(len=120) :: direct_ranges, output_final_parameters
 	integer :: n_terms, nrhos, file_pointer, ntran, is2, jlimit2
 	
@@ -69,7 +69,7 @@ implicit none
 	end type type_inversion
 		
 	
-	type(variable_parameters) :: params, trial, scaled_params
+	type(variable_parameters) :: params, trial, scaled_params, error
 	type(fixed_parameters) :: fixed
 	type(type_observation) :: observation
 	type(type_inversion) :: inversion
@@ -78,6 +78,9 @@ implicit none
 		'B2    ', 'thetB2', 'chiB2 ', 'vdopp2','ff1   '/)
 	real(kind=8), parameter :: minim_pikaia(10) = (/0.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0, -15.d0, 0.d0, 0.d0, 0.d0/)
 	real(kind=8), parameter :: maxim_pikaia(10) = (/4000.d0, 180.d0, 180.d0, 20.d0, 3.d0, 18.d0, 40.d0, 10.d0, 10.d0, 100.d0/)
+	
+	real(kind=8), parameter :: chi2Values(19) = (/1.0,2.2957489289,3.52674038026,4.71947446003,5.88759544592,7.03840092374,8.17623649786,9.30391276904,&
+		10.4233631544,11.5359817133,12.6428113334,13.7446555872,14.8421488028,15.9358018922,17.0260334234,18.1131913387,19.197568537,20.2794143079,21.3589428896/)
 	
 	
 end module vars

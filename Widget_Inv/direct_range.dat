@@ -9,10 +9,10 @@
 -1
 
 # Reduction in the volume (<0 -> don't use this criteria, typically 0.01)
-0.00100000
+0.100000
 
 # Magnetic field (0-Bmax)
-0.0000000   1000.0000
+0.0000000   10.000000
 
 # thetab  (0 .. 180)
 0.0000000   180.00000

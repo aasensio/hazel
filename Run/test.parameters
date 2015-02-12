@@ -12,7 +12,7 @@
 0
  
 # Value of delta if depolarization rates are included (not used if the previous value is 0)
-0.100E+15
+ 0.100E+15
  
 # Include Paschen-Back effect (0-> no, 1-> yes)
 1
@@ -27,13 +27,13 @@
   3.000
  
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-  0.1000
+  0.6836
  
 # Source function gradient (only ME)
-  9.4000
+  1.0000
  
 # Boundary Stokes parameters (I0,Q0,U0,V0)
-0.410E-04  0.000E+00  0.000E+00  0.000E+00
+ 0.410E-04   0.000E+00   0.000E+00   0.000E+00
  
 # Transition where to compute the emission
 1
@@ -48,10 +48,10 @@
   -3.00000000000000        2.50000000000000              150
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10829.0911    2.000    0.0000
+10829.0911   11.995    0.0000
  
 # Macroscopic velocity [km/s] (>0 is a redshift)
-  0.000
+  1.887
  
 # Include magneto-optical effects in the RT
 1
