@@ -881,9 +881,9 @@ contains
 					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,3X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
 						params%chibd, params%vdopp, params%dtau, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height
 				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         tau       vmacro       a        h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%dtau, params%vmacro, params%damping, params%height
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         beta      tau       vmacro       a        h'
+					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
+						params%chibd, params%vdopp, params%beta, params%dtau, params%vmacro, params%damping, params%height
 				endif				
 			endif
 	! MILNE-EDDINGTON

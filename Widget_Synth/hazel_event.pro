@@ -320,6 +320,11 @@ pro hazel_Event, event
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.normaliz = 0
 									 widget_control, hand, SET_UVALUE=state
+							end
+		  'CONTINUUM' : 	begin
+		   		 	   		 widget_control, Event.id, GET_VALUE=value
+		   		 	   		 state.normaliz = 2
+									 widget_control, hand, SET_UVALUE=state
 		   		 	   	end 
 	 	  'NOMAGNETOOPT' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value

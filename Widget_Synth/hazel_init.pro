@@ -302,6 +302,7 @@ function hazel_init, reset_state=reset_state
 	 absorBase = widget_base(t7, /COLUMN, /EXCLUSIVE)
 	 maxButton = widget_button(absorBase, VALUE='Maximum', UVALUE='MAXIMUM')
 	 absButton = widget_button(absorBase, VALUE='Absorption', UVALUE='ABSORPTION')
+	 contButton = widget_button(absorBase, VALUE='Continuum', UVALUE='CONTINUUM')
 	 widget_control, maxButton, /SET_BUTTON
 	 	 	 	 
 ; Rhos plot

@@ -823,7 +823,7 @@ contains
 !  I0 = exp(-K^* * tau_MO) * I_sun + (PsiM+Psi0)*S  with
 ! PsiM = U0-U1/tau_MO    and PsiO = U1/m
 ! U0 = (K*)^(-1) (1-exp(-K^* tau_MO)    and      U1 = (K*)^(-1) (m*1 - U0)
-				Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source)
+				Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
 				
 				output(0,i) = Stokes0(1)
 				output(1,i) = Stokes0(2)
@@ -921,7 +921,7 @@ contains
 						StokesM(1:4) = output(0:3,i)
 					
 ! Modify the source function of the second slab by a multiplier
-						Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)						
+						Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
 					
 						output(0,i) = Stokes0(1)
 						output(1,i) = Stokes0(2)

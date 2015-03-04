@@ -24,13 +24,13 @@
 25.500000  38.000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
-16.000000
+18.000000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
 1.0000000
 
 # Source function gradient (only ME)
-0.050000000
+5.0000000
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
 4.0980000e-05 0.0000000 0.0000000 0.0000000
