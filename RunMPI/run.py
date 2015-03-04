@@ -15,6 +15,7 @@ if (len(sys.argv) < 2):
 	exit()
 
 print "Using configuration file = "+sys.argv[1]
+nProcs = sys.argv[2]
 
 # Transform all keys to lowercase to avoid problems with
 # upper/lower case
@@ -356,6 +357,6 @@ f.close()
 
 # Run the code
 try:
-	call(['hazel'])
+	call(['mpiexec','-n',nProcs,'hazel'])
 except:
 	print "A problem occured. Exiting..."
