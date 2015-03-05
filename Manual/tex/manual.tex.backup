@@ -81,9 +81,9 @@ programs for the synthesis and inversion of Stokes profiles resulting from the j
 \author{ A. Asensio Ramos \\
          Instituto de Astrof\'{\i}sica de Canarias\\
          38205, La Laguna, Tenerife, Spain\\ \\
-        J. Trujillo Bueno\footnote{Consejo Superior de Investigaciones Cient\'{\i}ficas (Spain)}\\
-	Instituto de Astrof\'{\i}sica de Canarias\\
-         38205, La Laguna, Tenerife, Spain\\ \\
+%         J. Trujillo Bueno\footnote{Consejo Superior de Investigaciones Cient\'{\i}ficas (Spain)}\\
+% 	Instituto de Astrof\'{\i}sica de Canarias\\
+%          38205, La Laguna, Tenerife, Spain\\ \\
 % 	E. Landi Degl'Innocenti \\
 %         Universit\`a degli Studi di Firenze \\
 % 	Dipartimento di Astronomia e Scienza dello Spazio\\
@@ -215,10 +215,12 @@ The variables \texttt{NETCDF\_INCLUDE} and \texttt{NETCDF\_LIB} have to point to
 
 The code makes use of the MPI package for parallelization, so it has
 to be installed on your system. 
-In order to obtain the executable file, just type:
+In order to obtain the executable file (for instance for the Intel compiler), just type:
 \begin{verbatim}
-       make
+       make -f makefile.Intel
 \end{verbatim}
+Modify the \texttt{makefile} to point the variables to the correct libraries and include
+files.
 After compiling and linking, the executable is copied to the \HM\ \texttt{RunMPI/} 
 directory, where the code is run. Running the
 program in the \texttt{RunMPI/} directory should produce the correct output 
@@ -243,6 +245,122 @@ some pixels.
 some pixels.
 \end{itemize}
 See \S\ref{sec:phazel_files} for details on the input files.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{New input file}
+In previous versions of the code, the code was controlled with four configuration files. The updated
+version of the code is now controlled by one human-readable configuration file. An example of it is:
+\begin{verbatim}
+# Hazel configuration File
+
+#####################
+# General information
+#####################
+
+[Files]
+Input model file = 'ATOMS/helium.mod'
+File with observations = 'OBSERVATION/test_2comp.prof'
+File with inverted profiles = 'test.inversion'
+File with inverted parameters = 'test.parameters'
+
+[Working mode]
+Action = 'inversion'    					# 'synthesis' or 'inversion'
+Verbose = no
+Linear system solver = 'LU'       			# 'LU' or 'CG'
+Stopping volume for DIRECT = 0.001
+
+[General parameters]
+Synthesis mode = 'exact'   					# 'thin' or 'exact'
+Include stimulated emission = yes
+Include magnetic field  = yes
+Include Paschen-Back effect = yes
+Include atomic level polarization = yes
+Include magneto-optical effects in the RT = yes
+Include stimulated emission in the RT = yes
+Multiplet = 10830     						# 10830, 5876, 7065, 3889 A
+Line-of-sight angles = 0.0, 0.0, 90.0    	# theta, chi, gamma deg
+Wavelength axis = -3.0, 2.5, 200     		# Minimum, maximum and number of grid points
+
+#####################
+# Synthesis parameters
+#####################
+[Synthesis]
+Number of slabs = '1'   					# '1' -> single slab, '1+1' -> two slabs with same field, '1+1B' -> 2 slabs with different field, '2' -> two slabs added with a filling factor
+Boundary condition = 4.098e-5, 0.0, 0.0, 0.0      # I0, Q0, U0, V0
+a = 0.0
+height = 3.0    							# Real height if positive, apparent height if negative arcsec
+beta = 1.0
+ff = 0.0
+	[[Slab 1]]
+	B = 		0.0			# G
+	thetaB = 	0.0			# deg
+	chiB = 		0.0			# deg
+	vdopp = 	8.0			# km/s
+	tau = 		1.0
+	vmac = 		0.0			# Positive is redshift km/s
+	[[Slab 2]]
+	B = 		0.0			# G
+	thetaB = 	0.0			# deg
+	chiB = 		0.0			# deg
+	vdopp = 	0.0			# km/s
+	tau = 		0.0
+	vmac = 		0.0			# Positive is redshift km/s
+
+#####################
+# Ranges for the DIRECT method [min, max]
+#####################
+[Ranges]
+a = 			0,0.5
+beta = 			0.5,2
+ff = 			0.0,1.0
+	[[Slab 1]]
+	B = 		800,1100
+	thetaB = 	0,180
+	chiB = 		0,180
+	vdopp = 	2,12
+	tau = 		0.1,2
+	vmac = 		-5,5
+	[[Slab 2]]
+	B = 		800,1100
+	thetaB = 	0,180
+	chiB = 		0,180
+	vdopp = 	2,12
+	tau = 		0.1,2
+	vmac = 		-5,5
+	
+#####################
+# Parameters to invert
+#####################
+[Inversion]
+Iterations in LM = 20
+Number of cycles = 4
+Inversion modes = 'DIRECT', 'LM', 'DIRECT', 'LM'        # 'DIRECT' for DIRECT algorithm and 'LM' for Levenberg-Marquardt
+	[[Cycles]]
+	a =    			1, 1, 0, 0
+	beta = 			0, 0, 0, 0
+	ff =   			0, 0, 0, 0
+		[[[Slab 1]]]
+		B = 		0, 0, 1, 1
+		thetaB = 	0, 0, 1, 1
+		chiB = 		0, 0, 1, 1
+		vdopp = 	1, 1, 0, 0
+		tau = 		1, 1, 0, 0
+		vmac = 		1, 1, 0, 0
+		[[[Slab 2]]]
+		B = 		0, 0, 0, 0
+		thetaB = 	0, 0, 0, 0
+		chiB = 		0, 0, 0, 0
+		vdopp = 	0, 0, 0, 0
+		tau = 		0, 0, 0, 0
+		vmac = 		0, 0, 0, 0
+	[[Weights]]
+		Stokes I = 	1.0, 1.0, 1.0, 1.0
+		Stokes Q = 	0.0, 0.0, 1.0, 1.0
+		Stokes U = 	0.0, 0.0, 1.0, 1.0
+		Stokes V = 	0.0, 0.0, 1.0, 1.0
+\end{verbatim}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -981,7 +1099,8 @@ To do so, just enter into the directory \texttt{SourcePy} and type
 python setup.py build_ext --inplace
 \end{verbatim}
 and a library \texttt{pyhazel.so} will be generated (and also copied to the directory
-\texttt{RunPy}.
+\texttt{RunPy}. In this very same directory you can see the \texttt{test.py} file that
+shows how to call the code to wrapper.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -4,31 +4,32 @@
 \contentsline {section}{\numberline {2}Uncompressing and compiling \textsc {Hazel}}{5}{section.2}
 \contentsline {subsection}{\numberline {2.1}Serial version}{5}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Parallel version}{6}{subsection.2.2}
-\contentsline {section}{\numberline {3}Input files}{7}{section.3}
-\contentsline {subsection}{\numberline {3.1}\texttt {config\_inversion.dat}}{7}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}\texttt {init\_parameters.dat}}{10}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}\texttt {direct\_range.dat}}{13}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}\texttt {invert\_parameters.dat}}{15}{subsection.3.4}
-\contentsline {section}{\numberline {4}Atomic models}{17}{section.4}
-\contentsline {section}{\numberline {5}Graphical front-ends}{18}{section.5}
-\contentsline {subsection}{\numberline {5.1}Synthesis}{18}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Inversion}{19}{subsection.5.2}
-\contentsline {section}{\numberline {6}\textsc {P-Hazel}\ input/output files}{21}{section.6}
-\contentsline {subsection}{\numberline {6.1}Input files}{21}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Output files}{22}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Ambiguities}{22}{subsection.6.3}
-\contentsline {section}{\numberline {7}Calling Hazel from Python}{23}{section.7}
-\contentsline {section}{\numberline {8}Basic Equations}{23}{section.8}
-\contentsline {subsection}{\numberline {8.1}The radiative transfer approach}{23}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}The multipolar components of the atomic density matrix}{27}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Statistical equilibrium equations}{28}{subsection.8.3}
-\contentsline {subsection}{\numberline {8.4}Emission and absorption coefficients}{29}{subsection.8.4}
-\contentsline {section}{\numberline {9}Inversion}{30}{section.9}
-\contentsline {subsection}{\numberline {9.1}Global Optimization techniques}{30}{subsection.9.1}
-\contentsline {subsection}{\numberline {9.2}Convergence}{31}{subsection.9.2}
-\contentsline {subsection}{\numberline {9.3}Stopping criterium}{32}{subsection.9.3}
-\contentsline {section}{\numberline {10}Ambiguities in the Hanle effect in the saturation regime}{32}{section.10}
-\contentsline {section}{\numberline {11}$\Phi _B' = \Phi _B$}{34}{section.11}
-\contentsline {section}{\numberline {12}$\Phi _B' = \Phi _B+\pi $}{34}{section.12}
-\contentsline {section}{\numberline {13}$\Phi _B' = \Phi _B+\pi /2$}{35}{section.13}
-\contentsline {section}{\numberline {14}$\Phi _B' = \Phi _B-\pi /2$}{35}{section.14}
+\contentsline {section}{\numberline {3}New input file}{7}{section.3}
+\contentsline {section}{\numberline {4}Input files}{10}{section.4}
+\contentsline {subsection}{\numberline {4.1}\texttt {config\_inversion.dat}}{10}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}\texttt {init\_parameters.dat}}{12}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}\texttt {direct\_range.dat}}{16}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}\texttt {invert\_parameters.dat}}{17}{subsection.4.4}
+\contentsline {section}{\numberline {5}Atomic models}{20}{section.5}
+\contentsline {section}{\numberline {6}Graphical front-ends}{21}{section.6}
+\contentsline {subsection}{\numberline {6.1}Synthesis}{22}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Inversion}{23}{subsection.6.2}
+\contentsline {section}{\numberline {7}\textsc {P-Hazel}\ input/output files}{23}{section.7}
+\contentsline {subsection}{\numberline {7.1}Input files}{24}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Output files}{24}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Ambiguities}{25}{subsection.7.3}
+\contentsline {section}{\numberline {8}Calling Hazel from Python}{25}{section.8}
+\contentsline {section}{\numberline {9}Basic Equations}{26}{section.9}
+\contentsline {subsection}{\numberline {9.1}The radiative transfer approach}{26}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}The multipolar components of the atomic density matrix}{30}{subsection.9.2}
+\contentsline {subsection}{\numberline {9.3}Statistical equilibrium equations}{31}{subsection.9.3}
+\contentsline {subsection}{\numberline {9.4}Emission and absorption coefficients}{32}{subsection.9.4}
+\contentsline {section}{\numberline {10}Inversion}{32}{section.10}
+\contentsline {subsection}{\numberline {10.1}Global Optimization techniques}{33}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Convergence}{34}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}Stopping criterium}{34}{subsection.10.3}
+\contentsline {section}{\numberline {11}Ambiguities in the Hanle effect in the saturation regime}{34}{section.11}
+\contentsline {section}{\numberline {12}$\Phi _B' = \Phi _B$}{36}{section.12}
+\contentsline {section}{\numberline {13}$\Phi _B' = \Phi _B+\pi $}{37}{section.13}
+\contentsline {section}{\numberline {14}$\Phi _B' = \Phi _B+\pi /2$}{37}{section.14}
+\contentsline {section}{\numberline {15}$\Phi _B' = \Phi _B-\pi /2$}{38}{section.15}

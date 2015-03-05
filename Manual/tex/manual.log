@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.23)  15 JAN 2015 10:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.23)  5 MAR 2015 09:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -277,87 +277,114 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
 (Font)              using `OT1/cmr/bx/n' instead on input line 4.
 
-)
+[2])
 \tf@toc=\write4
 \openout4 = `manual.toc'.
 
- [2] [3] [4] [5] [6]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 239.
+ [3] [4] [5] [6]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 241.
 
 
 (/usr/pkg/teTeX/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 239.
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 255.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 241.
+ [7]
+Overfull \hbox (51.10617pt too wide) in paragraph at lines 373--373
+[]\OT1/cmtt/m/n/12 Wavelength axis = -3.0, 2.5, 200      # Minimum, maximum and
+ number of grid points[] 
+ []
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 298--298
+
+Overfull \hbox (575.98143pt too wide) in paragraph at lines 373--373
+[]\OT1/cmtt/m/n/12 Number of slabs = '1'    # '1' -> single slab, '1+1' -> two 
+slabs with same field, '1+1B' -> 2 slabs with different field, '2' -> two slabs
+ added with a filling factor[] 
+ []
+
+
+Overfull \hbox (26.40616pt too wide) in paragraph at lines 373--373
+[]\OT1/cmtt/m/n/12 height = 3.0     # Real height if positive, apparent height 
+if negative arcsec[] 
+ []
+
+[8]
+Overfull \hbox (285.75629pt too wide) in paragraph at lines 373--373
+[]\OT1/cmtt/m/n/12 Inversion modes = 'DIRECT', 'LM', 'DIRECT', 'LM'        # 'D
+IRECT' for DIRECT algorithm and 'LM' for Levenberg-Marquardt[] 
+ []
+
+[9]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 384.
+
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 427--427
 []\OT1/cmtt/m/n/12 # Output for the upper level rho^K_Q(J,J') in the vertical r
 eference frame[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 298--298
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 427--427
 []\OT1/cmtt/m/n/12 # Output for the lower level rho^K_Q(J,J') in the vertical r
 eference frame[] 
  []
 
-[7]
-Overfull \hbox (14.05615pt too wide) in paragraph at lines 298--298
+
+Overfull \hbox (14.05615pt too wide) in paragraph at lines 427--427
 []\OT1/cmtt/m/n/12 # Output for the upper level rho^K_Q(J,J') in the mag. field
  reference frame[] 
  []
 
 
-Overfull \hbox (14.05615pt too wide) in paragraph at lines 298--298
+Overfull \hbox (14.05615pt too wide) in paragraph at lines 427--427
 []\OT1/cmtt/m/n/12 # Output for the lower level rho^K_Q(J,J') in the mag. field
  reference frame[] 
  []
 
-[8] [9]
-Overfull \hbox (7.88115pt too wide) in paragraph at lines 419--419
+[10] [11] [12]
+Overfull \hbox (7.88115pt too wide) in paragraph at lines 548--548
 []\OT1/cmtt/m/n/12 # Value of delta if depol. rates are included (not used if p
 rev. value = 0)[] 
  []
 
-[10]
-Overfull \hbox (21.897pt too wide) in paragraph at lines 472--472
+[13]
+Overfull \hbox (21.897pt too wide) in paragraph at lines 601--601
 []\OT1/cmtt/m/n/10.95 # Optical depth of the slab in the maximum of I (slab) or
  strength of the line (ME)[] 
  []
 
-[11]
-Overfull \hbox (75.80618pt too wide) in paragraph at lines 519--519
+[14]
+Overfull \hbox (75.80618pt too wide) in paragraph at lines 648--648
 []\OT1/cmtt/m/n/12 # Observation angle with respect to the local solar vertical
  theta,chi,gamma [degrees][] 
  []
 
-[12] [13] [14] [15] [16] [17]
-Overfull \hbox (7.88115pt too wide) in paragraph at lines 813--813
+[15] [16] [17] [18] [19]
+Overfull \hbox (7.88115pt too wide) in paragraph at lines 942--942
 []\OT1/cmtt/m/n/12 1    1    2    1.022d7    10829.0911    1.0000000    1.00000
 00    0.0000000[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 813--813
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 942--942
 []\OT1/cmtt/m/n/12 2    1    4    9.478d6    3888.6046    0.2000000    1.000000
 0    0.0000000[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 813--813
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 942--942
 []\OT1/cmtt/m/n/12 3    2    3    2.780d7    7065.7085    1.0000000    1.000000
 0    0.0000000[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 813--813
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 942--942
 []\OT1/cmtt/m/n/12 4    2    5    7.060d7    5875.9663    1.0000000    1.000000
 0    0.0000000[] 
  []
 
+[20]
 Package epstopdf Info: Source file: <f5.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
 (epstopdf)                    size: 52827 bytes
@@ -366,13 +393,13 @@ Package epstopdf Info: Source file: <f5.eps>
 (epstopdf)                    size: 29293 bytes
 (epstopdf)             Command: <repstopdf --outfile=f5-eps-converted-to.pdf f5
 .eps>
-(epstopdf)             \includegraphics on input line 831.
+(epstopdf)             \includegraphics on input line 960.
 Package epstopdf Info: Output file is already uptodate.
-<f5-eps-converted-to.pdf, id=286, 1224.575pt x 772.8875pt>
+ <f5-eps-converted-to.pdf, id=305, 1224.575pt x 772.8875pt>
 File: f5-eps-converted-to.pdf Graphic file (type pdf)
 
 <use f5-eps-converted-to.pdf>
-Package pdftex.def Info: f5-eps-converted-to.pdf used on input line 831.
+Package pdftex.def Info: f5-eps-converted-to.pdf used on input line 960.
 (pdftex.def)             Requested size: 455.24408pt x 287.32011pt.
 Package epstopdf Info: Source file: <inv1.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -382,14 +409,14 @@ Package epstopdf Info: Source file: <inv1.eps>
 (epstopdf)                    size: 11656 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv1-eps-converted-to.pdf 
 inv1.eps>
-(epstopdf)             \includegraphics on input line 843.
+(epstopdf)             \includegraphics on input line 972.
 Package epstopdf Info: Output file is already uptodate.
 
-<inv1-eps-converted-to.pdf, id=287, 750.805pt x 897.3525pt>
+<inv1-eps-converted-to.pdf, id=306, 750.805pt x 897.3525pt>
 File: inv1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv1-eps-converted-to.pdf>
-Package pdftex.def Info: inv1-eps-converted-to.pdf used on input line 843.
+Package pdftex.def Info: inv1-eps-converted-to.pdf used on input line 972.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 Package epstopdf Info: Source file: <inv2.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -399,14 +426,14 @@ Package epstopdf Info: Source file: <inv2.eps>
 (epstopdf)                    size: 17450 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv2-eps-converted-to.pdf 
 inv2.eps>
-(epstopdf)             \includegraphics on input line 845.
+(epstopdf)             \includegraphics on input line 974.
 Package epstopdf Info: Output file is already uptodate.
 
-<inv2-eps-converted-to.pdf, id=288, 750.805pt x 897.3525pt>
+<inv2-eps-converted-to.pdf, id=307, 750.805pt x 897.3525pt>
 File: inv2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv2-eps-converted-to.pdf>
-Package pdftex.def Info: inv2-eps-converted-to.pdf used on input line 845.
+Package pdftex.def Info: inv2-eps-converted-to.pdf used on input line 974.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 Package epstopdf Info: Source file: <inv3.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -416,14 +443,14 @@ Package epstopdf Info: Source file: <inv3.eps>
 (epstopdf)                    size: 15267 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv3-eps-converted-to.pdf 
 inv3.eps>
-(epstopdf)             \includegraphics on input line 846.
+(epstopdf)             \includegraphics on input line 975.
 Package epstopdf Info: Output file is already uptodate.
 
-<inv3-eps-converted-to.pdf, id=289, 750.805pt x 897.3525pt>
+<inv3-eps-converted-to.pdf, id=308, 750.805pt x 897.3525pt>
 File: inv3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv3-eps-converted-to.pdf>
-Package pdftex.def Info: inv3-eps-converted-to.pdf used on input line 846.
+Package pdftex.def Info: inv3-eps-converted-to.pdf used on input line 975.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 Package epstopdf Info: Source file: <inv4.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -433,30 +460,30 @@ Package epstopdf Info: Source file: <inv4.eps>
 (epstopdf)                    size: 22031 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv4-eps-converted-to.pdf 
 inv4.eps>
-(epstopdf)             \includegraphics on input line 848.
+(epstopdf)             \includegraphics on input line 977.
 Package epstopdf Info: Output file is already uptodate.
 
-<inv4-eps-converted-to.pdf, id=290, 750.805pt x 897.3525pt>
+<inv4-eps-converted-to.pdf, id=309, 750.805pt x 897.3525pt>
 File: inv4-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv4-eps-converted-to.pdf>
-Package pdftex.def Info: inv4-eps-converted-to.pdf used on input line 848.
+Package pdftex.def Info: inv4-eps-converted-to.pdf used on input line 977.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 843--850
+Underfull \hbox (badness 10000) in paragraph at lines 972--979
 [][]  []
  []
 
-[18] [19 <./f5-eps-converted-to.pdf>] [20 <./inv1-eps-converted-to.pdf> <./inv2
--eps-converted-to.pdf> <./inv3-eps-converted-to.pdf> <./inv4-eps-converted-to.p
-df>] [21]
-Overfull \hbox (15.20026pt too wide) in paragraph at lines 942--943
+[21 <./f5-eps-converted-to.pdf>] [22 <./inv1-eps-converted-to.pdf> <./inv2-eps-
+converted-to.pdf> <./inv3-eps-converted-to.pdf> <./inv4-eps-converted-to.pdf>]
+[23]
+Overfull \hbox (15.20026pt too wide) in paragraph at lines 1071--1072
 []\OT1/cmr/m/n/12 map: ar-ray of size \OT1/cmr/m/it/12 (npixel,4,nlambda) \OT1/
 cmr/m/n/12 con-tain-ing the syn-thetic Stokes vec-tor $(\OML/cmm/m/it/12 I; Q; 
 U; V\OT1/cmr/m/n/12 )$
  []
 
-[22]
+[24] [25]
 Package epstopdf Info: Source file: <f1.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
 (epstopdf)                    size: 27387 bytes
@@ -465,16 +492,16 @@ Package epstopdf Info: Source file: <f1.eps>
 (epstopdf)                    size: 9089 bytes
 (epstopdf)             Command: <repstopdf --outfile=f1-eps-converted-to.pdf f1
 .eps>
-(epstopdf)             \includegraphics on input line 1018.
+(epstopdf)             \includegraphics on input line 1147.
 Package epstopdf Info: Output file is already uptodate.
- <f1-eps-converted-to.pdf, id=405, 416.55624pt x 383.4325pt>
+ <f1-eps-converted-to.pdf, id=423, 416.55624pt x 383.4325pt>
 File: f1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use f1-eps-converted-to.pdf>
-Package pdftex.def Info: f1-eps-converted-to.pdf used on input line 1018.
+Package pdftex.def Info: f1-eps-converted-to.pdf used on input line 1147.
 (pdftex.def)             Requested size: 455.24408pt x 419.06233pt.
 
-Overfull \hbox (21.04814pt too wide) in paragraph at lines 1049--1053
+Overfull \hbox (21.04814pt too wide) in paragraph at lines 1178--1182
 \OT1/cmr/m/n/12 where $\OML/cmm/m/it/12 s$ \OT1/cmr/m/n/12 is the ge-o-met-ri-c
 al dis-tance along the ray un-der con-sid-er-a-tion, $\OML/cmm/b/it/12 ^^O\OT1/
 cmr/m/n/12 (\OML/cmm/m/it/12 ^^W; \OT1/cmr/bx/sc/12 
@@ -482,161 +509,162 @@ cmr/m/n/12 (\OML/cmm/m/it/12 ^^W; \OT1/cmr/bx/sc/12
  )[]$
  []
 
-[23] [24 <./f1-eps-converted-to.pdf>] [25] [26] [27] [28] [29] [30] [31]
-[32]
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1561.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1561.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1561.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1561.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1561.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1561.
-
-[33]
-Overfull \hbox (83.00797pt too wide) detected at line 1575
-[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1604.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1604.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1604.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1604.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1604.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\pi' on input line 1604.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1604.
-
-
-Overfull \hbox (82.8134pt too wide) detected at line 1613
-[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
- []
-
-[34]
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1625.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1625.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1625.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1625.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1625.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\pi' on input line 1625.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1625.
-
-
-Overfull \hbox (81.50786pt too wide) detected at line 1634
-[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1647.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1647.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1647.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\Phi' on input line 1647.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1647.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\pi' on input line 1647.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1647.
-
-
-Overfull \hbox (81.50786pt too wide) detected at line 1656
-[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
- []
-
+[26] [27 <./f1-eps-converted-to.pdf>] [28] [29] [30] [31] [32] [33] [34]
 [35]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1732.
- [36]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1732.
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1690.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1690.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1690.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1690.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1690.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1690.
+
+
+Overfull \hbox (83.00797pt too wide) detected at line 1704
+[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
+ []
+
+[36]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1733.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1733.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1733.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1733.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1733.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\pi' on input line 1733.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1733.
+
+
+Overfull \hbox (82.8134pt too wide) detected at line 1742
+[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1754.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1754.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1754.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1754.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1754.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\pi' on input line 1754.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1754.
+
+
+Overfull \hbox (81.50786pt too wide) detected at line 1763
+[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
+ []
+
+[37]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1776.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1776.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1776.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Phi' on input line 1776.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1776.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\pi' on input line 1776.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1776.
+
+
+Overfull \hbox (81.50786pt too wide) detected at line 1785
+[][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
+ []
+
+[38]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1861.
+ [39]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1861.
  (./manual.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1732.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1732.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1861.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1861.
 
 Package rerunfilecheck Info: File `manual.out' has not changed.
-(rerunfilecheck)             Checksum: 21C45CA04F425C4DE4574603729E2D14;2152.
+(rerunfilecheck)             Checksum: 785006414AF82CBFEED933EB1D1C8AC7;2209.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1732.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1861.
  ) 
 Here is how much of TeX's memory you used:
- 5901 strings out of 493723
- 86600 string characters out of 6151527
- 172407 words of memory out of 5000000
- 9122 multiletter control sequences out of 15000+600000
+ 5906 strings out of 493723
+ 86651 string characters out of 6151527
+ 172409 words of memory out of 5000000
+ 9123 multiletter control sequences out of 15000+600000
  25131 words of font info for 94 fonts, out of 8000000 for 9000
  783 hyphenation exceptions out of 8191
- 32i,12n,31p,1100b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,12n,31p,1100b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/pkg/teTeX/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10
 .pfb></usr/pkg/teTeX/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
 x12.pfb></usr/pkg/teTeX/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/
@@ -660,10 +688,10 @@ ist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/pkg/teTeX/texlive/2014/texmf
 xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/pkg/teTeX/texlive/2014
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/pkg/teTeX/texlive/2
 014/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on manual.pdf (36 pages, 430188 bytes).
+Output written on manual.pdf (39 pages, 433038 bytes).
 PDF statistics:
- 707 PDF objects out of 1000 (max. 8388607)
- 566 compressed objects within 6 object streams
- 139 named destinations out of 1000 (max. 500000)
- 303 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 725 PDF objects out of 1000 (max. 8388607)
+ 581 compressed objects within 6 object streams
+ 143 named destinations out of 1000 (max. 500000)
+ 311 words of extra memory for PDF output out of 10000 (max. 10000000)
 

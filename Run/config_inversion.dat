@@ -38,6 +38,9 @@
 # File with the parameters from the inversion
 'test.parameters'
 
+# File with the final errors
+'test.errors'
+
 # File that sets the parameters to invert
 'invert_parameters.dat'
 
