@@ -32,7 +32,7 @@ OBJECTS = vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o marquardt.o 
         DIRserial.o DIRsubrout.o singleton.o mpi_routines.o inversion.o
         
 hazel: $(OBJECTS)
-	$(COMPILER) $(OBJECTS) $(OPTIONS_LINK) $(LIBS) $(NETCDF_INCLUDE) -o $(FINAL_EXECUTABLE)
+	$(COMPILER) $(OBJECTS) $(OPTIONS_LINK) $(LIBS) -I$(NETCDF_INCLUDE) -o $(FINAL_EXECUTABLE)
 	cp $(FINAL_EXECUTABLE) ../RunMPI
 
 all:
