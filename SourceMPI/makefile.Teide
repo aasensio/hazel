@@ -45,49 +45,49 @@ clean:
 	find ../ -maxdepth 2 -name "phazel" -delete
 	
 vars.o: vars.f90
-	$(COMPILER) $(OPTIONS)  vars.f90
+	$(COMPILER) $(COMPILER_OPTS)  vars.f90
 
 maths.o: maths.f90 vars.o singleton.o
-	$(COMPILER) $(OPTIONS)  maths.f90
+	$(COMPILER) $(COMPILER_OPTS)  maths.f90
 
 allen.o: allen.f90 maths.o vars.o
-	$(COMPILER) $(OPTIONS)  allen.f90
+	$(COMPILER) $(COMPILER_OPTS)  allen.f90
 
 svd.o: svd.f90
-	$(COMPILER) $(OPTIONS)  svd.f90
+	$(COMPILER) $(COMPILER_OPTS)  svd.f90
 
 io.o: io.f90 maths.o vars.o
-	$(COMPILER) $(OPTIONS) -I$(NETCDF_INCLUDE) io.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) io.f90
 
 SEE.o: SEE.f90 allen.o maths.o vars.o
-	$(COMPILER) $(OPTIONS)  SEE.f90
+	$(COMPILER) $(COMPILER_OPTS)  SEE.f90
 
 rt_coef.o: rt_coef.f90 vars.o maths.o
-	$(COMPILER) $(OPTIONS)  rt_coef.f90
+	$(COMPILER) $(COMPILER_OPTS)  rt_coef.f90
 
 synth.o: synth.f90 rt_coef.o SEE.o vars.o
-	$(COMPILER) $(OPTIONS)  synth.f90
+	$(COMPILER) $(COMPILER_OPTS)  synth.f90
 
 marquardt.o: marquardt.f90 maths.o svd.o synth.o rt_coef.o SEE.o vars.o
-	$(COMPILER) $(OPTIONS) -I$(NETCDF_INCLUDE) marquardt.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) marquardt.f90
 	
 DIRect.o: DIRect.f90
-	$(COMPILER) $(OPTIONS)  DIRect.f90
+	$(COMPILER) $(COMPILER_OPTS)  DIRect.f90
 
 DIRserial.o: DIRserial.f90
-	$(COMPILER) $(OPTIONS)  DIRserial.f90
+	$(COMPILER) $(COMPILER_OPTS)  DIRserial.f90
 
 DIRsubrout.o: DIRsubrout.f90
-	$(COMPILER) $(OPTIONS)  DIRsubrout.f90
+	$(COMPILER) $(COMPILER_OPTS)  DIRsubrout.f90
 
 singleton.o: singleton.f90
-	$(COMPILER) $(OPTIONS)  singleton.f90
+	$(COMPILER) $(COMPILER_OPTS)  singleton.f90
 
 mpi_routines.o: mpi_routines.f90
-	$(COMPILER) $(OPTIONS) mpi_routines.f90
+	$(COMPILER) $(COMPILER_OPTS) mpi_routines.f90
 
 inversion.o: inversion.f90 marquardt.o
-	$(COMPILER) $(OPTIONS) -I$(NETCDF_INCLUDE) inversion.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) inversion.f90
 
 hazel.o: hazel.f90 allen.o synth.o rt_coef.o SEE.o maths.o vars.o mpi_routines.o inversion.o io.o
-	$(COMPILER) $(OPTIONS) -I$(NETCDF_INCLUDE) hazel.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) hazel.f90
