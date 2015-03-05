@@ -30,16 +30,16 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'/scratch/Dropbox/GIT/hazel/RunMPI/OBSERVATION/test.nc'
+'OBSERVATION/test.nc'
 
 # File with the inverted profiles
-'test_inversion.nc'
+'test.inversion'
 
 # File with the parameters from the inversion
-'test_parameters.nc'
+'test.parameters'
 
 # File with the final errors
-'test_errors.nc'
+'test.errors'
 
 # File that sets the parameters to invert
 'invert_parameters.dat'

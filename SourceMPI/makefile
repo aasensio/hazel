@@ -1,45 +1,44 @@
 # makefile for the MPI version of Hazel (P-Hazel)
 
-# COMPILER (MPI)
-COMPILER = /net/nas4/fis/aasensio/scratch/MPICH/bin/mpif90
+#******************
+# NET-CDF
+#******************
+# If nf-config exists in your path
+# NETCDF_INCLUDE = $(shell nf-config --fflags)
+# NETCDF_LIB = $(shell nf-config --flibs)
 
-# The following lines are used to choose the compiler
-# We have tested gfortran and ifort
-# In case you want to use another compiler, use equivalent
-# keywords
-#  FLAGS -> is used to indicate that the preprocessor has to be invoked
-#  OPTIONS -> these are general compilation flags that, for the moment, only indicate
-#             that the object file is generated, without linking
-# It should be easy to find the equivalent flags in your compiler
+# Otherwise, hardwire the path to the include files
+NETCDF_INCLUDE = /net/nas4/fis/aasensio/scratch/LIBS/NETCDF/include
+NETCDF_LIB = /net/nas4/fis/aasensio/scratch/LIBS/NETCDF/lib
+
+#******************
+# COMPILER (MPI)
+#******************
+# COMPILER = mpif90
+
+# In my desktop computer
+COMPILER = /net/nas4/fis/aasensio/scratch/MPICH/bin/mpif90
+COMPILER_LINKS = -L/net/nas4/fis/aasensio/scratch/MPICH/lib
 
 # ------------------ CHANGE THIS ACCORDING TO YOUR COMPILER ------------------
 # If mpif90 calls gfortran, uncomment the following line
-# OPTIONS = -c -ffree-line-length-none
+# COMPILER_OPTS = -c -O3 -ffree-line-length-none -I/net/nas4/fis/aasensio/scratch/MPICH/include
 
 # ------------------ CHANGE THIS ACCORDING TO YOUR COMPILER ------------------
-# If mpif90 calls ifort, uncomment the following line
-OPTIONS = -c -O3 -I/net/nas4/fis/aasensio/scratch/MPICH/include
-# OPTIONS = -c -g -traceback
+#  If mpif90 calls ifort, uncomment the following line
+COMPILER_OPTS = -c -O3 -ipo -I/net/nas4/fis/aasensio/scratch/MPICH/include
 
-FLAGS =
-
-# OPTIONS_LINK 
-OPTIONS_LINK =
-
-# NETCDF
-# Indicate the directories for the include files and lib of NetCDF
-NETCDF_INCLUDE = -I/net/nas4/fis/aasensio/scratch/LIBS/NETCDF/include
-NETCDF_LIB = /net/nas4/fis/aasensio/scratch/LIBS/NETCDF/lib
-
-
-LIBS =  -L$(NETCDF_LIB) -lnetcdf -lcurl -L/net/nas4/fis/aasensio/scratch/MPICH/lib
+#******************
+# Hazel
+#******************
+LIBS =  -L$(NETCDF_LIB) -lnetcdf -lcurl 
 FINAL_EXECUTABLE = phazel
 
 OBJECTS = vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o marquardt.o hazel.o DIRect.o \
 	DIRserial.o DIRsubrout.o singleton.o mpi_routines.o inversion.o
 	
 hazel: $(OBJECTS)
-	$(COMPILER) $(OBJECTS) $(OPTIONS_LINK) $(LIBS) $(NETCDF_INCLUDE) -o $(FINAL_EXECUTABLE)
+	$(COMPILER) $(COMPILER_LINKS) $(OBJECTS) $(LIBS) -I$(NETCDF_INCLUDE) -o $(FINAL_EXECUTABLE)
 	cp $(FINAL_EXECUTABLE) ../RunMPI
 
 all:
@@ -52,50 +51,50 @@ clean:
 	find ../ -maxdepth 2 -name "phazel" -delete
 	
 vars.o: vars.f90
-	$(COMPILER) $(OPTIONS)  vars.f90
+	$(COMPILER) $(COMPILER_OPTS)  vars.f90
 
 maths.o: maths.f90 vars.o singleton.o
-	$(COMPILER) $(OPTIONS)  maths.f90
+	$(COMPILER) $(COMPILER_OPTS)  maths.f90
 
 allen.o: allen.f90 maths.o vars.o
-	$(COMPILER) $(OPTIONS)  allen.f90
+	$(COMPILER) $(COMPILER_OPTS)  allen.f90
 	
 svd.o: svd.f90
-	$(COMPILER) $(OPTIONS)  svd.f90
+	$(COMPILER) $(COMPILER_OPTS)  svd.f90
 
 io.o: io.f90 maths.o vars.o
-	$(COMPILER) $(OPTIONS) $(NETCDF_INCLUDE) io.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) io.f90
 
 SEE.o: SEE.f90 allen.o maths.o vars.o
-	$(COMPILER) $(OPTIONS)  SEE.f90
+	$(COMPILER) $(COMPILER_OPTS)  SEE.f90
 
 rt_coef.o: rt_coef.f90 vars.o maths.o
-	$(COMPILER) $(OPTIONS)  rt_coef.f90
+	$(COMPILER) $(COMPILER_OPTS)  rt_coef.f90
 
 synth.o: synth.f90 rt_coef.o SEE.o vars.o
-	$(COMPILER) $(OPTIONS)  synth.f90
+	$(COMPILER) $(COMPILER_OPTS)  synth.f90
 
 marquardt.o: marquardt.f90 maths.o svd.o synth.o rt_coef.o SEE.o vars.o
-	$(COMPILER) $(OPTIONS) $(NETCDF_INCLUDE) marquardt.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) marquardt.f90
 	
 DIRect.o: DIRect.f90
-	$(COMPILER) $(OPTIONS)  DIRect.f90
+	$(COMPILER) $(COMPILER_OPTS)  DIRect.f90
 	
 DIRserial.o: DIRserial.f90
-	$(COMPILER) $(OPTIONS)  DIRserial.f90
+	$(COMPILER) $(COMPILER_OPTS)  DIRserial.f90
 	
 DIRsubrout.o: DIRsubrout.f90
-	$(COMPILER) $(OPTIONS)  DIRsubrout.f90
+	$(COMPILER) $(COMPILER_OPTS)  DIRsubrout.f90
 
 singleton.o: singleton.f90
-	$(COMPILER) $(OPTIONS)  singleton.f90
+	$(COMPILER) $(COMPILER_OPTS)  singleton.f90
 
 mpi_routines.o: mpi_routines.f90
-	$(COMPILER) $(OPTIONS) mpi_routines.f90
+	$(COMPILER) $(COMPILER_OPTS) mpi_routines.f90
 
 inversion.o: inversion.f90 marquardt.o
-	$(COMPILER) $(OPTIONS) $(NETCDF_INCLUDE) inversion.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) inversion.f90
 	
 hazel.o: hazel.f90 allen.o synth.o rt_coef.o SEE.o maths.o vars.o mpi_routines.o inversion.o io.o
-	$(COMPILER) $(OPTIONS) $(NETCDF_INCLUDE) hazel.f90
+	$(COMPILER) $(COMPILER_OPTS) -I$(NETCDF_INCLUDE) hazel.f90
 	

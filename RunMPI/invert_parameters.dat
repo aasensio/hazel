@@ -30,7 +30,7 @@
 1 1 0 0
 
 # Invert the damping
-0 0 0 0
+1 1 0 0
 
 # Invert the source function gradient
 0 0 0 0
@@ -58,18 +58,18 @@
 
 # Invert filling factor
 0 0 0 0
- 
+
 # Weights for Stokes I in each cycle
-1.d0 1.d0 1.d0 1.d0
+1.0 1.0 1.0 1.0
 
 # Weights for Stokes Q in each cycle
-0.d0 0.d0 1.d0 1.d0
+0.0 0.0 1.0 1.0
 
 # Weights for Stokes U in each cycle
-0.d0 0.d0 1.d0 1.d0
+0.0 0.0 1.0 1.0
 
 # Weights for Stokes V in each cycle
-0.d0 0.d0 1.d0 1.d0
+0.0 0.0 1.0 1.0
 
 # Inversion modes (1-> LM, 2-> DIRECT, 3-> PIKAIA)
 2 1 2 1

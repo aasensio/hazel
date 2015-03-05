@@ -11,7 +11,7 @@ def lower_to_sep(string, separator='='):
 
 
 if (len(sys.argv) < 2):
-	print "Example usage: runHazel conf.ini"
+	print "Example usage: runHazel conf.ini nProcessors"
 	exit()
 
 print "Using configuration file = "+sys.argv[1]
@@ -73,6 +73,9 @@ f.write('\n')
 f.write("# File with the parameters from the inversion\n")
 f.write("'"+config['files']['file with inverted parameters']+"'\n")
 f.write('\n')
+f.write("# File with the final errors\n")
+f.write("'"+config['files']['file with errors in inverted parameters']+"'\n")
+f.write('\n')
 f.write("# File that sets the parameters to invert\n")
 f.write("'invert_parameters.dat'\n")
 f.write('\n')
@@ -115,9 +118,6 @@ f = open('direct_range.dat','w')
 f.write("***********************************************\n")
 f.write("* Ranges for the DIRECT method\n")
 f.write("***********************************************\n")
-f.write("\n")
-f.write("# Output file\n")
-f.write("'direct.location'\n")
 f.write("\n")
 f.write("# Maximum number of function evaluations (<0 -> don't use this criteria)\n")
 f.write("-1\n")
@@ -357,6 +357,6 @@ f.close()
 
 # Run the code
 try:
-	call(['mpiexec','-n',nProcs,'hazel'])
+	call(['mpiexec','-n',nProcs,'phazel'])
 except:
 	print "A problem occured. Exiting..."

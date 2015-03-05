@@ -50,7 +50,8 @@ contains
 		call lb(12,2)
 		read(12,*) output_final_parameters
 		call lb(12,2)
-		output_final_errors = trim(adjustl(output_final_parameters))//'.errors'
+		read(12,*) output_final_errors
+		call lb(12,2)		
 		read(12,*) input_inverted_parameters
 		call lb(12,2)
 		read(12,*) verbose_mode
