@@ -74,13 +74,14 @@ implicit none
 	type(type_observation) :: observation
 	type(type_inversion) :: inversion
 	
-	character(len=6) :: parameters_name(17) = (/ 'B     ','thetaB','chiB  ', 'vdopp ', 'dtau  ','D^(2) ','v_mac ','damp  ','beta  ','h     ','dtau2 ', 'v_mac2',&
-		'B2    ', 'thetB2', 'chiB2 ', 'vdopp2','ff1   '/)
+	character(len=6) :: parameters_name(17) = (/ 'B     ','thetaB','chiB  ', 'vdopp ', 'dtau  ','D^(2) ','v_mac ','damp  ',&
+		&'beta  ','h     ','dtau2 ', 'v_mac2',	'B2    ', 'thetB2', 'chiB2 ', 'vdopp2','ff1   '/)
 	real(kind=8), parameter :: minim_pikaia(10) = (/0.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0, -15.d0, 0.d0, 0.d0, 0.d0/)
 	real(kind=8), parameter :: maxim_pikaia(10) = (/4000.d0, 180.d0, 180.d0, 20.d0, 3.d0, 18.d0, 40.d0, 10.d0, 10.d0, 100.d0/)
 	
-	real(kind=8), parameter :: chi2Values(19) = (/1.0,2.2957489289,3.52674038026,4.71947446003,5.88759544592,7.03840092374,8.17623649786,9.30391276904,&
-		10.4233631544,11.5359817133,12.6428113334,13.7446555872,14.8421488028,15.9358018922,17.0260334234,18.1131913387,19.197568537,20.2794143079,21.3589428896/)
+	real(kind=8), parameter :: chi2Values(19) = (/1.0,2.2957489289,3.52674038026,4.71947446003,5.88759544592,&
+		&7.03840092374,8.17623649786,9.30391276904,10.4233631544,11.5359817133,12.6428113334,13.7446555872,&
+		14.8421488028,15.9358018922,17.0260334234,18.1131913387,19.197568537,20.2794143079,21.3589428896/)
 	
 	
 end module vars

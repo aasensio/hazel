@@ -11,16 +11,13 @@
 #             that the object file is generated, without linking
 # It should be easy to find the equivalent flags in your compiler
 
-# gfortran (comment these lines if you want to use another compiler)
-#COMPILER = gfortran
-#FLAGS =
-#OPTIONS = -c -ffree-line-length-none
- 
-# ifort (comment these lines if you want to use another compiler)
+# Change COMPILER to ifort or gfortran
 COMPILER = ifort
-FLAGS = 
-OPTIONS = -c -O3
-# -g -traceback
+ifeq ($(COMPILER),ifort)
+	OPTIONS = -c -O3
+else
+	OPTIONS = -c -O3 -ffree-line-length-none
+endif
  
 FINAL_EXECUTABLE = hazel
 
