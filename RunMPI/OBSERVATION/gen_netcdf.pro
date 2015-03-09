@@ -109,7 +109,13 @@ pro test
  	obs_gamma = replicate(90.d0,npixel)
 	mask = replicate(1.0,2,2)
 
-	pars = fltarr(7,npixel)
+; Initial parameters, depending on the radiative transfer option:
+; 1-component (vector of size 8): B, thetaB, chiB, tau, vdop, a, vmac, beta
+; 2-component 1+1 with same field (vector of size 10): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta
+; 2-component 1+1 with different field (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta
+; 2-component 2 with different field with ff (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff
+
+	pars = fltarr(8,npixel)
 	
 ; B
 	pars[0,*] = [10.d0, 10.d0, 20.d0, 30.d0]
@@ -131,6 +137,9 @@ pro test
 
 ; vmac
 	pars[6,*] = replicate(0.d0,npixel)
+	
+; beta
+	pars[7,*] = replicate(1.d0,npixel)
  	
 	gen_netcdf, lambda, reform(map[*,0,*]), reform(map[*,1,*]), reform(map[*,2,*]), reform(map[*,3,*]), $
 		reform(map[*,4,*]), reform(map[*,5,*]), reform(map[*,6,*]), reform(map[*,7,*]), boundary,$

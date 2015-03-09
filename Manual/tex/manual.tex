@@ -602,22 +602,17 @@ gives the height at which the slab of atoms is placed with respect to the surfac
 \end{small}
 This quantity is the optical depth of the slab at the wavelength position of the maximum absorption
 or emission in Stokes $I$. For example, for the 10830 \AA\ multiplet of He \textsc{i}, this is the 
-position of the red blended component. In case the Milne-Eddington solution of the radiative transfer
-equation is used, this is equivalent to the strength of the line, usually referred to
-as $\eta_0$. If two slabs with option 2 or 3 are used, put the two optical depths together. If option -2 is
+position of the red blended component. If two slabs with option 2 or 3 are used, put the two optical depths together. If option -2 is
 used, then add the filling factor as a third number.
 
 \begin{verbatim}
-# Source function gradient (only ME)
-9.4d0
+# Source function increase
+1.d0
 \end{verbatim}
-If the Milne-Eddington solution is used, this number is the gradient of the source function. We
-point out that in the present version of \H\ the Milne-Eddington solution is only valid when
-neglecting the presence of atomic level polarization. For the moment, the slab model is the one
-which allows the user to account for the joint action of the atomic level polarization and the
-Hanle and Zeeman effects. If two components (one after the other) are used, this number is a
-multiplicative factor for the source function of the second component. This allows us to 
-simulate self-absorption in the code.
+The source function of the slab will be multiplied by this number. This is a way to generate
+lines in emission even when the slab is seen on the solar disk.
+If two components (one after the other) are used, this number only modifies the source 
+function of the second component. This allows us to simulate self-absorption in the code.
 
 \begin{verbatim}
 # Boundary Stokes parameters (I0,Q0,U0,V0)
@@ -1055,10 +1050,10 @@ The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} sho
 generates such a file by passing all the variables as parameters.
 The order of pars is the following, depending on the number of slabs:
 \begin{itemize}
-\item 1-component (vector of size 9): $B$, $\theta_B$, $\chi_B$, $\tau$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac}$
-\item 2-component 1+1 with same field (vector of size 11): $B$, $\theta_B$, $\chi_B$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
-\item 2-component 1+1 with different field (vector of size 15): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
-\item 2-component 2 with different field with filling factor (vector of size 16): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, 
+\item 1-component (vector of size 8): $B$, $\theta_B$, $\chi_B$, $\tau$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac}$, $\beta$
+\item 2-component 1+1 with same field (vector of size 10): $B$, $\theta_B$, $\chi_B$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
+\item 2-component 1+1 with different field (vector of size 14): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\beta$
+\item 2-component 2 with different field with filling factor (vector of size 14): $B_1$, $\theta_{B1}$, $\chi_{B1}$, $B_2$, $\theta_{B2}$, $\chi_{B2}$, $\tau_1$, $\tau_2$, $v_\mathrm{dop}$, $v_\mathrm{dop2}$, $a$, 
 $v_\mathrm{mac1}$, $v_\mathrm{mac2}$, $\mathrm{ff}$
 \end{itemize}
 

@@ -827,14 +827,14 @@ contains
 ! but those that are kept fixed
 				deallocate(values_vec)
 
-! 1-component (vector of size 7): B, thetaB, chiB, tau, vdop, a, vmac
+! 1-component (vector of size 7): B, thetaB, chiB, tau, vdop, a, vmac, beta
 ! 2-component 1+1 with same field (vector of size 10): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta
 ! 2-component 1+1 with different field (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta
 ! 2-component 2 with different field with ff (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff
 				select case(in_params%nslabs)
 					case(1)
-						allocate(values_vec(7))
-						nParamRead = 7
+						allocate(values_vec(8))
+						nParamRead = 8
 					case(2)
 						allocate(values_vec(10))
 						nParamRead = 10
@@ -861,6 +861,7 @@ contains
 					in_params%vdopp = values_vec(5)
 					in_params%damping = values_vec(6)
 					in_params%vmacro = values_vec(7)
+					in_params%beta = values_vec(8)
 				endif
 
 ! Two components one after the other with the same field
