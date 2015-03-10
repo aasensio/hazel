@@ -266,9 +266,10 @@ contains
 
 		call MPI_Pack(params%vmacro,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		if (params%nslabs /= 1) then
-			call MPI_Pack(params%vmacro2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)			
-			call MPI_Pack(params%beta,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+			call MPI_Pack(params%vmacro2,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)						
 		endif
+		
+		call MPI_Pack(params%beta,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		
 		call MPI_Send(buffer, packagesize, MPI_PACKED, slave, 10, MPI_COMM_WORLD, ierr)
  		
@@ -330,9 +331,10 @@ contains
 			call MPI_Unpack(buffer, packagesize, pos, params%vmacro, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 			
 			if (params%nslabs /= 1) then
-				call MPI_Unpack(buffer, packagesize, pos, params%vmacro2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
-				call MPI_Unpack(buffer, packagesize, pos, params%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+				call MPI_Unpack(buffer, packagesize, pos, params%vmacro2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)				
 			endif
+			
+			call MPI_Unpack(buffer, packagesize, pos, params%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 		
 			return
 		endif
@@ -413,21 +415,21 @@ contains
 		
 		if (params%nslabs /= 1) then
 			call MPI_Pack(params%vmacro2, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-			call MPI_Pack(error%vmacro2, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-			
-			call MPI_Pack(params%beta, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-			call MPI_Pack(error%beta, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+			call MPI_Pack(error%vmacro2, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)						
 		endif
+		
+		call MPI_Pack(params%beta, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
+		call MPI_Pack(error%beta, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 
 		if (params%nslabs == -2) then
 			call MPI_Pack(params%ff, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 			call MPI_Pack(error%ff, 1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
 		endif
-
+		
 ! And the synthetic profiles
 		call MPI_Pack(in_inversion%stokes_unperturbed(0:3,:), 4*in_observation%n, MPI_DOUBLE_PRECISION, buffer, &
 			packagesize, pos, MPI_COMM_WORLD, ierr)
-
+				
 ! Send it to the master
 		call MPI_Send(buffer, packagesize, MPI_PACKED, 0, 13, MPI_COMM_WORLD,ierr)
 
@@ -503,10 +505,11 @@ contains
 		if (params%nslabs /= 1) then
 			call MPI_Unpack(buffer, packagesize, pos, params%vmacro2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 			call MPI_Unpack(buffer, packagesize, pos, error%vmacro2, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
-			
-			call MPI_Unpack(buffer, packagesize, pos, params%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
-			call MPI_Unpack(buffer, packagesize, pos, error%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+						
 		endif
+		
+		call MPI_Unpack(buffer, packagesize, pos, params%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+		call MPI_Unpack(buffer, packagesize, pos, error%beta, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
 
 		if (params%nslabs == -2) then
 			call MPI_Unpack(buffer, packagesize, pos, params%ff, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)

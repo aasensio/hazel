@@ -132,32 +132,32 @@ implicit none
 		allocate(observation%sigma(0:3,observation%n))
 
 ! Compute size of package for models and observations
-		package_size_model = 3*sizeof(params%nslabs) + 2*8*sizeof(params%bgauss) + 4*sizeof(observation%wl)
+		package_size_model = 4*sizeof(params%nslabs) + 2*9*sizeof(params%bgauss) + 4*sizeof(observation%wl)
 			
 		if (params%nslabs == 2) then
-			package_size_model = package_size_model + 2*3*sizeof(params%bgauss)
+			package_size_model = package_size_model + 2*2*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == 3) then
-			package_size_model = package_size_model + 2*7*sizeof(params%bgauss)
+			package_size_model = package_size_model + 2*6*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == -2) then
-			package_size_model = package_size_model + 2*8*sizeof(params%bgauss)
-		endif		
+			package_size_model = package_size_model + 2*7*sizeof(params%bgauss)
+		endif				
 
 		package_size_obs = sizeof(n_procs_done) + sizeof(observation%wl) + sizeof(observation%stokes(0:3,:)) + &
 			sizeof(observation%sigma(0:3,:)) + sizeof(fixed%Stokes_incident) + sizeof(params%height) + &
-			sizeof(fixed%thetad) + 7*sizeof(params%bgauss)
+			sizeof(fixed%thetad) + 8*sizeof(params%bgauss)
 			 
 		if (params%nslabs == 2) then
-			package_size_obs = package_size_obs + 3*sizeof(params%bgauss)
+			package_size_obs = package_size_obs + 2*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == 3) then
-			package_size_obs = package_size_obs + 7*sizeof(params%bgauss)
+			package_size_obs = package_size_obs + 6*sizeof(params%bgauss)
 		endif
 		if (params%nslabs == -2) then
-			package_size_obs = package_size_obs + 8*sizeof(params%bgauss)
+			package_size_obs = package_size_obs + 7*sizeof(params%bgauss)
 		endif
-			 		
+					 		
 		if (.not.associated(inversion%stokes_unperturbed)) allocate(inversion%stokes_unperturbed(0:3,observation%n))
 		if (.not.associated(inversion%stokes_perturbed)) allocate(inversion%stokes_perturbed(0:3,observation%n))
 		if (.not.associated(inversion%dydx)) allocate(inversion%dydx(0:3,observation%n,params%n_total))

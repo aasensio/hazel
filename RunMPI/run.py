@@ -357,6 +357,6 @@ f.close()
 
 # Run the code
 try:
-	call(['mpiexec','-n',nProcs,'phazel'])
+	call(['mpiexec','-n',nProcs,'./phazel'])
 except:
 	print "A problem occured. Exiting..."
