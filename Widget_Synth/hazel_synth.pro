@@ -133,17 +133,17 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 	endfor
 	close,2
 
-	file = strarr(54)
+	file = strarr(57)
 	openr,2,'config_inversion.idl'
 	tmp = ''
-	for i = 0, 53 do begin
+	for i = 0, 56 do begin
 		readf,2,tmp
 		file(i) = tmp
 	endfor
 	close,2
 	
 	file(8) = "'experiment.dat'"
-	file(50) = strtrim(string(state.observation),2)
+	file(53) = strtrim(string(state.observation),2)
 
 ; Multiterm code
 	if (state.which_code eq 0) then begin
@@ -174,7 +174,7 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 	endif
 					
 	openw,2,'config_inversion.dat'
-	for i = 0, 53 do begin
+	for i = 0, 56 do begin
 		printf,2,file(i)
 	endfor
 	close,2
