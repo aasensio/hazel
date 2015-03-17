@@ -1,34 +1,22 @@
 --------------------------------- Log file --------------------------------
 DIRECT Version 2.0.4
- Problem Dimension n                    :      5
+ Problem Dimension n                    :      4
  Eps value                              :   0.1000E-05
  Maximum number of f-evaluations (maxf) :  10000
  Maximum number of iterations (MaxT)    :   6000
  Value of f_global                      :  -0.1000+101
  Global percentage wanted               :   0.0000E+00
- Volume percentage wanted               :   0.1000E+00
+ Volume percentage wanted               :   0.1000E-02
  Measure percentage wanted              :  -0.1000E+01
  Epsilon is constant.
  Our modification of the DIRECT algorithm is used.
 Bounds on variable x 1    :      0.00000 <= xi <=     20.00000
-Bounds on variable x 2    :      0.00000 <= xi <=      5.00000
-Bounds on variable x 3    :    -10.00000 <= xi <=     10.00000
+Bounds on variable x 2    :      0.00000 <= xi <=      1.50000
+Bounds on variable x 3    :      5.00000 <= xi <=     12.00000
 Bounds on variable x 4    :      0.00000 <= xi <=      0.50000
-Bounds on variable x 5    :      0.50000 <= xi <=      1.50000
 ---------------------------------------------------------------------------
  Iteration   # of f-eval.   fmin
-    1          11           0.1745565340
-    2          19           0.0812918769
-    4          39           0.0543759270
-    5          51           0.0332792363
-DIRECT stopped: Volume of S_min is  0.46D-01% <  0.10D+00% of the original volume.
---------------------------------- Summary --------------------------------
-Final function value           :    0.0332792
-Number of function evaluations :           51
-Index  Final solution   x(i) - l(i)   u(i) - x(i) 
-    1   10.0000000      10.0000000     10.0000000
-    2    0.8333333       0.8333333      4.1666667
-    3    0.0000000      10.0000000     10.0000000
-    4    0.0277778       0.0277778      0.4722222
-    5    0.8888889       0.3888889      0.6111111
----------------------------------------------------------------------------
+    1           9           1.2754331800
+    2          15           1.2050266862
+    4          29           1.1460444346
+    5          37           1.1404740808

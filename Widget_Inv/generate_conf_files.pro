@@ -5,19 +5,19 @@ pro generate_conf_files, info, action
 
 ; config_inversion.dat
 	openr,2,'CONF/config_inversion.dat'
-	str = strarr(54)
+	str = strarr(57)
 	readf,2,str
 	close,2
 	
 	str(32) = "'"+info.obs_file+"'"	
 	str(35) = "'"+info.output_file+"'"	
-	str(44) = strtrim(string(info.verbose),2)
-	str(47) = strtrim(string(info.linear_solver),2)
-	str(50) = strtrim(string(info.rt_mode),2)
-	str(53) = strtrim(string(action),2)
+	str(47) = strtrim(string(info.verbose),2)
+	str(50) = strtrim(string(info.linear_solver),2)
+	str(53) = strtrim(string(info.rt_mode),2)
+	str(56) = strtrim(string(action),2)
 	
 	openw,2,'config_inversion.dat',width=132
-	for i = 0, 53 do begin
+	for i = 0, 56 do begin
 		printf,2,str(i)
 	endfor	
 	close,2

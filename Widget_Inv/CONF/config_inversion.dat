@@ -38,13 +38,16 @@
 # File with the parameters from the inversion
 'test.parameters'
 
+# File with the errors
+'test.errors'
+
 # File that sets the parameters to invert
 'invert_parameters.dat'
 
 # Verbose mode (0-> no, 1-> yes)
 0
 
-# Linear system solver (0-> LU, 1-> CG not working)
+# Linear system solver (0-> LU, 1-> CG)
 0
 
 # Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3), simplified slab (4), exact slab (5)
