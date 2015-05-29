@@ -936,7 +936,7 @@ contains
 	type(type_observation) :: in_observation
 	type(type_inversion) :: in_inversion
 	type(variable_parameters) :: in_params, error
-	integer :: pixel
+	integer :: pixel, status
 	real(kind=8), allocatable :: values(:,:), values_vec(:)
 	integer, allocatable :: start(:), count(:)
 
@@ -1014,6 +1014,10 @@ contains
 		endif
 		
 		call check( nf90_put_var(in_fixed%error_id, in_fixed%map_error_id, values_vec, start=start, count=count) )
+
+		status = nf90_sync(in_fixed%syn_id)
+		status = nf90_sync(in_fixed%par_id)
+		status = nf90_sync(in_fixed%error_id)
 		
 		deallocate(values_vec, start, count)
 		
