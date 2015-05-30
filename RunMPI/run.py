@@ -11,7 +11,7 @@ def lower_to_sep(string, separator='='):
 
 
 if (len(sys.argv) < 2):
-	print "Example usage: runHazel conf.ini nProcessors"
+	print "Example usage: runHazel conf.ini nProcessors [id]"
 	exit()
 
 print "Using configuration file = "+sys.argv[1]
@@ -29,10 +29,14 @@ for l in input_lines:
 # Parse configuration file
 config = ConfigObj(input_lower)
 
+id = ''
+if (len(sys.argv) == 4):
+	id = sys.argv[3] 
+
 #*********************************
 # Save config_inversion.dat file
 #*********************************
-f = open('config_inversion.dat','w')
+f = open('config_inversion{0}.dat'.format(id),'w')
 f.write('***********************************************\n')
 f.write('* Configuration file for the multi-term program\n')
 f.write('***********************************************\n')
@@ -41,28 +45,28 @@ f.write("# Input model file\n")
 f.write("'"+config['files']['input model file']+"'\n")
 f.write('\n')
 f.write('# Initial parameters file\n')
-f.write("'init_parameters.dat'\n")
+f.write("'init_parameters{0}.dat'\n".format(id))
 f.write('\n')
 f.write('# Range of parameters for the DIRECT method\n')
-f.write("'direct_range.dat'\n")
+f.write("'direct_range{0}.dat'\n".format(id))
 f.write('\n')
 f.write("# Output file for the upper level rho^K_Q(J,J') in the reference frame of the vertical\n")
-f.write("'ATOMIC_POL/vertical_upper.rho'\n")
+f.write("'ATOMIC_POL/vertical_upper{0}.rho'\n".format(id))
 f.write('\n')
 f.write("# Output file for the lower level rho^K_Q(J,J') in the reference frame of the vertical\n")
-f.write("'ATOMIC_POL/vertical_lower.rho'\n")
+f.write("'ATOMIC_POL/vertical_lower{0}.rho'\n".format(id))
 f.write('\n')
 f.write("# Output file for the upper level rho^K_Q(J,J') in the reference frame of the magnetic field\n")
-f.write("'ATOMIC_POL/magnetic_upper.rho'\n")
+f.write("'ATOMIC_POL/magnetic_upper{0}.rho'\n".format(id))
 f.write('\n')
 f.write("# Output file for the lower level rho^K_Q(J,J') in the reference frame of the magnetic field\n")
-f.write("'ATOMIC_POL/magnetic_lower.rho'\n")
+f.write("'ATOMIC_POL/magnetic_lower{0}.rho'\n".format(id))
 f.write('\n')
 f.write("# Output absorption/emission coefficients\n")
-f.write("'INVERTED/rtcoef.emer'\n")
+f.write("'INVERTED/rtcoef{0}.emer'\n".format(id))
 f.write('\n')
 f.write("# Output absorption/emission coefficients neglecting atomic polarization\n")
-f.write("'INVERTED/rtcoef_noatompol.emer'\n")
+f.write("'INVERTED/rtcoef_noatompol{0}.emer'\n".format(id))
 f.write('\n')
 f.write("# File with the observed profiles\n")
 f.write("'"+config['files']['file with observations']+"'\n")
@@ -77,7 +81,7 @@ f.write("# File with the final errors\n")
 f.write("'"+config['files']['file with errors in inverted parameters']+"'\n")
 f.write('\n')
 f.write("# File that sets the parameters to invert\n")
-f.write("'invert_parameters.dat'\n")
+f.write("'invert_parameters{0}.dat'\n".format(id))
 f.write('\n')
 f.write("# Verbose mode (0-> no, 1-> yes)\n")
 if (config['working mode']['verbose'] == 'yes'):
@@ -114,7 +118,7 @@ f.close()
 #*********************************
 # Save direct_range.dat file
 #*********************************
-f = open('direct_range.dat','w')
+f = open('direct_range{0}.dat'.format(id),'w')
 f.write("***********************************************\n")
 f.write("* Ranges for the DIRECT method\n")
 f.write("***********************************************\n")
@@ -181,7 +185,7 @@ f.close()
 # Save invert_parameters.dat file
 #*********************************
 method = {'DIRECT': '2', 'LM': '1'}
-f = open('invert_parameters.dat','w')
+f = open('invert_parameters{0}.dat'.format(id),'w')
 f.write("***********************************************\n")
 f.write("* File defining the parameters to invert\n")
 f.write("***********************************************\n")
@@ -276,7 +280,7 @@ includeff = False
 if (config['synthesis']['number of slabs'] == '2'):
 	includeff = True
 	
-f = open('init_parameters.dat','w')
+f = open('init_parameters{0}.dat'.format(id),'w')
 f.write("***********************************************\n")
 f.write("* File defining the specific experiment to solve\n")
 f.write("***********************************************\n")
@@ -356,7 +360,7 @@ f.write(yesno[config['general parameters']['include stimulated emission in the r
 f.close()
 
 # Run the code
-try:
-	call(['mpiexec','-n',nProcs,'./phazel'])
-except:
-	print "A problem occured. Exiting..."
+#try:
+#	call(['mpiexec','-n',nProcs,'./phazel'])
+#except:
+#	print "A problem occured. Exiting..."
