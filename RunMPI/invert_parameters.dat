@@ -24,7 +24,7 @@
 1 1 0 0
 
 # Invert the D^2 of the lower level
-0 0 0 0
+0 0 
 
 # Invert the macroscopic velocity
 1 1 0 0
@@ -36,7 +36,7 @@
 0 0 0 0
 
 # Invert the height of the He atoms
-0 0 0 0
+0 0 
 
 # Invert the optical depth or strength of the line of component 2
 0 0 0 0

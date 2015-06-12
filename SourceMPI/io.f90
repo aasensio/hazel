@@ -787,7 +787,7 @@ contains
 ! Put the profile on the arrays				
 				in_observation%stokes(0:3,:) = values(1:4,:)
 				in_observation%sigma(0:3,:) = values(5:8,:)
-																
+
 				deallocate(values, start, count)
 				
 				call date_and_time(date, time, zone, valuesTime)

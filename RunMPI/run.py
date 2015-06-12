@@ -11,11 +11,10 @@ def lower_to_sep(string, separator='='):
 
 
 if (len(sys.argv) < 2):
-	print "Example usage: runHazel conf.ini nProcessors [id]"
+	print "Example usage: runHazel conf.ini [id]"
 	exit()
 
 print "Using configuration file = "+sys.argv[1]
-nProcs = sys.argv[2]
 
 # Transform all keys to lowercase to avoid problems with
 # upper/lower case
@@ -30,8 +29,8 @@ for l in input_lines:
 config = ConfigObj(input_lower)
 
 id = ''
-if (len(sys.argv) == 4):
-	id = sys.argv[3] 
+if (len(sys.argv) == 3):
+	id = sys.argv[2] 
 
 #*********************************
 # Save config_inversion.dat file
@@ -212,7 +211,7 @@ f.write("# Invert the optical depth or strength of the line\n")
 f.write(" ".join(config['inversion']['cycles']['slab 1']['tau'])+"\n")
 f.write("\n")
 f.write("# Invert the D^2 of the lower level\n")
-f.write("0 0 0 0\n")
+f.write(int(config['inversion']['number of cycles'])*"0 "+"\n")
 f.write("\n")
 f.write("# Invert the macroscopic velocity\n")
 f.write(" ".join(config['inversion']['cycles']['slab 1']['vmac'])+"\n")
@@ -224,7 +223,7 @@ f.write("# Invert the source function gradient\n")
 f.write(" ".join(config['inversion']['cycles']['beta'])+"\n")
 f.write("\n")
 f.write("# Invert the height of the He atoms\n")
-f.write("0 0 0 0\n")
+f.write(int(config['inversion']['number of cycles'])*"0 "+"\n")
 f.write("\n")
 f.write("# Invert the optical depth or strength of the line of component 2\n")
 f.write(" ".join(config['inversion']['cycles']['slab 2']['tau'])+"\n")

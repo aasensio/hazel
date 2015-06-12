@@ -27,6 +27,7 @@ COMPILER_LINKS = -L/net/nas4/fis/aasensio/scratch/MPICH/lib
 # ------------------ CHANGE THIS ACCORDING TO YOUR COMPILER ------------------
 #  If mpif90 calls ifort, uncomment the following line
 COMPILER_OPTS = -c -O3 -ipo -I/net/nas4/fis/aasensio/scratch/MPICH/include
+COMPILER_OPTS = -c -I/net/nas4/fis/aasensio/scratch/MPICH/include
 
 #******************
 # Hazel
