@@ -795,7 +795,7 @@ contains
 ! Read incident Stokes parameter			
 				call check( nf90_get_var(in_observation%obs_id, in_observation%boundary_id, in_fixed%Stokes_incident,&
 					start=(/ 1, pixel /), count=(/ 4, 1 /)) )
-					
+
 				call date_and_time(date, time, zone, valuesTime)				
 									
 ! Read height
@@ -848,7 +848,7 @@ contains
 				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%parsInit_id, values_vec,&
 					start=(/ 1, pixel /), count=(/ nParamRead, 1 /)) )
-																									
+
 				call date_and_time(date, time, zone, valuesTime)
 				
 ! Set all initial values, except for the height, which is already set before

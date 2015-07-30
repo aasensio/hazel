@@ -932,7 +932,7 @@ contains
 ! Two components side by side inside the pixel with a filling factor
 					if (in_params%nslabs == -2) then
 
-						Stokes1 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source)
+						Stokes1 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
 
 						output(0,i) = in_params%ff * output(0,i) + (1.d0-in_params%ff) * Stokes1(1)
 						output(1,i) = in_params%ff * output(1,i) + (1.d0-in_params%ff) * Stokes1(2)

@@ -20,7 +20,7 @@ def genNetCDF(wavelength, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, bo
 	    obsTheta (float): array of size [npixel] indicating the angle of the observation in degrees 
 	    obsGamma (float): array of size [npixel] the angle of the reference for Stokes Q
 	    mask (float): array of the original dimensions of the observations that is used later to reconstruct the inverted maps [nx,ny]
-	    pars (float): array of size [npixel,nparameters] that gives the initial value of the parameters
+	    pars (float): array of size [nparameters,npixel] that gives the initial value of the parameters
 	    					The size depends on the radiative transfer option:
 								* 1-component (vector of size 8): B, thetaB, chiB, tau, vdop, a, vmac, beta
 								* 2-component 1+1 with same field (vector of size 10): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta
@@ -52,7 +52,7 @@ def genNetCDF(wavelength, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, bo
 	nPixDim = fileID.createDimension('npixel', nPixel)
 	nColDim = fileID.createDimension('ncolumns', nCols)
 	nStokesParDim = fileID.createDimension('nstokes_par', 4)
-	nParsDim = fileID.createDimension('nparameters', 9)
+	nParsDim = fileID.createDimension('nparameters', pars.shape[0])
 	nLambdaDim = fileID.createDimension('nlambda', nLambda)
 	nXDim = fileID.createDimension('nx', dimMap[0])
 	nYDim = fileID.createDimension('ny', dimMap[1])
@@ -71,7 +71,7 @@ def genNetCDF(wavelength, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, bo
 
 	lambdaID[:] = wavelength
 	stokesID[:] = obsMap
-	boundaryID[:] = boundary.T
+	boundaryID[:] = boundary
 	heightID[:] = height
 	obsThetaID[:] = obsTheta
 	obsGammaID[:] = obsGamma

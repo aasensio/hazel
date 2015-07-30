@@ -52,6 +52,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	map[5,*,*] = transpose(sigmaQ)
 	map[6,*,*] = transpose(sigmaU)
 	map[7,*,*] = transpose(sigmaV)
+	boundary = transpose(boundary)
 	
 	dim_map = size(mask, /dimensions)
 			

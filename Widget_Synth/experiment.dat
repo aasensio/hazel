@@ -21,13 +21,13 @@
 1
 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-0.0000000  0.0000000  0.0000000
+0.0000000  90.000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
 3.0000000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-1.5000000
+5.0000000
 
 # Source function gradient (only ME)
 1.0000000
@@ -48,10 +48,10 @@
 -2.1318468 1.2791081 100
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10829.091  9.0000000  0.0000000
+10829.091  14.000000  0.0000000
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
-8.0000000
+0.0000000
 
 # Include magneto-optical effects in the RT
 1
