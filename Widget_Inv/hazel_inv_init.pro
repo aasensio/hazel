@@ -613,7 +613,7 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
 
 ; Filling factor
    tMacro = widget_base(t4, /ROW)
-   label = widget_label(tMacro, VALUE='ff1 [km/s]', XSIZE=textsize)
+   label = widget_label(tMacro, VALUE='ff1', XSIZE=textsize)
    info.fftext = widget_text(tMacro, VALUE=strtrim(string(info.vmacro2,FORMAT='(F6.2)'),2), UVALUE='FFVALUE', /EDITABLE, XSIZE=8, YSIZE=1)
    info.buttonsff = cw_bgroup(tMacro, ['1','2','3','4'], /ROW, /NONEXCLUSIVE, LABEL_LEFT='Cycles', SET_VALUE=info.inv_ff, UVALUE='CYC_FF')
 	ind = where(info.inv_ff eq 0)
