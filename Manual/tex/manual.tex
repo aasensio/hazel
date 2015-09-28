@@ -252,7 +252,10 @@ See \S\ref{sec:phazel_files} for details on the input files.
 In previous versions of the code, the code was controlled with four configuration files. The updated
 version of the code is now controlled by one human-readable configuration file. The code can still be
 run using the old configuration files but this option will be discontinued in the future so it is 
-advisable to to the shift to this configuration file. The serial code is now run using:
+advisable to to the shift to this configuration file. In order to use this option, you need
+to have the \texttt{configparser} package installed in your system. It can be downloaded from 
+\texttt{http://www.voidspace.org.uk/python/configobj.html}.
+The serial code is now run using:
 \begin{verbatim}
 ./run.py conf.ini
 \end{verbatim}

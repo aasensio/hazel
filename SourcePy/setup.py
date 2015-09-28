@@ -1,3 +1,4 @@
+from __future__ import print_function
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
@@ -7,7 +8,6 @@ from os import system
 
 # compile the fortran modules without linking
 fortran_mod_comp = 'make'
-print fortran_mod_comp
 system(fortran_mod_comp)
 
 ext_modules = [Extension(# module name:
@@ -27,4 +27,4 @@ setup(name = 'pyhazel',
       include_dirs = [get_include()],
       ext_modules = ext_modules)
 
-system('cp pyhazel.so ../RunPy')
+system('cp *.so ../RunPy')

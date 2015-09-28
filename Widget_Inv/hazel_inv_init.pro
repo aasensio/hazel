@@ -150,7 +150,7 @@ function inv_init, reset_state=reset_state
 ; TAB 3 - DIRECT
 ;-----------------------------
    t1 = widget_base(tab3, /COLUMN)
-   outputFile = cw_field(t1, VALUE=info.dir_output_file, TITLE='Output file for DIRECT :',/RETURN_EVENTS,UVALUE='DIR_OUTPUTFILE')
+   ; outputFile = cw_field(t1, VALUE=info.dir_output_file, TITLE='Output file for DIRECT :',/RETURN_EVENTS,UVALUE='DIR_OUTPUTFILE')
    stopBase = widget_base(t1, /ROW, FRAME=1)
    stopButton = cw_bgroup(stopBase, ['Number of function evaluations ','Reduction in volume'], /COL, $
                           LABEL_LEFT='Stopping criterium :',/EXCLUSIVE, IDS=stopButtonIDS)
@@ -244,12 +244,12 @@ function inv_init, reset_state=reset_state
    betamax = widget_text(t2, VALUE=strtrim(string(info.dir_range_beta(1),FORMAT='(F7.2)'),2),UVALUE='BETA_DIR_MAX',/EDITABLE,XSIZE=8,YSIZE=1)
 
 ; Height
-   t2 = widget_base(t1glob, /ROW)
-   label = widget_label(t2, VALUE='Height ["] ',XSIZE=textsize)
-   label = widget_label(t2, VALUE='min: ')
-   hmin = widget_text(t2, VALUE=strtrim(string(info.dir_range_height(0),FORMAT='(F7.2)'),2),UVALUE='H_DIR_MIN',/EDITABLE,XSIZE=8,YSIZE=1)
-   label = widget_label(t2, VALUE='    max: ')
-   hmax = widget_text(t2, VALUE=strtrim(string(info.dir_range_height(1),FORMAT='(F7.2)'),2),UVALUE='H_DIR_MAX',/EDITABLE,XSIZE=8,YSIZE=1)
+;   t2 = widget_base(t1glob, /ROW)
+;   label = widget_label(t2, VALUE='Height ["] ',XSIZE=textsize)
+;   label = widget_label(t2, VALUE='min: ')
+;   hmin = widget_text(t2, VALUE=strtrim(string(info.dir_range_height(0),FORMAT='(F7.2)'),2),UVALUE='H_DIR_MIN',/EDITABLE,XSIZE=8,YSIZE=1)
+;   label = widget_label(t2, VALUE='    max: ')
+;   hmax = widget_text(t2, VALUE=strtrim(string(info.dir_range_height(1),FORMAT='(F7.2)'),2),UVALUE='H_DIR_MAX',/EDITABLE,XSIZE=8,YSIZE=1)
 
 
 t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
@@ -419,8 +419,15 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
    V0 = widget_text(t3, VALUE=strtrim(string(info.boundary(3),FORMAT='(E8.2)')),UVALUE='V0',/EDITABLE,XSIZE=8,YSIZE=1)
    t4 = widget_base(t2, /ROW, FRAME=1)
 
+   i0 = i0_allen(wavelength_component(info.atom,info.multiplet-1),cos(info.theta_obs*!DPI/180.d0))
+   info.i0_allen = widget_label(t3glob, VALUE='Allen: '+strtrim(string(i0),2))
+
 	t3glob = widget_base(trightglob, /COLUMN, FRAME=1)
    ncycles = cw_bgroup(t3glob, ['1','2','3','4'], /ROW, /EXCLUSIVE, LABEL_LEFT='Number of cycles', UVALUE='NCYCLES', SET_VALUE=info.ncycles-1)
+   
+   t3 = widget_base(trightglob, /ROW)
+   label = widget_label(t3, VALUE='Height [arcsec]:')
+   Height = widget_text(t3, VALUE=strtrim(string(info.height,FORMAT='(F6.2)')),UVALUE='HEIGHTVALUE',/EDITABLE,XSIZE=8,YSIZE=1)
    
 ;    t2 = widget_base(tab4, /ROW)
 ;    t3glob = widget_base(t2, /COLUMN, FRAME=1)
@@ -537,14 +544,14 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
 	endif
 
 ; Height
-   tHeight = widget_base(t4, /ROW)
-   label = widget_label(tHeight, VALUE='Height', XSIZE=textsize)
-   info.Heighttext = widget_text(tHeight, VALUE=strtrim(string(info.height,FORMAT='(F6.2)'),2), UVALUE='HEIGHTVALUE', /EDITABLE, XSIZE=8, YSIZE=1)
-   buttons = cw_bgroup(tHeight, ['1','2','3','4'], /ROW, /NONEXCLUSIVE, LABEL_LEFT='Cycles', SET_VALUE=info.inv_height, UVALUE='CYC_HEIGHT')
-	ind = where(info.inv_height eq 0)
-	if (n_elements(ind) eq 4) then begin
-		widget_control, info.Heighttext, sensitive=0
-	endif
+ ;   tHeight = widget_base(t4, /ROW)
+ ;   label = widget_label(tHeight, VALUE='Height', XSIZE=textsize)
+ ;   info.Heighttext = widget_text(tHeight, VALUE=strtrim(string(info.height,FORMAT='(F6.2)'),2), UVALUE='HEIGHTVALUE', /EDITABLE, XSIZE=8, YSIZE=1)
+ ;   buttons = cw_bgroup(tHeight, ['1','2','3','4'], /ROW, /NONEXCLUSIVE, LABEL_LEFT='Cycles', SET_VALUE=info.inv_height, UVALUE='CYC_HEIGHT')
+	; ind = where(info.inv_height eq 0)
+	; if (n_elements(ind) eq 4) then begin
+	; 	widget_control, info.Heighttext, sensitive=0
+	; endif
 
 ; COMPONENT 2   
    t4glob = widget_base(tglob, /COLUMN)
@@ -663,10 +670,6 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
    chi = cw_field(tobsang, VALUE=strtrim(string(info.chi_obs,FORMAT='(F6.2)'),2), TITLE='chi [deg]  :', XSIZE=8, UVALUE='OBS_CHI', /RETURN_EVENTS)
    gamm = cw_field(tobsang, VALUE=strtrim(string(info.gamm_obs,FORMAT='(F6.2)'),2), TITLE='gamma [deg] :', XSIZE=8, UVALUE='OBS_GAMMA',$
 		/RETURN_EVENTS)
-		
-	i0 = i0_allen(wavelength_component(info.atom,info.multiplet-1),cos(info.theta_obs*!DPI/180.d0))
-	info.i0_allen = widget_label(tobsang, VALUE='Allen: '+strtrim(string(i0),2))
-		
 	
 ; Inversion modes
    tModeLM = widget_base(trightglob, /ROW, FRAME=1)

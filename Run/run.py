@@ -359,6 +359,6 @@ f.close()
 
 # Run the code
 try:
-	call(['hazel'])
+	call(['./hazel'])
 except:
 	print "A problem occured. Exiting..."

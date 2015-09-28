@@ -249,30 +249,7 @@ implicit none
 				print *, 'Final chi^2 : ', inversion%chisq
 							
 			endif
-		
-	!*********************************
-	!** INVERSION MODE WITH PIKAIA
-	!*********************************	
-! 			if (inversion%algorithm(loop_cycle) == 3) then			
-! 				print *, 'PIKAIA MODE'
-! 	
-! 				trial = params
-! 				call invert_with_pikaia(trial)
-! 				params = trial
-! 				
-! 				call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed)
-! 				inversion%chisq = compute_chisq(observation,inversion)
-! 			
-! 	! Write the final profiles
-! 				call write_final_profiles(output_inverted_profiles,observation,inversion)
-! 				
-! 	! Write the final parameters in a file so that it can be used for restarting the inversion code
-! 				call write_experiment(params, fixed)
-! 				
-! 				call print_parameters(params,'-Final Parameters : ',.TRUE.)
-! 				print *, 'Final chi^2 : ', inversion%chisq
-! 			endif
-			
+					
 			print *
 			write(*,FMT='(A)') '*******************************'
 			write(*,FMT='(A,I2,A1,I2)') 'End of cycle ', inversion%loop_cycle, '/', inversion%n_cycles

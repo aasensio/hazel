@@ -59,10 +59,12 @@ pro plot_profiles, stokes, state
 	 
 	 plot,wl,stokes(1,*)/abso,xtit='Wavelength shift ['+angstrom+']',ytit='I/I!dmax!n',$
 	 	thick=2,xsty=1,tit='!7k!6='+strtrim(string(wavelength),2)
+	 
 	 if (plot_observation eq 1) then begin
 
+	 	absoObs = 1.0
 	 	if (state.normaliz eq 0) then begin
-	 		absoObs = max(obs(1,*)) - min(obs(1,*))	 	  
+	 		absoObs = max(obs(1,*)) - min(obs(1,*))
 	 	endif
 	 	if (state.normaliz eq 2) then begin
 	 		absoObs = obs[1,0]

@@ -53,8 +53,8 @@ function hazel_init, reset_state=reset_state
 	 state.plotWidget = widget_draw(horizBase, XSIZE=650, YSIZE=450, /FRAME)
 	 	 
 	 rightbase = widget_base(horizBase, /COLUMN, FRAME=1)
-	 collislb = widget_label(rightBase, VALUE='Lower level D^(2):')
-	 collis = widget_text(rightBase, VALUE=strtrim(string(state.D2),2),UVALUE='D2',/EDITABLE,XSIZE=8,YSIZE=1)
+	 ; collislb = widget_label(rightBase, VALUE='Lower level D^(2):')
+	 ; collis = widget_text(rightBase, VALUE=strtrim(string(state.D2),2),UVALUE='D2',/EDITABLE,XSIZE=8,YSIZE=1)
 	 factor_10830lb = widget_label(rightBase, VALUE='nbar factor')
 	 factor_10830 = widget_text(rightBase, VALUE=strtrim(string(state.factor_10830_nbar),2),UVALUE='fact_10830_nbar',/EDITABLE,XSIZE=8,YSIZE=1)
 	 factor_10830_wlb = widget_label(rightBase, VALUE='w factor')
@@ -163,7 +163,7 @@ function hazel_init, reset_state=reset_state
 	 	  XSIZE=sliderSize,MINIMUM=-180.d0,MAXIMUM=180.d0,VALUE=state.chiBfield2)
 		  
 
-	 observationBase = widget_base(slidersBase, /COLUMN, FRAME=1)
+	 observationBase = widget_base(slidersBase, /ROW, FRAME=1)
 	 thetaOSlider = widget_slider(observationBase,TITLE='Obs theta [deg]',UVALUE='thetaOSlider',$
 	 	  XSIZE=sliderSize,MAXIMUM=180.d0,VALUE=state.thetaObs)
 

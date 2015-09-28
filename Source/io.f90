@@ -633,7 +633,8 @@ contains
 		endif
 		if (in_params%nslabs == 3 .or. in_params%nslabs == -2) then
 			write(13,FMT='(A)') '# Magnetic field strength [G], thetaB [degrees], chiB [degrees], B2 [G], thetaB2 [degrees], chiB2 [degrees]'
-			write(13,FMT='(F9.4,3X,F7.2,3X,F7.2,3X,F9.4,3X,F7.2,3X,F7.2)') in_params%bgauss, in_params%thetabd, in_params%chibd, in_params%bgauss2, in_params%thetabd2, in_params%chibd2
+			write(13,FMT='(F9.4,3X,F7.2,3X,F7.2,3X,F9.4,3X,F7.2,3X,F7.2)') in_params%bgauss, in_params%thetabd, in_params%chibd, &
+				in_params%bgauss2, in_params%thetabd2, in_params%chibd2
 			write(13,*)
 		endif
 		
@@ -755,7 +756,8 @@ contains
 		endif
 		if (in_params%nslabs == 3 .or. in_params%nslabs == -2) then
 			write(13,FMT='(A)') '# Magnetic field strength [G], thetaB [degrees], chiB [degrees], B2 [G], thetaB2 [degrees], chiB2 [degrees]'
-			write(13,FMT='(F9.4,3X,F7.2,3X,F7.2,3X,F9.4,3X,F7.2,3X,F7.2)') in_params%bgauss, in_params%thetabd, in_params%chibd, in_params%bgauss2, in_params%thetabd2, in_params%chibd2
+			write(13,FMT='(F9.4,3X,F7.2,3X,F7.2,3X,F9.4,3X,F7.2,3X,F7.2)') in_params%bgauss, in_params%thetabd, &
+				in_params%chibd, in_params%bgauss2, in_params%thetabd2, in_params%chibd2
 			write(13,*)
 		endif
 		
