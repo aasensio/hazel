@@ -17,9 +17,9 @@ OPTIONS = -c -O3 -ffree-form -ffree-line-length-huge
  
 FINAL_EXECUTABLE = hazel
 
-hazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o pikaia.o marquardt.o hazel.o DIRect.o \
+hazel: vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o marquardt.o hazel.o DIRect.o \
 	DIRserial.o DIRsubrout.o singleton.o lbfgsb.o 
-	$(COMPILER) vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o pikaia.o marquardt.o hazel.o \
+	$(COMPILER) vars.o maths.o allen.o svd.o io.o SEE.o rt_coef.o synth.o marquardt.o hazel.o \
 		DIRect.o DIRserial.o DIRsubrout.o singleton.o lbfgsb.o -o $(FINAL_EXECUTABLE)
 	cp $(FINAL_EXECUTABLE) ../Run
 	cp $(FINAL_EXECUTABLE) ../Widget_Synth
@@ -64,14 +64,14 @@ pikaia.o: pikaia.f
 marquardt.o: marquardt.f90 maths.o svd.o synth.o rt_coef.o SEE.o vars.o lbfgsb.o
 	$(COMPILER) $(OPTIONS)  marquardt.f90
 	
-DIRect.o: DIRect.f
-	$(COMPILER) $(OPTIONS)  DIRect.f
+DIRect.o: DIRect.f90
+	$(COMPILER) $(OPTIONS)  DIRect.f90
 	
-DIRserial.o: DIRserial.f
-	$(COMPILER) $(OPTIONS)  DIRserial.f
+DIRserial.o: DIRserial.f90
+	$(COMPILER) $(OPTIONS)  DIRserial.f90
 	
-DIRsubrout.o: DIRsubrout.f
-	$(COMPILER) $(OPTIONS)  DIRsubrout.f
+DIRsubrout.o: DIRsubrout.f90
+	$(COMPILER) $(OPTIONS)  DIRsubrout.f90
 
 lbfgsb.o: lbfgsb.f90
 	$(COMPILER) $(OPTIONS) lbfgsb.f90
