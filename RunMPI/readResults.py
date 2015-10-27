@@ -1,21 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as pl
-from netCDF4 import Dataset as nf
+from scipy.io import netcdf
 
 def readResults(rootFile):
 
 # Read inverted profiles
-	ff = nf(rootFile+'.inversion', 'r')
+	ff = netcdf.netcdf_file(rootFile+'.inversion', 'r')
 	synthProf = ff.variables['map'][:]
 	ff.close()
 	
 # Read inverted parameters
-	ff = nf(rootFile+'.parameters', 'r')
+	ff = netcdf.netcdf_file(rootFile+'.parameters', 'r')
 	pars = ff.variables['map'][:]
 	ff.close()
 	
 # Read errors
-	ff = nf(rootFile+'.errors', 'r')
+	ff = netcdf.netcdf_file(rootFile+'.errors', 'r')
 	errors = ff.variables['map'][:]
 	ff.close()
 	

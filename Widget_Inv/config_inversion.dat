@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'/home/aasensio/test.prof'
+'/home/aasensio/testprof.obs'
 
 # File with the inverted profiles
 'out.dat'

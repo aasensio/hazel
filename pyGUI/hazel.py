@@ -236,10 +236,16 @@ class AppForm(QMainWindow):
         # Create the mpl Figure and FigCanvas objects. 
         # 5x4 inches, 100 dots-per-inch
         #
+
+        self.minSizeSlider = 150
+        self.maxSizeSlider = 250
+
         self.dpi = 100
         self.fig = Figure((5.0, 4.0), dpi=self.dpi)
         self.canvas = FigureCanvas(self.fig)
-        self.canvas.setParent(self.main_frame)
+        layout = QVBoxLayout()
+        # self.canvas.setParent(self.main_frame)
+        layout.addWidget(self.canvas)
                 
         self.axes = self.fig.add_subplot(2,2,1)
         
@@ -249,7 +255,7 @@ class AppForm(QMainWindow):
         
         # Create the navigation toolbar, tied to the canvas
         #
-        self.mpl_toolbar = NavigationToolbar(self.canvas, self.main_frame)
+        # self.mpl_toolbar = NavigationToolbar(self.canvas, self.main_frame)
         
         # First component
         # 
@@ -264,6 +270,8 @@ class AppForm(QMainWindow):
         self.sliderB1.setValue(20)
         self.sliderB1.setTracking(True)
         self.sliderB1.setTickPosition(QSlider.TicksBothSides)
+        self.sliderB1.setMinimumWidth(self.minSizeSlider)
+        self.sliderB1.setMaximumWidth(self.maxSizeSlider)
         self.sliderValueB1 = ExtendedQLabel('{0:6.1f}'.format(0))        
         for l, w in enumerate([sliderLabel, self.sliderLeftB1, self.sliderB1, self.sliderRightB1, self.sliderValueB1]):
             boxB1.addWidget(w, 0, l)
@@ -283,6 +291,8 @@ class AppForm(QMainWindow):
         self.sliderthB1.setValue(20)
         self.sliderthB1.setTracking(True)
         self.sliderthB1.setTickPosition(QSlider.TicksBothSides)
+        self.sliderthB1.setMinimumWidth(self.minSizeSlider)
+        self.sliderthB1.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuethB1 = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderLeftthB1, self.sliderthB1, self.sliderRightthB1, self.sliderValuethB1]):
             boxB1.addWidget(w, 1, l)
@@ -298,6 +308,8 @@ class AppForm(QMainWindow):
         self.sliderphiB1.setValue(20)
         self.sliderphiB1.setTracking(True)
         self.sliderphiB1.setTickPosition(QSlider.TicksBothSides)
+        self.sliderphiB1.setMinimumWidth(self.minSizeSlider)
+        self.sliderphiB1.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuephiB1 = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderLeftphiB1, self.sliderphiB1, self.sliderRightphiB1, self.sliderValuephiB1]):
             boxB1.addWidget(w, 2, l)
@@ -312,6 +324,8 @@ class AppForm(QMainWindow):
         self.slidervthB1.setValue(20)
         self.slidervthB1.setTracking(True)
         self.slidervthB1.setTickPosition(QSlider.TicksBothSides)
+        self.slidervthB1.setMinimumWidth(self.minSizeSlider)
+        self.slidervthB1.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuevthB1 = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderLeftvthB1, self.slidervthB1, self.sliderRightvthB1, self.sliderValuevthB1]):
             boxB1.addWidget(w, 3, l)
@@ -326,6 +340,8 @@ class AppForm(QMainWindow):
         self.slidervB1.setValue(20)
         self.slidervB1.setTracking(True)
         self.slidervB1.setTickPosition(QSlider.TicksBothSides)
+        self.slidervB1.setMinimumWidth(self.minSizeSlider)
+        self.slidervB1.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuevB1 = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderLeftvB1, self.slidervB1, self.sliderRightvB1, self.sliderValuevB1]):
             boxB1.addWidget(w, 4, l)
@@ -340,6 +356,8 @@ class AppForm(QMainWindow):
         self.slidertau1.setValue(20)
         self.slidertau1.setTracking(True)
         self.slidertau1.setTickPosition(QSlider.TicksBothSides)
+        self.slidertau1.setMinimumWidth(self.minSizeSlider)
+        self.slidertau1.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuetau1 = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderLefttau1, self.slidertau1, self.sliderRighttau1, self.sliderValuetau1]):
             boxB1.addWidget(w, 5, l)
@@ -357,8 +375,8 @@ class AppForm(QMainWindow):
         self.sliderB2.setValue(20)
         self.sliderB2.setTracking(True)
         self.sliderB2.setTickPosition(QSlider.TicksBothSides)
-        self.sliderValueB2 = ExtendedQLabel('0')
-        for l, w in enumerate([sliderLabel, self.sliderB2, self.sliderLeftB2, self.sliderRightB2, self.sliderValueB2]):
+        self.sliderValueB2 = ExtendedQLabel('{0:6.1f}'.format(0))
+        for l, w in enumerate([sliderLabel, self.sliderLeftB2, self.sliderB2 , self.sliderRightB2, self.sliderValueB2]):
             boxB2.addWidget(w, 0, l)
             boxB2.setAlignment(w, Qt.AlignVCenter)
         self.connect(self.sliderB2, SIGNAL('sliderReleased()'), self.onSliderB2)
@@ -367,61 +385,81 @@ class AppForm(QMainWindow):
 
         sliderLabel = QLabel('thB [deg]')
         self.sliderthB2 = FloatSlider(Qt.Horizontal)
+        self.sliderLeftthB2 = ExtendedQLabel('0')
+        self.sliderRightthB2 = ExtendedQLabel('180')
         self.sliderthB2.setMinimum(0)
         self.sliderthB2.setMaximum(180)
         self.sliderthB2.setValue(20)
         self.sliderthB2.setTracking(True)
         self.sliderthB2.setTickPosition(QSlider.TicksBothSides)
+        self.sliderthB2.setMinimumWidth(self.minSizeSlider)
+        self.sliderthB2.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuethB2 = ExtendedQLabel('0')
-        for l, w in enumerate([sliderLabel, self.sliderthB2, self.sliderValuethB2]):
+        for l, w in enumerate([sliderLabel, self.sliderLeftthB2, self.sliderthB2, self.sliderRightthB2, self.sliderValuethB2]):
             boxB2.addWidget(w, 1, l)
             boxB2.setAlignment(w, Qt.AlignVCenter)
 
         sliderLabel = QLabel('phiB [deg]')
         self.sliderphiB2 = FloatSlider(Qt.Horizontal)
+        self.sliderLeftPhiB2 = ExtendedQLabel('0')
+        self.sliderRightPhiB2 = ExtendedQLabel('180')
         self.sliderphiB2.setMinimum(-180)
         self.sliderphiB2.setMaximum(180)
         self.sliderphiB2.setValue(20)
         self.sliderphiB2.setTracking(True)
         self.sliderphiB2.setTickPosition(QSlider.TicksBothSides)
+        self.sliderphiB2.setMinimumWidth(self.minSizeSlider)
+        self.sliderphiB2.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuephiB2 = ExtendedQLabel('0')
-        for l, w in enumerate([sliderLabel, self.sliderphiB2, self.sliderValuephiB2]):
+        for l, w in enumerate([sliderLabel, self.sliderLeftPhiB2, self.sliderphiB2, self.sliderRightPhiB2, self.sliderValuephiB2]):
             boxB2.addWidget(w, 2, l)
             boxB2.setAlignment(w, Qt.AlignVCenter)
 
         sliderLabel = QLabel('width [km/s]')
         self.slidervthB2 = FloatSlider(Qt.Horizontal)
+        self.sliderLeftvthB2 = ExtendedQLabel('0')
+        self.sliderRightvthB2 = ExtendedQLabel('180')
         self.slidervthB2.setMinimum(0.1)
         self.slidervthB2.setMaximum(20)
         self.slidervthB2.setValue(20)
         self.slidervthB2.setTracking(True)
         self.slidervthB2.setTickPosition(QSlider.TicksBothSides)
+        self.slidervthB2.setMinimumWidth(self.minSizeSlider)
+        self.slidervthB2.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuevthB2 = ExtendedQLabel('0')
-        for l, w in enumerate([sliderLabel, self.slidervthB2, self.sliderValuevthB2]):
+        for l, w in enumerate([sliderLabel, self.sliderLeftvthB2, self.slidervthB2, self.sliderRightvthB2, self.sliderValuevthB2]):
             boxB2.addWidget(w, 3, l)
             boxB2.setAlignment(w, Qt.AlignVCenter)
 
         sliderLabel = QLabel('v [km/s]')
         self.slidervB2 = FloatSlider(Qt.Horizontal)
+        self.sliderLeftvB2 = ExtendedQLabel('0')
+        self.sliderRightvB2 = ExtendedQLabel('180')
         self.slidervB2.setMinimum(-10)
         self.slidervB2.setMaximum(10)
         self.slidervB2.setValue(20)
         self.slidervB2.setTracking(True)
         self.slidervB2.setTickPosition(QSlider.TicksBothSides)
+        self.slidervB2.setMinimumWidth(self.minSizeSlider)
+        self.slidervB2.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuevB2 = ExtendedQLabel('0')
-        for l, w in enumerate([sliderLabel, self.slidervB2, self.sliderValuevB2]):
+        for l, w in enumerate([sliderLabel, self.sliderLeftvB2, self.slidervB2, self.sliderRightvB2, self.sliderValuevB2]):
             boxB2.addWidget(w, 4, l)
             boxB2.setAlignment(w, Qt.AlignVCenter)
 
         sliderLabel = QLabel('tau')
         self.slidertau2 = FloatSlider(Qt.Horizontal)
+        self.sliderLefttau2 = ExtendedQLabel('0')
+        self.sliderRighttau2 = ExtendedQLabel('180')
         self.slidertau2.setMinimum(0.0)
         self.slidertau2.setMaximum(10.0)
         self.slidertau2.setValue(20)
         self.slidertau2.setTracking(True)
         self.slidertau2.setTickPosition(QSlider.TicksBothSides)
+        self.slidertau2.setMinimumWidth(self.minSizeSlider)
+        self.slidertau2.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuetau2 = ExtendedQLabel('0')
-        for l, w in enumerate([sliderLabel, self.slidertau2, self.sliderValuetau2]):
+        for l, w in enumerate([sliderLabel, self.sliderLefttau2, self.slidertau2, self.sliderRighttau2, self.sliderValuetau2]):
             boxB2.addWidget(w, 5, l)
             boxB2.setAlignment(w, Qt.AlignVCenter)
 
@@ -528,6 +566,8 @@ class AppForm(QMainWindow):
         self.slidertheta.setValue(0)
         self.slidertheta.setTracking(True)
         self.slidertheta.setTickPosition(QSlider.TicksBothSides)
+        self.slidertheta.setMinimumWidth(self.minSizeSlider)
+        self.slidertheta.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuertheta = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.slidertheta, self.sliderValuertheta]):
             boxO1.addWidget(w, 0, l)
@@ -543,6 +583,8 @@ class AppForm(QMainWindow):
         self.sliderphi.setValue(20)
         self.sliderphi.setTracking(True)
         self.sliderphi.setTickPosition(QSlider.TicksBothSides)
+        self.sliderphi.setMinimumWidth(self.minSizeSlider)
+        self.sliderphi.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuerphi = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderphi, self.sliderValuerphi]):
             boxO1.addWidget(w, 1, l)
@@ -557,6 +599,8 @@ class AppForm(QMainWindow):
         self.slidergamma.setValue(0)
         self.slidergamma.setTracking(True)
         self.slidergamma.setTickPosition(QSlider.TicksBothSides)
+        self.slidergamma.setMinimumWidth(self.minSizeSlider)
+        self.slidergamma.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuergamma = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.slidergamma, self.sliderValuergamma]):
             boxO1.addWidget(w, 2, l)
@@ -571,6 +615,8 @@ class AppForm(QMainWindow):
         self.sliderheight.setValue(20)
         self.sliderheight.setTracking(True)
         self.sliderheight.setTickPosition(QSlider.TicksBothSides)
+        self.sliderheight.setMinimumWidth(self.minSizeSlider)
+        self.sliderheight.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuerheight = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderheight, self.sliderValuerheight]):
             boxO1.addWidget(w, 3, l)
@@ -585,6 +631,8 @@ class AppForm(QMainWindow):
         self.sliderDamp.setValue(0.0)
         self.sliderDamp.setTracking(True)
         self.sliderDamp.setTickPosition(QSlider.TicksBothSides)
+        self.sliderDamp.setMinimumWidth(self.minSizeSlider)
+        self.sliderDamp.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuerDamp = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderDamp, self.sliderValuerDamp]):
             boxO1.addWidget(w, 4, l)
@@ -599,6 +647,8 @@ class AppForm(QMainWindow):
         self.sliderff.setValue(0.0)
         self.sliderff.setTracking(True)
         self.sliderff.setTickPosition(QSlider.TicksBothSides)
+        self.sliderff.setMinimumWidth(self.minSizeSlider)
+        self.sliderff.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuerff = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderff, self.sliderValuerff]):
             boxO1.addWidget(w, 5, l)
@@ -613,6 +663,8 @@ class AppForm(QMainWindow):
         self.sliderS2S1.setValue(0.0)
         self.sliderS2S1.setTracking(True)
         self.sliderS2S1.setTickPosition(QSlider.TicksBothSides)
+        self.sliderS2S1.setMinimumWidth(self.minSizeSlider)
+        self.sliderS2S1.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuerS2S1 = ExtendedQLabel('0')
         for l, w in enumerate([sliderLabel, self.sliderS2S1, self.sliderValuerS2S1]):
             boxO1.addWidget(w, 6, l)
@@ -626,6 +678,8 @@ class AppForm(QMainWindow):
         self.slidermultiplet.setValue(1)
         self.slidermultiplet.setTracking(True)
         self.slidermultiplet.setTickPosition(QSlider.TicksBothSides)
+        self.slidermultiplet.setMinimumWidth(self.minSizeSlider)
+        self.slidermultiplet.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuermultiplet = ExtendedQLabel('10830') 
         for l, w in enumerate([sliderLabel, self.slidermultiplet, self.sliderValuermultiplet]):
             boxO1.addWidget(w, 7, l)
@@ -660,7 +714,7 @@ class AppForm(QMainWindow):
         # Final layout
         #
         hbox1 = QHBoxLayout()
-        hbox1.addWidget(self.canvas)
+        hbox1.addLayout(layout)
         hbox1.addLayout(vboxB)
         hbox1.addLayout(vboxO)
 

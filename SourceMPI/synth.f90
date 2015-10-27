@@ -180,7 +180,7 @@ contains
 				dtau = etaI * ds
 
 ! Two components one after the other
-				if (in_params%nslabs == 3) then
+				if (in_params%nslabs == 2 .or. in_params%nslabs == 3) then
 				
 ! Modify the source function of the second slab by a multiplier
 					epsI = epsI * in_params%beta
@@ -222,7 +222,11 @@ contains
 			
 			endif
 
-			Imax = maxval(output(0,:))
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo
@@ -603,7 +607,11 @@ contains
 
 			endif
 			
-			Imax = maxval(output(0,:))
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo
@@ -783,7 +791,11 @@ contains
 			endif
 			
 
-			Imax = maxval(output(0,:))
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo
@@ -942,7 +954,7 @@ contains
 !  I0 = exp(-K^* * tau_MO) * I_sun + (PsiM+Psi0)*S  with
 ! PsiM = U0-U1/tau_MO    and PsiO = U1/m
 ! U0 = (K*)^(-1) (1-exp(-K^* tau_MO)    and      U1 = (K*)^(-1) (m*1 - U0)
-				Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source)
+				Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
 				
 				output(0,i) = Stokes0(1)
 				output(1,i) = Stokes0(2)
@@ -1053,7 +1065,7 @@ contains
 ! Two components side by side inside the pixel with a filling factor
 					if (in_params%nslabs == -2) then
 
-						Stokes1 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source)
+						Stokes1 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
 
 						output(0,i) = in_params%ff * output(0,i) + (1.d0-in_params%ff) * Stokes1(1)
 						output(1,i) = in_params%ff * output(1,i) + (1.d0-in_params%ff) * Stokes1(2)
@@ -1065,7 +1077,11 @@ contains
 
 			endif
 													
-			Imax = maxval(output(0,:))
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo

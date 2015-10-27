@@ -49,6 +49,7 @@ implicit none
 			print *, 'Working in SYNTHESIS mode'
 		endif
 		observation%n = fixed%no
+		observation%normalization = 'peak'
 		allocate(observation%wl(observation%n))
 		if (.not.associated(inversion%stokes_unperturbed)) allocate(inversion%stokes_unperturbed(0:3,fixed%no))		
 		call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed)

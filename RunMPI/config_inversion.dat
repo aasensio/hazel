@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'/scratch/Dropbox/VTT/2011/prominence/24apr11.006.nc'
+'OBSERVATION/test.nc'
 
 # File with the inverted profiles
 'test.inversion'

@@ -217,8 +217,11 @@ contains
 		
 			endif
 				
-
-			Imax = maxval(output(0,:))
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo
@@ -485,8 +488,12 @@ contains
 				enddo
 
 			endif			
-										
-			Imax = maxval(output(0,:))
+			
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo
@@ -664,7 +671,11 @@ contains
 
 			endif
 
-			Imax = maxval(output(0,:))
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo
@@ -945,6 +956,11 @@ contains
 			endif
 													
 			Imax = maxval(output(0,:))
+			if (in_observation%normalization == 'peak') then
+				Imax = maxval(output(0,:))
+			else
+				Imax = output(0,1)
+			endif
 			do i = 0, 3
 				output(i,:) = output(i,:) / Imax
 			enddo

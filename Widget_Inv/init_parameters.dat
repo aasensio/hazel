@@ -24,7 +24,7 @@
 0.0000000  0.0000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the He I atoms in arcsec
-4.0000000
+3.0000000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
 0.0000000

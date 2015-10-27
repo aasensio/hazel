@@ -557,13 +557,14 @@ contains
 	type(type_observation) :: in_observation
 	type(fixed_parameters) :: in_fixed
 	integer :: i, j, format_file, res, number_columns
+	real(kind=8) :: temp
 	integer :: ncid, npixel, ncol, nlambda, test(2)
 
 ! Test if this is a single file (ending in .prof) or a NetCDF file with a map
 		if (index(file_obs, '.prof') /= 0) then
 			
 			open(unit=12,file=file_obs,action='read',status='old')
-			read(12,*) in_observation%n
+			read(12,*) in_observation%n, in_observation%normalization
 
 ! Now detect the file type (4 columns for a simple estimation of sigma from the amplitude)
 ! and 8 columns for explicitly giving the value of sigma for each wavelength)
@@ -594,6 +595,7 @@ contains
   			call check( nf90_inq_dimid(in_observation%obs_id, "nstokes_par", in_observation%nstokespar_id) )
   			call check( nf90_inq_dimid(in_observation%obs_id, "nlambda", in_observation%nlambda_id) )
   			
+  			call check( nf90_inq_varid(in_observation%obs_id, "normalization", in_observation%normalization_id) )
   			call check( nf90_inq_varid(in_observation%obs_id, "map", in_observation%map_id) )
   			call check( nf90_inq_varid(in_observation%obs_id, "lambda", in_observation%lambda_id) )
   			call check( nf90_inq_varid(in_observation%obs_id, "boundary", in_observation%boundary_id) )
@@ -606,15 +608,16 @@ contains
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%pix_id, name_var, npixel) )
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%col_id, name_var, ncol) )
   			call check( nf90_inquire_dimension(in_observation%obs_id, in_observation%nlambda_id, name_var, nlambda) )
-  			
-!   			call check( nf90_inquire_variable(in_observation%obs_id, in_observation%boundary_id, dimids = test) )
-!   			do i = 1, 2
-! 				call check( nf90_inquire_dimension(in_observation%obs_id, test(i), name_var, npixel) )
-! 				print *, name_var, npixel
-! 			enddo
-!   			print *,  test
-!   			stop
-			
+
+  			call check( nf90_get_var(in_observation%obs_id, in_observation%normalization_id, temp) )
+
+  			if (temp == 0) then
+  				in_observation%normalization = 'cont'
+  			endif
+  			if (temp == 1) then
+  				in_observation%normalization = 'peak'
+  			endif
+  						
  			if (verbose_mode == 1) then
 				write(*,FMT='(A,I6)') 'Number of pixels : ', npixel
 				write(*,FMT='(A,I4)') 'Number of wavelengths : ', nlambda

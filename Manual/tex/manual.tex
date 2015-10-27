@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{natbib}
-\usepackage[hypertex]{hyperref}
+\usepackage[]{hyperref}
 \usepackage{bm}
 \usepackage{amsfonts}
 \usepackage{graphicx}
@@ -453,7 +453,7 @@ the effects of atomic level polarization, while the second one neglects its infl
 When using the code in the inversion mode, this file is the one used for the input
 of the observed Stokes profiles. The format of this file depends on which version of
 the code is used. For \H, it is very simple. The first line
-indicates the number of wavelength points. Then, a table with nine columns gives the value
+indicates the number of wavelength points and the normalization (use 'cont' or 'peak'). Then, a table with nine columns gives the value
 of the wavelength shift with respect to the center of the multiplet, the Stokes vector
 at each wavelength normalized to the maximum intensity, and an estimation of the noise standard deviation at each wavelength
 normalized to the maximum intensity. See the example file contained in the \H\ distribution for more details.
@@ -1046,11 +1046,12 @@ the associated standard deviation of the noise $(\sigma_I,\sigma_Q,\sigma_U,\sig
 \item obs\_gamma: vector of size \textit{npixel} which contains the observing angle $\gamma$ that defines the positive
 reference for Stokes $Q$ for every pixel.
 \item mask: array of size \textit{nx,ny} which tells whether this pixel will be inverted.
+\item normalization: variable indicating whether the profiles are normalized to the peak amplitude or the continuum of Stokes $I$.
 \item pars: array of size \textit{npixel,npars} which contains the initial value for the model parameters. These will be
 used to reinvert some pixels or, for instance, to refine the ambiguous solutions.
 \end{itemize}
-The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} shows a function that
-generates such a file by passing all the variables as parameters.
+The routine \texttt{gen\_netcdf.pro} on the directory \texttt{IDL\_routines} and the \texttt{genNetCDF.py} on \texttt{pyRoutines} shows functions that
+generate such a file by passing all the variables as parameters.
 The order of pars is the following, depending on the number of slabs:
 \begin{itemize}
 \item 1-component (vector of size 8): $B$, $\theta_B$, $\chi_B$, $\tau$, $v_\mathrm{dop}$, $a$, $v_\mathrm{mac}$, $\beta$
@@ -1685,7 +1686,7 @@ one knows the polarity of the field, or in other words, the sign $\cos\Theta_B$,
 ambiguous solutions is 8. If the polarity of the field is known, the number is typically reduced to 4 (or 2
 if no 90$^\circ$ ambiguity is present).
 
-\section{$\Phi_B' = \Phi_B$}
+\section{\texorpdfstring{$\Phi_B' = \Phi_B$}{PhiB'=PhiB}}
 Under this change, we have that
 \begin{equation}
 \cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = \cos \Phi_B, \quad \sin \Phi_B' = \sin \Phi_B.
@@ -1728,7 +1729,7 @@ $Q$ and $U$ and testing which of the two possible choices give the values equal 
 The angles $(\theta_B,\phi_B)$ are obtained by doing the transformation from $(\Theta_B',\Phi_B)$ to the
 vertical reference system.
 
-\section{$\Phi_B' = \Phi_B+\pi$}
+\section{\texorpdfstring{$\Phi_B' = \Phi_B+\pi$}{PhiB'=PhiB+pi}}
 Under this change, we have:
 \begin{equation}
 \cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = -\cos \Phi_B, \quad \sin \Phi_B' = -\sin \Phi_B.
@@ -1749,7 +1750,7 @@ K &=& \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\P
 The angles $(\theta_B,\phi_B)$ are obtained by doing the transformation from $(\Theta_B',\Phi_B+\pi)$ to the
 vertical reference system.
 
-\section{$\Phi_B' = \Phi_B+\pi/2$}
+\section{\texorpdfstring{$\Phi_B' = \Phi_B+\pi/2$}{PhiB'=PhiB+pi/2}}
 Under this change, we have:
 \begin{equation}
 \cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = -\sin \Phi_B, \quad \sin \Phi_B' = \cos \Phi_B.
@@ -1771,7 +1772,7 @@ The angles $(\theta_B,\phi_B)$ are obtained by doing the transformation from $(\
 vertical reference system.
 
 
-\section{$\Phi_B' = \Phi_B-\pi/2$}
+\section{\texorpdfstring{$\Phi_B' = \Phi_B-\pi/2$}{PhiB'=PhiB-pi/2}}
 Under this change, we have:
 \begin{equation}
 \cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = \sin \Phi_B, \quad \sin \Phi_B' = -\cos \Phi_B.

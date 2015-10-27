@@ -57,6 +57,7 @@ implicit none
 	
 	type type_observation
 		integer :: n
+		character(len=4) :: normalization
 		real(kind=8), pointer :: wl(:), stokes(:,:), sigma(:,:)
 	end type type_observation
 	

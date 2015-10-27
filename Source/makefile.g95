@@ -12,8 +12,8 @@
 # It should be easy to find the equivalent flags in your compiler
 
 # Change COMPILER to ifort or gfortran
-COMPILER = gfortran
-OPTIONS = -c -O3 -ffree-form -ffree-line-length-none
+COMPILER = g95 
+OPTIONS = -c -O3 -ffree-form -ffree-line-length-huge
  
 FINAL_EXECUTABLE = hazel
 

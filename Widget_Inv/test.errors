@@ -27,10 +27,10 @@
   3.000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-  0.9165
+  0.2902
 
 # Source function gradient (only ME)
-  3.0915
+  0.0187
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)
  0.418E-04   0.000E+00   0.000E+00   0.000E+00
@@ -48,10 +48,10 @@
   -3.0000000000000000        2.5000000000000000               91
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
- 5875.9663   12.155    0.0000
+ 5875.9663    0.041    0.0000
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
- -6.571
+  0.547
 
 # Include magneto-optical effects in the RT
 1

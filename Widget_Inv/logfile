@@ -10,13 +10,27 @@ DIRECT Version 2.0.4
  Measure percentage wanted              :  -0.1000E+01
  Epsilon is constant.
  Our modification of the DIRECT algorithm is used.
-Bounds on variable x 1    :      0.00000 <= xi <=     20.00000
-Bounds on variable x 2    :      0.00000 <= xi <=      1.50000
-Bounds on variable x 3    :      5.00000 <= xi <=     12.00000
-Bounds on variable x 4    :      0.00000 <= xi <=      0.50000
+Bounds on variable x 1    :      4.00000 <= xi <=     15.00000
+Bounds on variable x 2    :      0.00000 <= xi <=      1.00000
+Bounds on variable x 3    :    -10.00000 <= xi <=     12.00000
+Bounds on variable x 4    :      1.00000 <= xi <=      5.00000
 ---------------------------------------------------------------------------
  Iteration   # of f-eval.   fmin
-    1           9           1.2754331800
-    2          15           1.2050266862
-    4          29           1.1460444346
-    5          37           1.1404740808
+    1           9          23.1023986569
+    2          15          19.7907301226
+    3          19          16.6999132733
+    5          31          15.3339312397
+    6          41          14.8733892328
+    8          59          14.4882405664
+    9          69          14.3914538282
+   10          77          14.3265821856
+DIRECT stopped: Volume of S_min is  0.56D-03% <  0.10D-02% of the original volume.
+--------------------------------- Summary --------------------------------
+Final function value           :   14.3265822
+Number of function evaluations :           77
+Index  Final solution   x(i) - l(i)   u(i) - x(i) 
+    1   14.7962963      10.7962963      0.2037037
+    2    0.9814815       0.9814815      0.0185185
+    3   -7.1481481       2.8518519     19.1481481
+    4    3.0000000       2.0000000      2.0000000
+---------------------------------------------------------------------------

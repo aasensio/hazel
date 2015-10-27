@@ -459,7 +459,7 @@ contains
 	real(kind=8) :: SI_max, SQ_max, SU_max, SV_max, Noise, MinAmpli
 
 		open(unit=12,file=file_obs,action='read',status='old')
-		read(12,*) in_observation%n
+		read(12,*) in_observation%n, in_observation%normalization
 
 		allocate(in_observation%wl(in_observation%n))
 		allocate(in_observation%stokes(0:3,in_observation%n))
