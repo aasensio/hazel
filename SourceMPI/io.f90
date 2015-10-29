@@ -621,6 +621,7 @@ contains
  			if (verbose_mode == 1) then
 				write(*,FMT='(A,I6)') 'Number of pixels : ', npixel
 				write(*,FMT='(A,I4)') 'Number of wavelengths : ', nlambda
+				write(*,FMT='(A,A4)') 'Normalization : ', in_observation%normalization
  			endif
 
 ! Now that we have opened the file with the observations, open two files with the
@@ -830,7 +831,7 @@ contains
 ! but those that are kept fixed
 				deallocate(values_vec)
 
-! 1-component (vector of size 7): B, thetaB, chiB, tau, vdop, a, vmac, beta
+! 1-component (vector of size 8): B, thetaB, chiB, tau, vdop, a, vmac, beta
 ! 2-component 1+1 with same field (vector of size 10): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta
 ! 2-component 1+1 with different field (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta
 ! 2-component 2 with different field with ff (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff

@@ -1420,7 +1420,7 @@ contains
      subroutine gcf(gammcf,a,x,gln)
      real(kind=8) :: gammcf, a, x, gln, gold, a0, a1, b0, b1, fac, an, ana, anf, g
      real(kind=8), parameter :: eps=3e-7
-     integer, parameter :: itmax=100
+     integer, parameter :: itmax=200
      integer :: n
      
       gln=gammln(a)
@@ -1454,7 +1454,7 @@ contains
 	  subroutine gser(gamser,a,x,gln)
       real(kind=8) :: gamser, a, x, gln, ap, sum, del
       real(kind=8), parameter :: eps=3e-7
-      integer, parameter :: itmax=100
+      integer, parameter :: itmax=200
       integer :: n
           
       gln=gammln(a)

@@ -28,8 +28,7 @@ contains
 ! because this is dominated by the number of observations
 		nu = 4.d0 * observation%n - params%n_total
 		chi2Level = secantConfidenceLevel(nu, erf(1.d0/sqrt(2.d0)))
-
-		
+				
 ! If the first cycle is LM, carry out a first synthesis
 ! with the original values of the parameters
 		if (inversion%algorithm(1) == 1) then
