@@ -18,7 +18,7 @@ ext_modules = [Extension(# module name:
                          extra_compile_args=['-fPIC', '-O3'],
                          # other files to link to
                          extra_link_args=['vars.o', 'maths.o', 'allen.o', 'svd.o', 'io.o', 'SEE.o', 'rt_coef.o', 'synth.o',
-														'hazel.o','singleton.o', '-lgfortran'])]
+														'hazel.o','singleton.o', '-lgfortran', '-L/usr/local/gfortran/lib'])]
 
 setup(name = 'pyhazel',
       cmdclass = {'build_ext': build_ext},
@@ -28,3 +28,4 @@ setup(name = 'pyhazel',
       ext_modules = ext_modules)
 
 system('cp *.so ../RunPy')
+system('cp *.so ../pyGUI')
