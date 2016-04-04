@@ -53,7 +53,13 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 		file[29] = strtrim(string(state.dtau_desired),2)+ ' '+strtrim(string(state.dtau_desired2),2)+ ' '+strtrim(string(state.ff),2)
 	endif
 
-	file[32] = strtrim(string(state.beta),2)
+	if (state.number_slabs eq 1) then begin
+		file[32] = strtrim(string(state.beta),2)
+	endif
+	if (state.number_slabs eq 2 or state.number_slabs eq -2 or state.number_slabs eq 3) then begin
+		file[32] = strtrim(string(state.beta),2)+ ' '+strtrim(string(state.beta2),2)
+	endif
+
 	file[35] = strtrim(string(state.stokes0[0]),2)+ ' '+strtrim(string(state.stokes0[1]),2)+ ' '+$
 		strtrim(string(state.stokes0[2]),2)+ ' '+strtrim(string(state.stokes0[3]),2)
 
@@ -204,37 +210,37 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 
 		plot_profiles, stokes, state
 
-		if (state.postcript ge 1) then begin
+		; if (state.postcript ge 1) then begin
 
-			if (state.postcript eq 1) then begin
-				file = dialog_pickfile()
-				abre_ps,file,/mitad
-			endif
+		; 	if (state.postcript eq 1) then begin
+		; 		file = dialog_pickfile()
+		; 		abre_ps,file,/mitad
+		; 	endif
 
-			if (state.postcript eq 2) then begin
-				file = dialog_pickfile(PATH=state.path_save, GET_PATH=path_save)
-				state.path_save = path_save
-				widget_control, handler, SET_UVALUE=state
-			endif
+		; 	if (state.postcript eq 2) then begin
+		; 		file = dialog_pickfile(PATH=state.path_save, GET_PATH=path_save)
+		; 		state.path_save = path_save
+		; 		widget_control, handler, SET_UVALUE=state
+		; 	endif
 
-			plot_profiles, stokes, state
+		; 	plot_profiles, stokes, state
 			
-			if (state.postcript eq 1) then begin
-				txt = 'B='+Bfield_str+' -- !7h!6!dB!n='+thetaBfield_str+$
-					' -- !7v!6!dB!n='+chiBfield_str
-				xyouts,0.20,0.96,txt,/normal
-				txt = '!7h!6!dobs!n='+thetaObs_str+' -- !7v!6!dobs!n='+chiObs_str+$
-					' -- !7c!6!dobs!n='+gammaObs_str
-				xyouts,0.20,0.46,txt,/normal
-				cierra_ps
-			endif
+		; 	if (state.postcript eq 1) then begin
+		; 		txt = 'B='+Bfield_str+' -- !7h!6!dB!n='+thetaBfield_str+$
+		; 			' -- !7v!6!dB!n='+chiBfield_str
+		; 		xyouts,0.20,0.96,txt,/normal
+		; 		txt = '!7h!6!dobs!n='+thetaObs_str+' -- !7v!6!dobs!n='+chiObs_str+$
+		; 			' -- !7c!6!dobs!n='+gammaObs_str
+		; 		xyouts,0.20,0.46,txt,/normal
+		; 		cierra_ps
+		; 	endif
 
-			if (state.postcript eq 2) then begin
-				openw,2,file,width=132
-				printf,2,stokes
-				close,2
-			endif
-		endif
+		; 	if (state.postcript eq 2) then begin
+		; 		openw,2,file,width=132
+		; 		printf,2,stokes
+		; 		close,2
+		; 	endif
+		; endif
 
 	endif
 	 

@@ -276,9 +276,14 @@ pro hazel_Event, event
 		   		 	   		 state.vel2 = value
 									 widget_control, hand, SET_UVALUE=state
 		   		 	   	end  
-	 	  'BETA' : 	begin
+	 	  'SE1' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.beta = value
+									 widget_control, hand, SET_UVALUE=state
+		   		 	   	end 
+		  'SE2' : 	begin
+		   		 	   		 widget_control, Event.id, GET_VALUE=value
+		   		 	   		 state.beta2 = value
 									 widget_control, hand, SET_UVALUE=state
 		   		 	   	end 
 	 	  'DAMPING' : 	begin
@@ -289,11 +294,6 @@ pro hazel_Event, event
 		  'FF' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.ff = value
-									 widget_control, hand, SET_UVALUE=state
-		   		 	   	end
-		  'S2/S1' : 	begin
-		   		 	   		 widget_control, Event.id, GET_VALUE=value
-		   		 	   		 state.beta = value
 									 widget_control, hand, SET_UVALUE=state
 		   		 	   	end
 	 	  'STIM' : 	begin

@@ -475,8 +475,8 @@ contains
 	type(fixed_parameters) :: in_fixed
 	integer :: i
 		
-		allocate(in_fixed%upper_direct(17))
-		allocate(in_fixed%lower_direct(17))
+		allocate(in_fixed%upper_direct(18))
+		allocate(in_fixed%lower_direct(18))
 
 		open(unit=24,file=direct_ranges,action='read',status='old')
 		call lb(24,5)
@@ -490,7 +490,7 @@ contains
 		if (in_fixed%volper < 0) in_fixed%volper = 1.d-20
 !		print *, 'Stopping when the hypervolume with respect to the original is less than ', in_fixed%volper
 		
-		do i = 1, 17
+		do i = 1, 18
 			call lb(24,2)
 			read(24,*) in_fixed%lower_direct(i), in_fixed%upper_direct(i)
 		enddo
@@ -832,22 +832,22 @@ contains
 				deallocate(values_vec)
 
 ! 1-component (vector of size 8): B, thetaB, chiB, tau, vdop, a, vmac, beta
-! 2-component 1+1 with same field (vector of size 10): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta
-! 2-component 1+1 with different field (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta
-! 2-component 2 with different field with ff (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff
+! 2-component 1+1 with same field (vector of size 11): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta, beta2
+! 2-component 1+1 with different field (vector of size 15): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta, beta2
+! 2-component 2 with different field with ff (vector of size 16): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff, beta1, beta2
 				select case(in_params%nslabs)
 					case(1)
 						allocate(values_vec(8))
 						nParamRead = 8
 					case(2)
-						allocate(values_vec(10))
-						nParamRead = 10
+						allocate(values_vec(11))
+						nParamRead = 11
 					case(3)
-						allocate(values_vec(14))
-						nParamRead = 14
+						allocate(values_vec(15))
+						nParamRead = 15
 					case(-2)
-						allocate(values_vec(14))
-						nParamRead = 14
+						allocate(values_vec(16))
+						nParamRead = 16
 				end select
 				
 				call check( nf90_get_var(in_observation%obs_id, in_observation%parsInit_id, values_vec,&
@@ -880,6 +880,7 @@ contains
 					in_params%vmacro = values_vec(8)
 					in_params%vmacro2 = values_vec(9)
 					in_params%beta = values_vec(10)
+					in_params%beta2 = values_vec(11)
 				endif
 
 ! Two components one after the other with different fields
@@ -898,6 +899,7 @@ contains
 					in_params%vmacro = values_vec(12)
 					in_params%vmacro2 = values_vec(13)
 					in_params%beta = values_vec(14)
+					in_params%beta2 = values_vec(15)
 				endif
 
 ! Two components with filling factor
@@ -916,6 +918,8 @@ contains
 					in_params%vmacro = values_vec(12)
 					in_params%vmacro2 = values_vec(13)
 					in_params%ff = values_vec(14)
+					in_params%beta = values_vec(15)
+					in_params%beta2 = values_vec(16)
 				endif
 								
 				deallocate(values_vec)

@@ -148,6 +148,12 @@ contains
 		else
 			rel_change(17) = 0.d0
 		endif
+
+		if (params%beta2 /= 0.d0) then
+			rel_change(18) = abs((params%beta-trial%beta) / params%beta)
+		else
+			rel_change(18) = 0.d0
+		endif
 		
 		compute_params_relative_change = maxval(rel_change)*100.d0		
 
@@ -232,6 +238,12 @@ contains
 		if (original%nslabs == -2) then
 			if (trial%ff < fixed%lower_direct(17) .or. trial%ff > fixed%upper_direct(17)) then
 				trial%ff = original%ff
+			endif
+		endif
+
+		if (original%nslabs == 3 .or. original%nslabs == -2 .or. original%nslabs == -2) then
+			if (trial%beta2 < lower(18) .or. trial%beta2 > upper(18)) then
+				trial%beta2 = original%beta2
 			endif
 		endif
 
@@ -385,6 +397,14 @@ contains
 					out_params%ff = in_params%ff + perturbation
 				endif
 				delta = out_params%ff - in_params%ff
+
+			case(18)
+				if (abs(in_params%beta2) > 1.d-2) then
+					out_params%beta2 = in_params%beta2 * (1.d0+perturbation)
+				else
+					out_params%beta2 = in_params%beta2 + perturbation
+				endif
+				delta = out_params%beta2 - in_params%beta2
 			
 		end select
 		
@@ -438,6 +458,8 @@ contains
 				out_params%vdopp2 = in_params%vdopp2 + new_value
 			case(17)
 				out_params%ff = in_params%ff + new_value
+			case(18) 
+				out_params%beta2 = in_params%beta2 + new_value
 		end select
 		
 	end subroutine add_to_parameter	
@@ -670,6 +692,8 @@ contains
 						error%vdopp2 = value
 					case(17) 
 						error%ff = value
+					case(18)
+						error%beta2 = value
 				end select								
 			endif			
 		enddo
@@ -718,6 +742,10 @@ contains
 			in_params_scaled%ff = in_params%ff
 		endif
 
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == -2) then
+			in_params_scaled%beta2 = in_params%beta2 / 3.d0
+		endif
+
 		
 	end subroutine compress_parameters	
 	
@@ -754,6 +782,10 @@ contains
 ! Two components in the same pixel
 		if (in_params%nslabs == -2) then
 			in_params%ff = in_params_scaled%ff
+		endif
+
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == -2) then
+			in_params%beta2 = in_params_scaled%beta2 * 3.d0
 		endif
 
 		
@@ -900,6 +932,8 @@ contains
 						out_params%vdopp2 = DIRx(j)
 					case(17)
 						out_params%ff = DIRx(j)
+					case(18) 
+						out_params%beta2 = DIRx(j)
 				end select
 				j = j + 1
 			endif
@@ -967,6 +1001,8 @@ contains
 						params%vdopp2 = x(j)
 					case(17)
 						params%ff = x(j)
+					case(18) 
+						params%beta2 = x(j)
 				end select
 				j = j + 1
 			endif
@@ -1054,6 +1090,8 @@ contains
 						params%vdopp2 = x(j)
 					case(17)
 						params%ff = x(j)
+					case(18)
+						params%beta2 = x(j)
 				end select
 				j = j + 1
 			endif

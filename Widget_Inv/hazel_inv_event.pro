@@ -455,6 +455,11 @@ pro inv_event, event
 			info.source = value			
 			widget_control, handler, SET_UVALUE=info
 		end
+		'BETA2VALUE': begin
+			widget_control, Event.id, GET_VALUE=value
+			info.source2 = value
+			widget_control, handler, SET_UVALUE=info
+		end
 		'CYC_BETA': begin
 			widget_control, Event.id, GET_VALUE=value			
 			info.inv_source = value			
@@ -464,6 +469,17 @@ pro inv_event, event
 				widget_control, info.Betatext, sensitive=0
 			endif else begin
 				widget_control, info.Betatext, sensitive=1
+			endelse
+		end
+		'CYC_BETA2': begin
+			widget_control, Event.id, GET_VALUE=value			
+			info.inv_source2 = value			
+			widget_control, handler, SET_UVALUE=info
+			ind = where(info.inv_source2 eq 0)
+			if (n_elements(ind) eq 4) then begin
+				widget_control, info.Betatext2, sensitive=0
+			endif else begin
+				widget_control, info.Betatext2, sensitive=1
 			endelse
 		end
 		'HEIGHTVALUE': begin
@@ -785,6 +801,16 @@ pro inv_event, event
 			info.dir_range_beta(1) = value
 			widget_control, handler, SET_UVALUE=info
 		end
+		'BETA2_DIR_MIN': begin
+			widget_control, Event.id, GET_VALUE=value			
+			info.dir_range_beta2(0) = value
+			widget_control, handler, SET_UVALUE=info
+		end
+		'BETA2_DIR_MAX': begin
+			widget_control, Event.id, GET_VALUE=value			
+			info.dir_range_beta2(1) = value
+			widget_control, handler, SET_UVALUE=info
+		end
 		'H_DIR_MIN': begin
 			widget_control, Event.id, GET_VALUE=value			
 			info.dir_range_height(0) = value
@@ -821,12 +847,14 @@ pro inv_event, event
 		   widget_control, info.buttonsMacro2, sensitive=0
 		   widget_control, info.buttonstau2, sensitive=0
 		   widget_control, info.buttonsff, sensitive=0
+		   widget_control, info.buttonsBeta2, sensitive=0
 		   info.inv_vmacro2 = [0,0,0,0]
 		   info.inv_Bfield2 = [0,0,0,0]
 		   info.inv_thetaB2 = [0,0,0,0]
 		   info.inv_chiB2 = [0,0,0,0]
 		   info.inv_vdopp2 = [0,0,0,0]
 		   info.inv_tau2 = [0,0,0,0]
+		   info.inv_source2 = [0,0,0,0]
 			info.inv_ff = [0,0,0,0]
 			widget_control, info.buttonsB2, SET_VALUE = info.inv_Bfield2
 			widget_control, info.buttonsthetaB2, SET_VALUE = info.inv_thetaB2
@@ -835,6 +863,7 @@ pro inv_event, event
 			widget_control, info.buttonsMacro2, SET_VALUE = info.inv_vmacro2
 			widget_control, info.buttonstau2, SET_VALUE = info.inv_tau2
 			widget_control, info.buttonsff, SET_VALUE = info.inv_ff
+			widget_control, info.buttonsBeta2, SET_VALUE = info.inv_source2
 		 end
 		 'TWO_SLABS' : begin
 		 	info.number_slabs = 2
@@ -852,6 +881,7 @@ pro inv_event, event
 		   widget_control, info.buttonsMacro2, sensitive=1
 		   widget_control, info.buttonstau2, sensitive=1
 		   widget_control, info.buttonsff, sensitive=0
+		   widget_control, info.buttonsBeta2, sensitive=1
 		   info.inv_Bfield2 = [0,0,0,0]
 		   info.inv_thetaB2 = [0,0,0,0]
 		   info.inv_chiB2 = [0,0,0,0]
@@ -879,6 +909,7 @@ pro inv_event, event
 		   widget_control, info.buttonsMacro2, sensitive=1
 		   widget_control, info.buttonstau2, sensitive=1
 		   widget_control, info.buttonsff, sensitive=0
+		   widget_control, info.buttonsBeta2, sensitive=1
 			info.inv_ff = [0,0,0,0]
 			widget_control, info.buttonsff, SET_VALUE = info.inv_ff
 		  end
@@ -898,6 +929,7 @@ pro inv_event, event
 		   widget_control, info.buttonsMacro2, sensitive=1
 		   widget_control, info.buttonstau2, sensitive=1
 		   widget_control, info.buttonsff, sensitive=1
+		   widget_control, info.buttonsBeta2, sensitive=1
 		  end
 		  'J10_VALUE' : begin
 				widget_control, Event.id, GET_VALUE=value

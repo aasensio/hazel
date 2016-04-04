@@ -3,16 +3,16 @@ function inv_init, reset_state=reset_state
    if (keyword_set(reset_state) or file_test('state.idl') eq 0) then begin
 		info = {baseWidget: 0L, output_file_widget: 0L, obs_file_widget: 0L, obsplotWidget: 0L, $
 			multipletWidget: 0L, plotWidget: 0L,$
-			zeeman_pb: 1, atom_pol: 1, stimulated: 1, mag_opt: 1, rt_mode: 3, boundary: fltarr(4),$
+			zeeman_pb: 1, atom_pol: 1, stimulated: 1, mag_opt: 1, rt_mode: 5, boundary: fltarr(4),$
 			ncycles: 4, inv_bfield: [0,0,1,1], inv_thetaB: [0,0,1,1], inv_chiB: [0,0,1,1],$
 			inv_vdopp: [1,1,0,0], inv_tau: [1,1,0,0], inv_tau2: [1,1,0,0], inv_depol: [0,0,0,0], $
 			inv_vmacro: [1,1,0,0], inv_vmacro2: [1,1,0,0],$
 			inv_damping: [1,1,0,0], inv_source: [0,0,0,0], inv_height: [0,0,0,0],$
 			inv_Bfield2: [0,0,1,1], inv_thetaB2: [0,0,1,1], inv_chiB2: [0,0,1,1], inv_vdopp2: [1,1,0,0],$
-			inv_ff: [0,0,1,1],$
+			inv_ff: [0,0,1,1],inv_source2: [0,0,0,0],$
 			Bfield: 1200.d0, thetaB: 0.d0, chiB: 0.d0, vdopp: 0.d0, tau: 0.d0, depol: 0.d0, vmacro: 0.d0,$
 			damping: 0.d0, source: 0.d0, height: 0.d0, tau2: 0.d0, vmacro2: 0.d0,$
-			Bfield2: 0.d0, thetaB2: 0.d0, chiB2: 0.d0, vdopp2: 0.d0, ff: 0.d0, $
+			Bfield2: 0.d0, thetaB2: 0.d0, chiB2: 0.d0, vdopp2: 0.d0, ff: 0.d0, source2: 0.d0,$
 			inversion_mode: [2,1,2,1], $
 			stI_weight: [1.d0,1.d0,1.d0,1.d0], stQ_weight: [0.d0,0.d0,1.d0,1.d0], $
 			stU_weight: [0.d0,0.d0,1.d0,1.d0], stV_weight: [0.d0,0.d0,1.d0,1.d0], $
@@ -27,14 +27,14 @@ function inv_init, reset_state=reset_state
 			dir_range_tau2: [0.d0, 1.d0], dir_range_vmacro2: [-10.d0, 10.d0],$
 			dir_range_bfield2: [0.d0,1000.d0], dir_range_thetaB2: [0.d0, 180.d0],$
 			dir_range_chiB2: [0.d0,180.d0], dir_range_vdopp2: [0.d0, 20.d0],$
-			dir_range_ff: [0.d0, 1.d0], verbose: 0, linear_solver: 0,$
+			dir_range_ff: [0.d0, 1.d0], dir_range_beta2: [0.d0, 1.d0], verbose: 0, linear_solver: 0,$
 			output_file: 'out.dat', obs_file: '', multiplet: 1, atom: 0, itermax: 20,$
 			Btext: 0L, thetaBtext: 0L, chiBtext: 0L, Dopplertext: 0L, Tautext: 0L, Depoltext: 0L, $
-   		Macrotext: 0L, Dampingtext: 0L, Betatext: 0L, Heighttext: 0L, label_multiplet: 0L, $
+   		Macrotext: 0L, Dampingtext: 0L, Betatext: 0L, Betatext2: 0L, Heighttext: 0L, label_multiplet: 0L, $
 			outputText: 0L, path_obs: '.', number_slabs: 1, dtau_desired2: 0.d0, vel: 0.d0, vel2: 0.d0,$
 			Tautext2: 0L, Macrotext2: 0L, i0_allen: 0L, Btext2: 0L, thetaBtext2: 0L, chiBtext2: 0L,$
 			Dopplertext2: 0L, buttonsB2: 0L, buttonsthetaB2: 0L, buttonschiB2: 0L,$
-			buttonsDoppler2: 0L, buttonsMacro2: 0L, buttonstau2: 0L, j10: '0.0',$
+			buttonsDoppler2: 0L, buttonsMacro2: 0L, buttonstau2: 0L, buttonsBeta2: 0L, j10: '0.0',$
 			fftext: 0L, buttonsff: 0L, pixelWidget: 0L, mapFile: ''}
 	endif else begin	
 		restore,'state.idl'
@@ -127,7 +127,7 @@ function inv_init, reset_state=reset_state
    runButton = widget_button(runBase, VALUE='Run inversion', XSIZE=100,YSIZE=100, UVALUE='RUN_INV')
 	runButton = widget_button(runBase, VALUE='Run synthesis', XSIZE=100,YSIZE=100, UVALUE='RUN_SYNTH')
 	
-	info.outputText = widget_text(tab1, VALUE='', XSIZE=120, YSIZE=10, UVALUE='OUTPUT_TEXT')
+	; info.outputText = widget_text(tab1, VALUE='', XSIZE=120, YSIZE=10, UVALUE='OUTPUT_TEXT')
 ;-----------------------------
 ; TAB 2 - OBSERVATIONS
 ;-----------------------------
@@ -243,6 +243,7 @@ function inv_init, reset_state=reset_state
    label = widget_label(t2, VALUE='    max: ')
    betamax = widget_text(t2, VALUE=strtrim(string(info.dir_range_beta(1),FORMAT='(F7.2)'),2),UVALUE='BETA_DIR_MAX',/EDITABLE,XSIZE=8,YSIZE=1)
 
+
 ; Height
 ;   t2 = widget_base(t1glob, /ROW)
 ;   label = widget_label(t2, VALUE='Height ["] ',XSIZE=textsize)
@@ -315,6 +316,15 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
    hmax = widget_text(t2, VALUE=strtrim(string(info.dir_range_vmacro2(1),FORMAT='(F7.2)'),2),UVALUE='VMAC2_DIR_MAX',$
    	/EDITABLE,XSIZE=8,YSIZE=1)
 
+; beta2
+   t2 = widget_base(t1glob, /ROW)
+   label = widget_label(t2, VALUE='beta2 ',XSIZE=textsize)
+   label = widget_label(t2, VALUE='min: ')
+   betamin = widget_text(t2, VALUE=strtrim(string(info.dir_range_beta(0),FORMAT='(F7.2)'),2),UVALUE='BETA2_DIR_MIN',/EDITABLE,XSIZE=8,YSIZE=1)
+   label = widget_label(t2, VALUE='    max: ')
+   betamax = widget_text(t2, VALUE=strtrim(string(info.dir_range_beta(1),FORMAT='(F7.2)'),2),UVALUE='BETA2_DIR_MAX',/EDITABLE,XSIZE=8,YSIZE=1)
+
+
 ; ff
    t2 = widget_base(t1glob, /ROW)
    label = widget_label(t2, VALUE=' ff1 ',XSIZE=textsize)
@@ -382,17 +392,17 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
    label = widget_label(baseRT, VALUE='RT mode')
    tempBase = widget_base(baseRT, /COLUMN, /EXCLUSIVE)
    emissionButton = widget_button(tempBase, VALUE='Slab (optically thin)', UVALUE='EMISSION')
-   formalButton = widget_button(tempBase, VALUE='Slab (no MO)', UVALUE='FORMAL')
-   deloparButton = widget_button(tempBase, VALUE='Slab (DELO)', UVALUE='DELOPAR')
-   milneButton = widget_button(tempBase, VALUE='Milne-Eddington', UVALUE='MILNE')
+   ; formalButton = widget_button(tempBase, VALUE='Slab (no MO)', UVALUE='FORMAL')
+   ; deloparButton = widget_button(tempBase, VALUE='Slab (DELO)', UVALUE='DELOPAR')
+   ; milneButton = widget_button(tempBase, VALUE='Milne-Eddington', UVALUE='MILNE')
    exactslabButton = widget_button(tempBase, VALUE='Slab (exact)', UVALUE='EXACT_SLAB')
-   simpleslabButton = widget_button(tempBase, VALUE='Simplified slab', UVALUE='SIMPLE_SLAB')
+   ; simpleslabButton = widget_button(tempBase, VALUE='Simplified slab', UVALUE='SIMPLE_SLAB')
 	case (info.rt_mode) of
 		0: widget_control, emissionButton, /SET_BUTTON  ; 0 -> pure emission
-		1: widget_control, formalButton, /SET_BUTTON  ; 1 -> slab (neglecting MO terms)
-		2: widget_control, milneButton, /SET_BUTTON  ; 2 -> Milne-Eddington
-		3: widget_control, deloparButton, /SET_BUTTON  ; 3 -> DELO
-		4: widget_control, simpleslabButton, /SET_BUTTON    ; 4 -> simplified slab (optically thin)
+		; 1: widget_control, formalButton, /SET_BUTTON  ; 1 -> slab (neglecting MO terms)
+		; 2: widget_control, milneButton, /SET_BUTTON  ; 2 -> Milne-Eddington
+		; 3: widget_control, deloparButton, /SET_BUTTON  ; 3 -> DELO
+		; 4: widget_control, simpleslabButton, /SET_BUTTON    ; 4 -> simplified slab (optically thin)
 		5: widget_control, exactslabButton, /SET_BUTTON   ; 5 -> exact slab
 	endcase
 
@@ -617,6 +627,17 @@ t1glob = widget_base(t1globglob, /COLUMN, FRAME=1)
 	if (n_elements(ind) eq 4) then begin
 		widget_control, info.Macrotext2, sensitive=0
 	endif
+
+; Source function gradient
+   tBeta = widget_base(t4, /ROW)
+   label = widget_label(tBeta, VALUE='Beta2', XSIZE=textsize)
+   info.Betatext2 = widget_text(tBeta, VALUE=strtrim(string(info.source,FORMAT='(F6.2)'),2), UVALUE='BETA2VALUE', /EDITABLE, XSIZE=8, YSIZE=1)
+   info.buttonsBeta2 = cw_bgroup(tBeta, ['1','2','3','4'], /ROW, /NONEXCLUSIVE, LABEL_LEFT='Cycles', SET_VALUE=info.inv_source2, UVALUE='CYC_BETA2')
+   ind = where(info.inv_source2 eq 0)
+   if (n_elements(ind) eq 4) then begin
+      widget_control, info.Betatext2, sensitive=0
+   endif
+
 
 ; Filling factor
    tMacro = widget_base(t4, /ROW)

@@ -23,9 +23,9 @@ def genNetCDF(wavelength, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, bo
         pars (float): array of size [nparameters,npixel] that gives the initial value of the parameters
                             The size depends on the radiative transfer option:
                                 * 1-component (vector of size 8): B, thetaB, chiB, tau, vdop, a, vmac, beta
-                                * 2-component 1+1 with same field (vector of size 10): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta
-                                * 2-component 1+1 with different field (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta
-                                * 2-component 2 with different field with ff (vector of size 14): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff
+                                * 2-component 1+1 with same field (vector of size 11): B, thetaB, chiB, tau1, tau2, vdop, a, vmac1, vmac2, beta, beta2
+                                * 2-component 1+1 with different field (vector of size 15): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, beta, beta2
+                                * 2-component 2 with different field with ff (vector of size 16): B1, thetaB1, chiB1, B2, thetaB2, chiB2, tau1, tau2, vdop1, vdop2, a, vmac1, vmac2, ff, beta, beta2
         normalization (string): 'continuum' or 'peak', indicating how the profiles are normalized
         outputFile (float): output file
     """

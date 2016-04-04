@@ -7,14 +7,14 @@
 \contentsline {section}{\numberline {3}New input file}{7}{section.3}
 \contentsline {section}{\numberline {4}Input files}{10}{section.4}
 \contentsline {subsection}{\numberline {4.1}\texttt {config\_inversion.dat}}{10}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}\texttt {init\_parameters.dat}}{12}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.2}\texttt {init\_parameters.dat}}{13}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}\texttt {direct\_range.dat}}{16}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}\texttt {invert\_parameters.dat}}{17}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.4}\texttt {invert\_parameters.dat}}{18}{subsection.4.4}
 \contentsline {section}{\numberline {5}Atomic models}{20}{section.5}
 \contentsline {section}{\numberline {6}Graphical front-ends}{21}{section.6}
-\contentsline {subsection}{\numberline {6.1}Synthesis}{22}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Inversion}{23}{subsection.6.2}
-\contentsline {section}{\numberline {7}\textsc {P-Hazel}\ input/output files}{23}{section.7}
+\contentsline {subsection}{\numberline {6.1}Synthesis}{21}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Inversion}{22}{subsection.6.2}
+\contentsline {section}{\numberline {7}\textsc {P-Hazel}\ input/output files}{24}{section.7}
 \contentsline {subsection}{\numberline {7.1}Input files}{24}{subsection.7.1}
 \contentsline {subsection}{\numberline {7.2}Output files}{25}{subsection.7.2}
 \contentsline {subsection}{\numberline {7.3}Ambiguities}{25}{subsection.7.3}

@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.9.30)  27 OCT 2015 15:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.19)  4 APR 2016 16:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**manual.tex -recorder
+**manual.tex
 (./manual.tex
-LaTeX2e <2015/01/01> patch level 2
-Babel <3.9m> and hyphenation patterns for 51 languages loaded.
+LaTeX2e <2016/02/01>
+Babel <3.9n> and hyphenation patterns for 51 languages loaded.
 (/usr/pkg/teTeX/texlive/2015/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/pkg/teTeX/texlive/2015/texmf-dist/tex/latex/base/size12.clo
@@ -168,15 +168,15 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/pkg/teTeX/texlive/2015/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2016/01/03 v1.0q Standard LaTeX Graphics (DPC,SPQR)
 
 (/usr/pkg/teTeX/texlive/2015/texmf-dist/tex/latex/graphics/trig.sty
-Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
 (/usr/pkg/teTeX/texlive/2015/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 94.
+Package graphics Info: Driver file: pdftex.def on input line 95.
 
 (/usr/pkg/teTeX/texlive/2015/texmf-dist/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
@@ -283,100 +283,99 @@ LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 241.
  [7]
-Overfull \hbox (51.10617pt too wide) in paragraph at lines 376--376
+Overfull \hbox (51.10617pt too wide) in paragraph at lines 379--379
 []\OT1/cmtt/m/n/12 Wavelength axis = -3.0, 2.5, 200      # Minimum, maximum and
  number of grid points[] 
  []
 
 
-Overfull \hbox (575.98143pt too wide) in paragraph at lines 376--376
+Overfull \hbox (575.98143pt too wide) in paragraph at lines 379--379
 []\OT1/cmtt/m/n/12 Number of slabs = '1'    # '1' -> single slab, '1+1' -> two 
 slabs with same field, '1+1B' -> 2 slabs with different field, '2' -> two slabs
  added with a filling factor[] 
  []
 
 
-Overfull \hbox (26.40616pt too wide) in paragraph at lines 376--376
+Overfull \hbox (26.40616pt too wide) in paragraph at lines 379--379
 []\OT1/cmtt/m/n/12 height = 3.0     # Real height if positive, apparent height 
 if negative arcsec[] 
  []
 
 [8]
-Overfull \hbox (285.75629pt too wide) in paragraph at lines 376--376
+Overfull \hbox (285.75629pt too wide) in paragraph at lines 379--379
 []\OT1/cmtt/m/n/12 Inversion modes = 'DIRECT', 'LM', 'DIRECT', 'LM'        # 'D
 IRECT' for DIRECT algorithm and 'LM' for Levenberg-Marquardt[] 
  []
 
 [9]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 387.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 390.
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 430--430
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 433--433
 []\OT1/cmtt/m/n/12 # Output for the upper level rho^K_Q(J,J') in the vertical r
 eference frame[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 430--430
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 433--433
 []\OT1/cmtt/m/n/12 # Output for the lower level rho^K_Q(J,J') in the vertical r
 eference frame[] 
  []
 
 
-Overfull \hbox (14.05615pt too wide) in paragraph at lines 430--430
+Overfull \hbox (14.05615pt too wide) in paragraph at lines 433--433
 []\OT1/cmtt/m/n/12 # Output for the upper level rho^K_Q(J,J') in the mag. field
  reference frame[] 
  []
 
-
-Overfull \hbox (14.05615pt too wide) in paragraph at lines 430--430
+[10]
+Overfull \hbox (14.05615pt too wide) in paragraph at lines 433--433
 []\OT1/cmtt/m/n/12 # Output for the lower level rho^K_Q(J,J') in the mag. field
  reference frame[] 
  []
 
-[10] [11] [12]
-Overfull \hbox (7.88115pt too wide) in paragraph at lines 551--551
+[11] [12]
+Overfull \hbox (7.88115pt too wide) in paragraph at lines 554--554
 []\OT1/cmtt/m/n/12 # Value of delta if depol. rates are included (not used if p
 rev. value = 0)[] 
  []
 
 [13]
-Overfull \hbox (21.897pt too wide) in paragraph at lines 604--604
+Overfull \hbox (21.897pt too wide) in paragraph at lines 607--607
 []\OT1/cmtt/m/n/10.95 # Optical depth of the slab in the maximum of I (slab) or
  strength of the line (ME)[] 
  []
 
-
-Overfull \hbox (75.80618pt too wide) in paragraph at lines 646--646
+[14]
+Overfull \hbox (75.80618pt too wide) in paragraph at lines 649--649
 []\OT1/cmtt/m/n/12 # Observation angle with respect to the local solar vertical
  theta,chi,gamma [degrees][] 
  []
 
-[14] [15] [16] [17] [18] [19]
-Overfull \hbox (7.88115pt too wide) in paragraph at lines 940--940
+[15] [16] [17] [18] [19] [20]
+Overfull \hbox (7.88115pt too wide) in paragraph at lines 943--943
 []\OT1/cmtt/m/n/12 1    1    2    1.022d7    10829.0911    1.0000000    1.00000
 00    0.0000000[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 940--940
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 943--943
 []\OT1/cmtt/m/n/12 2    1    4    9.478d6    3888.6046    0.2000000    1.000000
 0    0.0000000[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 940--940
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 943--943
 []\OT1/cmtt/m/n/12 3    2    3    2.780d7    7065.7085    1.0000000    1.000000
 0    0.0000000[] 
  []
 
 
-Overfull \hbox (1.70615pt too wide) in paragraph at lines 940--940
+Overfull \hbox (1.70615pt too wide) in paragraph at lines 943--943
 []\OT1/cmtt/m/n/12 4    2    5    7.060d7    5875.9663    1.0000000    1.000000
 0    0.0000000[] 
  []
 
-[20]
 Package epstopdf Info: Source file: <f5.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
 (epstopdf)                    size: 52827 bytes
@@ -385,13 +384,13 @@ Package epstopdf Info: Source file: <f5.eps>
 (epstopdf)                    size: 29293 bytes
 (epstopdf)             Command: <repstopdf --outfile=f5-eps-converted-to.pdf f5
 .eps>
-(epstopdf)             \includegraphics on input line 958.
+(epstopdf)             \includegraphics on input line 961.
 Package epstopdf Info: Output file is already uptodate.
- <f5-eps-converted-to.pdf, id=305, 1224.575pt x 772.8875pt>
+<f5-eps-converted-to.pdf, id=305, 1224.575pt x 772.8875pt>
 File: f5-eps-converted-to.pdf Graphic file (type pdf)
 
 <use f5-eps-converted-to.pdf>
-Package pdftex.def Info: f5-eps-converted-to.pdf used on input line 958.
+Package pdftex.def Info: f5-eps-converted-to.pdf used on input line 961.
 (pdftex.def)             Requested size: 455.24408pt x 287.32011pt.
 Package epstopdf Info: Source file: <inv1.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -401,14 +400,14 @@ Package epstopdf Info: Source file: <inv1.eps>
 (epstopdf)                    size: 11656 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv1-eps-converted-to.pdf 
 inv1.eps>
-(epstopdf)             \includegraphics on input line 970.
+(epstopdf)             \includegraphics on input line 973.
 Package epstopdf Info: Output file is already uptodate.
 
 <inv1-eps-converted-to.pdf, id=306, 750.805pt x 897.3525pt>
 File: inv1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv1-eps-converted-to.pdf>
-Package pdftex.def Info: inv1-eps-converted-to.pdf used on input line 970.
+Package pdftex.def Info: inv1-eps-converted-to.pdf used on input line 973.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 Package epstopdf Info: Source file: <inv2.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -418,14 +417,14 @@ Package epstopdf Info: Source file: <inv2.eps>
 (epstopdf)                    size: 17450 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv2-eps-converted-to.pdf 
 inv2.eps>
-(epstopdf)             \includegraphics on input line 972.
+(epstopdf)             \includegraphics on input line 975.
 Package epstopdf Info: Output file is already uptodate.
 
 <inv2-eps-converted-to.pdf, id=307, 750.805pt x 897.3525pt>
 File: inv2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv2-eps-converted-to.pdf>
-Package pdftex.def Info: inv2-eps-converted-to.pdf used on input line 972.
+Package pdftex.def Info: inv2-eps-converted-to.pdf used on input line 975.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 Package epstopdf Info: Source file: <inv3.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -435,14 +434,14 @@ Package epstopdf Info: Source file: <inv3.eps>
 (epstopdf)                    size: 15267 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv3-eps-converted-to.pdf 
 inv3.eps>
-(epstopdf)             \includegraphics on input line 973.
+(epstopdf)             \includegraphics on input line 976.
 Package epstopdf Info: Output file is already uptodate.
 
 <inv3-eps-converted-to.pdf, id=308, 750.805pt x 897.3525pt>
 File: inv3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv3-eps-converted-to.pdf>
-Package pdftex.def Info: inv3-eps-converted-to.pdf used on input line 973.
+Package pdftex.def Info: inv3-eps-converted-to.pdf used on input line 976.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 Package epstopdf Info: Source file: <inv4.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
@@ -452,30 +451,30 @@ Package epstopdf Info: Source file: <inv4.eps>
 (epstopdf)                    size: 22031 bytes
 (epstopdf)             Command: <repstopdf --outfile=inv4-eps-converted-to.pdf 
 inv4.eps>
-(epstopdf)             \includegraphics on input line 975.
+(epstopdf)             \includegraphics on input line 978.
 Package epstopdf Info: Output file is already uptodate.
 
 <inv4-eps-converted-to.pdf, id=309, 750.805pt x 897.3525pt>
 File: inv4-eps-converted-to.pdf Graphic file (type pdf)
 
 <use inv4-eps-converted-to.pdf>
-Package pdftex.def Info: inv4-eps-converted-to.pdf used on input line 975.
+Package pdftex.def Info: inv4-eps-converted-to.pdf used on input line 978.
 (pdftex.def)             Requested size: 218.51521pt x 261.15665pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 970--977
+Underfull \hbox (badness 10000) in paragraph at lines 973--980
 [][]  []
  []
 
-[21 <./f5-eps-converted-to.pdf>] [22 <./inv1-eps-converted-to.pdf> <./inv2-eps-
-converted-to.pdf> <./inv3-eps-converted-to.pdf> <./inv4-eps-converted-to.pdf>]
-[23]
-Overfull \hbox (15.20026pt too wide) in paragraph at lines 1070--1071
+[21] [22 <./f5-eps-converted-to.pdf>] [23 <./inv1-eps-converted-to.pdf> <./inv2
+-eps-converted-to.pdf> <./inv3-eps-converted-to.pdf> <./inv4-eps-converted-to.p
+df>] [24]
+Overfull \hbox (15.20026pt too wide) in paragraph at lines 1072--1073
 []\OT1/cmr/m/n/12 map: ar-ray of size \OT1/cmr/m/it/12 (npixel,4,nlambda) \OT1/
 cmr/m/n/12 con-tain-ing the syn-thetic Stokes vec-tor $(\OML/cmm/m/it/12 I; Q; 
 U; V\OT1/cmr/m/n/12 )$
  []
 
-[24] [25]
+[25]
 Package epstopdf Info: Source file: <f1.eps>
 (epstopdf)                    date: 2014-06-27 09:17:30
 (epstopdf)                    size: 27387 bytes
@@ -484,16 +483,16 @@ Package epstopdf Info: Source file: <f1.eps>
 (epstopdf)                    size: 9089 bytes
 (epstopdf)             Command: <repstopdf --outfile=f1-eps-converted-to.pdf f1
 .eps>
-(epstopdf)             \includegraphics on input line 1146.
+(epstopdf)             \includegraphics on input line 1148.
 Package epstopdf Info: Output file is already uptodate.
  <f1-eps-converted-to.pdf, id=423, 416.55624pt x 383.4325pt>
 File: f1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use f1-eps-converted-to.pdf>
-Package pdftex.def Info: f1-eps-converted-to.pdf used on input line 1146.
+Package pdftex.def Info: f1-eps-converted-to.pdf used on input line 1148.
 (pdftex.def)             Requested size: 455.24408pt x 419.06233pt.
 
-Overfull \hbox (21.04814pt too wide) in paragraph at lines 1177--1181
+Overfull \hbox (21.04814pt too wide) in paragraph at lines 1179--1183
 \OT1/cmr/m/n/12 where $\OML/cmm/m/it/12 s$ \OT1/cmr/m/n/12 is the ge-o-met-ri-c
 al dis-tance along the ray un-der con-sid-er-a-tion, $\OML/cmm/b/it/12 ^^O\OT1/
 cmr/m/n/12 (\OML/cmm/m/it/12 ^^W; \OT1/cmr/bx/sc/12 
@@ -503,32 +502,32 @@ cmr/m/n/12 (\OML/cmm/m/it/12 ^^W; \OT1/cmr/bx/sc/12
 
 [26] [27 <./f1-eps-converted-to.pdf>] [28] [29] [30] [31] [32] [33] [34]
 [35] [36]
-Overfull \hbox (83.00797pt too wide) detected at line 1703
+Overfull \hbox (83.00797pt too wide) detected at line 1705
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 
-Overfull \hbox (82.8134pt too wide) detected at line 1741
+Overfull \hbox (82.8134pt too wide) detected at line 1743
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 [37]
-Overfull \hbox (81.50786pt too wide) detected at line 1762
+Overfull \hbox (81.50786pt too wide) detected at line 1764
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 
-Overfull \hbox (81.50786pt too wide) detected at line 1784
+Overfull \hbox (81.50786pt too wide) detected at line 1786
 [][] [][] \OT1/cmr/m/n/12 ^^B[] = [] [][] ^^B[]\OML/cmm/m/it/12 :[]
  []
 
 [38]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1860.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1862.
  [39]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1860.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1862.
  (./manual.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1860.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1860.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1862.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1862.
 
 Package rerunfilecheck Info: File `manual.out' has not changed.
 (rerunfilecheck)             Checksum: 03C842466E7C489F0FDA97C6110B4FA9;2231.
@@ -536,16 +535,19 @@ Package rerunfilecheck Info: File `manual.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1860.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1862.
  ) 
 Here is how much of TeX's memory you used:
- 5909 strings out of 493705
- 86704 string characters out of 6151496
- 173385 words of memory out of 5000000
- 9147 multiletter control sequences out of 15000+600000
+ 5910 strings out of 493656
+ 86713 string characters out of 6151192
+ 173645 words of memory out of 5000000
+ 9197 multiletter control sequences out of 15000+600000
  25131 words of font info for 94 fonts, out of 8000000 for 9000
  783 hyphenation exceptions out of 8191
- 29i,12n,28p,1110b,435s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,12n,28p,1100b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/pkg/teTeX/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10
 .pfb></usr/pkg/teTeX/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
 x12.pfb></usr/pkg/teTeX/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/
@@ -569,7 +571,7 @@ ist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/pkg/teTeX/texlive/2015/texmf
 xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/pkg/teTeX/texlive/2015
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/pkg/teTeX/texlive/2
 015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on manual.pdf (39 pages, 433491 bytes).
+Output written on manual.pdf (39 pages, 433650 bytes).
 PDF statistics:
  727 PDF objects out of 1000 (max. 8388607)
  583 compressed objects within 6 object streams

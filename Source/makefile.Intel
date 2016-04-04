@@ -13,7 +13,7 @@
 
 # Change COMPILER to ifort or gfortran
 COMPILER = ifort 
-OPTIONS = -c -O3
+OPTIONS = -c -O1
  
 FINAL_EXECUTABLE = hazel
 

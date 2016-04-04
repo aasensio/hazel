@@ -37,7 +37,7 @@ pro generate_conf_files, info, action
 	
 ; direct_range_10830.dat
 	openr,2,'CONF/direct_range.dat'
-	str = strarr(63)
+	str = strarr(66)
 	readf,2,str
 	close,2
 		
@@ -61,8 +61,9 @@ pro generate_conf_files, info, action
 	str(56) = strtrim(string(info.dir_range_chib2[0]),2)+'   '+strtrim(string(info.dir_range_chib2[1]),2)
 	str(59) = strtrim(string(info.dir_range_vdopp2[0]),2)+'   '+strtrim(string(info.dir_range_vdopp2[1]),2)
 	str(62) = strtrim(string(info.dir_range_ff[0]),2)+'   '+strtrim(string(info.dir_range_ff[1]),2)
+	str(65) = strtrim(string(info.dir_range_beta[0]),2)+'   '+strtrim(string(info.dir_range_beta[1]),2)
 	openw,2,'direct_range.dat',width=132
-	for i = 0, 62 do begin
+	for i = 0, 65 do begin
 		printf,2,str(i)
 	endfor	
 	close,2
@@ -73,7 +74,7 @@ pro generate_conf_files, info, action
 	readf,2,str
 	close,2
 		
-			str(5) = strtrim(string(info.stimulated),2)
+	str(5) = strtrim(string(info.stimulated),2)
 	str(8) = 1
 	if (info.depol eq 0.d0) then begin
 		str(11) = 0
@@ -127,6 +128,7 @@ pro generate_conf_files, info, action
 	endif
 	if (info.number_slabs eq 2 or info.number_slabs eq 3 or info.number_slabs eq -2) then begin
 		str(53) = strtrim(string(info.vmacro),2)+' '+strtrim(string(info.vmacro2),2)
+		str(32) = strtrim(string(info.source),2)+' '+strtrim(string(info.source2),2)
 	endif
 	
 	str(56) = strtrim(string(info.mag_opt),2)
@@ -140,7 +142,7 @@ pro generate_conf_files, info, action
 
 ; invert_parameters_10830.dat
 	openr,2,'CONF/invert_parameters.dat'
-	str = strarr(75)
+	str = strarr(78)
 	readf,2,str
 	close,2
 	
@@ -230,34 +232,39 @@ pro generate_conf_files, info, action
 				strtrim(string(info.inv_ff(1),FORMAT='(I1)'),2)+' '+$
 				strtrim(string(info.inv_ff(2),FORMAT='(I1)'),2)+' '+$
 				strtrim(string(info.inv_ff(3),FORMAT='(I1)'),2)+' '
+
+	str(62) = strtrim(string(info.inv_source2(0),FORMAT='(I1)'),2)+' '+$
+				strtrim(string(info.inv_source2(1),FORMAT='(I1)'),2)+' '+$
+				strtrim(string(info.inv_source2(2),FORMAT='(I1)'),2)+' '+$
+				strtrim(string(info.inv_source2(3),FORMAT='(I1)'),2)+' '
 				
-	str(62) = strtrim(string(info.stI_weight(0)),2)+' '+$
+	str(65) = strtrim(string(info.stI_weight(0)),2)+' '+$
 				strtrim(string(info.stI_weight(1)),2)+' '+$
 				strtrim(string(info.stI_weight(2)),2)+' '+$
 				strtrim(string(info.stI_weight(3)),2)+' '
 				
-	str(65) = strtrim(string(info.stQ_weight(0)),2)+' '+$
+	str(68) = strtrim(string(info.stQ_weight(0)),2)+' '+$
 				strtrim(string(info.stQ_weight(1)),2)+' '+$
 				strtrim(string(info.stQ_weight(2)),2)+' '+$
 				strtrim(string(info.stQ_weight(3)),2)+' '
 				
-	str(68) = strtrim(string(info.stU_weight(0)),2)+' '+$
+	str(71) = strtrim(string(info.stU_weight(0)),2)+' '+$
 				strtrim(string(info.stU_weight(1)),2)+' '+$
 				strtrim(string(info.stU_weight(2)),2)+' '+$
 				strtrim(string(info.stU_weight(3)),2)+' '
 				
-	str(71) = strtrim(string(info.stV_weight(0)),2)+' '+$
+	str(74) = strtrim(string(info.stV_weight(0)),2)+' '+$
 				strtrim(string(info.stV_weight(1)),2)+' '+$
 				strtrim(string(info.stV_weight(2)),2)+' '+$
 				strtrim(string(info.stV_weight(3)),2)+' '
 				
-	str(74) = strtrim(string(info.inversion_mode(0),FORMAT='(I1)'),2)+' '+$
+	str(77) = strtrim(string(info.inversion_mode(0),FORMAT='(I1)'),2)+' '+$
 				strtrim(string(info.inversion_mode(1),FORMAT='(I1)'),2)+' '+$
 				strtrim(string(info.inversion_mode(2),FORMAT='(I1)'),2)+' '+$
 				strtrim(string(info.inversion_mode(3),FORMAT='(I1)'),2)+' '
 
 	openw,2,'invert_parameters.dat',width=132
-	for i = 0, 74 do begin
+	for i = 0, 77 do begin
 		printf,2,str(i)
 	endfor	
 	close,2

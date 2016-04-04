@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 from configobj import ConfigObj
 import sys
 import os
@@ -11,10 +12,10 @@ def lower_to_sep(string, separator='='):
 
 
 if (len(sys.argv) < 2):
-	print "Example usage: runHazel conf.ini"
+	print( "Example usage: runHazel conf.ini")
 	exit()
 
-print "Using configuration file = "+sys.argv[1]
+print("Using configuration file = "+sys.argv[1])
 
 # Transform all keys to lowercase to avoid problems with
 # upper/lower case
@@ -96,7 +97,7 @@ if (config['general parameters']['synthesis mode'] == 'exact'):
 elif (config['general parameters']['synthesis mode'] == 'thin'):
 	f.write('0\n')
 else:
-	print "Synthesis mode not supported : {0}".format(config['general parameters']['synthesis mode'])
+	print("Synthesis mode not supported : {0}".format(config['general parameters']['synthesis mode']))
 	sys.exit()
 f.write('\n')
 f.write("# Synthesis mode -> 0 , Inversion mode -> 1\n")
@@ -105,7 +106,7 @@ if (config['working mode']['action'] == 'synthesis'):
 elif (config['working mode']['action'] == 'inversion'):
 	f.write('1')
 else:
-	print "Action mode not supported : {0}".format(config['working mode']['action'])
+	print("Action mode not supported : {0}".format(config['working mode']['action']))
 	sys.exit()
 f.close()
 
@@ -152,7 +153,7 @@ f.write("# damping (0 .. 4)\n")
 f.write("  ".join(config['ranges']['a'])+"\n")
 f.write("\n")
 f.write("# beta (0 .. 10)\n")
-f.write("  ".join(config['ranges']['beta'])+"\n")
+f.write("  ".join(config['ranges']['slab 1']['beta'])+"\n")
 f.write("\n")
 f.write("# height (0 .. 100)\n")
 f.write("0.d0  100.d0\n")
@@ -176,7 +177,10 @@ f.write("# vdopp 2 (0 .. 20)\n")
 f.write("  ".join(config['ranges']['slab 2']['vdopp'])+"\n")
 f.write("\n")
 f.write("# ff\n")
-f.write("  ".join(config['ranges']['ff']))
+f.write("  ".join(config['ranges']['ff'])+"\n")
+f.write("\n")
+f.write("# beta2 (0 .. 10)\n")
+f.write("  ".join(config['ranges']['slab 2']['beta'])+"\n")
 f.close()
 
 #*********************************
@@ -218,8 +222,8 @@ f.write("\n")
 f.write("# Invert the damping\n")
 f.write(" ".join(config['inversion']['cycles']['a'])+"\n")
 f.write("\n")
-f.write("# Invert the source function gradient\n")
-f.write(" ".join(config['inversion']['cycles']['beta'])+"\n")
+f.write("# Invert beta\n")
+f.write(" ".join(config['inversion']['cycles']['slab 2']['beta'])+"\n")
 f.write("\n")
 f.write("# Invert the height of the He atoms\n")
 f.write("0 0 0 0\n")
@@ -244,6 +248,9 @@ f.write(" ".join(config['inversion']['cycles']['slab 2']['vdopp'])+"\n")
 f.write("\n")
 f.write("# Invert filling factor\n")
 f.write(" ".join(config['inversion']['cycles']['ff'])+"\n")
+f.write("\n")
+f.write("# Invert beta2\n")
+f.write(" ".join(config['inversion']['cycles']['slab 2']['beta'])+"\n")
 f.write("\n")
 f.write("# Weights for Stokes I in each cycle\n")
 f.write(" ".join(config['inversion']['weights']['stokes i'])+"\n")
@@ -320,8 +327,11 @@ else:
 	else:
 		f.write(config['synthesis']['slab 1']['tau']+"  "+config['synthesis']['slab 2']['tau']+"\n")		
 f.write("\n")
-f.write("# Source function gradient\n") 
-f.write(config['synthesis']['beta']+"\n")
+f.write("# Source function enhancement\n") 
+if (nSlabs == 1):
+	f.write(config['synthesis']['slab 1']['beta']+"\n")
+else:
+	f.write(config['synthesis']['slab 1']['beta']+"  "+config['synthesis']['slab 2']['beta']+"\n")
 f.write("\n")
 f.write("# Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center\n")
 f.write("  ".join(config['synthesis']['boundary condition'])+"\n")
@@ -361,4 +371,4 @@ f.close()
 try:
 	call(['./hazel'])
 except:
-	print "A problem occured. Exiting..."
+	print("A problem occured when calling Hazel. Exiting...")

@@ -42,7 +42,7 @@ implicit none
 	complex(kind=8), allocatable :: rhol(:,:,:,:), rhou(:,:,:,:), rhoml(:,:,:,:), rhomu(:,:,:,:)
 	
 	type variable_parameters
-		real(kind=8) :: bgauss, thetabd, chibd, vdopp, dtau, delta_collision, vmacro, damping, beta, height, vdopp2
+		real(kind=8) :: bgauss, thetabd, chibd, vdopp, dtau, delta_collision, vmacro, damping, beta, height, vdopp2, beta2
 		real(kind=8) :: dtau2, vmacro2, bgauss2, thetabd2, chibd2, ff
 		integer :: n_inverted, n_total, nslabs
 		integer, pointer :: inverted(:)

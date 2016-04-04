@@ -160,7 +160,11 @@ contains
 		
 ! Value of the gradient of the source function (ME)
 		call lb(12,2)
-		read(12,*) in_params%beta
+		if (in_params%nslabs == 2 .or. in_params%nslabs == 3 .or. in_params%nslabs == -2) then
+			read(12,*) in_params%beta, in_params%beta2
+		else
+			read(12,*) in_params%beta
+		endif		
 		
 ! Incident Stokes parameters
 		call lb(12,2)
@@ -542,7 +546,7 @@ contains
 	integer :: i, j
 		
 ! Number of parameters of the inversion		
-		in_params%n_total = 17
+		in_params%n_total = 18
 
 		allocate(in_params%inverted(in_params%n_total))
 		in_params%inverted = 0
@@ -655,8 +659,12 @@ contains
 		
 		write(13,*)
 		
-		write(13,FMT='(A)') '# Source function gradient (only ME)'
-		write(13,FMT='(F8.4)') in_params%beta
+		write(13,FMT='(A)') '# Source function enhancement'
+		if (in_params%nslabs == 2 .or. in_params%nslabs == 3 .or. in_params%nslabs == -2) then
+			write(13,FMT='(F8.4,2X,F8.4)') in_params%beta, in_params%beta2
+		else
+			write(13,FMT='(F8.4)') in_params%beta
+		endif
 		write(13,*)
 		
 		write(13,FMT='(A)') '# Boundary Stokes parameters (I0,Q0,U0,V0)'
@@ -778,8 +786,12 @@ contains
 		
 		write(13,*)
 		
-		write(13,FMT='(A)') '# Source function gradient (only ME)'
-		write(13,FMT='(F8.4)') in_params%beta
+		write(13,FMT='(A)') '# Source function enhancement'
+		if (in_params%nslabs == 2 .or. in_params%nslabs == 3 .or. in_params%nslabs == -2) then
+			write(13,FMT='(F8.4,2X,F8.4)') in_params%beta, in_params%beta2
+		else
+			write(13,FMT='(F8.4)') in_params%beta
+		endif
 		write(13,*)
 		
 		write(13,FMT='(A)') '# Boundary Stokes parameters (I0,Q0,U0,V0)'
@@ -889,18 +901,6 @@ contains
 						params%chibd, params%vdopp, params%beta, params%dtau, params%vmacro, params%damping, params%height
 				endif				
 			endif
-	! MILNE-EDDINGTON
-			if (synthesis_mode == 2) then					
-				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         strength        beta         D^(2)     vmacro       a      h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,3X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, &
-						params%thetabd, params%chibd, params%vdopp, params%dtau, params%beta, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height
-				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th     strength     beta       vmacro       a       h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%dtau, params%beta, params%vmacro, params%damping, params%height
-				endif				
-			endif
 		endif
 
 		if (params%nslabs == 2) then
@@ -908,38 +908,26 @@ contains
 ! EMISSION
 			if (synthesis_mode == 0) then					
 				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       D^(2)    vmacro      a        h      v_th2'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       D^(2)    vmacro      a        h      v_th2     beta      beta2'
 					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height, params%vmacro2
+						params%chibd, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height, params%vmacro2, params%beta, params%beta2
 				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       vmacro       a       h     v_th2'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th       vmacro       a       h     v_th2     beta      beta2'
 					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%vmacro, params%damping, params%height, params%vmacro2
+						params%chibd, params%vdopp, params%vmacro, params%damping, params%height, params%vmacro2, params%beta, params%beta2
 				endif				
 			endif
 	! CONSTANT SLAB 
 			if (synthesis_mode == 1 .or. synthesis_mode == 3 .or. synthesis_mode == 4 .or. &
 				synthesis_mode == 5) then
 				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         tau       D^(2)     vmacro       a       h        tau2     vmacro2'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         tau       D^(2)     vmacro       a       h        tau2     vmacro2     beta      beta2'
 					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,3X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%dtau, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height, params%dtau2, params%vmacro2
+						params%chibd, params%vdopp, params%dtau, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height, params%dtau2, params%vmacro2, params%beta, params%beta2
 				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         tau       vmacro       a        h        tau2     vmacro2'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         tau       vmacro       a        h        tau2     vmacro2     beta      beta2'
 					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%dtau, params%vmacro, params%damping, params%height, params%dtau2, params%vmacro2
-				endif				
-			endif
-	! MILNE-EDDINGTON
-			if (synthesis_mode == 2) then					
-				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         strength        beta         D^(2)     vmacro       a      h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,3X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, &
-						params%thetabd, params%chibd, params%vdopp, params%dtau, params%beta, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height
-				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th     strength     beta       vmacro       a       h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%dtau, params%beta, params%vmacro, params%damping, params%height
+						params%chibd, params%vdopp, params%dtau, params%vmacro, params%damping, params%height, params%dtau2, params%vmacro2, params%beta, params%beta2
 				endif				
 			endif
 		endif
@@ -949,41 +937,28 @@ contains
 ! EMISSION
 			if (synthesis_mode == 0) then					
 				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th      v_th2      D^(2)    vmacro     vmacro2    a        h'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th      v_th2      D^(2)    vmacro     vmacro2    a        h     beta      beta2'
 					write(*,FMT='(A,6(F9.4,1X),E9.2,1X,5(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, 10.d0**params%delta_collision, &
-						params%vmacro, params%vmacro2, params%damping, params%height
+						params%vmacro, params%vmacro2, params%damping, params%height, params%beta, params%beta2
 				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th     v_th2     vmacro      vmacro2     a       h'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th     v_th2     vmacro      vmacro2     a       h     beta      beta2'
 					write(*,FMT='(A,11(F9.4,1X))') text, params%bgauss, params%thetabd, &
-						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%vmacro, params%vmacro2, params%damping, params%height
+						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%vmacro, params%vmacro2, params%damping, params%height, params%beta, params%beta2
 				endif				
 			endif
 	! CONSTANT SLAB 
-			if (synthesis_mode == 1 .or. synthesis_mode == 3 .or. synthesis_mode == 4 .or. &
-				synthesis_mode == 5) then
+			if (synthesis_mode == 1 .or. synthesis_mode == 3 .or. synthesis_mode == 4 .or. synthesis_mode == 5) then
 				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB       B2      thetaB2     chiB2      v_th      v_th2     tau     tau2     D^(2)     vmacro      vmacro2     a       h'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB       B2      thetaB2     chiB2      v_th      v_th2     tau     tau2     D^(2)     vmacro      vmacro2     a       h     beta      beta2'
 					write(*,FMT='(A,10(F9.4,1X),E9.2,1X,4(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%dtau, params%dtau2, &
-						10.d0**params%delta_collision, params%vmacro, params%vmacro2, params%damping, params%height
+						10.d0**params%delta_collision, params%vmacro, params%vmacro2, params%damping, params%height, params%beta, params%beta2
 				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        B2     thetaB2    chiB2     v_th      v_th2     tau      tau2      vmacro    vmacro2       a        h'
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        B2     thetaB2    chiB2     v_th      v_th2     tau      tau2      vmacro    vmacro2       a        h     beta      beta2'
 					write(*,FMT='(A,14(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%dtau, params%dtau2, params%vmacro, params%vmacro2,&
-						params%damping, params%height
-				endif				
-			endif
-	! MILNE-EDDINGTON
-			if (synthesis_mode == 2) then					
-				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         strength        beta         D^(2)     vmacro       a      h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,3X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, &
-						params%thetabd, params%chibd, params%vdopp, params%dtau, params%beta, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height
-				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th     strength     beta       vmacro       a       h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%dtau, params%beta, params%vmacro, params%damping, params%height
+						params%damping, params%height, params%beta, params%beta2
 				endif				
 			endif
 		endif
@@ -993,41 +968,29 @@ contains
 ! EMISSION
 			if (synthesis_mode == 0) then					
 				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th      v_th2      D^(2)    vmacro     vmacro2   ff    a        h'
-					write(*,FMT='(A,6(F9.4,1X),E9.2,1X,5(F9.4,1X))') text, params%bgauss, params%thetabd, &
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th      v_th2      D^(2)    vmacro     vmacro2   ff    a        h     beta      beta2'
+					write(*,FMT='(A,6(F9.4,1X),E9.2,1X,7(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, 10.d0**params%delta_collision, &
-						params%vmacro, params%vmacro2, params%ff, params%damping, params%height
+						params%vmacro, params%vmacro2, params%ff, params%damping, params%height, params%beta, params%beta2
 				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th     v_th2     vmacro      vmacro2     ff    a       h'
-					write(*,FMT='(A,12(F9.4,1X))') text, params%bgauss, params%thetabd, &
-						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%vmacro, params%vmacro2, params%ff, params%damping, params%height
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB      B2      thetaB2     chiB2      v_th     v_th2     vmacro      vmacro2     ff    a       h     beta      beta2'
+					write(*,FMT='(A,14(F9.4,1X))') text, params%bgauss, params%thetabd, &
+						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%vmacro, params%vmacro2, params%ff, params%damping, params%height, params%beta, params%beta2
 				endif				
 			endif
 ! CONSTANT SLAB 
 			if (synthesis_mode == 1 .or. synthesis_mode == 3 .or. synthesis_mode == 4 .or. &
 				synthesis_mode == 5) then
 				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB       B2      thetaB2     chiB2      v_th      v_th2     tau     tau2     D^(2)     vmacro      vmacro2      ff      a        h'
-					write(*,FMT='(A,10(F9.4,1X),E9.2,1X,5(F9.4,1X))') text, params%bgauss, params%thetabd, &
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB       B2      thetaB2     chiB2      v_th      v_th2     tau     tau2     D^(2)     vmacro      vmacro2      ff      a        h     beta      beta2'
+					write(*,FMT='(A,10(F9.4,1X),E9.2,1X,7(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%dtau, params%dtau2, &
-						10.d0**params%delta_collision, params%vmacro, params%vmacro2, params%ff, params%damping, params%height
+						10.d0**params%delta_collision, params%vmacro, params%vmacro2, params%ff, params%damping, params%height, params%beta, params%beta2
 				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        B2     thetaB2    chiB2     v_th      v_th2     tau      tau2      vmacro    vmacro2      ff       a         h'
-					write(*,FMT='(A,15(F9.4,1X))') text, params%bgauss, params%thetabd, &
+					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        B2     thetaB2    chiB2     v_th      v_th2     tau      tau2      vmacro    vmacro2      ff       a         h     beta      beta2'
+					write(*,FMT='(A,17(F9.4,1X))') text, params%bgauss, params%thetabd, &
 						params%chibd, params%bgauss2, params%thetabd2, params%chibd2, params%vdopp, params%vdopp2, params%dtau, params%dtau2, params%vmacro, params%vmacro2,&
-						params%ff, params%damping, params%height
-				endif				
-			endif
-! MILNE-EDDINGTON
-			if (synthesis_mode == 2) then					
-				if (params%inverted(6) == 1) then
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th         strength        beta         D^(2)     vmacro       a      h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,3X,E9.2,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, &
-						params%thetabd, params%chibd, params%vdopp, params%dtau, params%beta, 10.d0**params%delta_collision, params%vmacro, params%damping, params%height
-				else
-					if (header) write(*,FMT='(A)') '                        B        thetaB     chiB        v_th     strength     beta       vmacro       a       h'
-					write(*,FMT='(A,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4,2X,F9.4)') text, params%bgauss, params%thetabd, &
-						params%chibd, params%vdopp, params%dtau, params%beta, params%vmacro, params%damping, params%height
+						params%ff, params%damping, params%height, params%beta, params%beta2
 				endif				
 			endif
 		endif

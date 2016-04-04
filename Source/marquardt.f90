@@ -149,6 +149,12 @@ contains
 		else
 			rel_change(17) = 0.d0
 		endif
+
+		if (params%beta2 /= 0.d0) then
+			rel_change(18) = abs((params%beta-trial%beta) / params%beta)
+		else
+			rel_change(18) = 0.d0
+		endif
 		
 		compute_params_relative_change = maxval(rel_change)*100.d0		
 
@@ -234,13 +240,19 @@ contains
 			endif
 			if (trial%vdopp2 < lower(16) .or. trial%vdopp2 > upper(16)) then
 				trial%vdopp2 = original%vdopp2
-			endif
+			endif			
 		endif
 		
 ! Two slabs in the same pixel
 		if (original%nslabs == -2) then			
 			if (trial%ff < lower(17) .or. trial%ff > upper(17)) then
 				trial%ff = original%ff
+			endif			
+		endif
+
+		if (original%nslabs == 3 .or. original%nslabs == -2 .or. original%nslabs == -2) then
+			if (trial%beta2 < lower(18) .or. trial%beta2 > upper(18)) then
+				trial%beta2 = original%beta2
 			endif
 		endif
 		
@@ -393,6 +405,14 @@ contains
 					out_params%ff = in_params%ff + perturbation
 				endif
 				delta = out_params%ff - in_params%ff
+
+			case(18)
+				if (abs(in_params%beta2) > 1.d-2) then
+					out_params%beta2 = in_params%beta2 * (1.d0+perturbation)
+				else
+					out_params%beta2 = in_params%beta2 + perturbation
+				endif
+				delta = out_params%beta2 - in_params%beta2
 			
 		end select
 		
@@ -446,6 +466,8 @@ contains
 				out_params%vdopp2 = in_params%vdopp2 + new_value
 			case(17) 
 				out_params%ff = in_params%ff + new_value
+			case(18) 
+				out_params%beta2 = in_params%beta2 + new_value
 		end select
 		
 	end subroutine add_to_parameter	
@@ -683,6 +705,8 @@ contains
 						error%vdopp2 = value
 					case(17) 
 						error%ff = value
+					case(18)
+						error%beta2 = value
 				end select								
 			endif			
 		enddo			 		 		
@@ -731,6 +755,10 @@ contains
 			in_params_scaled%ff = in_params%ff
 		endif
 
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == -2) then
+			in_params_scaled%beta2 = in_params%beta2 / 3.d0
+		endif
+
 		
 	end subroutine compress_parameters	
 	
@@ -768,6 +796,11 @@ contains
 		if (in_params%nslabs == -2) then
 			in_params%ff = in_params_scaled%ff
 		endif
+
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == -2) then
+			in_params%beta2 = in_params_scaled%beta2 * 3.d0
+		endif
+
 			
 	end subroutine expand_parameters	
 
@@ -816,8 +849,8 @@ contains
 		allocate(DIRx(ndim))
 		
 		
-		allocate(upper(17))
-		allocate(lower(17))
+		allocate(upper(18))
+		allocate(lower(18))
 		open(unit=24,file=direct_ranges,action='read',status='old')
 		call lb(24,3)
 		
@@ -836,7 +869,7 @@ contains
 		if (volper < 0) volper = 1.d-20
 		print *, 'Stopping when the hypervolume with respect to the original is less than ', volper
 		
-		do i = 1, 17
+		do i = 1, 18
 			call lb(24,2)
 			read(24,*) lower(i), upper(i)
 		enddo
@@ -903,6 +936,8 @@ contains
 						out_params%vdopp2 = DIRx(j)
 					case(17) 
 						out_params%ff = DIRx(j)
+					case(18) 
+						out_params%beta2 = DIRx(j)
 				end select
 				j = j + 1
 			endif
@@ -978,6 +1013,8 @@ contains
 						params%vdopp2 = x(j)
 					case(17) 
 						params%ff = x(j)
+					case(18) 
+						params%beta2 = x(j)
 				end select
 				j = j + 1
 			endif
@@ -1054,6 +1091,8 @@ contains
 						params%vdopp2 = x(j)
 					case(17)
 						params%ff = x(j)
+					case(18)
+						params%beta2 = x(j)
 				end select
 				j = j + 1
 			endif
@@ -1243,8 +1282,8 @@ contains
 
 		nbd = 2
 
-		allocate(upper(17))
-		allocate(lower(17))
+		allocate(upper(18))
+		allocate(lower(18))
 		open(unit=24,file=direct_ranges,action='read',status='old')
 		call lb(24,3)
 
@@ -1256,7 +1295,7 @@ contains
 		call lb(24,2)
 		read(24,*)
 
-		do i = 1, 17
+		do i = 1, 18
 			call lb(24,2)
 			read(24,*) lower(i), upper(i)
 		enddo
@@ -1346,6 +1385,8 @@ contains
 						out_params%vdopp2 = x(j)
 					case(17)
 						out_params%ff = x(j)
+					case(18)
+						out_params%beta2 = x(j)
 				end select
 				j = j + 1
 			endif
@@ -1403,6 +1444,8 @@ contains
 						params%vdopp2 = x(j)
 					case(17)
 						params%ff = x(j)
+					case(18)
+						params%beta2 = x(j)
 				end select
 				j = j + 1
 			endif

@@ -21,19 +21,19 @@
 1
 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-0.0000000  89.000000  -46.000000
+40.000000  30.000000  90.000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
-3.0000000
+20.000000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-0.60000000
-
-# Source function gradient (only ME)
 1.0000000
 
+# Source function gradient (only ME)
+5.0000000
+
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
-4.0190000e-05 0.0000000 0.0000000 0.0000000
+4.0980000e-05 0.0000000 0.0000000 0.0000000
 
 # Transition where to compute the emission
 1
@@ -42,19 +42,19 @@
 1
 
 # Observation angle with respect to the vertical theta,chi,gamma [degrees]
-23.000000  0.0000000  0.0000000
+0.0000000  0.0000000  90.000000
 
 # Wavelength axis: minimum, maximum and number of grid points
--2.9845855 1.2791081 100
+-2.1318468 2.5582162 200
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10829.091  9.0000000  0.0000000
+10829.091  10.000000  0.0000000
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
 0.0000000
 
 # Include magneto-optical effects in the RT
-1
+0
 
 # Include stimulated emission in the RT
-1
+0

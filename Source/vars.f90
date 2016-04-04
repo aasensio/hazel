@@ -42,7 +42,7 @@ implicit none
 	complex(kind=8), allocatable :: rhol(:,:,:,:), rhou(:,:,:,:), rhoml(:,:,:,:), rhomu(:,:,:,:)
 	
 	type variable_parameters
-		real(kind=8) :: bgauss, thetabd, chibd, vdopp, dtau, delta_collision, vmacro, damping, beta, height, vdopp2
+		real(kind=8) :: bgauss, thetabd, chibd, vdopp, dtau, delta_collision, vmacro, damping, beta, beta2, height, vdopp2
 		real(kind=8) :: dtau2, vmacro2, bgauss2, thetabd2, chibd2, ff
 		integer :: n_inverted, n_total, nslabs
 		integer, pointer :: inverted(:)
@@ -75,8 +75,8 @@ implicit none
 	type(type_observation) :: observation
 	type(type_inversion) :: inversion
 	
-	character(len=6) :: parameters_name(17) = (/ 'B     ','thetaB','chiB  ', 'vdopp ', 'dtau  ','D^(2) ','v_mac ','damp  ',&
-		&'beta  ','h     ','dtau2 ', 'v_mac2',	'B2    ', 'thetB2', 'chiB2 ', 'vdopp2','ff1   '/)
+	character(len=6) :: parameters_name(18) = (/ 'B     ','thetaB','chiB  ', 'vdopp ', 'dtau  ','D^(2) ','v_mac ','damp  ',&
+		&'beta  ','h     ','dtau2 ', 'v_mac2',	'B2    ', 'thetB2', 'chiB2 ', 'vdopp2','ff1   ','beta2 '/)
 	real(kind=8), parameter :: minim_pikaia(10) = (/0.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0, -15.d0, 0.d0, 0.d0, 0.d0/)
 	real(kind=8), parameter :: maxim_pikaia(10) = (/4000.d0, 180.d0, 180.d0, 20.d0, 3.d0, 18.d0, 40.d0, 10.d0, 10.d0, 100.d0/)
 	

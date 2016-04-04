@@ -51,10 +51,12 @@ pro plot_profiles, stokes, state
 	 
 	 abso = 1.d0
 	 if (state.normaliz eq 0) then begin
-	 	  abso = max(stokes(1,*)) - min(stokes(1,*))	 	  
+	 	  abso = max(stokes(1,*)) - min(stokes(1,*))
+	 	  label = 'peak'  
 	 endif
 	 if (state.normaliz eq 2) then begin
 	 	  abso = stokes[1,0]
+	 	  label = 'continuum'
 	 endif
 	 
 	 plot,wl,stokes(1,*)/abso,xtit='Wavelength shift ['+angstrom+']',ytit='I/I!dmax!n',$
@@ -97,6 +99,22 @@ pro plot_profiles, stokes, state
 	 if (plot_observation eq 1) then begin
 	 	  oplot,obs(0,*),obs(4,*),psym=8,col=2
 	 endif
+
+
+	 if (state.postcript eq 2) then begin
+		file = dialog_pickfile(PATH=state.path_save, GET_PATH=path_save)
+		; state.path_save = path_save
+		; widget_control, handler, SET_UVALUE=state
+	endif
+
+
+	if (state.postcript eq 2) then begin
+		openw,2,file,width=132
+		printf,2,n_elements(stokes[0,*]),'  "', label, '"'
+		stokes[1:4,*] = stokes[1:4,*] / abso
+		printf,2,stokes
+		close,2
+	endif
     
 	 
 	 !p.multi=0

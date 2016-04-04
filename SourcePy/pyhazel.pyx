@@ -5,7 +5,7 @@ cdef extern from "pyhazel.h":
 	void c_hazel(int* synModeInput, int* nSlabsInput, double* B1Input, double* B2Input, double* hInput, double* tau1Input, double* tau2Input, 
 		double* boundaryInput, int* transInput, int* atomicPolInput, double* anglesInput, double* lambdaAxisInput, int* nLambdaInput, 
 		double* dopplerWidthInput, double* dopplerWidth2Input, double* dampingInput, double* dopplerVelocityInput, 
-		double* dopplerVelocity2Input, double* ffInput, double* betaInput, double* nbarInput, double* omegaInput, 
+		double* dopplerVelocity2Input, double* ffInput, double* betaInput, double* beta2Input, double* nbarInput, double* omegaInput, 
 		double* wavelengthOutput, double* stokesOutput, double* epsOutput, double* etaOutput)
 		
 	void c_init()
@@ -15,7 +15,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 	ar[double,ndim=1] boundaryInput, int transInput, int atomicPolInput, ar[double,ndim=1] anglesInput, 
 	ar[double,ndim=1] lambdaAxisInput, int nLambdaInput, 
 	double dopplerWidthInput, double dopplerWidth2Input, double dampingInput, double dopplerVelocityInput, 
-	double dopplerVelocity2Input, double ffInput, double betaInput, ar[double,ndim=1] nbarInput, ar[double,ndim=1] omegaInput):
+	double dopplerVelocity2Input, double ffInput, double betaInput, double beta2Input, ar[double,ndim=1] nbarInput, ar[double,ndim=1] omegaInput):
 	
 	"""
 	Carry out a synthesis with Hazel
@@ -40,7 +40,8 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 		dopplerVelocityInput: (float) bulk velocity affecting the first component
 		dopplerVelocity2Input: (float) bulk velocity affecting the second component
 		ffInput: (float) filling factor
-		betaInput: (float) value to be multiplied by the source function of the second component to allow for emission lines in the disk
+		betaInput: (float) enhancement factor for the source function of component 1 to allow for emission lines in the disk
+		beta2Input: (float) enhancement factor for the source function of component 2 to allow for emission lines in the disk
 		nbarInput: (float) vector of size 4 to define nbar for every transition of the model atom (set them to zero to use Allen's)
 		omegaInput: (float) vector of size 4 to define omega for every transition of the model atom (set them to zero to use Allen's)
 		
@@ -60,7 +61,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 	c_hazel(&synModeInput, &nSlabsInput, &B1Input[0], &B2Input[0], &hInput, &tau1Input, &tau2Input, 
 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &lambdaAxisInput[0], &nLambdaInput, 
 		&dopplerWidthInput, &dopplerWidth2Input, &dampingInput, &dopplerVelocityInput, 
-		&dopplerVelocity2Input, &ffInput, &betaInput, &nbarInput[0], &omegaInput[0], <double*> wavelengthOutput.data, 
+		&dopplerVelocity2Input, &ffInput, &betaInput, &beta2Input, &nbarInput[0], &omegaInput[0], <double*> wavelengthOutput.data, 
 		<double*> stokesOutput.data, <double*> epsOutput.data, <double*> etaOutput.data)
     
 	return wavelengthOutput, stokesOutput, epsOutput, etaOutput

@@ -12,7 +12,7 @@ implicit none
 contains
 subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, &
 	transInput, atomicPolInput, anglesInput, lambdaAxisInput, nLambdaInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
-	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, nbarInput, omegaInput, &
+	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, &
 	wavelengthOutput, stokesOutput, epsOutput, etaOutput) bind(c)
 
 	integer(c_int), intent(in) :: synModeInput, nSlabsInput, transInput, atomicPolInput
@@ -21,9 +21,9 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	real(c_double), intent(in), dimension(3) :: B1Input, anglesInput
 	real(c_double), intent(in), dimension(3) :: B2Input
 	real(c_double), intent(in), dimension(4) :: boundaryInput
-	real(c_double), intent(in):: tau2Input, dopplerWidth2Input, dopplerVelocity2Input, ffInput
+	real(c_double), intent(in):: tau2Input, dopplerWidth2Input, dopplerVelocity2Input, ffInput, betaInput, beta2Input
 	real(c_double), intent(in), dimension(4) :: nbarInput, omegaInput
-	real(c_double), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput, betaInput
+	real(c_double), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput
 	real(c_double), intent(out), dimension(nLambdaInput) :: wavelengthOutput
 	real(c_double), intent(out), dimension(4,nLambdaInput) :: stokesOutput
 	real(c_double), intent(out), dimension(4,nLambdaInput) :: epsOutput
@@ -89,8 +89,12 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 		params%dtau2 = tau2Input
 		params%ff = ffInput
 	endif
-	
+
 	params%beta = betaInput
+	if (params%nslabs == 2 .or. params%nslabs == 3 .or. params%nslabs == -2) then
+		params%beta2 = beta2Input
+	endif
+	
 	fixed%Stokes_incident = boundaryInput
 	fixed%nemiss = transInput
 	fixed%use_atomic_pol = atomicPolInput

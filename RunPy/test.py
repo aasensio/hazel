@@ -34,7 +34,7 @@ B2Input = np.asarray([0.0,0.0,0.0])
 hInput = 3.e0
 tau1Input = 1.e0
 tau2Input = 0.e0
-boundaryInput  = np.asarray([0.0,0.0,0.0,0.0])
+boundaryInput  = np.asarray([4.098e-5,0.0,0.0,0.0])
 transInput = 1
 atomicPolInput = 1
 anglesInput = np.asarray([90.0,0.0,90.0])
@@ -46,7 +46,8 @@ dampingInput = 0.e0
 dopplerVelocityInput = 0.e0
 dopplerVelocity2Input = 0.e0
 ffInput = 0.e0
-betaInput = 1.0
+betaInput = 4.0
+beta2Input = 1.0
 nbarInput = np.asarray([0.0,0.0,0.0,0.0])
 omegaInput = np.asarray([0.0,0.0,0.0,0.0])
 
@@ -60,7 +61,7 @@ pyhazel.init()
 [l, stokes, etaOutput, epsOutput] = pyhazel.synth(synModeInput, nSlabsInput, B1Input, B2Input, hInput, 
                         tau1Input, tau2Input, boundaryInput, transInput, atomicPolInput, anglesInput, 
                         lambdaAxisInput, nLambdaInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, 
-                        dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, nbarInput, omegaInput)
+                        dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput)
 
 # Now plot the Stokes parameters
 labels = ['I/Imax','Q/Imax','U/Imax','V/Imax']

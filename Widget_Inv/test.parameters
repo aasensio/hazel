@@ -1,61 +1,61 @@
 ***********************************************
 * File defining the specific experiment to solve
 ***********************************************
-
+ 
 # Include stimulated emission (0-> no, 1-> yes)
 1
-
+ 
 # Include magnetic field (0-> no, 1-> yes)
 1
-
+ 
 # Include depolarization rates (0-> no, 1-> yes)
 0
-
+ 
 # Value of delta if depolarization rates are included (not used if the previous value is 0)
  0.000E+00
-
+ 
 # Include Paschen-Back effect (0-> no, 1-> yes)
 1
-
+ 
 # Number of slabs (1-> 1 slab, 2-> 2 slabs with same B, 3-> 2 slabs with different B (add field below))
 1
-
+ 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
    0.0000      0.00      0.00
-
+ 
 # Apparent height of the He I atoms in arcsec
-  3.000
-
+  0.000
+ 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-  0.9165
-
-# Source function gradient (only ME)
-  3.0915
-
+  0.5918
+ 
+# Source function enhancement
+  4.9777
+ 
 # Boundary Stokes parameters (I0,Q0,U0,V0)
- 0.418E-04   0.000E+00   0.000E+00   0.000E+00
-
+ 0.410E-04   0.000E+00   0.000E+00   0.000E+00
+ 
 # Transition where to compute the emission
-4
-
+1
+ 
 # Use atomic polarization? (0-> no, 1-> yes)
 1
-
+ 
 # Observation angle with respect to the vertical theta,chi,gamma [degrees]
-   0.00     0.00    90.00
-
+   0.00    90.00     0.00
+ 
 # Wavelength axis: minimum, maximum and number of grid points
-  -3.0000000000000000        2.5000000000000000               91
+  -3.00000000000000        2.50000000000000              200
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
- 5875.9663   12.155    0.0000
-
+10829.0910    3.327    1.9050
+ 
 # Macroscopic velocity [km/s] (>0 is a redshift)
- -6.571
-
+  0.015
+ 
 # Include magneto-optical effects in the RT
 1
-
+ 
 # Include stimulated emission in the RT
 1
-
+ 

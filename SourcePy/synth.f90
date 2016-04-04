@@ -931,7 +931,7 @@ contains
 !  I0 = exp(-K^* * tau_MO) * I_sun + (PsiM+Psi0)*S  with
 ! PsiM = U0-U1/tau_MO    and PsiO = U1/m
 ! U0 = (K*)^(-1) (1-exp(-K^* tau_MO)    and      U1 = (K*)^(-1) (m*1 - U0)
-				Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source)
+				Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
 				
 				output(0,i) = Stokes0(1)
 				output(1,i) = Stokes0(2)
@@ -1028,7 +1028,7 @@ contains
 					if (in_params%nslabs == 3) then
 						StokesM(1:4) = output(0:3,i)
 					
-						Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta)
+						Stokes0 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta2)
 					
 						output(0,i) = Stokes0(1)
 						output(1,i) = Stokes0(2)
@@ -1039,7 +1039,7 @@ contains
 ! Two components side by side inside the pixel with a filling factor
 					if (in_params%nslabs == -2) then
 
-						Stokes1 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source)
+						Stokes1 = matmul(O_evol,StokesM) + matmul(Psi_matrix,source * in_params%beta2)
 
 						output(0,i) = in_params%ff * output(0,i) + (1.d0-in_params%ff) * Stokes1(1)
 						output(1,i) = in_params%ff * output(1,i) + (1.d0-in_params%ff) * Stokes1(2)
