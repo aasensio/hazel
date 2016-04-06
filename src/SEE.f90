@@ -21,7 +21,6 @@ contains
 	real(kind=8) :: flarmor, bcoeff, d, thb, chb
 	integer, allocatable :: indx(:)
 
-        print *, atom%ntran
 
  		if (verbose_mode == 1) then
 			print *, 'Number of transitions : ', atom%ntran
