@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Input/output files &mdash; Hazel 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Hazel 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Graphical front-ends" href="graphical.html"/>
+        <link rel="prev" title="Atomic models" href="atomicModels.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Hazel
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Input/output files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#input-files">Input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-files">Output files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Hazel</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Input/output files</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/inputOutput.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="input-output-files">
+<h1>Input/output files<a class="headerlink" href="#input-output-files" title="Permalink to this headline">¶</a></h1>
+<p>Both input and output files for Hazel&nbsp;are NetCDF files.</p>
+<div class="section" id="input-files">
+<h2>Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+<p>The input file constains the observations and information about the
+observing position and boundary condition. The file consists of the
+following variables:</p>
+<ul class="simple">
+<li>lambda: vector of size <em>nlambda</em> containing the wavelength axis with
+respect to the center of the multiplet.</li>
+<li>map: array of size <em>(npixel,8,nlambda)</em> containing the Stokes vector
+<span class="math">\((I,Q,U,V)\)</span> and the associated standard deviation of the noise
+<span class="math">\((\sigma_I,\sigma_Q,\sigma_U,\sigma_V)\)</span>.</li>
+<li>boundary: array of size <em>(npixel,4)</em> containing the boundary
+condition for every inverted pixel.</li>
+<li>height: vector of size <em>npixel</em> which contains the height of the
+slabs for every pixel.</li>
+<li>obs_theta: vector of size <em>npixel</em> which contains the observing
+angle <span class="math">\(\theta\)</span> for every pixel.</li>
+<li>obs_gamma: vector of size <em>npixel</em> which contains the observing
+angle <span class="math">\(\gamma\)</span> that defines the positive reference for Stokes
+<span class="math">\(Q\)</span> for every pixel.</li>
+<li>mask: array of size <em>nx,ny</em> which tells whether this pixel will be
+inverted.</li>
+<li>normalization: variable indicating whether the profiles are
+normalized to the peak amplitude or the continuum of Stokes
+<span class="math">\(I\)</span>.</li>
+<li>pars: array of size <em>npixel,npars</em> which contains the initial value
+for the model parameters. These will be used to reinvert some pixels
+or, for instance, to refine the ambiguous solutions.</li>
+</ul>
+<p>The routine <code class="docutils literal"><span class="pre">gen_netcdf.pro</span></code> on the directory <code class="docutils literal"><span class="pre">IDL_routines</span></code> and the
+<code class="docutils literal"><span class="pre">genNetCDF.py</span></code> on <code class="docutils literal"><span class="pre">pyRoutines</span></code> shows functions that generate such a
+file by passing all the variables as parameters. The order of pars is
+the following, depending on the number of slabs:</p>
+<ul class="simple">
+<li>1-component (vector of size 8): <span class="math">\(B\)</span>, <span class="math">\(\theta_B\)</span>,
+<span class="math">\(\chi_B\)</span>, <span class="math">\(\tau\)</span>, <span class="math">\(v_\mathrm{dop}\)</span>, <span class="math">\(a\)</span>,
+<span class="math">\(v_\mathrm{mac}\)</span>, <span class="math">\(\beta\)</span></li>
+<li>2-component 1+1 with same field (vector of size 11): <span class="math">\(B\)</span>,
+<span class="math">\(\theta_B\)</span>, <span class="math">\(\chi_B\)</span>, <span class="math">\(\tau_1\)</span>, <span class="math">\(\tau_2\)</span>,
+<span class="math">\(v_\mathrm{dop}\)</span>, <span class="math">\(a\)</span>, <span class="math">\(v_\mathrm{mac1}\)</span>,
+<span class="math">\(v_\mathrm{mac2}\)</span>, <span class="math">\(\beta\)</span>, <span class="math">\(\beta_2\)</span></li>
+<li>2-component 1+1 with different field (vector of size 15):
+<span class="math">\(B_1\)</span>, <span class="math">\(\theta_{B1}\)</span>, <span class="math">\(\chi_{B1}\)</span>, <span class="math">\(B_2\)</span>,
+<span class="math">\(\theta_{B2}\)</span>, <span class="math">\(\chi_{B2}\)</span>, <span class="math">\(\tau_1\)</span>,
+<span class="math">\(\tau_2\)</span>, <span class="math">\(v_\mathrm{dop}\)</span>, <span class="math">\(v_\mathrm{dop2}\)</span>,
+<span class="math">\(a\)</span>, <span class="math">\(v_\mathrm{mac1}\)</span>, <span class="math">\(v_\mathrm{mac2}\)</span>,
+<span class="math">\(\beta\)</span>, <span class="math">\(\beta_2\)</span></li>
+<li>2-component 2 with different field with filling factor (vector of
+size 16): <span class="math">\(B_1\)</span>, <span class="math">\(\theta_{B1}\)</span>, <span class="math">\(\chi_{B1}\)</span>,
+<span class="math">\(B_2\)</span>, <span class="math">\(\theta_{B2}\)</span>, <span class="math">\(\chi_{B2}\)</span>, <span class="math">\(\tau_1\)</span>,
+<span class="math">\(\tau_2\)</span>, <span class="math">\(v_\mathrm{dop}\)</span>, <span class="math">\(v_\mathrm{dop2}\)</span>,
+<span class="math">\(a\)</span>, <span class="math">\(v_\mathrm{mac1}\)</span>, <span class="math">\(v_\mathrm{mac2}\)</span>,
+<span class="math">\(\mathrm{ff}\)</span>, <span class="math">\(\beta\)</span>, <span class="math">\(\beta_2\)</span></li>
+</ul>
+</div>
+<div class="section" id="output-files">
+<h2>Output files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h2>
+<p>The results of the inversion are saved on two files defined on the
+configuration file. The file with the inverted
+profiles contains the following variables:</p>
+<ul class="simple">
+<li>lambda: vector of size <em>nlambda</em> containing the wavelength axis with
+respect to the center of the multiplet.</li>
+<li>map: array of size <em>(npixel,4,nlambda)</em> containing the synthetic
+Stokes vector <span class="math">\((I,Q,U,V)\)</span> for every pixel.</li>
+</ul>
+<p>The file with the inverted parameters contains the following variable:</p>
+<ul class="simple">
+<li>map: array of size <em>(npixel,ncolumns)</em> containing the parameters of
+the inversion.</li>
+</ul>
+<p>The number of columns depends on the selected model:</p>
+<ul class="simple">
+<li>One-slab: nine columns with the vector
+<span class="math">\((B,\theta_B,\chi_B,h,\tau,v_\mathrm{th},a,v_\mathrm{mac},\beta)\)</span>.</li>
+<li>Two-slab with same magnetic field: eleven columns with the vector
+<span class="math">\((B,\theta_B,\chi_B,h,[\tau]_1,[\tau]_2,v_\mathrm{th},a,[v_\mathrm{mac}]_1,
+[v_\mathrm{mac}]_2,\beta,\beta_2)\)</span>.</li>
+<li>Two-slab with different magnetic field: fifteen columns with the
+vector
+<span class="math">\(([B]_1,[\theta_B]_1,[\chi_B]_1,[B]_2,[\theta_B]_2,[\chi_B]_2,
+h,[\tau]_1,[\tau]_2,[v_\mathrm{th}]_1,[v_\mathrm{th}]_2,a,[v_\mathrm{mac}]_1,[v_\mathrm{mac}]_2,\beta,\beta_2)\)</span>.</li>
+</ul>
+<p>The file <code class="docutils literal"><span class="pre">read_results.pro</span></code> on the <code class="docutils literal"><span class="pre">RunMPI</span></code> directory shows how to
+read the files from IDL.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="graphical.html" class="btn btn-neutral float-right" title="Graphical front-ends" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="atomicModels.html" class="btn btn-neutral" title="Atomic models" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Andres Asensio Ramos.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
