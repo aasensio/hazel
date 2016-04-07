@@ -1,7 +1,9 @@
 module io
 ! use vars
 use maths
+#if defined(mpi)
 use netcdf
+#endif
 implicit none
 contains
 
@@ -546,10 +548,12 @@ contains
 	subroutine check(status)
    integer, intent ( in) :: status
 
+#if defined(mpi)
 		if(status /= nf90_noerr) then
 			print *, trim(nf90_strerror(status))
       	stop
 		end if
+#endif
 	endsubroutine check
   
 !------------------------------------------------------------
@@ -588,6 +592,7 @@ contains
 		endif
 		
 		if (index(file_obs, '.nc') /= 0) then
+#if defined(mpi)
 			in_observation%observation_format = 2
 			
 ! Open the file in read-only access
@@ -692,7 +697,9 @@ contains
 ! Number of wavelengths
 			in_observation%n = nlambda
 			in_observation%npixel = npixel
-  			
+#else
+	print *, 'NetCDF not supported in serial version'	
+#endif
 		endif
 
 ! If no final pixel selected, run until the end
@@ -771,6 +778,7 @@ contains
 
 ! If we are inverting a map, read the appropriate point and put it onto the arrays
 		if (in_observation%observation_format == 2) then			
+#if defined(mpi)
 			if (pixel <= final_pixel) then
 			
 				call date_and_time(date, time, zone, valuesTime)
@@ -936,6 +944,9 @@ contains
 				write(*,*) 'I have nothing to do. Killing slave...'
 				status = 0
 			endif
+#else
+	print *, 'NetCDF input not supported in serial version'
+#endif
 		endif
 						
 	end subroutine read_observation
@@ -952,6 +963,7 @@ contains
 	real(kind=8), allocatable :: values(:,:), values_vec(:)
 	integer, allocatable :: start(:), count(:)
 
+#if defined(mpi)
 		if (in_observation%observation_format == 2) then
 			allocate(values(4,in_observation%n))
 
@@ -1032,7 +1044,7 @@ contains
 		status = nf90_sync(in_fixed%error_id)
 		
 		deallocate(values_vec, start, count)
-		
+#endif
 		
 	end subroutine write_results
 

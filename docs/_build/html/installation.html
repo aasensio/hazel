@@ -161,17 +161,11 @@ the code in several machines. As an example, we focus on <a href="#id1"><span cl
 is appropriate for compiling the code in standard Intel machines. It can be run
 by providing the version that will be compiled, together with the compiler. By
 default, it will compile the serial version with the Intel Fortran compiler:</p>
-<dl class="docutils">
-<dt>::</dt>
-<dd>make -f makefile.Intel version=serial compiler=ifort</dd>
-</dl>
-<p>After compiling and linking, the executable is copied to appropriate
-places. If you want to run the GUI, you first need to compile the serial
-version of the code. Finally, the generated object and module files can be cleaned typing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make -f makefile.Intel clean
+<div class="highlight-python"><div class="highlight"><pre><span></span>make version=serial compiler=ifort
 </pre></div>
 </div>
-<p>There is an additional requirement for compiling the parallel version
+<p>After compiling and linking, the executable is copied to appropriate
+places. There is an additional requirement for compiling the parallel version
 of the code. The compilation depends on the precompiled library NetCDF for reading and writing
 output files. NetCDF is a standard for platform independent binary files
 that you need to have installed in your system.  The location of the NetCDF
@@ -181,7 +175,21 @@ of the NetCDF distribution.</p>
 <p>The code makes use of the MPI package for parallelization, so it has to
 be installed on your system. In order to obtain the executable file (for
 instance for the Intel compiler), just type:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make -f makefile.Intel version=mpi compiler=ifort
+<div class="highlight-python"><div class="highlight"><pre><span></span>make version=mpi compiler=ifort supercomputer=local
+</pre></div>
+</div>
+<p>The current supported options for the makefile are the following:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">version</span></code>: serial/mpi/python</li>
+<li><code class="docutils literal"><span class="pre">compiler</span></code>: ifort/gfortran</li>
+<li><code class="docutils literal"><span class="pre">supercomputer</span></code>: local/teide (for the Teide Supercomputer)</li>
+</ol>
+<p>If you want to add your configuration, appropriately modify the makefile. You would need to define
+the location of the NetCDF include files and libraries (<code class="docutils literal"><span class="pre">NETCDF_INCLUDE</span></code> and <code class="docutils literal"><span class="pre">NETCDF_LIB</span></code>)
+and the correct compilation and linking flags for your compiler (<code class="docutils literal"><span class="pre">COMPILER_OPTS</span></code> and <code class="docutils literal"><span class="pre">COMPILER_LINKS</span></code>).
+If you want to run the GUI, you first need to compile the serial
+version of the code. Finally, the generated object and module files can be cleaned typing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>make clean
 </pre></div>
 </div>
 <p>The code admits up to three command line parameters:</p>

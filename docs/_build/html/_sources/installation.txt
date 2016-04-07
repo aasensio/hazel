@@ -35,17 +35,11 @@ by providing the version that will be compiled, together with the compiler. By
 default, it will compile the serial version with the Intel Fortran compiler:
 
 ::
-      make -f makefile.Intel version=serial compiler=ifort
+
+            make version=serial compiler=ifort
 
 After compiling and linking, the executable is copied to appropriate
-places. If you want to run the GUI, you first need to compile the serial
-version of the code. Finally, the generated object and module files can be cleaned typing:
-
-::
-
-           make -f makefile.Intel clean
-
-There is an additional requirement for compiling the parallel version
+places. There is an additional requirement for compiling the parallel version
 of the code. The compilation depends on the precompiled library NetCDF for reading and writing
 output files. NetCDF is a standard for platform independent binary files
 that you need to have installed in your system.  The location of the NetCDF
@@ -59,7 +53,27 @@ instance for the Intel compiler), just type:
 
 ::
 
-           make -f makefile.Intel version=mpi compiler=ifort
+           make version=mpi compiler=ifort supercomputer=local
+
+
+The current supported options for the makefile are the following:
+
+#. ``version``: serial/mpi/python
+
+#. ``compiler``: ifort/gfortran
+
+#. ``supercomputer``: local/teide (for the Teide Supercomputer)
+
+If you want to add your configuration, appropriately modify the makefile. You would need to define
+the location of the NetCDF include files and libraries (``NETCDF_INCLUDE`` and ``NETCDF_LIB``) 
+and the correct compilation and linking flags for your compiler (``COMPILER_OPTS`` and ``COMPILER_LINKS``).
+If you want to run the GUI, you first need to compile the serial
+version of the code. Finally, the generated object and module files can be cleaned typing:
+
+::
+
+           make clean
+
 
 The code admits up to three command line parameters:
 

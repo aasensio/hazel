@@ -171,7 +171,7 @@ contains
 	type(variable_parameters) :: original, trial
 	type(fixed_parameters) :: fixed
 	logical :: correct
-	real(kind=8) :: upper(12), lower(12)
+	real(kind=8) :: upper(18), lower(18)
 	integer :: i
 		
 ! Verify if the parameters are inside the boundaries. If any of them is outside, use the previous value
@@ -242,7 +242,7 @@ contains
 		endif
 
 		if (original%nslabs == 3 .or. original%nslabs == -2 .or. original%nslabs == -2) then
-			if (trial%beta2 < lower(18) .or. trial%beta2 > upper(18)) then
+			if (trial%beta2 < fixed%lower_direct(18) .or. trial%beta2 > fixed%upper_direct(18)) then
 				trial%beta2 = original%beta2
 			endif
 		endif

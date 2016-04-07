@@ -303,10 +303,12 @@ implicit none
 
 ! Close files
 		if (myrank == 0) then							
+#if defined(mpi)
 			call check( nf90_close(observation%obs_id) )
 			call check( nf90_close(fixed%syn_id) )
 			call check( nf90_close(fixed%par_id) )
 			call check( nf90_close(fixed%error_id) )
+#endif
 		endif
 	
 	endif
