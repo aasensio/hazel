@@ -773,6 +773,8 @@ contains
 			endif
 		
 			close(12)
+
+			status = 0
 			
 		endif
 

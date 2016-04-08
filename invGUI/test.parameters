@@ -29,8 +29,8 @@
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
   0.1667    0.9444
  
-# Source function enhancement
-  9.6111    0.7778
+# Source function gradient (only ME)
+  9.6111
  
 # Boundary Stokes parameters (I0,Q0,U0,V0)
  0.410E-04   0.000E+00   0.000E+00   0.000E+00

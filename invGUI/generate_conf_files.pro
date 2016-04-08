@@ -37,33 +37,32 @@ pro generate_conf_files, info, action
 	
 ; direct_range_10830.dat
 	openr,2,'CONF/direct_range.dat'
-	str = strarr(66)
+	str = strarr(63)
 	readf,2,str
 	close,2
-		
-	str(5) = "'"+info.dir_output_file+"'"
-	str(8) = strtrim(string(info.dir_feval),2)
-	str(11) = strtrim(string(info.dir_redvol),2)
-	str(14) = strtrim(string(info.dir_range_bfield[0]),2)+'   '+strtrim(string(info.dir_range_bfield[1]),2)
-	str(17) = strtrim(string(info.dir_range_thetab[0]),2)+'   '+strtrim(string(info.dir_range_thetab[1]),2)
-	str(20) = strtrim(string(info.dir_range_chib[0]),2)+'   '+strtrim(string(info.dir_range_chib[1]),2)
-	str(23) = strtrim(string(info.dir_range_vdopp[0]),2)+'   '+strtrim(string(info.dir_range_vdopp[1]),2)
-	str(26) = strtrim(string(info.dir_range_tau[0]),2)+'   '+strtrim(string(info.dir_range_tau[1]),2)
-	str(29) = strtrim(string(info.dir_range_depol[0]),2)+'   '+strtrim(string(info.dir_range_depol[1]),2)
-	str(32) = strtrim(string(info.dir_range_vmacro[0]),2)+'   '+strtrim(string(info.dir_range_vmacro[1]),2)
-	str(35) = strtrim(string(info.dir_range_damping[0]),2)+'   '+strtrim(string(info.dir_range_damping[1]),2)
-	str(38) = strtrim(string(info.dir_range_beta[0]),2)+'   '+strtrim(string(info.dir_range_beta[1]),2)
-	str(41) = strtrim(string(info.dir_range_height[0]),2)+'   '+strtrim(string(info.dir_range_height[1]),2)
-	str(44) = strtrim(string(info.dir_range_tau2[0]),2)+'   '+strtrim(string(info.dir_range_tau2[1]),2)
-	str(47) = strtrim(string(info.dir_range_vmacro2[0]),2)+'   '+strtrim(string(info.dir_range_vmacro2[1]),2)
-	str(50) = strtrim(string(info.dir_range_bfield2[0]),2)+'   '+strtrim(string(info.dir_range_bfield2[1]),2)
-	str(53) = strtrim(string(info.dir_range_thetab2[0]),2)+'   '+strtrim(string(info.dir_range_thetab2[1]),2)
-	str(56) = strtrim(string(info.dir_range_chib2[0]),2)+'   '+strtrim(string(info.dir_range_chib2[1]),2)
-	str(59) = strtrim(string(info.dir_range_vdopp2[0]),2)+'   '+strtrim(string(info.dir_range_vdopp2[1]),2)
-	str(62) = strtrim(string(info.dir_range_ff[0]),2)+'   '+strtrim(string(info.dir_range_ff[1]),2)
-	str(65) = strtrim(string(info.dir_range_beta2[0]),2)+'   '+strtrim(string(info.dir_range_beta2[1]),2)
+			
+	str(5) = strtrim(string(info.dir_feval),2)
+	str(8) = strtrim(string(info.dir_redvol),2)
+	str(11) = strtrim(string(info.dir_range_bfield[0]),2)+'   '+strtrim(string(info.dir_range_bfield[1]),2)
+	str(14) = strtrim(string(info.dir_range_thetab[0]),2)+'   '+strtrim(string(info.dir_range_thetab[1]),2)
+	str(17) = strtrim(string(info.dir_range_chib[0]),2)+'   '+strtrim(string(info.dir_range_chib[1]),2)
+	str(20) = strtrim(string(info.dir_range_vdopp[0]),2)+'   '+strtrim(string(info.dir_range_vdopp[1]),2)
+	str(23) = strtrim(string(info.dir_range_tau[0]),2)+'   '+strtrim(string(info.dir_range_tau[1]),2)
+	str(26) = strtrim(string(info.dir_range_depol[0]),2)+'   '+strtrim(string(info.dir_range_depol[1]),2)
+	str(29) = strtrim(string(info.dir_range_vmacro[0]),2)+'   '+strtrim(string(info.dir_range_vmacro[1]),2)
+	str(32) = strtrim(string(info.dir_range_damping[0]),2)+'   '+strtrim(string(info.dir_range_damping[1]),2)
+	str(35) = strtrim(string(info.dir_range_beta[0]),2)+'   '+strtrim(string(info.dir_range_beta[1]),2)
+	str(38) = strtrim(string(info.dir_range_height[0]),2)+'   '+strtrim(string(info.dir_range_height[1]),2)
+	str(41) = strtrim(string(info.dir_range_tau2[0]),2)+'   '+strtrim(string(info.dir_range_tau2[1]),2)
+	str(44) = strtrim(string(info.dir_range_vmacro2[0]),2)+'   '+strtrim(string(info.dir_range_vmacro2[1]),2)
+	str(47) = strtrim(string(info.dir_range_bfield2[0]),2)+'   '+strtrim(string(info.dir_range_bfield2[1]),2)
+	str(50) = strtrim(string(info.dir_range_thetab2[0]),2)+'   '+strtrim(string(info.dir_range_thetab2[1]),2)
+	str(53) = strtrim(string(info.dir_range_chib2[0]),2)+'   '+strtrim(string(info.dir_range_chib2[1]),2)
+	str(56) = strtrim(string(info.dir_range_vdopp2[0]),2)+'   '+strtrim(string(info.dir_range_vdopp2[1]),2)
+	str(59) = strtrim(string(info.dir_range_ff[0]),2)+'   '+strtrim(string(info.dir_range_ff[1]),2)
+	str(62) = strtrim(string(info.dir_range_beta2[0]),2)+'   '+strtrim(string(info.dir_range_beta2[1]),2)
 	openw,2,'direct_range.dat',width=132
-	for i = 0, 65 do begin
+	for i = 0, 62 do begin
 		printf,2,str(i)
 	endfor	
 	close,2
