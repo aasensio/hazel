@@ -2,9 +2,6 @@
 * Ranges for the DIRECT method
 ***********************************************
 
-# Output file
-'direct.location'
-
 # Maximum number of function evaluations (<0 -> don't use this criteria)
 -1
 
