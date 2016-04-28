@@ -4,6 +4,7 @@ from configobj import ConfigObj
 import sys
 import os
 from subprocess import call
+from ipdb import set_trace as stop
 
 def lower_to_sep(string, separator='='):
 	line=string.partition(separator)
@@ -13,7 +14,7 @@ def lower_to_sep(string, separator='='):
 
 if (len(sys.argv) < 2):
 	print( "Example usage: runHazel conf.ini")
-	exit()
+	sys.exit()
 
 print("Using configuration file = "+sys.argv[1])
 
@@ -343,7 +344,10 @@ f.write("# Observation angle with respect to the local solar vertical theta,chi,
 f.write("  ".join(config['general parameters']['line-of-sight angles'])+"\n")
 f.write("\n")
 f.write("# Wavelength axis: minimum, maximum and number of grid points\n")
-f.write("  ".join(config['general parameters']['wavelength axis'])+"\n")
+rightLambda = -float(config['general parameters']['wavelength axis'][0]) * 1e8 / float(lambda0[config['general parameters']['multiplet']])**2
+leftLambda = -float(config['general parameters']['wavelength axis'][1]) * 1e8 / float(lambda0[config['general parameters']['multiplet']])**2
+l = [str(leftLambda), str(rightLambda), config['general parameters']['wavelength axis'][2]]
+f.write("  ".join(l)+"\n")
 f.write("\n")
 f.write("# Line wavelength [A], Doppler velocity [km/s] and damping [a]\n")
 if (nSlabs == 1):

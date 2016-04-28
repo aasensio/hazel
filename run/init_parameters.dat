@@ -36,7 +36,7 @@
 4.18e-5  0.0  0.0  0.0
 
 # Transition where to compute the emergent Stokes profiles
-4
+1
 
 # Include atomic level polarization? (0-> no, 1-> yes)
 1
@@ -45,10 +45,10 @@
 0.0  0.0  90.0
 
 # Wavelength axis: minimum, maximum and number of grid points
--3.0  2.5  200
+-2.1314531395857395  2.5577437675028873  200
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-5876.9663  8.0  0.0
+10830.0911  8.0  0.0
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
 0.0
