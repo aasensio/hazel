@@ -1172,9 +1172,13 @@ contains
 			write(13,FMT='(F8.4,2X,F8.4)') in_params%dtau, in_params%dtau2, in_params%ff
 		endif
 		write(13,*)
-		
+				
 		write(13,FMT='(A)') '# Source function gradient (only ME)'
-		write(13,FMT='(F8.4)') in_params%beta
+		if (in_params%nslabs == 2 .or. in_params%nslabs == 3 .or. in_params%nslabs == -2) then
+			write(13,FMT='(F8.4)') in_params%beta, in_params%beta2
+		else
+			write(13,FMT='(F8.4)') in_params%beta
+		endif
 		write(13,*)
 		
 		write(13,FMT='(A)') '# Boundary Stokes parameters (I0,Q0,U0,V0)'

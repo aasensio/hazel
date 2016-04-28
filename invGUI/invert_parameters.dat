@@ -6,16 +6,16 @@
 20
 
 # Number of cycles
-1
+2
 
 # Invert the magnetic field strength
-0 0 0 0 
+0 0 1 1 
 
 # Invert the magnetic field inclination
-0 0 0 0 
+0 0 1 1 
 
 # Invert the magnetic field azimuth
-0 0 0 0 
+0 0 1 1 
 
 # Invert the Doppler width
 1 1 0 0 
@@ -27,49 +27,49 @@
 0 0 0 0 
 
 # Invert the macroscopic velocity
-0 0 0 0 
+1 1 0 0 
 
 # Invert the damping
 0 0 0 0 
 
 # Invert beta 
-1 1 0 0 
+0 0 0 0 
 
 # Invert the height of the He atoms
 0 0 0 0 
 
 # Invert the optical depth or strength of the line of component 2
-1 1 0 0 
+0 0 1 1 
 
 # Invert the macroscopic velocity of component 2
-0 0 0 0 
+1 1 1 1 
 
 # Invert the magnetic field strength of component 2
-0 0 0 0 
+0 0 1 1 
 
 # Invert the magnetic field inclination of component 2
-0 0 0 0 
+0 0 1 1 
 
 # Invert the magnetic field azimuth of component 2
-0 0 0 0 
+0 0 1 1 
 
 # Invert the Doppler width of component 2
-1 1 0 0 
+1 1 1 1 
 
 # Invert filling factor
 0 0 0 0 
 
 # Invert beta of component 2
-1 1 0 0 
+0 0 0 0 
  
 # Weights for Stokes I in each cycle
 1.0000000 1.0000000 1.0000000 1.0000000 
 
 # Weights for Stokes Q in each cycle
-0.0000000 0.0000000 1.0000000 1.0000000 
+0.0000000 0.0000000 0.0000000 0.0000000 
 
 # Weights for Stokes U in each cycle
-0.0000000 0.0000000 1.0000000 1.0000000 
+0.0000000 0.0000000 0.0000000 0.0000000 
 
 # Weights for Stokes V in each cycle
 0.0000000 0.0000000 1.0000000 1.0000000 

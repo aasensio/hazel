@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'/scratch/Dropbox/GIT/hazel/invGUI/OBSERVATION/emission2.prof'
+'/scratch/Dropbox/GIT/hazel/invGUI/OBSERVATION/fx10he_normloc05.prof'
 
 # File with the inverted profiles
 'out.dat'

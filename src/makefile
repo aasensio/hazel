@@ -12,7 +12,7 @@ endif
 
 # Choose desired compiler (supercomputer=local/teide)
 ifndef $(supercomputer)
-	supercomputer = localintel
+	supercomputer = local
 endif
 
 

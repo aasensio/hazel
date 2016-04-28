@@ -487,7 +487,7 @@ contains
 		do i = 1, in_params%n_total
 		
 			if (in_params%inverted(i) == 1) then
-!  				write(*,FMT='(A,I2,A,A)') 'Perturbing parameter ', i, '  --- ', trim(adjustl(parameters_name(i)))
+!  				 write(*,FMT='(A,I2,A,A)') 'Perturbing parameter ', i, '  --- ', trim(adjustl(parameters_name(i)))
 		
 ! Perturb the given parameter and do another synthesis
 				call perturb_parameter(params_scaled,params_scaled_modified,i,0.0001d0,delta)
@@ -499,6 +499,7 @@ contains
 				if (error == 1) return
 		
 				in_inversion%dydx(:,:,i) = (in_inversion%stokes_perturbed - in_inversion%stokes_unperturbed) / delta
+
 			endif
 		enddo
 	
@@ -576,7 +577,7 @@ contains
 		call svbksb(alpha,w,v,np,np,np,np,beta,x)				
 
 		do i = 1, np
-			if (in_params%inverted(i) == 1) then				
+			if (in_params%inverted(i) == 1) then								
 				call add_to_parameter(in_scaled,in_temp,i,x(i)/1.d0)
 			endif				
 		enddo
@@ -742,7 +743,7 @@ contains
 			in_params_scaled%ff = in_params%ff
 		endif
 
-		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == -2) then
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == 2) then
 			in_params_scaled%beta2 = in_params%beta2 / 3.d0
 		endif
 
@@ -776,7 +777,7 @@ contains
 			in_params%bgauss2 = in_params_scaled%bgauss2 * 1000.d0
 			in_params%thetabd2 = in_params_scaled%thetabd2 * 10.d0
 			in_params%chibd2 = in_params_scaled%chibd2 * 10.d0
-			in_params_scaled%vdopp2 = in_params%vdopp2 * 5.d0
+			in_params%vdopp2 = in_params_scaled%vdopp2 * 5.d0
 		endif
 
 ! Two components in the same pixel
@@ -784,7 +785,7 @@ contains
 			in_params%ff = in_params_scaled%ff
 		endif
 
-		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == -2) then
+		if (in_params%nslabs == 3 .or. in_params%nslabs == -2 .or. in_params%nslabs == 2) then
 			in_params%beta2 = in_params_scaled%beta2 * 3.d0
 		endif
 

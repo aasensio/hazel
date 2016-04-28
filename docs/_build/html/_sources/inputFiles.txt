@@ -132,3 +132,9 @@ An example of the file, that is self-explanatory, is:
             Stokes Q =  0.0, 0.0, 1.0, 1.0
             Stokes U =  0.0, 0.0, 1.0, 1.0
             Stokes V =  0.0, 0.0, 1.0, 1.0
+
+
+The code will convolve with a spectral point spread function if a file called ``psf.txt`` is placed on the
+directory where you run the code. This file contains a first line with the number of points of the PSF.
+Then a single column giving the transmission in a wavelength axis with a step equal to that of the observations.
+If this file is not present, no convolution will be done.

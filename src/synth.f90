@@ -3,8 +3,84 @@ use vars
 use SEE
 use rt_coef
 implicit none
+  !
+  ! JDLCR: new vars for the convolution with the PSF
+  !
+  integer :: npsf
+  real(kind=8), allocatable :: psf(:)
+  !
+  PRIVATE :: npsf, psf
 contains
-	
+
+  ! -------------------------------------------------------------------------
+  !
+  ! JDLCR: This function will only read the PSF in the first call.
+  !        Right now hardwired to psf.txt.
+  !
+  ! -------------------------------------------------------------------------
+  subroutine init_psf()
+    implicit none
+    character(len=7), parameter :: filename = 'psf.txt'
+    integer :: unit, ii
+    logical :: psf_exists
+
+    if(allocated(psf)) return
+
+    psf_exists = .FALSE.
+    INQUIRE( FILE=filename, EXIST=psf_exists) 
+    if(.not. psf_exists) return
+
+
+    !
+    ! Open PSF file and read
+    !
+    unit = 1
+    OPEN(unit, FILE=filename, status='OLD')
+    read(unit,*) npsf ! Number of elements of the PSF
+
+
+    allocate(psf(npsf)) ! allocate array to store the PSF
+
+    
+    do ii=1,npsf
+       read(unit,*) psf(ii)
+    end do
+
+    
+    CLOSE(unit)
+
+  end subroutine init_psf
+
+  ! -------------------------------------------------------------------------
+  !
+  ! JDLCR: This function will compute the convolution without FFTs.
+  !        It will not pad the arrays, just use the part of the PSF that is
+  !        inside the range of the spectra.
+  !
+  ! -------------------------------------------------------------------------
+  subroutine convolve(n, sp)
+    implicit none
+    integer :: n, ii, jj, w0, w1, ww, npsf2, ss
+    real(8) :: sp(0:3, n), res(n), psfsum
+
+
+    if(.not. allocated(psf)) return
+
+    npsf2 = npsf/2
+
+    do ss = 0,3
+       do ww = 1, n
+          w0 = max(ww - npsf2, 1)
+          w1 = min(ww + npsf2, n)
+          ii = w0 - (ww - npsf2)
+          jj = (ww + npsf2) - w1       
+          res(ww) = sum(psf(1+ii:npsf-jj)*sp(ss,w0:w1)) / sum(psf(1+ii:npsf-jj))
+       end do
+       sp(ss,:) = res(:)
+    end do
+
+  end subroutine convolve
+
 !------------------------------------------------------------
 ! Do a synthesis calling the appropriate routines
 !------------------------------------------------------------
@@ -21,6 +97,12 @@ contains
 	real(kind=8), allocatable, dimension(:) :: rhoQ2, rhoU2, rhoV2
 	real(kind=8), allocatable :: StokesM(:), kappa_prime(:,:), kappa_star(:,:), identity(:,:), source(:), m1(:,:), m2(:,:), Stokes0(:)
 	real(kind=8), allocatable :: O_evol(:,:), psi_matrix(:,:), Stokes1(:)
+
+    !
+    ! JDLCR: init PSF?
+    ! It will only be done the first time internally in the function
+    !
+    	call init_psf()
 
 		error = 0
 		
@@ -1090,6 +1172,12 @@ contains
 		endif
 		
 		in_fixed%total_forward_modeling = in_fixed%total_forward_modeling + 1
+
+	    !
+	    ! JDLCR: convolve all Stokes Parameters with the spectral PSF.
+	    !
+    	call convolve(in_fixed%no, output)
+
 	
 	end subroutine do_synthesis
 end module synth

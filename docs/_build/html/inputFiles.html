@@ -262,6 +262,10 @@ Inversion modes = &#39;DIRECT&#39;, &#39;LM&#39;, &#39;DIRECT&#39;, &#39;LM&#39;
         Stokes V =  0.0, 0.0, 1.0, 1.0
 </pre></div>
 </div>
+<p>The code will convolve with a spectral point spread function if a file called <code class="docutils literal"><span class="pre">psf.txt</span></code> is placed on the
+directory where you run the code. This file contains a first line with the number of points of the PSF.
+Then a single column giving the transmission in a wavelength axis with a step equal to that of the observations.
+If this file is not present, no convolution will be done.</p>
 </div>
 
 
