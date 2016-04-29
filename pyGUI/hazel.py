@@ -3,7 +3,7 @@ import numpy as np
 import i0Allen
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from pyHazel import pyhazel
+import pyhazel
 from ipdb import set_trace as stop
 import pickle
 import os.path
