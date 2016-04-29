@@ -208,7 +208,7 @@ class AppForm(QMainWindow):
     def loadObservation(self):
         self.obsFile = QFileDialog.getOpenFileName(self, 'Open file', '')
         if (self.obsFile != ''):
-            self.obsStokes = np.loadtxt(self.obsFile)
+            self.obsStokes = np.loadtxt(str(self.obsFile))
             self.loadedFile.setText('Loaded: {0}'.format(self.obsFile))
 
     def resetObservation(self):
@@ -524,8 +524,14 @@ class AppForm(QMainWindow):
 # exact
     def onRadioExact(self):     
         self.synModeInput = 5
+        self.atomicPolInput = 1
         self.redrawProfiles()
-    
+# atompol
+    def onRadioAtompol(self):
+        self.synModeInput = 5    
+        self.atomicPolInput = 0
+        self.redrawProfiles()
+
     def onCheckAllen(self, state):
         if (state == 2):
             self.sliderValuertheta.setText(str(self.slidertheta.value()))
@@ -901,13 +907,16 @@ class AppForm(QMainWindow):
         self.radioThin = QRadioButton("Optically thin")
         self.radioExact = QRadioButton("Exact")
         self.radioExact.setChecked(True)
+        self.radioAtompol = QRadioButton("Exact Without Atompol")
+        # self.radioAtompol.setChecked(True)
         self.connect(self.radioThin, SIGNAL('clicked()'), self.onRadioThin)
         self.connect(self.radioExact, SIGNAL('clicked()'), self.onRadioExact)
-    
+        self.connect(self.radioAtompol, SIGNAL('clicked()'), self.onRadioAtompol)
         
         vboxRadTran = QHBoxLayout()
         vboxRadTran.addWidget(self.radioThin)
         vboxRadTran.addWidget(self.radioExact)
+        vboxRadTran.addWidget(self.radioAtompol)
         vboxRadTran.addStretch(1)
         radTranGroup.setLayout(vboxRadTran)
 
