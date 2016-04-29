@@ -208,7 +208,7 @@ class AppForm(QMainWindow):
     def loadObservation(self):
         self.obsFile = QFileDialog.getOpenFileName(self, 'Open file', '')
         if (self.obsFile != ''):
-            self.obsStokes = np.loadtxt(self.obsFile)
+            self.obsStokes = np.loadtxt(str(self.obsFile))
             self.loadedFile.setText('Loaded: {0}'.format(self.obsFile))
 
     def resetObservation(self):
