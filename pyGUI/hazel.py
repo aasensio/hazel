@@ -3,7 +3,7 @@ import numpy as np
 import i0Allen
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-import pyhazel
+from pyHazel import pyhazel
 from ipdb import set_trace as stop
 import pickle
 import os.path
@@ -524,8 +524,14 @@ class AppForm(QMainWindow):
 # exact
     def onRadioExact(self):     
         self.synModeInput = 5
+        self.atomicPolInput = 1
         self.redrawProfiles()
-    
+# atompol
+    def onRadioAtompol(self):
+        self.synModeInput = 5    
+        self.atomicPolInput = 0
+        self.redrawProfiles()
+
     def onCheckAllen(self, state):
         if (state == 2):
             self.sliderValuertheta.setText(str(self.slidertheta.value()))
@@ -901,13 +907,16 @@ class AppForm(QMainWindow):
         self.radioThin = QRadioButton("Optically thin")
         self.radioExact = QRadioButton("Exact")
         self.radioExact.setChecked(True)
+        self.radioAtompol = QRadioButton("Exact Without Atompol")
+        # self.radioAtompol.setChecked(True)
         self.connect(self.radioThin, SIGNAL('clicked()'), self.onRadioThin)
         self.connect(self.radioExact, SIGNAL('clicked()'), self.onRadioExact)
-    
+        self.connect(self.radioAtompol, SIGNAL('clicked()'), self.onRadioAtompol)
         
         vboxRadTran = QHBoxLayout()
         vboxRadTran.addWidget(self.radioThin)
         vboxRadTran.addWidget(self.radioExact)
+        vboxRadTran.addWidget(self.radioAtompol)
         vboxRadTran.addStretch(1)
         radTranGroup.setLayout(vboxRadTran)
 
