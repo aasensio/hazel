@@ -64,30 +64,56 @@ class AppForm(QMainWindow):
 
     def loadConfig(self):
         if (os.path.exists("state.pickle")):
-            d = pickle.load( open( "state.pickle", "rb" ) )
-            self.synModeInput = d['synModeInput']
-            self.nSlabsInput = d['nSlabsInput']
-            self.B1Input = d['B1Input']
-            self.B2Input = d['B2Input']
-            self.hInput = d['hInput']
-            self.tau1Input = d['tau1Input']
-            self.tau2Input = d['tau2Input']
-            self.boundaryInput  = d['boundaryInput']
-            self.transInput = d['transInput']
-            self.atomicPolInput = d['atomicPolInput']
-            self.anglesInput = d['anglesInput']
-            self.lambdaAxisInput = d['lambdaAxisInput']
-            self.nLambdaInput = d['nLambdaInput']
-            self.dopplerWidthInput = d['dopplerWidthInput']
-            self.dopplerWidth2Input = d['dopplerWidth2Input']
-            self.dampingInput = d['dampingInput']
-            self.dopplerVelocityInput = d['dopplerVelocityInput']
-            self.dopplerVelocity2Input = d['dopplerVelocity2Input']
-            self.ffInput = d['ffInput']
-            self.betaInput = d['betaInput']
-            self.nbarInput = d['nbarInput']
-            self.omegaInput = d['omegaInput']
-            self.obsFile = d['obsFile']
+            try:
+                d = pickle.load( open( "state.pickle", "rb" ) )
+                self.synModeInput = d['synModeInput']
+                self.nSlabsInput = d['nSlabsInput']
+                self.B1Input = d['B1Input']
+                self.B2Input = d['B2Input']
+                self.hInput = d['hInput']
+                self.tau1Input = d['tau1Input']
+                self.tau2Input = d['tau2Input']
+                self.boundaryInput  = d['boundaryInput']
+                self.transInput = d['transInput']
+                self.atomicPolInput = d['atomicPolInput']
+                self.anglesInput = d['anglesInput']
+                self.lambdaAxisInput = d['lambdaAxisInput']
+                self.nLambdaInput = d['nLambdaInput']
+                self.dopplerWidthInput = d['dopplerWidthInput']
+                self.dopplerWidth2Input = d['dopplerWidth2Input']
+                self.dampingInput = d['dampingInput']
+                self.dopplerVelocityInput = d['dopplerVelocityInput']
+                self.dopplerVelocity2Input = d['dopplerVelocity2Input']
+                self.ffInput = d['ffInput']
+                self.betaInput = d['betaInput']
+                self.nbarInput = d['nbarInput']
+                self.omegaInput = d['omegaInput']
+                self.obsFile = d['obsFile']
+            except:
+                print('state.pickle from other python version')
+                self.synModeInput = 5
+                self.nSlabsInput = 1
+                self.B1Input = np.asarray([3.0,80.0,41.0])
+                self.B2Input = np.asarray([0.0,0.0,0.0])
+                self.hInput = 3.e0
+                self.tau1Input = 1.e0
+                self.tau2Input = 0.e0
+                self.boundaryInput  = np.asarray([0.0,0.0,0.0,0.0])
+                self.transInput = 1
+                self.atomicPolInput = 1
+                self.anglesInput = np.asarray([90.0,0.0,90.0])
+                self.lambdaAxisInput = np.asarray([-1.5e0,2.5e0])
+                self.nLambdaInput = 150
+                self.dopplerWidthInput = 6.e0
+                self.dopplerWidth2Input = 0.e0
+                self.dampingInput = 0.e0
+                self.dopplerVelocityInput = 0.e0
+                self.dopplerVelocity2Input = 0.e0
+                self.ffInput = 0.e0
+                self.betaInput = 1.0
+                self.nbarInput = np.asarray([0.0,0.0,0.0,0.0])
+                self.omegaInput = np.asarray([0.0,0.0,0.0,0.0])
+                self.obsFile = ''
         else:
             self.synModeInput = 5
             self.nSlabsInput = 1
