@@ -391,7 +391,28 @@ contains
 			enddo
 		enddo
 
+		
+		! Now read transitions
+		read(31,*) atom%ntran
+
+		allocate(atom%nterml(atom%ntran))
+		allocate(atom%ntermu(atom%ntran))
+		allocate(atom%ae(atom%ntran))
+		allocate(atom%wavelength(atom%ntran))
+		allocate(atom%reduction_factor(atom%ntran))
+		allocate(atom%reduction_factor_omega(atom%ntran))
+		allocate(atom%j10(atom%ntran))
+		
+		do i = 1, atom%ntran
+			read(31,*) k, atom%nterml(i), atom%ntermu(i), atom%ae(i), atom%wavelength(i), &
+				atom%reduction_factor(i), atom%reduction_factor_omega(i), atom%j10(i)
+		enddo
+
 		close(31)
+		
+		if (verbose_mode == 1) then
+			print *, 'Number of unknowns : ', nrhos
+		endif
 		
 		if (verbose_mode == 1) then
 			print *, 'Number of unknowns : ', nrhos

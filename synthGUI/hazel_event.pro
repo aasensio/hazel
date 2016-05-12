@@ -81,7 +81,9 @@ pro hazel_Event, event
 		   		 	   		 state.thetaObs = value									 
 									 widget_control, hand, SET_UVALUE=state
 									 I0 = return_i0_allen(state)
-									 widget_control, state.i0_allen, SET_VALUE='Allen: '+strtrim(string(i0),2)
+									 if (state.useAllen eq 1) then begin
+									 	widget_control, state.i0_allen, SET_VALUE=strtrim(string(i0),2)
+									 endif
 									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end
 	 	  'chiOSlider' : 	begin
@@ -260,41 +262,49 @@ pro hazel_Event, event
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.dtau_desired = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end
 		  'DTAU2' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.dtau_desired2 = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end
 		  'VEL1' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.vel = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end
 		  'VEL2' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.vel2 = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end  
 	 	  'SE1' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.beta = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end 
 		  'SE2' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.beta2 = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end 
 	 	  'DAMPING' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.damping = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end
 		  'FF' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.ff = value
 									 widget_control, hand, SET_UVALUE=state
+									 if (state.auto eq 1) then synthesize, state, hand, /plot_profiles
 		   		 	   	end
 	 	  'STIM' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
@@ -454,7 +464,18 @@ pro hazel_Event, event
 		    						state.number_slabs = -2
 		    						widget_control, hand, SET_UVALUE=state
 		    				  end
+		    'USEALLEN': begin
+		    				if (event.select eq 1) then begin
+		    					state.useAllen = 1
+		    					I0 = return_i0_allen(state)
+							 	widget_control, state.i0_allen, SET_VALUE=strtrim(string(i0),2)							 	
+		    				endif else begin
+		    					state.useAllen = 0
+		    				endelse		    				
+		    				widget_control, hand, SET_UVALUE=state
+		    			end
+
+
 	 endcase
 	 save, state, filename='state.idl'
-
 end

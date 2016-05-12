@@ -1218,7 +1218,7 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_transInput;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_wavelengthOutput;
-static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_synModeInput, int __pyx_v_nSlabsInput, PyArrayObject *__pyx_v_B1Input, PyArrayObject *__pyx_v_B2Input, double __pyx_v_hInput, double __pyx_v_tau1Input, double __pyx_v_tau2Input, PyArrayObject *__pyx_v_boundaryInput, int __pyx_v_transInput, int __pyx_v_atomicPolInput, PyArrayObject *__pyx_v_anglesInput, PyArrayObject *__pyx_v_lambdaAxisInput, int __pyx_v_nLambdaInput, double __pyx_v_dopplerWidthInput, double __pyx_v_dopplerWidth2Input, double __pyx_v_dampingInput, double __pyx_v_dopplerVelocityInput, double __pyx_v_dopplerVelocity2Input, double __pyx_v_ffInput, double __pyx_v_betaInput, double __pyx_v_beta2Input, PyArrayObject *__pyx_v_nbarInput, PyArrayObject *__pyx_v_omegaInput); /* proto */
+static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_synModeInput, int __pyx_v_nSlabsInput, PyArrayObject *__pyx_v_B1Input, PyArrayObject *__pyx_v_B2Input, double __pyx_v_hInput, double __pyx_v_tau1Input, double __pyx_v_tau2Input, PyArrayObject *__pyx_v_boundaryInput, int __pyx_v_transInput, int __pyx_v_atomicPolInput, PyArrayObject *__pyx_v_anglesInput, int __pyx_v_nLambdaInput, PyArrayObject *__pyx_v_lambdaAxisInput, double __pyx_v_dopplerWidthInput, double __pyx_v_dopplerWidth2Input, double __pyx_v_dampingInput, double __pyx_v_dopplerVelocityInput, double __pyx_v_dopplerVelocity2Input, double __pyx_v_ffInput, double __pyx_v_betaInput, double __pyx_v_beta2Input, PyArrayObject *__pyx_v_nbarInput, PyArrayObject *__pyx_v_omegaInput); /* proto */
 static PyObject *__pyx_pf_7pyhazel_2init(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
@@ -1257,8 +1257,8 @@ static PyObject *__pyx_pw_7pyhazel_1synth(PyObject *__pyx_self, PyObject *__pyx_
   int __pyx_v_transInput;
   int __pyx_v_atomicPolInput;
   PyArrayObject *__pyx_v_anglesInput = 0;
-  PyArrayObject *__pyx_v_lambdaAxisInput = 0;
   int __pyx_v_nLambdaInput;
+  PyArrayObject *__pyx_v_lambdaAxisInput = 0;
   double __pyx_v_dopplerWidthInput;
   double __pyx_v_dopplerWidth2Input;
   double __pyx_v_dampingInput;
@@ -1276,7 +1276,7 @@ static PyObject *__pyx_pw_7pyhazel_1synth(PyObject *__pyx_self, PyObject *__pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("synth (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_synModeInput,&__pyx_n_s_nSlabsInput,&__pyx_n_s_B1Input,&__pyx_n_s_B2Input,&__pyx_n_s_hInput,&__pyx_n_s_tau1Input,&__pyx_n_s_tau2Input,&__pyx_n_s_boundaryInput,&__pyx_n_s_transInput,&__pyx_n_s_atomicPolInput,&__pyx_n_s_anglesInput,&__pyx_n_s_lambdaAxisInput,&__pyx_n_s_nLambdaInput,&__pyx_n_s_dopplerWidthInput,&__pyx_n_s_dopplerWidth2Input,&__pyx_n_s_dampingInput,&__pyx_n_s_dopplerVelocityInput,&__pyx_n_s_dopplerVelocity2Input,&__pyx_n_s_ffInput,&__pyx_n_s_betaInput,&__pyx_n_s_beta2Input,&__pyx_n_s_nbarInput,&__pyx_n_s_omegaInput,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_synModeInput,&__pyx_n_s_nSlabsInput,&__pyx_n_s_B1Input,&__pyx_n_s_B2Input,&__pyx_n_s_hInput,&__pyx_n_s_tau1Input,&__pyx_n_s_tau2Input,&__pyx_n_s_boundaryInput,&__pyx_n_s_transInput,&__pyx_n_s_atomicPolInput,&__pyx_n_s_anglesInput,&__pyx_n_s_nLambdaInput,&__pyx_n_s_lambdaAxisInput,&__pyx_n_s_dopplerWidthInput,&__pyx_n_s_dopplerWidth2Input,&__pyx_n_s_dampingInput,&__pyx_n_s_dopplerVelocityInput,&__pyx_n_s_dopplerVelocity2Input,&__pyx_n_s_ffInput,&__pyx_n_s_betaInput,&__pyx_n_s_beta2Input,&__pyx_n_s_nbarInput,&__pyx_n_s_omegaInput,0};
     PyObject* values[23] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -1364,12 +1364,12 @@ static PyObject *__pyx_pw_7pyhazel_1synth(PyObject *__pyx_self, PyObject *__pyx_
           __Pyx_RaiseArgtupleInvalid("synth", 1, 23, 23, 10); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case 11:
-        if (likely((values[11] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lambdaAxisInput)) != 0)) kw_args--;
+        if (likely((values[11] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nLambdaInput)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("synth", 1, 23, 23, 11); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case 12:
-        if (likely((values[12] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nLambdaInput)) != 0)) kw_args--;
+        if (likely((values[12] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lambdaAxisInput)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("synth", 1, 23, 23, 12); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
@@ -1465,8 +1465,8 @@ static PyObject *__pyx_pw_7pyhazel_1synth(PyObject *__pyx_self, PyObject *__pyx_
     __pyx_v_transInput = __Pyx_PyInt_As_int(values[8]); if (unlikely((__pyx_v_transInput == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_atomicPolInput = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_atomicPolInput == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_anglesInput = ((PyArrayObject *)values[10]);
-    __pyx_v_lambdaAxisInput = ((PyArrayObject *)values[11]);
-    __pyx_v_nLambdaInput = __Pyx_PyInt_As_int(values[12]); if (unlikely((__pyx_v_nLambdaInput == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nLambdaInput = __Pyx_PyInt_As_int(values[11]); if (unlikely((__pyx_v_nLambdaInput == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_lambdaAxisInput = ((PyArrayObject *)values[12]);
     __pyx_v_dopplerWidthInput = __pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_dopplerWidthInput == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_dopplerWidth2Input = __pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_dopplerWidth2Input == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_dampingInput = __pyx_PyFloat_AsDouble(values[15]); if (unlikely((__pyx_v_dampingInput == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
@@ -1493,7 +1493,7 @@ static PyObject *__pyx_pw_7pyhazel_1synth(PyObject *__pyx_self, PyObject *__pyx_
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_lambdaAxisInput), __pyx_ptype_5numpy_ndarray, 1, "lambdaAxisInput", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nbarInput), __pyx_ptype_5numpy_ndarray, 1, "nbarInput", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_omegaInput), __pyx_ptype_5numpy_ndarray, 1, "omegaInput", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_7pyhazel_synth(__pyx_self, __pyx_v_synModeInput, __pyx_v_nSlabsInput, __pyx_v_B1Input, __pyx_v_B2Input, __pyx_v_hInput, __pyx_v_tau1Input, __pyx_v_tau2Input, __pyx_v_boundaryInput, __pyx_v_transInput, __pyx_v_atomicPolInput, __pyx_v_anglesInput, __pyx_v_lambdaAxisInput, __pyx_v_nLambdaInput, __pyx_v_dopplerWidthInput, __pyx_v_dopplerWidth2Input, __pyx_v_dampingInput, __pyx_v_dopplerVelocityInput, __pyx_v_dopplerVelocity2Input, __pyx_v_ffInput, __pyx_v_betaInput, __pyx_v_beta2Input, __pyx_v_nbarInput, __pyx_v_omegaInput);
+  __pyx_r = __pyx_pf_7pyhazel_synth(__pyx_self, __pyx_v_synModeInput, __pyx_v_nSlabsInput, __pyx_v_B1Input, __pyx_v_B2Input, __pyx_v_hInput, __pyx_v_tau1Input, __pyx_v_tau2Input, __pyx_v_boundaryInput, __pyx_v_transInput, __pyx_v_atomicPolInput, __pyx_v_anglesInput, __pyx_v_nLambdaInput, __pyx_v_lambdaAxisInput, __pyx_v_dopplerWidthInput, __pyx_v_dopplerWidth2Input, __pyx_v_dampingInput, __pyx_v_dopplerVelocityInput, __pyx_v_dopplerVelocity2Input, __pyx_v_ffInput, __pyx_v_betaInput, __pyx_v_beta2Input, __pyx_v_nbarInput, __pyx_v_omegaInput);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1504,7 +1504,7 @@ static PyObject *__pyx_pw_7pyhazel_1synth(PyObject *__pyx_self, PyObject *__pyx_
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_synModeInput, int __pyx_v_nSlabsInput, PyArrayObject *__pyx_v_B1Input, PyArrayObject *__pyx_v_B2Input, double __pyx_v_hInput, double __pyx_v_tau1Input, double __pyx_v_tau2Input, PyArrayObject *__pyx_v_boundaryInput, int __pyx_v_transInput, int __pyx_v_atomicPolInput, PyArrayObject *__pyx_v_anglesInput, PyArrayObject *__pyx_v_lambdaAxisInput, int __pyx_v_nLambdaInput, double __pyx_v_dopplerWidthInput, double __pyx_v_dopplerWidth2Input, double __pyx_v_dampingInput, double __pyx_v_dopplerVelocityInput, double __pyx_v_dopplerVelocity2Input, double __pyx_v_ffInput, double __pyx_v_betaInput, double __pyx_v_beta2Input, PyArrayObject *__pyx_v_nbarInput, PyArrayObject *__pyx_v_omegaInput) {
+static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_synModeInput, int __pyx_v_nSlabsInput, PyArrayObject *__pyx_v_B1Input, PyArrayObject *__pyx_v_B2Input, double __pyx_v_hInput, double __pyx_v_tau1Input, double __pyx_v_tau2Input, PyArrayObject *__pyx_v_boundaryInput, int __pyx_v_transInput, int __pyx_v_atomicPolInput, PyArrayObject *__pyx_v_anglesInput, int __pyx_v_nLambdaInput, PyArrayObject *__pyx_v_lambdaAxisInput, double __pyx_v_dopplerWidthInput, double __pyx_v_dopplerWidth2Input, double __pyx_v_dampingInput, double __pyx_v_dopplerVelocityInput, double __pyx_v_dopplerVelocity2Input, double __pyx_v_ffInput, double __pyx_v_betaInput, double __pyx_v_beta2Input, PyArrayObject *__pyx_v_nbarInput, PyArrayObject *__pyx_v_omegaInput) {
   PyArrayObject *__pyx_v_wavelengthOutput = 0;
   PyArrayObject *__pyx_v_stokesOutput = 0;
   PyArrayObject *__pyx_v_epsOutput = 0;
@@ -1816,7 +1816,7 @@ static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int
  * 		ar[double,ndim=3] etaOutput = empty((4,4,nLambdaInput), order='F')
  * 
  * 	c_hazel(&synModeInput, &nSlabsInput, &B1Input[0], &B2Input[0], &hInput, &tau1Input, &tau2Input,             # <<<<<<<<<<<<<<
- * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &lambdaAxisInput[0], &nLambdaInput,
+ * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &nLambdaInput, &lambdaAxisInput[0],
  * 		&dopplerWidthInput, &dopplerWidth2Input, &dampingInput, &dopplerVelocityInput,
  */
   __pyx_t_9 = 0;
@@ -1843,7 +1843,7 @@ static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int
   /* "pyhazel.pyx":62
  * 
  * 	c_hazel(&synModeInput, &nSlabsInput, &B1Input[0], &B2Input[0], &hInput, &tau1Input, &tau2Input,
- * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &lambdaAxisInput[0], &nLambdaInput,             # <<<<<<<<<<<<<<
+ * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &nLambdaInput, &lambdaAxisInput[0],             # <<<<<<<<<<<<<<
  * 		&dopplerWidthInput, &dopplerWidth2Input, &dampingInput, &dopplerVelocityInput,
  * 		&dopplerVelocity2Input, &ffInput, &betaInput, &beta2Input, &nbarInput[0], &omegaInput[0], <double*> wavelengthOutput.data,
  */
@@ -1879,7 +1879,7 @@ static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int
   }
 
   /* "pyhazel.pyx":64
- * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &lambdaAxisInput[0], &nLambdaInput,
+ * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &nLambdaInput, &lambdaAxisInput[0],
  * 		&dopplerWidthInput, &dopplerWidth2Input, &dampingInput, &dopplerVelocityInput,
  * 		&dopplerVelocity2Input, &ffInput, &betaInput, &beta2Input, &nbarInput[0], &omegaInput[0], <double*> wavelengthOutput.data,             # <<<<<<<<<<<<<<
  * 		<double*> stokesOutput.data, <double*> epsOutput.data, <double*> etaOutput.data)
@@ -1910,10 +1910,10 @@ static PyObject *__pyx_pf_7pyhazel_synth(CYTHON_UNUSED PyObject *__pyx_self, int
  * 		ar[double,ndim=3] etaOutput = empty((4,4,nLambdaInput), order='F')
  * 
  * 	c_hazel(&synModeInput, &nSlabsInput, &B1Input[0], &B2Input[0], &hInput, &tau1Input, &tau2Input,             # <<<<<<<<<<<<<<
- * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &lambdaAxisInput[0], &nLambdaInput,
+ * 		&boundaryInput[0], &transInput, &atomicPolInput, &anglesInput[0], &nLambdaInput, &lambdaAxisInput[0],
  * 		&dopplerWidthInput, &dopplerWidth2Input, &dampingInput, &dopplerVelocityInput,
  */
-  c_hazel((&__pyx_v_synModeInput), (&__pyx_v_nSlabsInput), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_B1Input.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_B1Input.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_B2Input.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_B2Input.diminfo[0].strides))), (&__pyx_v_hInput), (&__pyx_v_tau1Input), (&__pyx_v_tau2Input), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_boundaryInput.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_boundaryInput.diminfo[0].strides))), (&__pyx_v_transInput), (&__pyx_v_atomicPolInput), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_anglesInput.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_anglesInput.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_lambdaAxisInput.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_lambdaAxisInput.diminfo[0].strides))), (&__pyx_v_nLambdaInput), (&__pyx_v_dopplerWidthInput), (&__pyx_v_dopplerWidth2Input), (&__pyx_v_dampingInput), (&__pyx_v_dopplerVelocityInput), (&__pyx_v_dopplerVelocity2Input), (&__pyx_v_ffInput), (&__pyx_v_betaInput), (&__pyx_v_beta2Input), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_nbarInput.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_nbarInput.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_omegaInput.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_omegaInput.diminfo[0].strides))), ((double *)__pyx_v_wavelengthOutput->data), ((double *)__pyx_v_stokesOutput->data), ((double *)__pyx_v_epsOutput->data), ((double *)__pyx_v_etaOutput->data));
+  c_hazel((&__pyx_v_synModeInput), (&__pyx_v_nSlabsInput), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_B1Input.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_B1Input.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_B2Input.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_B2Input.diminfo[0].strides))), (&__pyx_v_hInput), (&__pyx_v_tau1Input), (&__pyx_v_tau2Input), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_boundaryInput.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_boundaryInput.diminfo[0].strides))), (&__pyx_v_transInput), (&__pyx_v_atomicPolInput), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_anglesInput.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_anglesInput.diminfo[0].strides))), (&__pyx_v_nLambdaInput), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_lambdaAxisInput.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_lambdaAxisInput.diminfo[0].strides))), (&__pyx_v_dopplerWidthInput), (&__pyx_v_dopplerWidth2Input), (&__pyx_v_dampingInput), (&__pyx_v_dopplerVelocityInput), (&__pyx_v_dopplerVelocity2Input), (&__pyx_v_ffInput), (&__pyx_v_betaInput), (&__pyx_v_beta2Input), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_nbarInput.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_nbarInput.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_omegaInput.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_omegaInput.diminfo[0].strides))), ((double *)__pyx_v_wavelengthOutput->data), ((double *)__pyx_v_stokesOutput->data), ((double *)__pyx_v_epsOutput->data), ((double *)__pyx_v_etaOutput->data));
 
   /* "pyhazel.pyx":67
  * 		<double*> stokesOutput.data, <double*> epsOutput.data, <double*> etaOutput.data)
@@ -4345,7 +4345,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 	double tau1Input, double tau2Input,
  * 	ar[double,ndim=1] boundaryInput, int transInput, int atomicPolInput, ar[double,ndim=1] anglesInput,
  */
-  __pyx_tuple__7 = PyTuple_Pack(27, __pyx_n_s_synModeInput, __pyx_n_s_nSlabsInput, __pyx_n_s_B1Input, __pyx_n_s_B2Input, __pyx_n_s_hInput, __pyx_n_s_tau1Input, __pyx_n_s_tau2Input, __pyx_n_s_boundaryInput, __pyx_n_s_transInput, __pyx_n_s_atomicPolInput, __pyx_n_s_anglesInput, __pyx_n_s_lambdaAxisInput, __pyx_n_s_nLambdaInput, __pyx_n_s_dopplerWidthInput, __pyx_n_s_dopplerWidth2Input, __pyx_n_s_dampingInput, __pyx_n_s_dopplerVelocityInput, __pyx_n_s_dopplerVelocity2Input, __pyx_n_s_ffInput, __pyx_n_s_betaInput, __pyx_n_s_beta2Input, __pyx_n_s_nbarInput, __pyx_n_s_omegaInput, __pyx_n_s_wavelengthOutput, __pyx_n_s_stokesOutput, __pyx_n_s_epsOutput, __pyx_n_s_etaOutput); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__7 = PyTuple_Pack(27, __pyx_n_s_synModeInput, __pyx_n_s_nSlabsInput, __pyx_n_s_B1Input, __pyx_n_s_B2Input, __pyx_n_s_hInput, __pyx_n_s_tau1Input, __pyx_n_s_tau2Input, __pyx_n_s_boundaryInput, __pyx_n_s_transInput, __pyx_n_s_atomicPolInput, __pyx_n_s_anglesInput, __pyx_n_s_nLambdaInput, __pyx_n_s_lambdaAxisInput, __pyx_n_s_dopplerWidthInput, __pyx_n_s_dopplerWidth2Input, __pyx_n_s_dampingInput, __pyx_n_s_dopplerVelocityInput, __pyx_n_s_dopplerVelocity2Input, __pyx_n_s_ffInput, __pyx_n_s_betaInput, __pyx_n_s_beta2Input, __pyx_n_s_nbarInput, __pyx_n_s_omegaInput, __pyx_n_s_wavelengthOutput, __pyx_n_s_stokesOutput, __pyx_n_s_epsOutput, __pyx_n_s_etaOutput); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
   __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(23, 0, 27, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_scratch_Dropbox_GIT_hazel_runPy, __pyx_n_s_synth, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}

@@ -87,6 +87,7 @@ ifeq ($(version), python)
     HAZEL_MAIN_OBJ = hazel_py.o
     HAZEL_MAIN_SRC = hazel_py.f90
     OBJECTS = vars.o maths.o allen.o svd.o io_py.o SEE.o rt_coef.o synth.o hazel_py.o singleton.o
+    PREPROCESS = -D$(version) -cpp
 endif
 
 
@@ -139,7 +140,7 @@ SEE.o: SEE.f90 allen.o maths.o vars.o
 	$(COMPILER) $(COMPILER_OPTS)  SEE.f90
 
 rt_coef.o: rt_coef.f90 vars.o maths.o
-	$(COMPILER) $(COMPILER_OPTS)  rt_coef.f90
+	$(COMPILER) $(COMPILER_OPTS) $(PREPROCESS) rt_coef.f90
 
 synth.o: synth.f90 rt_coef.o SEE.o vars.o
 	$(COMPILER) $(COMPILER_OPTS)  synth.f90

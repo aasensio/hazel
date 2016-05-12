@@ -37,7 +37,7 @@ contains
 		SEE_A = 0.d0
 		SEE_mag_A = 0.d0
 		SEE_b = 0.d0
-		
+
 		do nt = 1, atom%ntran
 		
 ! Use Allen's tables to calculate the anisotropy and the value of nbar

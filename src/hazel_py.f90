@@ -29,7 +29,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	real(c_double), intent(out), dimension(4,nLambdaInput) :: epsOutput
 	real(c_double), intent(out), dimension(4,4,nLambdaInput) :: etaOutput
 	
-	integer :: n, nterml, ntermu
+	integer :: n, nterml, ntermu, error
 	
 	real(c_double) :: ae, wavelength, reduction_factor, reduction_factor_omega, j10
 	integer :: i, j
@@ -51,7 +51,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	linear_solver = 0		
 	synthesis_mode = synModeInput
 	working_mode = 0
-	
+
 ! Read the atomic model	
 ! 	call read_model_file(input_model_file)
 	
@@ -91,7 +91,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	endif
 	
 	params%beta = betaInput
-	if (params%nslabs == 1) then
+	if (params%nslabs /= 1) then
 		params%beta2 = beta2Input
 	endif
 
@@ -151,14 +151,16 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	
 	observation%wl = lambdaAxisInput
 
-	call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed)
+	
+	call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
 	
 	do i = 1, 4
-		stokesOutput(i,:) = inversion%stokes_unperturbed(i-1,:)
+		stokesOutput(i,:) = inversion%stokes_unperturbed(i-1,:)		
 	enddo
 	
 	wavelengthOutput = observation%wl + fixed%wl
-	
+
+
 ! Fill the emission vector and absorption matrix
 	do i = 1, 4
 		epsOutput(i,:) = epsilon(i-1,:)

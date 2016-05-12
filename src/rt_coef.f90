@@ -103,12 +103,16 @@ contains
 		
 		
 ! In the synthesis mode, generate a new wavelength axis (wavenumber in this case)
+#if ! defined(python)
 		if (working_mode == 0) then		
 			do i = 1, in_fixed%no
 				onum(i) = in_fixed%omin + (in_fixed%omax-in_fixed%omin) * dfloat(i-1) / dfloat(in_fixed%no-1)
 			enddo			
 			in_observation%wl = -1.d-8 * in_fixed%wl**2 * onum
 		endif
+#else
+		onum = -1.d8 * in_observation%wl / in_fixed%wl**2
+#endif
 
 ! In the inversion mode, use the wavelength axis (wavenumber in this case) from the observation
 		if (working_mode == 1) then
