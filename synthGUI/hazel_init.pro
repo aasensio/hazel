@@ -144,7 +144,7 @@ function hazel_init, reset_state=reset_state
 	 BSliderMax = widget_text(maxBBase,VALUE=strtrim(string(state.Bfieldmax),2),$
 	 	UVALUE='BSliderMax',/EDITABLE,XSIZE=8,YSIZE=1)	 
 	 state.BSlider = cw_fslider(BSliderBase,TITLE='B1 strength [G]',UVALUE='BSlider',$
-	 	  XSIZE=sliderSize,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax,VALUE=state.Bfield)	 
+	 	  XSIZE=sliderSize,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax,VALUE=state.Bfield, EDIT=1)	 
 
 ; Magnetic field inclination
 	 thetaBSliderBase = widget_base(fieldBase, /ROW)
@@ -171,7 +171,7 @@ function hazel_init, reset_state=reset_state
 	 BSliderMax = widget_text(maxBBase,VALUE=strtrim(string(state.Bfieldmax2),2),$
 	 	UVALUE='BSliderMax2',/EDITABLE,XSIZE=8,YSIZE=1)	 
 	 state.BSlider2 = cw_fslider(BSliderBase,TITLE='B2 strength [G]',UVALUE='BSlider2',$
-	 	  XSIZE=sliderSize,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax2,VALUE=state.Bfield2)
+	 	  XSIZE=sliderSize,MINIMUM=0.d0,MAXIMUM=state.Bfieldmax2,VALUE=state.Bfield2, EDIT=1)
 
 ; Magnetic field inclination
 	 thetaBSliderBase = widget_base(fieldBase, /ROW)
@@ -263,37 +263,37 @@ function hazel_init, reset_state=reset_state
 	 
 	 base = widget_base(formalBase, /COLUMN)
 	 DopplerSlider = cw_fslider(base,TITLE='Doppler v1 [km/s]',UVALUE='DopplerSlider',$
-	 	  XSIZE=sliderSize,MAXIMUM=50,MINIMUM=0.1,VALUE=state.Doppler)
+	 	  XSIZE=sliderSize,MAXIMUM=50,MINIMUM=0.1,VALUE=state.Doppler, EDIT=1)
 	 DopplerSlider = cw_fslider(base,TITLE='Doppler v2 [km/s]',UVALUE='DopplerSlider2',$
-	 	  XSIZE=sliderSize,MAXIMUM=25,MINIMUM=0.1,VALUE=state.Doppler2)
+	 	  XSIZE=sliderSize,MAXIMUM=25,MINIMUM=0.1,VALUE=state.Doppler2, EDIT=1)
 
 	 base = widget_base(formalBase, /COLUMN)
 	 dtauredlb = cw_fslider(base,TITLE='Dtau1',UVALUE='DTAU1',$
-	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=10.0,VALUE=state.dtau_desired, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=10.0,VALUE=state.dtau_desired, FORMAT='(F8.2)', EDIT=1)
 
 	 dtauredlb = cw_fslider(base,TITLE='Dtau2',UVALUE='DTAU2',$
-	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=10.0,VALUE=state.dtau_desired2, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=10.0,VALUE=state.dtau_desired2, FORMAT='(F8.2)', EDIT=1)
 
 	 base = widget_base(formalBase, /COLUMN)
 	 dtauredlb = cw_fslider(base,TITLE='v1 [km/s]',UVALUE='VEL1',$
-	 	  XSIZE=sliderSize2,MINIMUM=-20.d0,MAXIMUM=20.0,VALUE=state.vel, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=-20.d0,MAXIMUM=20.0,VALUE=state.vel, FORMAT='(F8.2)', EDIT=1)
 
 	 dtauredlb = cw_fslider(base,TITLE='v2 [km/s]',UVALUE='VEL2',$
-	 	  XSIZE=sliderSize2,MINIMUM=-20.d0,MAXIMUM=20.0,VALUE=state.vel2, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=-20.d0,MAXIMUM=20.0,VALUE=state.vel2, FORMAT='(F8.2)', EDIT=1)
 
 	 base = widget_base(formalBase, /COLUMN)
 	 dtauredlb = cw_fslider(base,TITLE='a',UVALUE='DAMPING',$
-	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=2.0,VALUE=state.damping, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=2.0,VALUE=state.damping, FORMAT='(F8.2)', EDIT=1)
 
 	 dtauredlb = cw_fslider(base,TITLE='ff',UVALUE='FF',$
-	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=1.0,VALUE=state.ff, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=0.d0,MAXIMUM=1.0,VALUE=state.ff, FORMAT='(F8.2)', EDIT=1)
 
 	 base = widget_base(formalBase, /COLUMN)
 	 dtauredlb = cw_fslider(base,TITLE='beta1',UVALUE='SE1',$
-	 	  XSIZE=sliderSize2,MINIMUM=1.d0,MAXIMUM=10.0,VALUE=state.beta, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=1.d0,MAXIMUM=10.0,VALUE=state.beta, FORMAT='(F8.2)', EDIT=1)
 
 	 dtauredlb = cw_fslider(base,TITLE='beta2',UVALUE='SE2',$
-	 	  XSIZE=sliderSize2,MINIMUM=1.d0,MAXIMUM=10.0,VALUE=state.beta2, FORMAT='(F8.2)')
+	 	  XSIZE=sliderSize2,MINIMUM=1.d0,MAXIMUM=10.0,VALUE=state.beta2, FORMAT='(F8.2)', EDIT=1)
 
 	 ; dtauredlb = widget_label(formalBase, VALUE='Dtau1:')
 	 ; dtaured_wid = widget_text(formalBase, VALUE=strtrim(string(state.dtau_desired,FORMAT='(F6.3)'),2),UVALUE='DTAU1',/EDITABLE,XSIZE=8,YSIZE=1)
