@@ -59,7 +59,7 @@ class AppForm(QMainWindow):
             'lambdaAxisInput' : self.lambdaAxisInput, 'nLambdaInput' : self.nLambdaInput,
             'dopplerWidthInput' : self.dopplerWidthInput, 'dopplerWidth2Input' : self.dopplerWidth2Input, 'dampingInput' : self.dampingInput,
             'dopplerVelocityInput' : self.dopplerVelocityInput, 'dopplerVelocity2Input' : self.dopplerVelocity2Input, 'ffInput' : self.ffInput,
-            'betaInput' : self.betaInput, 'nbarInput' : self.nbarInput, 'omegaInput' : self.omegaInput, 'obsFile' : self.obsFile}
+            'betaInput' : self.betaInput, 'beta2Input' : self.beta2Input, 'nbarInput' : self.nbarInput, 'omegaInput' : self.omegaInput, 'obsFile' : self.obsFile}
         pickle.dump( d, open( "state.pickle", "wb" ) )
 
     def loadConfig(self):
@@ -86,6 +86,7 @@ class AppForm(QMainWindow):
                 self.dopplerVelocity2Input = d['dopplerVelocity2Input']
                 self.ffInput = d['ffInput']
                 self.betaInput = d['betaInput']
+                self.beta2Input = d['beta2Input']
                 self.nbarInput = d['nbarInput']
                 self.omegaInput = d['omegaInput']
                 self.obsFile = d['obsFile']
@@ -111,6 +112,7 @@ class AppForm(QMainWindow):
                 self.dopplerVelocity2Input = 0.e0
                 self.ffInput = 0.e0
                 self.betaInput = 1.0
+                self.beta2Input = 1.0
                 self.nbarInput = np.asarray([0.0,0.0,0.0,0.0])
                 self.omegaInput = np.asarray([0.0,0.0,0.0,0.0])
                 self.obsFile = ''
@@ -135,6 +137,7 @@ class AppForm(QMainWindow):
             self.dopplerVelocity2Input = 0.e0
             self.ffInput = 0.e0
             self.betaInput = 1.0
+            self.beta2Input = 1.0
             self.nbarInput = np.asarray([0.0,0.0,0.0,0.0])
             self.omegaInput = np.asarray([0.0,0.0,0.0,0.0])
             self.obsFile = ''
@@ -187,10 +190,11 @@ class AppForm(QMainWindow):
 
     def redrawProfiles(self):
         self.status_text = "Computing"
+        lambdaAxisInputA = np.linspace(self.lambdaAxisInput[0],self.lambdaAxisInput[1],self.nLambdaInput)
         [l, stokes, etaOutput, epsOutput] = pyhazel.synth(self.synModeInput, self.nSlabsInput, self.B1Input, self.B2Input, self.hInput, 
                         self.tau1Input, self.tau2Input, self.boundaryInput, self.transInput, self.atomicPolInput, self.anglesInput, 
-                        self.lambdaAxisInput, self.nLambdaInput, self.dopplerWidthInput, self.dopplerWidth2Input, self.dampingInput, 
-                        self.dopplerVelocityInput, self.dopplerVelocity2Input, self.ffInput, self.betaInput, self.nbarInput, self.omegaInput)
+                        self.nLambdaInput, lambdaAxisInputA, self.dopplerWidthInput, self.dopplerWidth2Input, self.dampingInput, 
+                        self.dopplerVelocityInput, self.dopplerVelocity2Input, self.ffInput, self.betaInput, self.beta2Input, self.nbarInput, self.omegaInput)
 
         
         for i in range(4):         
@@ -498,18 +502,32 @@ class AppForm(QMainWindow):
             self.ffInput = self.slideff.value()
             self.redrawProfiles()
 
-# S2/S1
+# S2/S1 slab 1
     def onSliderS2S1(self):        
         self.sliderValueS2S1.setText(str(self.sliderS2S1.value()))
         self.betaInput = self.sliderS2S1.value()
         self.redrawProfiles()
 
     def onSliderValueS2S1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter S2/S1:')
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter S2/S1 slab 1:')
         if (ok):
             self.sliderS2S1.setValue(float(text))
             self.sliderValueS2S1.setText(str(text))
             self.betaInput = self.sliderS2S1.value()
+            self.redrawProfiles()
+
+# S2/S1 slab 2
+    def onSliderS2S1B(self):        
+        self.sliderValueS2S1B.setText(str(self.sliderS2S1B.value()))
+        self.beta2Input = self.sliderS2S1B.value()
+        self.redrawProfiles()
+
+    def onSliderValueS2S1B(self):
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter S2/S1 slab 2:')
+        if (ok):
+            self.sliderS2S1B.setValue(float(text))
+            self.sliderValueS2S1B.setText(str(text))
+            self.beta2Input = self.sliderS2S1B.value()
             self.redrawProfiles()
 
 # multiplet
@@ -1114,7 +1132,7 @@ class AppForm(QMainWindow):
         self.connect(self.sliderff, SIGNAL('sliderReleased()'), self.onSliderff)
         self.connect(self.sliderValueff, SIGNAL('clicked()'), self.onSliderValueff)
 
-        sliderLabel = QLabel('S2/S1')
+        sliderLabel = QLabel('S2/S1 s1')
         self.sliderS2S1 = FloatSlider(Qt.Horizontal)
         self.sliderS2S1.setMinimum(0.0)
         self.sliderS2S1.setMaximum(2.0)
@@ -1132,6 +1150,24 @@ class AppForm(QMainWindow):
         self.connect(self.sliderS2S1, SIGNAL('sliderReleased()'), self.onSliderS2S1)
         self.connect(self.sliderValueS2S1, SIGNAL('clicked()'), self.onSliderValueS2S1)
 
+        sliderLabel = QLabel('S2/S1 s2')
+        self.sliderS2S1B = FloatSlider(Qt.Horizontal)
+        self.sliderS2S1B.setMinimum(0.0)
+        self.sliderS2S1B.setMaximum(2.0)
+        self.sliderS2S1B.setValue(self.betaInput)
+        self.sliderS2S1B.setTracking(True)
+        self.sliderS2S1B.setTickPosition(QSlider.TicksBothSides)
+        self.sliderS2S1B.setMinimumWidth(self.minSizeSlider)
+        self.sliderS2S1B.setMaximumWidth(self.maxSizeSlider)
+        self.sliderValueS2S1B = ExtendedQLabel('{0:6.1f}'.format(self.beta2Input))
+        for l, w in enumerate([sliderLabel, self.sliderS2S1B, self.sliderValueS2S1B]):
+            boxO1.addWidget(w, 7, l)
+            boxO1.setAlignment(w, Qt.AlignVCenter)
+        self.sliderValueS2S1B.setMinimumWidth(self.minLabelSize)
+        self.sliderValueS2S1B.setMaximumWidth(self.maxLabelSize)
+        self.connect(self.sliderS2S1B, SIGNAL('sliderReleased()'), self.onSliderS2S1B)
+        self.connect(self.sliderValueS2S1B, SIGNAL('clicked()'), self.onSliderValueS2S1B)
+
         sliderLabel = QLabel('multiplet')
         self.slidermultiplet = QSlider(Qt.Horizontal)
         self.slidermultiplet.setRange(1, 4)
@@ -1142,7 +1178,7 @@ class AppForm(QMainWindow):
         self.slidermultiplet.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuemultiplet = ExtendedQLabel(self.multiplets[self.transInput-1]) 
         for l, w in enumerate([sliderLabel, self.slidermultiplet, self.sliderValuemultiplet]):
-            boxO1.addWidget(w, 7, l)
+            boxO1.addWidget(w, 8, l)
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuemultiplet.setMinimumWidth(self.minLabelSize)
         self.sliderValuemultiplet.setMaximumWidth(self.maxLabelSize)

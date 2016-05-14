@@ -14,7 +14,7 @@ boundaryInput  = np.asarray([4.098e-5,0.0,0.0,0.0])
 transInput = 1
 atomicPolInput = 1
 anglesInput = np.asarray([0.0,0.0,90.0])
-lambdaAxisInput = np.asarray([-1.5e0,2.5e0])
+lambdaAxisInput = np.linspace(-1.5e0,2.5e0,150)
 nLambdaInput = 150
 dopplerWidthInput = 6.e0
 dopplerWidth2Input = 0.e0
@@ -22,14 +22,12 @@ dampingInput = 0.e0
 dopplerVelocityInput = 0.e0
 dopplerVelocity2Input = 0.e0
 ffInput = 0.e0
+betaInput = 1.0
+beta2Input = 1.0
 nbarInput = np.asarray([0.1,0.1,0.1,0.1])
 omegaInput = np.asarray([0.21,0.1,0.1,0.1])
 
 pyhazel.init()
-
-# Compute the Stokes parameters using many default parameters, using ad-hoc anisotropy and number of photons per mode
-#[l, stokes, etaOutput, epsOutput] = hazel.hazel(B1Input, hInput, tau1Input, boundaryInput, anglesInput, lambdaAxisInput, nLambdaInput, 
-						#dopplerWidthInput, dampingInput, dopplerVelocityInput, nbarinput=nbar, omegainput=omega)
 
 # Compute the Stokes parameters using many default parameters, using Allen's data
 B = np.linspace(0.0,1200.0,100)
@@ -38,8 +36,8 @@ for i in range(100):
 	B1Input = np.asarray([B[i],0.0,0.0])
 	[l, stokes, etaOutput, epsOutput] = pyhazel.synth(synModeInput, nSlabsInput, B1Input, B2Input, hInput, 
 	                        tau1Input, tau2Input, boundaryInput, transInput, atomicPolInput, anglesInput, 
-	                        lambdaAxisInput, nLambdaInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, 
-	                        dopplerVelocityInput, dopplerVelocity2Input, ffInput, nbarInput, omegaInput)
+	                        nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, 
+	                        dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput)
 
 	deltaL = l[1]-l[0]
 	stokesI = stokes[0,80:]
@@ -52,6 +50,7 @@ for i in range(100):
 
 pl.plot(inferred[1,:], inferred[0,:])
 pl.plot(np.arange(1200),np.arange(1200), '--')
+pl.show()
 
 # Now plot the Stokes parameters
 labels = ['I/Imax','Q/Imax','U/Imax','V/Imax']
