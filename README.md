@@ -13,3 +13,7 @@ be an easy task. In any case, two front-ends coded in IDL are given as a part of
 distribution in order to facilitate a user-friendly execution of the program.
 A parallel version of the code using Message Passing Interface (MPI) is
 also available as well as a Python wrapper.
+
+Documentation
+-------------
+Follow the manual in http://aasensio.github.io/hazel to run the code.

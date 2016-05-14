@@ -1,0 +1,63 @@
+***********************************************
+* Ranges for the DIRECT method
+***********************************************
+
+# Maximum number of function evaluations (<0 -> don't use this criteria)
+-1
+
+# Reduction in the volume (<0 -> don't use this criteria, typically 0.01)
+0.001
+
+# Magnetic field (0-Bmax)
+800  1100
+
+# thetab  (0 .. 180)
+0  180
+
+# chib (0 .. 180)
+0  180
+
+# vdopp (0 .. 20)
+2  12
+
+# dtau (0 .. 5)
+0.1  2
+
+# delta_collision (0 .. 18)
+0.d0  18.d0
+
+# vmacro (-10 .. 10)
+-5  5
+
+# damping (0 .. 4)
+0  0.5
+
+# beta (0 .. 10)
+0.5  2
+
+# height (0 .. 100)
+0.d0  100.d0
+
+# dtau2 (0 .. 5)
+0.1  2
+
+# vmacro2 (-10 .. 10)
+-5  5
+
+# Magnetic field 2 (0-Bmax)
+800  1100
+
+# thetab 2 (0 .. 180)
+0  180
+
+# chib 2 (0 .. 180)
+0  180
+
+# vdopp 2 (0 .. 20)
+2  12
+
+# ff
+0.0  1.0
+
+# beta2 (0 .. 10)
+0.5  2

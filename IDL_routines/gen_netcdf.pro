@@ -61,6 +61,7 @@ pro gen_netcdf, lambda, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boun
 	if (normalization eq 'peak') then begin
 		ncdf_varput, file_id, normalization_id, 1.d0
 	endif
+
 	ncdf_varput, file_id, lambda_id, lambda
 	ncdf_varput, file_id, stI_id, map
 	ncdf_varput, file_id, boundary_id, boundary
