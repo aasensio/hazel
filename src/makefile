@@ -82,7 +82,7 @@ endif
 
 ifeq ($(version), python)
 	COMPILER = gfortran
-    COMPILER_OPTS = -c -ffree-line-length-none -fPIC -O3
+    COMPILER_OPTS = -c -ffree-line-length-none -fPIC -O3 -fno-automatic -ffast-math -funroll-loops
     HAZEL_DEP = hazel_py.f90 allen.o synth.o rt_coef.o SEE.o maths.o vars.o io_py.o
     HAZEL_MAIN_OBJ = hazel_py.o
     HAZEL_MAIN_SRC = hazel_py.f90
