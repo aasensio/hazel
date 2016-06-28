@@ -612,6 +612,11 @@ class AppForm(QMainWindow):
     def create_main_frame(self):
         self.main_frame = QWidget()
 
+        self.fontSize = 9
+        self.font = QFont("SansSerif", self.fontSize)
+
+        QApplication.setFont(self.font)
+        
 # Hazel configuration
         self.loadConfig()
         pyhazel.init()
@@ -622,8 +627,8 @@ class AppForm(QMainWindow):
         # 5x4 inches, 100 dots-per-inch
         #
 
-        self.minSizeSlider = 150
-        self.maxSizeSlider = 250
+        self.minSizeSlider = 100
+        self.maxSizeSlider = 200
 
         self.minLabelSize = 50
         self.maxLabelSize = 150
@@ -1284,6 +1289,18 @@ class AppForm(QMainWindow):
 
     def setMultitermNa(self):
         pass
+
+    def on_increasefont(self):
+        self.fontSize += 1
+        self.font = QFont("SansSerif", self.fontSize)
+
+        QApplication.setFont(self.font)
+
+    def on_decreasefont(self):
+        self.fontSize -= 1
+        self.font = QFont("SansSerif", self.fontSize)
+
+        QApplication.setFont(self.font)
         
     def create_menu(self):        
         """Create main menu
@@ -1303,6 +1320,17 @@ class AppForm(QMainWindow):
             shortcut="Ctrl+Q", tip="Close the application")
         
         self.add_actions(self.file_menu, (he_action, na_action, None, quit_action))
+
+        self.font_menu = self.menuBar().addMenu("&Font")
+        increasefont_action = self.create_action("&Larger", 
+            shortcut='Ctrl++', slot=self.on_increasefont, 
+            tip='Increase font size')
+
+        decreasefont_action = self.create_action("&Smaller", 
+            shortcut='Ctrl+-', slot=self.on_decreasefont, 
+            tip='Decrease font size')
+
+        self.add_actions(self.font_menu, (increasefont_action, decreasefont_action))
         
         self.help_menu = self.menuBar().addMenu("&Help")
         about_action = self.create_action("&About", 

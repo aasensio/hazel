@@ -1,6 +1,19 @@
 Graphical front-ends
 ====================
 
+Python
+------
+The Python GUI requires ``PyQT4`` to be installed in your system. We recommend
+the wonderful Anaconda Python distribution.
+Once you have all packages installed, go to ``runPy`` and type
+
+::
+    
+    python setup.py build_ext --inplace
+
+IDL
+---
+
 Although the code can be run in command line by modifying by hand the
 input files,  contains also two user friendly front-ends (GUI) for the
 simple execution and analysis of the results. Note that the directory
@@ -20,8 +33,7 @@ simple execution and analysis of the results. Note that the directory
    Screen dump of the graphical front-end used for the inversion.
    
 
-Synthesis
----------
+### Synthesis
 
 It is placed in the directory ``Widget_Synth`` and it is invoked with
 the following commands:
@@ -49,8 +61,7 @@ restarted with the following command:
     IDL> .r hazel
     IDL> hazel, /reset
 
-Inversion
----------
+### Inversion
 
 It is placed in the directory ``Widget_Inv`` and it is invoked with the
 following commands:
