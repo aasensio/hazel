@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Hazel 1.0 documentation</title>
+  <title>Python wrapper &mdash; Hazel 1.0 documentation</title>
   
 
   
@@ -31,7 +30,9 @@
   
 
   
-    <link rel="top" title="Hazel 1.0 documentation" href="index.html"/> 
+    <link rel="top" title="Hazel 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Graphical front-ends" href="graphical.html"/>
+        <link rel="prev" title="Input/output files" href="inputOutput.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -80,12 +81,12 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Python wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
@@ -120,9 +121,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li></li>
+    <li>Python wrapper</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+            <a href="_sources/python.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -132,17 +135,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  <div class="section" id="python-wrapper">
+<h1>Python wrapper<a class="headerlink" href="#python-wrapper" title="Permalink to this headline">¶</a></h1>
+<p>We have developed a wrapper so that the code can be called from Python easily
+and synthesize Stokes profiles using a simple interface.
+The wrapper is installed by going to the <code class="docutils literal"><span class="pre">runPy</span></code> directory and
+typing</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>python setup.py build_ext --inplace
+</pre></div>
+</div>
+<p>It will generate a <code class="docutils literal"><span class="pre">pyhazel.so</span></code> file appropriate for your architecture, that
+can be imported from Python. The <code class="docutils literal"><span class="pre">test.py</span></code> file shows how to call the
+wrapper to synthesize the Stokes profiles. In the following we describe the
+inputs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Args: (see the manual for the meaning of all of them)
+    synModeInput: (int) synthesis mode
+    nSlabsInput: (int) number of slabs
+    B1Input: (float) vector of size 3 with the magnetic field vector in spherical coordinates for the first component
+    B2Input: (float) vector of size 3 with the magnetic field vector in spherical coordinates for the second component
+    hInput: (float) height
+    tau1Input: (float) optical depth of the first component
+    tau2Input: (float) optical depth of the second component
+    boundaryInput: (float) vector of size 4 with the boundary condition for (I,Q,U,V)
+    transInput: (int) transition to compute from the model atom
+    atomicPolInput: (int) include or not atomic polarization
+    anglesInput: (float) vector of size 3 describing the LOS
+    lambdaAxisInput: (float) vector of size 2 defining the left and right limits of the wavelength axis
+    nLambdaInput: (int) number of wavelength points
+    dopplerWidth1Input: (float) Doppler width of the first component
+    dopplerWidth2Input: (float) Doppler width of the second component
+    dampingInput: (float) damping
+    dopplerVelocityInput: (float) bulk velocity affecting the first component
+    dopplerVelocity2Input: (float) bulk velocity affecting the second component
+    ffInput: (float) filling factor
+    betaInput: (float) enhancement factor for the source function of component 1 to allow for emission lines in the disk
+    beta2Input: (float) enhancement factor for the source function of component 2 to allow for emission lines in the disk
+    nbarInput: (float) vector of size 4 to define nbar for every transition of the model atom (set them to zero to use Allen&#39;s)
+    omegaInput: (float) vector of size 4 to define omega for every transition of the model atom (set them to zero to use Allen&#39;s)
+    normalization: (int) normalization of the output Stokes parameters (0-&gt; I_max, 1-&gt; I_peak)
 
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
+Returns:
+    wavelengthOutput: (float) vector of size nLambdaInput with the wavelength axis
+    stokesOutput: (float) array of size (4,nLambdaInput) with the emergent Stokes profiles
+    epsOutput: (float) array of size (4,nLambdaInput) with the emissivity vector at each wavelength
+    etaOutput: (float) array of size (4,4,nLambdaInput) with the propagation matrix at each wavelength
+&quot;&quot;&quot;
+</pre></div>
+</div>
 </div>
 
 
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="graphical.html" class="btn btn-neutral float-right" title="Graphical front-ends" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="inputOutput.html" class="btn btn-neutral" title="Input/output files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

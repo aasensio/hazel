@@ -23,6 +23,8 @@ The Hazel distribution is organized as follows:
 
 #. ``pyRoutines`` contains some Python routines that can be useful
 
+#. ``pyGUI`` contains a Python front-end for the synthesis problem
+
 #. ``docs`` contains this manual.
 
 Hazel has a source directory that can generate both the serial and parallel
@@ -73,14 +75,3 @@ version of the code. Finally, the generated object and module files can be clean
 ::
 
            make clean
-
-
-The code admits up to three command line parameters:
-
--  Filename with the main configuration file.
-
--  Starting pixel of the inversion. This is used if you want to rerun
-   the inversion of some pixels.
-
--  Final pixel of the inversion. This is used if you want to rerun the
-   inversion of some pixels.

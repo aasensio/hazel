@@ -11,6 +11,15 @@ Once you have all packages installed, go to ``runPy`` and type
     
     python setup.py build_ext --inplace
 
+The code should compile and a dynamic library should be generated, that is
+copied to the directory ``pyGUI``.
+Go to ``pyGUI`` and type
+
+::
+    
+    python hazel.py
+
+
 IDL
 ---
 

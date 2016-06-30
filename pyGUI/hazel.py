@@ -45,6 +45,8 @@ class AppForm(QMainWindow):
         QMainWindow.__init__(self, parent)
         self.setWindowTitle('hazel')
 
+        self.resize(1200,200)
+
         self.create_menu()
         self.create_main_frame()
         self.create_status_bar()
@@ -59,7 +61,8 @@ class AppForm(QMainWindow):
             'lambdaAxisInput' : self.lambdaAxisInput, 'nLambdaInput' : self.nLambdaInput,
             'dopplerWidthInput' : self.dopplerWidthInput, 'dopplerWidth2Input' : self.dopplerWidth2Input, 'dampingInput' : self.dampingInput,
             'dopplerVelocityInput' : self.dopplerVelocityInput, 'dopplerVelocity2Input' : self.dopplerVelocity2Input, 'ffInput' : self.ffInput,
-            'betaInput' : self.betaInput, 'beta2Input' : self.beta2Input, 'nbarInput' : self.nbarInput, 'omegaInput' : self.omegaInput, 'obsFile' : self.obsFile}
+            'betaInput' : self.betaInput, 'beta2Input' : self.beta2Input, 'nbarInput' : self.nbarInput, 'omegaInput' : self.omegaInput, 'obsFile' : self.obsFile,
+            'normalization': 0}
         pickle.dump( d, open( "state.pickle", "wb" ) )
 
     def loadConfig(self):
@@ -90,6 +93,7 @@ class AppForm(QMainWindow):
                 self.nbarInput = d['nbarInput']
                 self.omegaInput = d['omegaInput']
                 self.obsFile = d['obsFile']
+                self.normalization = d['normalization']
             except:
                 print('state.pickle from other python version')
                 self.synModeInput = 5
@@ -116,6 +120,7 @@ class AppForm(QMainWindow):
                 self.nbarInput = np.asarray([0.0,0.0,0.0,0.0])
                 self.omegaInput = np.asarray([0.0,0.0,0.0,0.0])
                 self.obsFile = ''
+                self.normalization = 0
         else:
             self.synModeInput = 5
             self.nSlabsInput = 1
@@ -141,6 +146,7 @@ class AppForm(QMainWindow):
             self.nbarInput = np.asarray([0.0,0.0,0.0,0.0])
             self.omegaInput = np.asarray([0.0,0.0,0.0,0.0])
             self.obsFile = ''
+            self.normalization = 0
         
     
 #######################################################################
@@ -194,14 +200,14 @@ class AppForm(QMainWindow):
         [l, stokes, etaOutput, epsOutput] = pyhazel.synth(self.synModeInput, self.nSlabsInput, self.B1Input, self.B2Input, self.hInput, 
                         self.tau1Input, self.tau2Input, self.boundaryInput, self.transInput, self.atomicPolInput, self.anglesInput, 
                         self.nLambdaInput, lambdaAxisInputA, self.dopplerWidthInput, self.dopplerWidth2Input, self.dampingInput, 
-                        self.dopplerVelocityInput, self.dopplerVelocity2Input, self.ffInput, self.betaInput, self.beta2Input, self.nbarInput, self.omegaInput)
-
+                        self.dopplerVelocityInput, self.dopplerVelocity2Input, self.ffInput, self.betaInput, self.beta2Input, self.nbarInput, self.omegaInput,
+                        self.normalization)
         
         for i in range(4):         
             self.axes[i].clear()
             self.axes[i].plot(l - 10829.0911,stokes[i,:])
             if (self.obsFile != ''):
-                self.axes[i].plot(self.obsStokes[:,0], self.obsStokes[:,i+1], 'r.')
+                self.axes[i].plot(l - 10829.0911, self.obsStokes[:,i+1], 'r.')
             for item in ([self.axes[i].title, self.axes[i].xaxis.label, self.axes[i].yaxis.label] +
                 self.axes[i].get_xticklabels() + self.axes[i].get_yticklabels()):
                 item.set_fontsize(10)
@@ -549,6 +555,17 @@ class AppForm(QMainWindow):
         self.synModeInput = 5    
         self.atomicPolInput = 0
         self.redrawProfiles()
+
+# maxnormalization
+    def onRadioMaxNorm(self):
+        self.normalization = 0
+        self.redrawProfiles()
+
+# maxnormalization
+    def onRadioPeakNorm(self):
+        self.normalization = 1
+        self.redrawProfiles()
+
 
     def onCheckAllen(self, state):
         if (state == 2):
@@ -931,17 +948,32 @@ class AppForm(QMainWindow):
         self.radioExact = QRadioButton("Exact")
         self.radioExact.setChecked(True)
         self.radioAtompol = QRadioButton("Exact Without Atompol")
-        # self.radioAtompol.setChecked(True)
+
+        normalizationGroup = QGroupBox("Normalization")
+        self.radioMaxNorm = QRadioButton("Normalize maximum")
+        self.radioPeakNorm = QRadioButton("Normalize peak")
+        self.radioMaxNorm.setChecked(True)
+
         self.connect(self.radioThin, SIGNAL('clicked()'), self.onRadioThin)
         self.connect(self.radioExact, SIGNAL('clicked()'), self.onRadioExact)
         self.connect(self.radioAtompol, SIGNAL('clicked()'), self.onRadioAtompol)
+
+        self.connect(self.radioMaxNorm, SIGNAL('clicked()'), self.onRadioMaxNorm)
+        self.connect(self.radioPeakNorm, SIGNAL('clicked()'), self.onRadioPeakNorm)
+
         
         vboxRadTran = QHBoxLayout()
         vboxRadTran.addWidget(self.radioThin)
         vboxRadTran.addWidget(self.radioExact)
-        vboxRadTran.addWidget(self.radioAtompol)
+        vboxRadTran.addWidget(self.radioAtompol)        
         vboxRadTran.addStretch(1)
-        radTranGroup.setLayout(vboxRadTran)
+        radTranGroup.setLayout(vboxRadTran)        
+
+        vboxRadTran = QHBoxLayout()
+        vboxRadTran.addWidget(self.radioMaxNorm)
+        vboxRadTran.addWidget(self.radioPeakNorm)
+        vboxRadTran.addStretch(1)
+        normalizationGroup.setLayout(vboxRadTran)
 
         boundary = QGridLayout()
         self.checkAllen = QCheckBox("Use Allen")
@@ -1015,6 +1047,7 @@ class AppForm(QMainWindow):
 
         vboxR = QVBoxLayout()        
         vboxR.addWidget(radTranGroup)
+        vboxR.addWidget(normalizationGroup)
         vboxR.addLayout(boundary)
         vboxR.addLayout(wave)
 
@@ -1364,6 +1397,7 @@ class AppForm(QMainWindow):
         return action
 
     def closeEvent(self, event):
+        print("Saving state...")
         self.saveConfig()
 
 

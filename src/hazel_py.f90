@@ -12,11 +12,11 @@ implicit none
 contains
 subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, &
 	transInput, atomicPolInput, anglesInput, nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
-	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, &
+	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalizationInput, &
 	wavelengthOutput, stokesOutput, epsOutput, etaOutput) bind(c)
 
 	integer(c_int), intent(in) :: synModeInput, nSlabsInput, transInput, atomicPolInput
-	integer(c_int), intent(in) :: nLambdaInput
+	integer(c_int), intent(in) :: nLambdaInput, normalizationInput
 	real(c_double), intent(in), dimension(nLambdaInput) :: lambdaAxisInput
 	real(c_double), intent(in), dimension(3) :: B1Input, anglesInput
 	real(c_double), intent(in), dimension(3) :: B2Input
@@ -51,6 +51,12 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	linear_solver = 0		
 	synthesis_mode = synModeInput
 	working_mode = 0
+
+	if (normalizationInput == 0) then
+		observation%normalization = 'maximum'
+	else
+		observation%normalization = 'peak'
+	endif
 
 ! Read the atomic model	
 ! 	call read_model_file(input_model_file)
@@ -128,6 +134,16 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 ! Set the values of nbar and omega in case they are given
 	nbarExternal = nbarInput
 	omegaExternal = omegaInput
+
+! If nbar=0 or omega=0, use the numbers from Allen. If not, treat them as reduction factors
+	do i = 1, atom%ntran
+		if (nbarExternal(i) == 0) then
+			nbarExternal(i) = 1.0
+		endif
+		if (omegaExternal(i) /= 0) then
+			omegaExternal(i) = 1.0
+		endif
+	enddo
 			
 	if (params%nslabs == 1) then
 		params%vmacro = dopplerVelocityInput

@@ -32,7 +32,7 @@
   
     <link rel="top" title="Hazel 1.0 documentation" href="index.html"/>
         <link rel="next" title="Basic Equations" href="equations.html"/>
-        <link rel="prev" title="Input/output files" href="inputOutput.html"/> 
+        <link rel="prev" title="Python wrapper" href="python.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -86,9 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Graphical front-ends</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#synthesis">Synthesis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#inversion">Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#idl">IDL</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
@@ -140,6 +141,23 @@
             
   <div class="section" id="graphical-front-ends">
 <h1>Graphical front-ends<a class="headerlink" href="#graphical-front-ends" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="python">
+<h2>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<p>The Python GUI requires <code class="docutils literal"><span class="pre">PyQT4</span></code> to be installed in your system. We recommend
+the wonderful Anaconda Python distribution.
+Once you have all packages installed, go to <code class="docutils literal"><span class="pre">runPy</span></code> and type</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>python setup.py build_ext --inplace
+</pre></div>
+</div>
+<p>The code should compile and a dynamic library should be generated, that is
+copied to the directory <code class="docutils literal"><span class="pre">pyGUI</span></code>.
+Go to <code class="docutils literal"><span class="pre">pyGUI</span></code> and type</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>python hazel.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="idl">
+<h2>IDL<a class="headerlink" href="#idl" title="Permalink to this headline">¶</a></h2>
 <p>Although the code can be run in command line by modifying by hand the
 input files, &nbsp;contains also two user friendly front-ends (GUI) for the
 simple execution and analysis of the results. Note that the directory
@@ -156,8 +174,7 @@ simple execution and analysis of the results. Note that the directory
 <img alt="_images/inv4.png" src="_images/inv4.png" />
 <p class="caption"><span class="caption-text">Screen dump of the graphical front-end used for the inversion.</span></p>
 </div>
-<div class="section" id="synthesis">
-<h2>Synthesis<a class="headerlink" href="#synthesis" title="Permalink to this headline">¶</a></h2>
+<p>### Synthesis</p>
 <p>It is placed in the directory <code class="docutils literal"><span class="pre">Widget_Synth</span></code> and it is invoked with
 the following commands:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>IDL&gt; .r hazel
@@ -180,9 +197,7 @@ restarted with the following command:</p>
 IDL&gt; hazel, /reset
 </pre></div>
 </div>
-</div>
-<div class="section" id="inversion">
-<h2>Inversion<a class="headerlink" href="#inversion" title="Permalink to this headline">¶</a></h2>
+<p>### Inversion</p>
 <p>It is placed in the directory <code class="docutils literal"><span class="pre">Widget_Inv</span></code> and it is invoked with the
 following commands:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>IDL&gt; .r hazel_inv
@@ -222,7 +237,7 @@ level of physical realism introduced in the simulation.</p>
         <a href="equations.html" class="btn btn-neutral float-right" title="Basic Equations" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="inputOutput.html" class="btn btn-neutral" title="Input/output files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="python.html" class="btn btn-neutral" title="Python wrapper" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

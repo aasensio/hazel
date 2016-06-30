@@ -26,6 +26,7 @@ Indices and tables
 * :doc:`manual`
 * :doc:`equations`
 * :doc:`ambiguities`
+* :doc:`python`
 * :ref:`modindex`
 * :ref:`search`
 * :doc:`disclaimer`
@@ -38,6 +39,7 @@ Indices and tables
    inputFiles
    atomicModels
    inputOutput
+   python
    graphical
    equations
    ambiguities
