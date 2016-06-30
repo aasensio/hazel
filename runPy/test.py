@@ -25,6 +25,8 @@ betaInput = 1.0
 beta2Input = 1.0
 nbarInput = np.asarray([0.0,0.0,0.0,0.0])
 omegaInput = np.asarray([0.0,0.0,0.0,0.0])
+nbarInput = np.asarray([1.0,1.0,1.0,0.0])
+omegaInput = np.asarray([1.0,1.0,1.0,1.0])
 normalization = 0
 
 pyhazel.init()

@@ -140,7 +140,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 		if (nbarExternal(i) == 0) then
 			nbarExternal(i) = 1.0
 		endif
-		if (omegaExternal(i) /= 0) then
+		if (omegaExternal(i) == 0) then
 			omegaExternal(i) = 1.0
 		endif
 	enddo

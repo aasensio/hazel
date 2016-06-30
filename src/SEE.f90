@@ -39,7 +39,7 @@ contains
 		SEE_b = 0.d0
 
 		do nt = 1, atom%ntran
-		            
+		    
 ! Use Allen's tables to calculate the anisotropy and the value of nbar
 			nbar = nbar_allen(atom%wavelength(nt), in_fixed, in_params, atom%reduction_factor(nt) * nbarExternal(nt))
 			w = omega_allen(atom%wavelength(nt), in_fixed, in_params, atom%reduction_factor_omega(nt) * omegaExternal(nt))
