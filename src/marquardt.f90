@@ -31,7 +31,7 @@ contains
 			weight = in_inversion%stokes_weights(i,in_inversion%loop_cycle)
 			compute_chisq = compute_chisq + weight * &
 				sum((in_observation%stokes(i,:)-in_inversion%stokes_unperturbed(i,:))**2/in_observation%sigma(i,:)**2) / &
-				(4.d0*in_observation%n)
+				(4.d0*in_observation%n)				
 		enddo
 
 	end function compute_chisq
@@ -895,7 +895,7 @@ contains
 		endif
 				
 			
-		j = 1
+		j = 1		
 		do i = 1, params%n_total
 			if (params%inverted(i) == 1) then
 				select case(i)

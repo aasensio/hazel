@@ -417,8 +417,8 @@ contains
 											      		do jsmallu = 1, njlevu(mu2)
 												      		onum0 = autu(mu2,jsmallu) - autl(ml2,jsmalll)
 ! Evaluate the profile
-																prof = profile(adamp,(onum0-onum-va)/dnum)
-																
+																prof = profile(adamp,(onum0-onum-va)/dnum)																
+
 												      		x7=cl(ml2,jsmalll,jl2)*cl(ml2,jsmalll,jlp2)*&
 																	cu(mu2,jsmallu,ju2)*cu(mu2,jsmallu,jus2)
 												      		do k = 0, 2
@@ -532,7 +532,7 @@ contains
 												      			onum0 = autu(mu2,jsmallu) - autl(ml2,jsmalll)
 	! Evaluate the profile
 																	prof = profile(adamp,(onum0-onum-va)/dnum)
-																	
+
 												      			x7=cl(ml2,jsmalll,jl2)*cl(ml2,jsmalll,jls2)*&
 																		cu(mu2,jsmallu,ju2)*cu(mu2,jsmallu,jup2)
 												      			do k = 0, 2

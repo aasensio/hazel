@@ -151,6 +151,8 @@ contains
 		call MPI_Bcast(atom%reduction_factor,atom%ntran,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 		call MPI_Bcast(atom%reduction_factor_omega,atom%ntran,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 		call MPI_Bcast(atom%j10,atom%ntran,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+		call MPI_Bcast(nbarExternal,4,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr))
+		call MPI_Bcast(omegaExternal,4,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr))
 		
 		call MPI_Barrier(MPI_COMM_WORLD, ierr)
  		

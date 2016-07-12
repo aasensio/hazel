@@ -35,6 +35,9 @@ implicit none
 	myrank = 0
 	nprocs = 0
 #endif
+
+	nbarExternal = 1.d0
+	omegaExternal = 1.d0
 	
 			
 	allocate(slave_active(nprocs-1))
