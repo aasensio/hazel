@@ -233,40 +233,42 @@ contains
 !------------------------------------------------------------
 	subroutine read_model_file(file)
 	character(len=120) :: file
-	integer :: i, j, nJ, n, i1, i2, ir, jmax2, jmin2, jp2, j2, kmin, kmax, k, q
+	integer :: i, j, nJ, n, i1, i2, ir, jmax2, jmin2, jp2, j2, kmin, kmax, k, q, loop
 	real(kind=8) :: rnujjp
+	character(len=128) :: fileModel(23)
+				
+! Generate a scratch file that will be deleted later		
+		fileModel(1) = '2'
+		fileModel(2) = '5'
+		fileModel(3) = '1        0               '
+		fileModel(4) = '                    0.00 '
+		fileModel(5) = '2        2        '
+      fileModel(6) = '                    0.00'
+      fileModel(7) = '                   -0.987913'
+      fileModel(8) = '                   -1.064340'
+      fileModel(9) = '3        0       '
+      fileModel(10) = '                    0.00'
+      fileModel(11) = '4        2         '
+      fileModel(12) = '                    0.00'
+      fileModel(13) = '                   -0.270647'
+      fileModel(14) = '                   -0.292616'
+      fileModel(15) = ' 5        4'     
+      fileModel(16) = '                    0.00'
+		fileModel(17) = '                   -0.044187'
+		fileModel(18) = '                   -0.046722'
+		fileModel(19) = ' 4'
+		fileModel(20) = '1    1    2    1.022d7    10829.0911    1.0000000    1.0000000    0.0000000'
+		fileModel(21) = '2    1    4    9.478d6    3888.6046    0.2000000    1.0000000    0.0000000'
+		fileModel(22) = '3    2    3    2.780d7    7065.7085    1.0000000    1.0000000    0.0000000'
+		fileModel(23) = '4    2    5    7.060d7    5875.9663    1.0000000    1.0000000    0.0000000'		
 		
-! Generate a scratch file that will be deleted later
-		open(unit=31,file=file,action='write',status='replace')
-		write(31,*) '2'
-		write(31,*) '5'
-		write(31,*) '1        0               '
-		write(31,*) '                    0.00 '
-		write(31,*) '2        2        '
-      write(31,*) '                    0.00'
-      write(31,*) '                   -0.987913'
-      write(31,*) '                   -1.064340'
-      write(31,*) '3        0       '
-      write(31,*) '                    0.00'
-      write(31,*) '4        2         '
-      write(31,*) '                    0.00'
-      write(31,*) '                   -0.270647'
-      write(31,*) '                   -0.292616'
-      write(31,*) ' 5        4'     
-      write(31,*) '                    0.00'
-		write(31,*) '                   -0.044187'
-		write(31,*) '                   -0.046722'
-		write(31,*) ' 4'
-		write(31,*) '1    1    2    1.022d7    10829.0911    1.0000000    1.0000000    0.0000000'
-		write(31,*) '2    1    4    9.478d6    3888.6046    0.2000000    1.0000000    0.0000000'
-		write(31,*) '3    2    3    2.780d7    7065.7085    1.0000000    1.0000000    0.0000000'
-		write(31,*) '4    2    5    7.060d7    5875.9663    1.0000000    1.0000000    0.0000000'
-		close(31)
-		
- 		open(unit=31,file=file,action='read',status='old')
-		
-		read(31,*) is2
-		read(31,*) n_terms		
+		loop = 0
+
+		loop = loop + 1		
+		read(fileModel(loop),*) is2
+
+		loop = loop + 1		
+		read(fileModel(loop),*) n_terms		
 		
 		if (allocated(lsto2)) deallocate(lsto2)
 		allocate(lsto2(n_terms))
@@ -277,11 +279,13 @@ contains
 		
 		jlimit2 = 0
 		do i = 1, n_terms
-			read(31,*) n, lsto2(i)
+			loop = loop + 1		
+			read(fileModel(loop),*) n, lsto2(i)
 			jmin2 = abs(is2-lsto2(i))
 			jmax2 = is2 + lsto2(i)
 			do j2 = jmin2, jmax2, 2
-				read(31,*) 
+				loop = loop + 1		
+				read(fileModel(loop),*) 
 			enddo
 			if (verbose_mode == 1) then
 				print *, 'Level ', i
@@ -294,19 +298,19 @@ contains
 		if (allocated(energy)) deallocate(energy)
 		allocate(energy(n_terms,0:jlimit2))
 		
-		rewind(31)
-		call lb(31,2)
-		file_pointer = 2
+		loop = 2
 		
 		do i = 1, n_terms
-			read(31,*) n, lsto2(i)
-			file_pointer = file_pointer + 1
+			loop = loop + 1		
+			read(fileModel(loop),*) n, lsto2(i)
+			
 			jmin2 = abs(is2-lsto2(i))
 			jmax2 = is2 + lsto2(i)
 			
 			do j2 = jmin2, jmax2, 2
-				read(31,*) energy(i,j2)
-				file_pointer = file_pointer + 1
+				loop = loop + 1		
+				read(fileModel(loop),*) energy(i,j2)				
+				
 			enddo
 			
 			do j2 = jmin2, jmax2, 2
@@ -331,8 +335,7 @@ contains
 			enddo
 		enddo
 		
-		rewind(31)
-		call lb(31,2)
+		loop = 2
 
 		if (allocated(ntab)) deallocate(ntab)
 		if (allocated(j2tab)) deallocate(j2tab)
@@ -353,12 +356,14 @@ contains
 		nrhos = 0
 		
 		do i = 1, n_terms
-			read(31,*) n, lsto2(i)
+			loop = loop + 1
+			read(fileModel(loop),*) n, lsto2(i)
 			jmin2 = abs(is2-lsto2(i))
 			jmax2 = is2 + lsto2(i)
 			
 			do j2 = jmin2, jmax2, 2
-				read(31,*) energy(i,j2)
+				loop = loop + 1
+				read(fileModel(loop),*) energy(i,j2)
 			enddo
 			
 			do j2 = jmin2, jmax2, 2
@@ -393,7 +398,8 @@ contains
 
 		
 		! Now read transitions
-		read(31,*) atom%ntran
+		loop = loop + 1
+		read(fileModel(loop),*) atom%ntran
 
 		allocate(atom%nterml(atom%ntran))
 		allocate(atom%ntermu(atom%ntran))
@@ -404,11 +410,10 @@ contains
 		allocate(atom%j10(atom%ntran))
 		
 		do i = 1, atom%ntran
-			read(31,*) k, atom%nterml(i), atom%ntermu(i), atom%ae(i), atom%wavelength(i), &
+			loop = loop + 1
+			read(fileModel(loop),*) k, atom%nterml(i), atom%ntermu(i), atom%ae(i), atom%wavelength(i), &
 				atom%reduction_factor(i), atom%reduction_factor_omega(i), atom%j10(i)
 		enddo
-
-		close(31)
 		
 		if (verbose_mode == 1) then
 			print *, 'Number of unknowns : ', nrhos

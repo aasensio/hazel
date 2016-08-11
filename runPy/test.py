@@ -1,6 +1,7 @@
 import numpy as np
 import pyhazel
 import matplotlib.pyplot as pl
+import time
 
 synModeInput = 5
 nSlabsInput = 1
@@ -14,7 +15,7 @@ transInput = 1
 atomicPolInput = 1
 anglesInput = np.asarray([0.0,0.0,0.0])
 lambdaAxisInput = np.linspace(-1.5e0,2.5e0,150)
-nLambdaInput = 150
+nLambdaInput = 128
 dopplerWidthInput = 6.5e0
 dopplerWidth2Input = 0.e0
 dampingInput = 0.e0
@@ -50,3 +51,12 @@ for i in range(4):
 pl.tight_layout()
 
 pl.show()
+
+time0 = time.time()
+for i in range(100):
+    [l, stokes, etaOutput, epsOutput] = pyhazel.synth(synModeInput, nSlabsInput, B1Input, B2Input, hInput, 
+                        tau1Input, tau2Input, boundaryInput, transInput, atomicPolInput, anglesInput, 
+                        nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, 
+                        dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalization)
+delta = time.time() - time0
+print("Time spent = {0} - Synthesis per second = {1}".format(delta, 100.0 / delta))

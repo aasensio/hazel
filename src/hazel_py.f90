@@ -121,15 +121,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	endif
 	
 ! Read the wavelength of the transition that we want to synthesize
-	open(unit=12,file=input_model_file,action='read',status='old')
-	call lb(12,file_pointer)
-	read(12,*) ntran
-	do i = 1, transInput
-		read(12,*) n, nterml, ntermu, ae, wavelength, &
-			reduction_factor, reduction_factor_omega, j10
-	enddo
-	fixed%wl = wavelength
-	close(12)
+	fixed%wl = atom%wavelength(transInput)
 	
 ! Set the values of nbar and omega in case they are given
 	nbarExternal = nbarInput
