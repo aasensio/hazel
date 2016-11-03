@@ -11,11 +11,11 @@ implicit none
 
 contains
 subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, &
-	transInput, atomicPolInput, anglesInput, nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
+	transInput, atomicPolInput, magopttInput, anglesInput, nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
 	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalizationInput, &
 	wavelengthOutput, stokesOutput, epsOutput, etaOutput) bind(c)
 
-	integer(c_int), intent(in) :: synModeInput, nSlabsInput, transInput, atomicPolInput
+	integer(c_int), intent(in) :: synModeInput, nSlabsInput, transInput, atomicPolInput, magopttInput
 	integer(c_int), intent(in) :: nLambdaInput, normalizationInput
 	real(c_double), intent(in), dimension(nLambdaInput) :: lambdaAxisInput
 	real(c_double), intent(in), dimension(3) :: B1Input, anglesInput
@@ -143,9 +143,9 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 		params%vmacro = dopplerVelocityInput
 		params%vmacro2 = dopplerVelocity2Input
 	endif
-	
-	use_mag_opt_RT = 1
-	use_stim_emission_RT = 1	
+
+	use_mag_opt_RT = magopttInput
+	use_stim_emission_RT = 1
 	
 	
 !*********************************
