@@ -21,7 +21,7 @@ contains
 	integer :: nl, nu, ll2, lu2, jminl2, jmaxl2, jminu2, jmaxu2, j2, j2max, njlargest
 	integer :: kmax, qmax, i, jp2, kmin, qp
 	complex(kind=8), allocatable :: rot_mat_vert_mag(:,:,:), prof(:)
-	real(kind=8) :: x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, rimax, pq, pu, pv, thb, chb, freq, bul, va, blu, prod
+	real(kind=8) :: x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, rimax, pq, pu, pv, thb, chb, freq, bul, va, blu, prod, bfield
 	integer :: nloop, ml2, mu2, q2, mup2, qp2, bigq2, bigq, bigqu2, bigqu, jal2, jl2, jlp2, jau2, ju2, jus2, jaup2, jup2
 	integer :: jsmalll, jsmallu, k2, jumin, kumax, ku, ku2, istok, kumin, mlp2, bigql2, bigql, jls2, jalp2, klmin
 	integer :: klmax, kl, kl2, nfreq, tnumber
@@ -47,9 +47,11 @@ contains
 		if (component == 1) then
 			thb = in_params%thetabd * PI / 180.d0
 			chb = in_params%chibd * PI / 180.d0
+			bfield = in_params%bgauss
 		else
 			thb = in_params%thetabd2 * PI / 180.d0
 			chb = in_params%chibd2 * PI / 180.d0
+			bfield = in_params%bgauss2
 		endif
 		
 ! Random azimuth solution. Since the density matrix in the magnetic field
@@ -171,7 +173,7 @@ contains
 		cl = 0.d0		
 
 ! Diagonalize the Paschen-Back Hamiltonian
-      call paschen(ll2,is2,e0,in_params%bgauss,njlevl,autl,cl,j2max,njlargest)
+      call paschen(ll2,is2,e0,bfield,njlevl,autl,cl,j2max,njlargest)
             		
 ! And now the same for the upper level
       do j2 = jminu2, jmaxu2, 2
@@ -186,7 +188,7 @@ contains
 		if (.not.allocated(cu)) allocate(cu(-j2max:j2max,njlargest,0:j2max))
 		cu = 0.d0
 		
-      call paschen(lu2,is2,e0,in_params%bgauss,njlevu,autu,cu,j2max,njlargest)
+      call paschen(lu2,is2,e0,bfield,njlevu,autu,cu,j2max,njlargest)
 		
 		deallocate(e0)
 		
