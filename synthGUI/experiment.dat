@@ -21,7 +21,7 @@
 1
 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-0.50000000  52.000000  0.0000000
+0.49995000  49.000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
 3.0000000

@@ -159,6 +159,8 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	
 	observation%wl = lambdaAxisInput
 
+	fixed%omax = minval(lambdaAxisInput)
+	fixed%omin = maxval(lambdaAxisInput)
 	
 	call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
 	
