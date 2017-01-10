@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; Hazel 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Hazel 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Configuration" href="inputFiles.html"/>
+        <link rel="prev" title="Hazel" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Hazel
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepareData.html">How to prepare the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgment.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Hazel</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/installation.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The Hazel distribution is organized as follows:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">src</span></code> contains the Fortran 90 sources and a makefile that can be
+used to build the binary file.</li>
+<li><code class="docutils literal"><span class="pre">run</span></code> contains a directory tree structure with the appropriate
+configuration files to run the code in command line mode.</li>
+<li><code class="docutils literal"><span class="pre">runMPI</span></code> contains a directory tree structure with the appropriate
+configuration files to run the parallel version of the code.</li>
+<li><code class="docutils literal"><span class="pre">synthGUI</span></code> contains all the files that are needed to run the IDL
+front-end for the synthesis problem.</li>
+<li><code class="docutils literal"><span class="pre">invGUI</span></code> contains all the files that are needed to run the IDL
+front-end for the inversion problem.</li>
+<li><code class="docutils literal"><span class="pre">IDL_routines</span></code> contains some IDL routines that are needed by the
+front-ends.</li>
+<li><code class="docutils literal"><span class="pre">pyRoutines</span></code> contains some Python routines that can be useful</li>
+<li><code class="docutils literal"><span class="pre">pyGUI</span></code> contains a Python front-end for the synthesis problem</li>
+<li><code class="docutils literal"><span class="pre">docs</span></code> contains this manual.</li>
+</ol>
+<p>Hazel has a source directory that can generate both the serial and parallel
+versions of the code. It has been tested on Linux platforms using the Intel Fortran
+Compiler (<code class="docutils literal"><span class="pre">ifort</span></code>) and the free GFortran compiler. The compilation is performed
+by means of a makefile. We provide several examples that allow us to compile
+the code in several machines. As an example, we focus on <a href="#id1"><span class="problematic" id="id2">``</span></a>makefile.Intel&#8217;&#8216;, that
+is appropriate for compiling the code in standard Intel machines. It can be run
+by providing the version that will be compiled, together with the compiler. By
+default, it will compile the serial version with the Intel Fortran compiler:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">version</span><span class="o">=</span><span class="n">serial</span> <span class="n">compiler</span><span class="o">=</span><span class="n">ifort</span>
+</pre></div>
+</div>
+<p>After compiling and linking, the executable is copied to appropriate
+places. There is an additional requirement for compiling the parallel version
+of the code. The compilation depends on the precompiled library NetCDF for reading and writing
+output files. NetCDF is a standard for platform independent binary files
+that you need to have installed in your system.  The location of the NetCDF
+libraries have to be provided inside the makefile. The variables <code class="docutils literal"><span class="pre">NETCDF_INCLUDE</span></code> and
+<code class="docutils literal"><span class="pre">NETCDF_LIB</span></code> have to point to the <code class="docutils literal"><span class="pre">include</span></code> and <code class="docutils literal"><span class="pre">lib</span></code> directories
+of the NetCDF distribution.</p>
+<p>The code makes use of the MPI package for parallelization, so it has to
+be installed on your system. In order to obtain the executable file (for
+instance for the Intel compiler), just type:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">version</span><span class="o">=</span><span class="n">mpi</span> <span class="n">compiler</span><span class="o">=</span><span class="n">ifort</span> <span class="n">supercomputer</span><span class="o">=</span><span class="n">local</span>
+</pre></div>
+</div>
+<p>The current supported options for the makefile are the following:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">version</span></code>: serial/mpi/python</li>
+<li><code class="docutils literal"><span class="pre">compiler</span></code>: ifort/gfortran</li>
+<li><code class="docutils literal"><span class="pre">supercomputer</span></code>: local/teide (for the Teide Supercomputer)</li>
+</ol>
+<p>If you want to add your configuration, appropriately modify the makefile. You would need to define
+the location of the NetCDF include files and libraries (<code class="docutils literal"><span class="pre">NETCDF_INCLUDE</span></code> and <code class="docutils literal"><span class="pre">NETCDF_LIB</span></code>)
+and the correct compilation and linking flags for your compiler (<code class="docutils literal"><span class="pre">COMPILER_OPTS</span></code> and <code class="docutils literal"><span class="pre">COMPILER_LINKS</span></code>).
+If you want to run the GUI, you first need to compile the serial
+version of the code. Finally, the generated object and module files can be cleaned typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="inputFiles.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Hazel" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Andres Asensio Ramos.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
