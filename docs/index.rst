@@ -23,13 +23,15 @@ Indices and tables
 ==================
 
 * :doc:`installation`
-* :doc:`manual`
+* :doc:`configuration`
+* :doc:`atomicModels`
+* :doc:`inputOutput`
+* :doc:`python`
+* :doc:`graphical`
 * :doc:`equations`
 * :doc:`ambiguities`
-* :doc:`python`
 * :doc:`refsys`
-* :ref:`modindex`
-* :ref:`search`
+* :doc:`acknowledgements`
 * :doc:`disclaimer`
 
 .. toctree::
@@ -37,13 +39,14 @@ Indices and tables
    :maxdepth: 2
 
    installation
-   inputFiles
+   configuration
    atomicModels
    inputOutput
    python
-   refsys
    graphical
    equations
    ambiguities
+   refsys
+   acknowledgements
    disclaimer
 
