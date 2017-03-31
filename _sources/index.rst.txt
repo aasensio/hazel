@@ -26,6 +26,7 @@ Indices and tables
 * :doc:`configuration`
 * :doc:`atomicModels`
 * :doc:`inputOutput`
+* :doc:`prepareData`
 * :doc:`python`
 * :doc:`graphical`
 * :doc:`equations`
@@ -42,6 +43,7 @@ Indices and tables
    configuration
    atomicModels
    inputOutput
+   prepareData
    python
    graphical
    equations
