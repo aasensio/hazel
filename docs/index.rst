@@ -27,6 +27,7 @@ Indices and tables
 * :doc:`equations`
 * :doc:`ambiguities`
 * :doc:`python`
+* :doc:`refsys`
 * :ref:`modindex`
 * :ref:`search`
 * :doc:`disclaimer`
@@ -40,6 +41,7 @@ Indices and tables
    atomicModels
    inputOutput
    python
+   refsys
    graphical
    equations
    ambiguities

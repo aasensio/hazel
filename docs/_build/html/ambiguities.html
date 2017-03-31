@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Hazel 1.0 documentation" href="index.html"/>
         <link rel="next" title="Disclaimer" href="disclaimer.html"/>
         <link rel="prev" title="Basic Equations" href="equations.html"/> 
@@ -87,9 +90,10 @@
 <li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="refsys.html">The reference system</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Ambiguities in the Hanle effect in the saturation regime</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ambiguities in the Hanle effect in the saturation regime</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1"><span class="math">\(\Phi_B’=\Phi_B\)</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2"><span class="math">\(\Phi_B’=\Phi_B+\pi\)</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3"><span class="math">\(\Phi_B’=\Phi_B+\pi/2\)</span></a></li>
@@ -119,7 +123,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -131,7 +135,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/ambiguities.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/ambiguities.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -148,45 +152,50 @@
 the geometry of the field. For a <span class="math">\(J=0 \to J=1\)</span> transition, the
 linear polarization can be written as:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
-  Q &amp;=&amp; \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \cos 2\Phi_B \nonumber \\
-  U &amp;=&amp; \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \sin 2\Phi_B.\end{aligned}\end{split}\]\[These expressions contain a mixture of angles to make it clear that the\]</div>
-<p>polarization amplitude depends on both the angle between the vertical
+\[\begin{split}\begin{aligned}
+Q &amp;=&amp; \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \cos 2\Phi_B \nonumber \\
+U &amp;=&amp; \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \sin 2\Phi_B.\end{aligned}\end{split}\]</div>
+<p>These expressions contain a mixture of angles to make it clear that the
+polarization amplitude depends on both the angle between the vertical
 and the magnetic field and between the magnetic field and the
 line-of-sight (LOS).</p>
 <p>The coordinates of the magnetic field vector <span class="math">\(\mathbf{B}\)</span> in the
 reference system of the vertical and the reference system of the LOS
 are:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
-  \mathbf{B} &amp;=&amp; B \left(\sin \theta_B \cos \phi_B \mathbf{i}+\sin \theta_B \sin \phi_B \mathbf{j}+\cos \theta_B \mathbf{k} \right) \nonumber \\
-  \mathbf{B} &amp;=&amp; B \left(\sin \Theta_B \cos \Phi_B \mathbf{i}'+\sin \Theta_B \sin \Phi_B \mathbf{j}'+\cos \Theta_B \mathbf{k}' \right),\end{aligned}\end{split}\]\[where the unit vectors are related by a simple rotation:\]</div>
+\[\begin{split}\begin{aligned}
+\mathbf{B} &amp;=&amp; B \left(\sin \theta_B \cos \phi_B \mathbf{i}+\sin \theta_B \sin \phi_B \mathbf{j}+\cos \theta_B \mathbf{k} \right) \nonumber \\
+\mathbf{B} &amp;=&amp; B \left(\sin \Theta_B \cos \Phi_B \mathbf{i}'+\sin \Theta_B \sin \Phi_B \mathbf{j}'+\cos \Theta_B \mathbf{k}' \right),\end{aligned}\end{split}\]</div>
+<p>where the unit vectors are related by a simple rotation:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
-  \mathbf{i}' &amp;=&amp; \cos \theta \mathbf{i} - \sin \theta \mathbf{k} \nonumber \\
-  \mathbf{k}' &amp;=&amp; \sin \theta \mathbf{i} + \cos \theta \mathbf{k}.\end{aligned}\end{split}\]\[Introducing these relations on the expression for the magnetic field,\]</div>
-<p>we find that the following has to be fulfilled, given that the magnetic
+\[\begin{split}\begin{aligned}
+\mathbf{i}' &amp;=&amp; \cos \theta \mathbf{i} - \sin \theta \mathbf{k} \nonumber \\
+\mathbf{k}' &amp;=&amp; \sin \theta \mathbf{i} + \cos \theta \mathbf{k}.\end{aligned}\end{split}\]</div>
+<p>Introducing these relations on the expression for the magnetic field,
+we find that the following has to be fulfilled, given that the magnetic
 field vector is the same in both reference systems:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
-  \sin \theta_B \cos \phi_B &amp;=&amp; \sin \Theta_B \cos \Phi_B \cos \theta + \cos \Theta_B + \sin \theta \nonumber \\
-  \sin \theta_B \sin \phi_B &amp;=&amp; \sin \Theta_B \sin \Phi_B \nonumber \\
-  \cos \theta_B &amp;=&amp; \cos \Theta_B \cos \theta - \sin \Theta_B \cos \Phi_B \sin \theta.\end{aligned}\end{split}\]\[Solving the previous three equations in the two directions, we find the\]</div>
-<p>following transformations between the angles in the vertical reference
+\[\begin{split}\begin{aligned}
+\sin \theta_B \cos \phi_B &amp;=&amp; \sin \Theta_B \cos \Phi_B \cos \theta + \cos \Theta_B + \sin \theta \nonumber \\
+\sin \theta_B \sin \phi_B &amp;=&amp; \sin \Theta_B \sin \Phi_B \nonumber \\
+\cos \theta_B &amp;=&amp; \cos \Theta_B \cos \theta - \sin \Theta_B \cos \Phi_B \sin \theta.\end{aligned}\end{split}\]</div>
+<p>Solving the previous three equations in the two directions, we find the
+following transformations between the angles in the vertical reference
 system and the LOS reference system:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \cos \Theta_B &amp;=&amp; \cos\theta \cos\theta_B + \sin\theta \sin\theta_B \cos\phi_B \nonumber \\
   \sin \Theta_B &amp;=&amp; +\sqrt{1-\cos^2\Theta_B} \nonumber \\
   \cos \Phi_B &amp;=&amp; \frac{\cos\theta \sin\theta_B \cos\phi_B - \cos\theta_B \sin\theta}{\sin \Theta_B} \nonumber \\
-  \sin \Phi_B &amp;=&amp; \frac{\sin\theta_B \sin\phi_B}{\sin\Theta_B}\end{aligned}\end{split}\]\[and\]</div>
+  \sin \Phi_B &amp;=&amp; \frac{\sin\theta_B \sin\phi_B}{\sin\Theta_B}\end{aligned}\end{split}\\and\end{aligned}\end{align} \]</div>
 <div class="math">
-\[\begin{split}  \begin{aligned}
-  \cos \theta_B &amp;=&amp; \cos\theta \cos\Theta_B - \sin\theta \sin\Theta_B \cos\Phi_B \nonumber \\
-  \sin \theta_B &amp;=&amp; +\sqrt{1-\cos^2\theta_B} \nonumber \\
-  \cos \phi_B &amp;=&amp; \frac{\cos\theta \sin\Theta_B \cos\Phi_B + \cos\Theta_B \sin\theta}{\sin \theta_B} \nonumber \\
-  \sin \phi_B &amp;=&amp; \frac{\sin\Theta_B \sin\Phi_B}{\sin\theta_B}.\end{aligned}\end{split}\]\[Note that, since :math:`\Theta_B \in [0,\pi]`, we can safely use the\]</div>
-<p>square root and take the positive value. In order to transform from one
+\[\begin{split}\begin{aligned}
+\cos \theta_B &amp;=&amp; \cos\theta \cos\Theta_B - \sin\theta \sin\Theta_B \cos\Phi_B \nonumber \\
+\sin \theta_B &amp;=&amp; +\sqrt{1-\cos^2\theta_B} \nonumber \\
+\cos \phi_B &amp;=&amp; \frac{\cos\theta \sin\Theta_B \cos\Phi_B + \cos\Theta_B \sin\theta}{\sin \theta_B} \nonumber \\
+\sin \phi_B &amp;=&amp; \frac{\sin\Theta_B \sin\Phi_B}{\sin\theta_B}.\end{aligned}\end{split}\]</div>
+<p>Note that, since <span class="math">\(\Theta_B \in [0,\pi]\)</span>, we can safely use the
+square root and take the positive value. In order to transform from one
 reference system to the other, we can compute the inclination easily by
 inverting the sinus or the cosinus. However, the situation is different
 for the azimuth, because the range of variation is <span class="math">\([-\pi,\pi]\)</span>.
@@ -202,12 +211,13 @@ the LOS reference system is the same for Stokes <span class="math">\(Q\)</span> 
 we can only compensate for changes in the sign. Therefore, we have the
 following potential ambiguities:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
-  \Phi_B' &amp;=&amp; \Phi_B \nonumber \\
-  \Phi_B' &amp;=&amp; \Phi_B -\pi/2 \nonumber \\
-  \Phi_B' &amp;=&amp; \Phi_B + \pi/2 \nonumber \\
-  \Phi_B' &amp;=&amp; \Phi_B + \pi.\end{aligned}\end{split}\]\[For each case, we have to compute the value of :math:`\Theta_B'` that\]</div>
-<p>keeps the value of <span class="math">\(Q\)</span> and <span class="math">\(U\)</span> unchanged. Therefore, once we
+\[\begin{split}\begin{aligned}
+\Phi_B' &amp;=&amp; \Phi_B \nonumber \\
+\Phi_B' &amp;=&amp; \Phi_B -\pi/2 \nonumber \\
+\Phi_B' &amp;=&amp; \Phi_B + \pi/2 \nonumber \\
+\Phi_B' &amp;=&amp; \Phi_B + \pi.\end{aligned}\end{split}\]</div>
+<p>For each case, we have to compute the value of <span class="math">\(\Theta_B'\)</span> that
+keeps the value of <span class="math">\(Q\)</span> and <span class="math">\(U\)</span> unchanged. Therefore, once we
 find a solution to the inversion problem in the form of the pair
 <span class="math">\((\theta_B,\phi_B)\)</span>, we can find the remaining solutions in the
 saturation regime following the recipes that we present now. Remember
@@ -219,30 +229,35 @@ reduced to 4 (or 2 if no 90<span class="math">\(^\circ\)</span> ambiguity is pre
 <h2><span class="math">\(\Phi_B’=\Phi_B\)</span><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>Under this change, we have that</p>
 <div class="math">
-\[\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = \cos \Phi_B, \quad \sin \Phi_B' = \sin \Phi_B.\]\[Making use of the previous relations between the angles wrt to the\]</div>
+\[ \begin{align}\begin{aligned}\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = \cos \Phi_B, \quad \sin \Phi_B' = \sin \Phi_B.\\Making use of the previous relations between the angles wrt to the\end{aligned}\end{align} \]</div>
 <p>vertical and the LOS, we have to solve the following equation:</p>
 <div class="math">
-\[\left( 3 \cos^2\theta_B'-1 \right) \sin^2 \Theta_B' = \left( 3 \cos^2\theta_B-1 \right) \sin^2 \Theta_B,\]\[which can be written as:\]</div>
+\[ \begin{align}\begin{aligned}\left( 3 \cos^2\theta_B'-1 \right) \sin^2 \Theta_B' = \left( 3 \cos^2\theta_B-1 \right) \sin^2 \Theta_B,\\which can be written as:\end{aligned}\end{align} \]</div>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta - \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[After some algebra and doing the substitution :math:`t=\sin\Theta_B'`,\]</div>
-<p>we end up with the following equation to be solved:</p>
+\[\left[ 3 \left( \cos \Theta_B' \cos \theta - \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]</div>
+<p>After some algebra and doing the substitution <span class="math">\(t=\sin\Theta_B'\)</span>,
+we end up with the following equation to be solved:</p>
 <div class="math">
-\[A t^4 + Bt^2 + C t^3 \sqrt{1-t^2} = K,\]\[where\]</div>
+\[A t^4 + Bt^2 + C t^3 \sqrt{1-t^2} = K,\]</div>
+<p>where</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
-  A &amp;=&amp; -3\cos^2 \theta + 3\sin^2 \theta \cos^2 \Phi_B \nonumber \\
-  B &amp;=&amp; 3\cos^2 \theta - 1 \nonumber \\
-  C &amp;=&amp; -6 \cos\theta \sin\theta \cos \Phi_B \nonumber \\
-  K &amp;=&amp; \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\end{aligned}\end{split}\]\[The previous equation can be solved if we make the change of variables\]</div>
-<p><span class="math">\(t=\pm \sqrt{Z}\)</span>, resulting in:</p>
+\[\begin{split}\begin{aligned}
+A &amp;=&amp; -3\cos^2 \theta + 3\sin^2 \theta \cos^2 \Phi_B \nonumber \\
+B &amp;=&amp; 3\cos^2 \theta - 1 \nonumber \\
+C &amp;=&amp; -6 \cos\theta \sin\theta \cos \Phi_B \nonumber \\
+K &amp;=&amp; \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\end{aligned}\end{split}\]</div>
+<p>The previous equation can be solved if we make the change of variables
+<span class="math">\(t=\pm \sqrt{Z}\)</span>, resulting in:</p>
 <div class="math">
-\[(C^2+A^2) Z^4 + (-C^2+2AB) Z^3 + (-2AK+B^2) Z^2 - 2BKZ + K^2 = 0.\]\[This polynomial of 4-th order can have four different solutions. From\]</div>
-<p>these solutions, we have to take only the real solutions which are
+\[(C^2+A^2) Z^4 + (-C^2+2AB) Z^3 + (-2AK+B^2) Z^2 - 2BKZ + K^2 = 0.\]</div>
+<p>This polynomial of 4-th order can have four different solutions. From
+these solutions, we have to take only the real solutions which are
 larger than 0, given the range of variation of <span class="math">\(\Theta_B\)</span>:</p>
 <div class="math">
-\[t \in \mathbb{R}, \qquad 0 \leq t \leq 1.\]\[Once the solutions for :math:`t` are found, we make\]</div>
-<p><span class="math">\(\Theta_B' = \arcsin t\)</span>. Note that, for a fixed value of
+\[t \in \mathbb{R}, \qquad 0 \leq t \leq 1.\]</div>
+<p>Once the solutions for <span class="math">\(t\)</span> are found, we make
+<span class="math">\(\Theta_B' = \arcsin t\)</span>. Note that, for a fixed value of
 <span class="math">\(t\)</span>, two values of <span class="math">\(\Theta_B'\)</span> are possible. We choose the
 correct one by evaluating the expressions for <span class="math">\(Q\)</span> and <span class="math">\(U\)</span>
 and testing which of the two possible choices give the values equal (or
@@ -255,11 +270,13 @@ system.</p>
 <h2><span class="math">\(\Phi_B’=\Phi_B+\pi\)</span><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Under this change, we have:</p>
 <div class="math">
-\[\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = -\cos \Phi_B, \quad \sin \Phi_B' = -\sin \Phi_B.\]\[Following the same approach, we have to solve for :math:`\Theta_B'` in\]</div>
+\[\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = -\cos \Phi_B, \quad \sin \Phi_B' = -\sin \Phi_B.\]</div>
+<p>Following the same approach, we have to solve for <span class="math">\(\Theta_B'\)</span> in</p>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[The solution are obtained as the roots of the same equations as before\]</div>
-<p>but now</p>
+\[\left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]</div>
+<p>The solution are obtained as the roots of the same equations as before
+but now</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 A &amp;=&amp; -3\cos^2 \theta + 3\sin^2 \theta \cos^2 \Phi_B \nonumber \\
@@ -274,11 +291,13 @@ reference system.</p>
 <h2><span class="math">\(\Phi_B’=\Phi_B+\pi/2\)</span><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>Under this change, we have:</p>
 <div class="math">
-\[\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = -\sin \Phi_B, \quad \sin \Phi_B' = \cos \Phi_B.\]\[Following the same approach, we have to solve for :math:`\Theta_B'` in\]</div>
+\[\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = -\sin \Phi_B, \quad \sin \Phi_B' = \cos \Phi_B.\]</div>
+<p>Following the same approach, we have to solve for <span class="math">\(\Theta_B'\)</span> in</p>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[The solution are obtained as the roots of the same equations as before\]</div>
-<p>but now</p>
+\[\left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]</div>
+<p>The solution are obtained as the roots of the same equations as before
+but now</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 A &amp;=&amp; -3\cos^2 \theta + 3\sin^2 \theta \sin^2 \Phi_B \nonumber \\
@@ -293,11 +312,13 @@ reference system.</p>
 <h2><span class="math">\(\Phi_B’=\Phi_B-\pi/2\)</span><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>Under this change, we have:</p>
 <div class="math">
-\[\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = \sin \Phi_B, \quad \sin \Phi_B' = -\cos \Phi_B.\]\[Following the same approach, we have to solve for :math:`\Theta_B'` in\]</div>
+\[\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = \sin \Phi_B, \quad \sin \Phi_B' = -\cos \Phi_B.\]</div>
+<p>Following the same approach, we have to solve for <span class="math">\(\Theta_B'\)</span> in</p>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[The solution are obtained as the roots of the same equations as before\]</div>
-<p>but now</p>
+\[\left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]</div>
+<p>The solution are obtained as the roots of the same equations as before
+but now</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 A &amp;=&amp; -3\cos^2 \theta + 3\sin^2 \theta \sin^2 \Phi_B \nonumber \\
