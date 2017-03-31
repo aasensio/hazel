@@ -1,20 +1,3 @@
-Disclaimer
-==========
-
-This software is distributed “as is” and the authors do not take any
-responsability for possible errors derived from its use by others. Apply
-it with care and never trust the output without a careful meditation.
- can be freely used provided that its origin is properly acknowledged
-and the reference Asensio Ramos, Trujillo Bueno & Landi Degl’Innocenti
-(2008; ApJ 683, 542) is cited and acknowledged in any publication
-achieved with it. Before using  we recommend the user to read carefully
-this paper and the previous one by Trujillo Bueno & Asensio Ramos (2007;
-ApJ 655, 642). Please, send us bug reports, comments and suggestions of
-possible improvements. We point out that  will be improved over the
-years (e.g., by extending it to more realistic radiative transfer
-problems), but it is now ready for a number of interesting applications
-in solar and stellar physics.
-
 Introduction
 ============
 
@@ -1773,16 +1756,6 @@ The angles :math:`(\theta_B,\phi_B)` are obtained by doing the
 transformation from :math:`(\Theta_B',\Phi_B-\pi/2)` to the vertical
 reference system.
 
-Acknowledgements
-================
-
-We would like to thank Egidio Landi Degl’Innocenti and Marco Landolfi
-for sharing with us their deep knowledge on the physics of the spectral
-line polarization, which they have described in great detail in their
-rigorous monograph on “Polarization in Spectral Lines". Finantial
-support by the Spanish Ministry of Education and Science through
-projects AYA2007-63881 and the European Commission through the SOLAIRE
-network (MTRN-CT-2006-035484) is gratefully acknowledged.
 
 11 natexlab#1#1
 
