@@ -30,9 +30,14 @@ methods of solution of the Stokes-vector transfer equation, some of
 which can be considered as particular cases of the two general methods
 explained in §6 of Trujillo Bueno (2003).
 
+.. _image_geometry:
+
+The geometry for the scattering event
+-------------------------------------
+
 .. figure:: images/f1.png
    
-   The geometry for the scattering event. The :math:`Z`-axis is
+   The :math:`Z`-axis is
    placed along the vertical to the solar atmosphere. The magnetic field
    vector, :math:`\mathbf{B}`, is characterized by its modulus
    :math:`B`, the inclination angle :math:`\theta_B` and the azimuth

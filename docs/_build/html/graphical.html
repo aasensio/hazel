@@ -86,14 +86,16 @@
 <li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepareData.html">How to prepare the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Graphical front-ends</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Graphical front-ends</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#python">Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#idl">IDL</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgment.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
 </ul>
 
@@ -117,7 +119,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -146,13 +148,13 @@
 <p>The Python GUI requires <code class="docutils literal"><span class="pre">PyQT4</span></code> to be installed in your system. We recommend
 the wonderful Anaconda Python distribution.
 Once you have all packages installed, go to <code class="docutils literal"><span class="pre">runPy</span></code> and type</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>python setup.py build_ext --inplace
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">inplace</span>
 </pre></div>
 </div>
 <p>The code should compile and a dynamic library should be generated, that is
 copied to the directory <code class="docutils literal"><span class="pre">pyGUI</span></code>.
 Go to <code class="docutils literal"><span class="pre">pyGUI</span></code> and type</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>python hazel.py
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">hazel</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </div>
@@ -177,8 +179,8 @@ simple execution and analysis of the results. Note that the directory
 <p>### Synthesis</p>
 <p>It is placed in the directory <code class="docutils literal"><span class="pre">Widget_Synth</span></code> and it is invoked with
 the following commands:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>IDL&gt; .r hazel
-IDL&gt; hazel
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">IDL</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">r</span> <span class="n">hazel</span>
+<span class="n">IDL</span><span class="o">&gt;</span> <span class="n">hazel</span>
 </pre></div>
 </div>
 <p>Figure [fig:synthesis_GUI] shows the GUI for the synthesis mode. All
@@ -193,21 +195,21 @@ changed. The value (which can be introduced in the value of <span class="math">\
 as a boundary condition) is given next to the height of the slab and
 indicated with the label “Allen”. In case of crashes, the GUI can be
 restarted with the following command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>IDL&gt; .r hazel
-IDL&gt; hazel, /reset
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">IDL</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">r</span> <span class="n">hazel</span>
+<span class="n">IDL</span><span class="o">&gt;</span> <span class="n">hazel</span><span class="p">,</span> <span class="o">/</span><span class="n">reset</span>
 </pre></div>
 </div>
 <p>### Inversion</p>
 <p>It is placed in the directory <code class="docutils literal"><span class="pre">Widget_Inv</span></code> and it is invoked with the
 following commands:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>IDL&gt; .r hazel_inv
-IDL&gt; hazel_inv
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">IDL</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">r</span> <span class="n">hazel_inv</span>
+<span class="n">IDL</span><span class="o">&gt;</span> <span class="n">hazel_inv</span>
 </pre></div>
 </div>
 <p>Again, in case of crashes, the GUI can be restarted with the following
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>IDL&gt; .r hazel_inv
-IDL&gt; hazel_inv, /reset
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">IDL</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">r</span> <span class="n">hazel_inv</span>
+<span class="n">IDL</span><span class="o">&gt;</span> <span class="n">hazel_inv</span><span class="p">,</span> <span class="o">/</span><span class="n">reset</span>
 </pre></div>
 </div>
 <p>The GUI for the inversion is more complex because of the large amount of

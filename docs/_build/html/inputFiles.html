@@ -83,13 +83,15 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepareData.html">How to prepare the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgment.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
 </ul>
 
@@ -113,7 +115,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -143,124 +145,124 @@ package installed in your system. It can be downloaded from
 <code class="docutils literal"><span class="pre">http://www.voidspace.org.uk/python/configobj.html</span></code> or installed as a standard
 Python package using <a href="#id1"><span class="problematic" id="id2">``</span></a>pip install configparser&#8217;&#8216;. The serial version of the code
 is run using:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>./run.py conf.ini
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">run</span><span class="o">.</span><span class="n">py</span> <span class="n">conf</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
 <p>and the parallel code is run with</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>./run.py conf.ini nProcessors
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">run</span><span class="o">.</span><span class="n">py</span> <span class="n">conf</span><span class="o">.</span><span class="n">ini</span> <span class="n">nProcessors</span>
 </pre></div>
 </div>
 <p>An example of the file, that is self-explanatory, is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Hazel configuration File
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Hazel configuration File</span>
 
-#####################
-# General information
-#####################
+<span class="c1">#####################</span>
+<span class="c1"># General information</span>
+<span class="c1">#####################</span>
 
-[Files]
-Input model file = &#39;ATOMS/helium.mod&#39;
-File with observations = &#39;OBSERVATION/test_2comp.prof&#39;
-File with inverted profiles = &#39;test.inversion&#39;
-File with inverted parameters = &#39;test.parameters&#39;
+<span class="p">[</span><span class="n">Files</span><span class="p">]</span>
+<span class="n">Input</span> <span class="n">model</span> <span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;ATOMS/helium.mod&#39;</span>
+<span class="n">File</span> <span class="k">with</span> <span class="n">observations</span> <span class="o">=</span> <span class="s1">&#39;OBSERVATION/test_2comp.prof&#39;</span>
+<span class="n">File</span> <span class="k">with</span> <span class="n">inverted</span> <span class="n">profiles</span> <span class="o">=</span> <span class="s1">&#39;test.inversion&#39;</span>
+<span class="n">File</span> <span class="k">with</span> <span class="n">inverted</span> <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;test.parameters&#39;</span>
 
-[Working mode]
-Action = &#39;inversion&#39;                        # &#39;synthesis&#39; or &#39;inversion&#39;
-Verbose = no
-Linear system solver = &#39;LU&#39;                 # &#39;LU&#39; or &#39;CG&#39;
-Stopping volume for DIRECT = 0.001
+<span class="p">[</span><span class="n">Working</span> <span class="n">mode</span><span class="p">]</span>
+<span class="n">Action</span> <span class="o">=</span> <span class="s1">&#39;inversion&#39;</span>                        <span class="c1"># &#39;synthesis&#39; or &#39;inversion&#39;</span>
+<span class="n">Verbose</span> <span class="o">=</span> <span class="n">no</span>
+<span class="n">Linear</span> <span class="n">system</span> <span class="n">solver</span> <span class="o">=</span> <span class="s1">&#39;LU&#39;</span>                 <span class="c1"># &#39;LU&#39; or &#39;CG&#39;</span>
+<span class="n">Stopping</span> <span class="n">volume</span> <span class="k">for</span> <span class="n">DIRECT</span> <span class="o">=</span> <span class="mf">0.001</span>
 
-[General parameters]
-Synthesis mode = &#39;exact&#39;                    # &#39;thin&#39; or &#39;exact&#39;
-Include stimulated emission = yes
-Include magnetic field  = yes
-Include Paschen-Back effect = yes
-Include atomic level polarization = yes
-Include magneto-optical effects in the RT = yes
-Include stimulated emission in the RT = yes
-Multiplet = 10830                           # 10830, 5876, 7065, 3889 A
-Line-of-sight angles = 0.0, 0.0, 90.0       # theta, chi, gamma deg
-Wavelength axis = -3.0, 2.5, 200            # Minimum, maximum and number of grid points
+<span class="p">[</span><span class="n">General</span> <span class="n">parameters</span><span class="p">]</span>
+<span class="n">Synthesis</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;exact&#39;</span>                    <span class="c1"># &#39;thin&#39; or &#39;exact&#39;</span>
+<span class="n">Include</span> <span class="n">stimulated</span> <span class="n">emission</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">magnetic</span> <span class="n">field</span>  <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">Paschen</span><span class="o">-</span><span class="n">Back</span> <span class="n">effect</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">atomic</span> <span class="n">level</span> <span class="n">polarization</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">magneto</span><span class="o">-</span><span class="n">optical</span> <span class="n">effects</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">RT</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">stimulated</span> <span class="n">emission</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">RT</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Multiplet</span> <span class="o">=</span> <span class="mi">10830</span>                           <span class="c1"># 10830, 5876, 7065, 3889 A</span>
+<span class="n">Line</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">sight</span> <span class="n">angles</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">90.0</span>       <span class="c1"># theta, chi, gamma deg</span>
+<span class="n">Wavelength</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">200</span>            <span class="c1"># Minimum, maximum and number of grid points</span>
 
-#####################
-# Synthesis parameters
-#####################
-[Synthesis]
-Number of slabs = &#39;1&#39;                       # &#39;1&#39; -&gt; single slab, &#39;1+1&#39; -&gt; two slabs with same field, &#39;1+1B&#39; -&gt; 2 slabs with different field, &#39;2&#39; -&gt; two slabs added with a filling factor
-Boundary condition = 4.098e-5, 0.0, 0.0, 0.0      # I0, Q0, U0, V0
-a = 0.0
-height = 3.0                                # Real height if positive, apparent height if negative arcsec
-ff = 0.0
-    [[Slab 1]]
-    B =         0.0         # G
-    thetaB =    0.0         # deg
-    chiB =      0.0         # deg
-    vdopp =     8.0         # km/s
-    tau =       1.0
-    vmac =      0.0         # Positive is redshift km/s
-    beta =      1.0
-    [[Slab 2]]
-    B =         0.0         # G
-    thetaB =    0.0         # deg
-    chiB =      0.0         # deg
-    vdopp =     0.0         # km/s
-    tau =       0.0
-    vmac =      0.0         # Positive is redshift km/s
-    beta =      1.0
+<span class="c1">#####################</span>
+<span class="c1"># Synthesis parameters</span>
+<span class="c1">#####################</span>
+<span class="p">[</span><span class="n">Synthesis</span><span class="p">]</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">slabs</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>                       <span class="c1"># &#39;1&#39; -&gt; single slab, &#39;1+1&#39; -&gt; two slabs with same field, &#39;1+1B&#39; -&gt; 2 slabs with different field, &#39;2&#39; -&gt; two slabs added with a filling factor</span>
+<span class="n">Boundary</span> <span class="n">condition</span> <span class="o">=</span> <span class="mf">4.098e-5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>      <span class="c1"># I0, Q0, U0, V0</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">height</span> <span class="o">=</span> <span class="mf">3.0</span>                                <span class="c1"># Real height if positive, apparent height if negative arcsec</span>
+<span class="n">ff</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mf">0.0</span>         <span class="c1"># G</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mf">8.0</span>         <span class="c1"># km/s</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">1.0</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># Positive is redshift km/s</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">1.0</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">2</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mf">0.0</span>         <span class="c1"># G</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mf">0.0</span>         <span class="c1"># km/s</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">0.0</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># Positive is redshift km/s</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">1.0</span>
 
-#####################
-# Ranges for the DIRECT method [min, max]
-#####################
-[Ranges]
-a =             0,0.5
-ff =            0.0,1.0
-    [[Slab 1]]
-    B =         800,1100
-    thetaB =    0,180
-    chiB =      0,180
-    vdopp =     2,12
-    tau =       0.1,2
-    vmac =      -5,5
-    beta =      0.5,2
-    [[Slab 2]]
-    B =         800,1100
-    thetaB =    0,180
-    chiB =      0,180
-    vdopp =     2,12
-    tau =       0.1,2
-    vmac =      -5,5
-    beta =      0.5,2
+<span class="c1">#####################</span>
+<span class="c1"># Ranges for the DIRECT method [min, max]</span>
+<span class="c1">#####################</span>
+<span class="p">[</span><span class="n">Ranges</span><span class="p">]</span>
+<span class="n">a</span> <span class="o">=</span>             <span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span>
+<span class="n">ff</span> <span class="o">=</span>            <span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mi">800</span><span class="p">,</span><span class="mi">1100</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">2</span><span class="p">,</span><span class="mi">12</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">0.1</span><span class="p">,</span><span class="mi">2</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">0.5</span><span class="p">,</span><span class="mi">2</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">2</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mi">800</span><span class="p">,</span><span class="mi">1100</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">2</span><span class="p">,</span><span class="mi">12</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">0.1</span><span class="p">,</span><span class="mi">2</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">0.5</span><span class="p">,</span><span class="mi">2</span>
 
-#####################
-# Parameters to invert
-#####################
-[Inversion]
-Iterations in LM = 20
-Number of cycles = 4
-Inversion modes = &#39;DIRECT&#39;, &#39;LM&#39;, &#39;DIRECT&#39;, &#39;LM&#39;        # &#39;DIRECT&#39; for DIRECT algorithm and &#39;LM&#39; for Levenberg-Marquardt
-    [[Cycles]]
-    a =             1, 1, 0, 0
-    ff =            0, 0, 0, 0
-        [[[Slab 1]]]
-        B =         0, 0, 1, 1
-        thetaB =    0, 0, 1, 1
-        chiB =      0, 0, 1, 1
-        vdopp =     1, 1, 0, 0
-        tau =       1, 1, 0, 0
-        vmac =      1, 1, 0, 0
-        beta =      0, 0, 0, 0
-        [[[Slab 2]]]
-        B =         0, 0, 0, 0
-        thetaB =    0, 0, 0, 0
-        chiB =      0, 0, 0, 0
-        vdopp =     0, 0, 0, 0
-        tau =       0, 0, 0, 0
-        vmac =      0, 0, 0, 0
-        beta =      0, 0, 0, 0
-    [[Weights]]
-        Stokes I =  1.0, 1.0, 1.0, 1.0
-        Stokes Q =  0.0, 0.0, 1.0, 1.0
-        Stokes U =  0.0, 0.0, 1.0, 1.0
-        Stokes V =  0.0, 0.0, 1.0, 1.0
+<span class="c1">#####################</span>
+<span class="c1"># Parameters to invert</span>
+<span class="c1">#####################</span>
+<span class="p">[</span><span class="n">Inversion</span><span class="p">]</span>
+<span class="n">Iterations</span> <span class="ow">in</span> <span class="n">LM</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">cycles</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">Inversion</span> <span class="n">modes</span> <span class="o">=</span> <span class="s1">&#39;DIRECT&#39;</span><span class="p">,</span> <span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="s1">&#39;DIRECT&#39;</span><span class="p">,</span> <span class="s1">&#39;LM&#39;</span>        <span class="c1"># &#39;DIRECT&#39; for DIRECT algorithm and &#39;LM&#39; for Levenberg-Marquardt</span>
+    <span class="p">[[</span><span class="n">Cycles</span><span class="p">]]</span>
+    <span class="n">a</span> <span class="o">=</span>             <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">ff</span> <span class="o">=</span>            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">[[[</span><span class="n">Slab</span> <span class="mi">1</span><span class="p">]]]</span>
+        <span class="n">B</span> <span class="o">=</span>         <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">tau</span> <span class="o">=</span>       <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">vmac</span> <span class="o">=</span>      <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">beta</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">[[[</span><span class="n">Slab</span> <span class="mi">2</span><span class="p">]]]</span>
+        <span class="n">B</span> <span class="o">=</span>         <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">tau</span> <span class="o">=</span>       <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">vmac</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">beta</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="p">[[</span><span class="n">Weights</span><span class="p">]]</span>
+        <span class="n">Stokes</span> <span class="n">I</span> <span class="o">=</span>  <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+        <span class="n">Stokes</span> <span class="n">Q</span> <span class="o">=</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+        <span class="n">Stokes</span> <span class="n">U</span> <span class="o">=</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+        <span class="n">Stokes</span> <span class="n">V</span> <span class="o">=</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
 </pre></div>
 </div>
 <p>The code will convolve with a spectral point spread function if a file called <code class="docutils literal"><span class="pre">psf.txt</span></code> is placed on the

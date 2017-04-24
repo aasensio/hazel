@@ -84,10 +84,12 @@
 <li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepareData.html">How to prepare the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgment.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
 </ul>
 
@@ -111,7 +113,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -205,7 +207,7 @@ contains additional comments about compiling. The default compiler is
 the <code class="docutils literal"><span class="pre">ifort</span></code>, although you can use any other compiler through the
 variable <code class="docutils literal"><span class="pre">COMPILER</span></code>. In order to obtain the executable file, just
 type:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make all
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="nb">all</span>
 </pre></div>
 </div>
 <p>After compiling and linking, the executable is copied to the &nbsp;<code class="docutils literal"><span class="pre">Run/</span></code>,
@@ -213,7 +215,7 @@ type:</p>
 in the <code class="docutils literal"><span class="pre">Run/</span></code> directory should produce the correct output depending on
 the exact form of the input files.</p>
 <p>The generated object and module files can be cleaned typing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make clean
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
 </pre></div>
 </div>
 </div>
@@ -240,7 +242,7 @@ of the NetCDF distribution.</p>
 <p>The code makes use of the MPI package for parallelization, so it has to
 be installed on your system. In order to obtain the executable file (for
 instance for the Intel compiler), just type:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make -f makefile.Intel
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">f</span> <span class="n">makefile</span><span class="o">.</span><span class="n">Intel</span>
 </pre></div>
 </div>
 <p>Modify the <code class="docutils literal"><span class="pre">makefile</span></code> to point the variables to the correct libraries
@@ -249,12 +251,12 @@ to the &nbsp;<code class="docutils literal"><span class="pre">RunMPI/</span></co
 program in the <code class="docutils literal"><span class="pre">RunMPI/</span></code> directory should produce the correct output
 depending on the exact form of the input files.</p>
 <p>The generated object and module files can be cleaned typing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make clean
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
 </pre></div>
 </div>
 <p>The code is run from the <code class="docutils literal"><span class="pre">RunMPI</span></code> directory. Use your MPI launcher to
 select the number of processors. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>mpiexec -n 50 hazel_mpi config_inversion.dat 2000 5000
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mpiexec</span> <span class="o">-</span><span class="n">n</span> <span class="mi">50</span> <span class="n">hazel_mpi</span> <span class="n">config_inversion</span><span class="o">.</span><span class="n">dat</span> <span class="mi">2000</span> <span class="mi">5000</span>
 </pre></div>
 </div>
 <p>The code admits up to three command line parameters:</p>
@@ -279,124 +281,124 @@ file. In order to use this option, you need to have the <code class="docutils li
 package installed in your system. It can be downloaded from
 <code class="docutils literal"><span class="pre">http://www.voidspace.org.uk/python/configobj.html</span></code>. The serial code
 is now run using:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>./run.py conf.ini
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">run</span><span class="o">.</span><span class="n">py</span> <span class="n">conf</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
 <p>and the parallel code is run with</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>./run.py conf.ini nProcessors
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">run</span><span class="o">.</span><span class="n">py</span> <span class="n">conf</span><span class="o">.</span><span class="n">ini</span> <span class="n">nProcessors</span>
 </pre></div>
 </div>
 <p>An example of the file, that is self-explanatory, is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Hazel configuration File
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Hazel configuration File</span>
 
-#####################
-# General information
-#####################
+<span class="c1">#####################</span>
+<span class="c1"># General information</span>
+<span class="c1">#####################</span>
 
-[Files]
-Input model file = &#39;ATOMS/helium.mod&#39;
-File with observations = &#39;OBSERVATION/test_2comp.prof&#39;
-File with inverted profiles = &#39;test.inversion&#39;
-File with inverted parameters = &#39;test.parameters&#39;
+<span class="p">[</span><span class="n">Files</span><span class="p">]</span>
+<span class="n">Input</span> <span class="n">model</span> <span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;ATOMS/helium.mod&#39;</span>
+<span class="n">File</span> <span class="k">with</span> <span class="n">observations</span> <span class="o">=</span> <span class="s1">&#39;OBSERVATION/test_2comp.prof&#39;</span>
+<span class="n">File</span> <span class="k">with</span> <span class="n">inverted</span> <span class="n">profiles</span> <span class="o">=</span> <span class="s1">&#39;test.inversion&#39;</span>
+<span class="n">File</span> <span class="k">with</span> <span class="n">inverted</span> <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;test.parameters&#39;</span>
 
-[Working mode]
-Action = &#39;inversion&#39;                        # &#39;synthesis&#39; or &#39;inversion&#39;
-Verbose = no
-Linear system solver = &#39;LU&#39;                 # &#39;LU&#39; or &#39;CG&#39;
-Stopping volume for DIRECT = 0.001
+<span class="p">[</span><span class="n">Working</span> <span class="n">mode</span><span class="p">]</span>
+<span class="n">Action</span> <span class="o">=</span> <span class="s1">&#39;inversion&#39;</span>                        <span class="c1"># &#39;synthesis&#39; or &#39;inversion&#39;</span>
+<span class="n">Verbose</span> <span class="o">=</span> <span class="n">no</span>
+<span class="n">Linear</span> <span class="n">system</span> <span class="n">solver</span> <span class="o">=</span> <span class="s1">&#39;LU&#39;</span>                 <span class="c1"># &#39;LU&#39; or &#39;CG&#39;</span>
+<span class="n">Stopping</span> <span class="n">volume</span> <span class="k">for</span> <span class="n">DIRECT</span> <span class="o">=</span> <span class="mf">0.001</span>
 
-[General parameters]
-Synthesis mode = &#39;exact&#39;                    # &#39;thin&#39; or &#39;exact&#39;
-Include stimulated emission = yes
-Include magnetic field  = yes
-Include Paschen-Back effect = yes
-Include atomic level polarization = yes
-Include magneto-optical effects in the RT = yes
-Include stimulated emission in the RT = yes
-Multiplet = 10830                           # 10830, 5876, 7065, 3889 A
-Line-of-sight angles = 0.0, 0.0, 90.0       # theta, chi, gamma deg
-Wavelength axis = -3.0, 2.5, 200            # Minimum, maximum and number of grid points
+<span class="p">[</span><span class="n">General</span> <span class="n">parameters</span><span class="p">]</span>
+<span class="n">Synthesis</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;exact&#39;</span>                    <span class="c1"># &#39;thin&#39; or &#39;exact&#39;</span>
+<span class="n">Include</span> <span class="n">stimulated</span> <span class="n">emission</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">magnetic</span> <span class="n">field</span>  <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">Paschen</span><span class="o">-</span><span class="n">Back</span> <span class="n">effect</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">atomic</span> <span class="n">level</span> <span class="n">polarization</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">magneto</span><span class="o">-</span><span class="n">optical</span> <span class="n">effects</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">RT</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Include</span> <span class="n">stimulated</span> <span class="n">emission</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">RT</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">Multiplet</span> <span class="o">=</span> <span class="mi">10830</span>                           <span class="c1"># 10830, 5876, 7065, 3889 A</span>
+<span class="n">Line</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">sight</span> <span class="n">angles</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">90.0</span>       <span class="c1"># theta, chi, gamma deg</span>
+<span class="n">Wavelength</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">200</span>            <span class="c1"># Minimum, maximum and number of grid points</span>
 
-#####################
-# Synthesis parameters
-#####################
-[Synthesis]
-Number of slabs = &#39;1&#39;                       # &#39;1&#39; -&gt; single slab, &#39;1+1&#39; -&gt; two slabs with same field, &#39;1+1B&#39; -&gt; 2 slabs with different field, &#39;2&#39; -&gt; two slabs added with a filling factor
-Boundary condition = 4.098e-5, 0.0, 0.0, 0.0      # I0, Q0, U0, V0
-a = 0.0
-height = 3.0                                # Real height if positive, apparent height if negative arcsec
-ff = 0.0
-    [[Slab 1]]
-    B =         0.0         # G
-    thetaB =    0.0         # deg
-    chiB =      0.0         # deg
-    vdopp =     8.0         # km/s
-    tau =       1.0
-    vmac =      0.0         # Positive is redshift km/s
-    beta =      1.0
-    [[Slab 2]]
-    B =         0.0         # G
-    thetaB =    0.0         # deg
-    chiB =      0.0         # deg
-    vdopp =     0.0         # km/s
-    tau =       0.0
-    vmac =      0.0         # Positive is redshift km/s
-    beta =      1.0
+<span class="c1">#####################</span>
+<span class="c1"># Synthesis parameters</span>
+<span class="c1">#####################</span>
+<span class="p">[</span><span class="n">Synthesis</span><span class="p">]</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">slabs</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>                       <span class="c1"># &#39;1&#39; -&gt; single slab, &#39;1+1&#39; -&gt; two slabs with same field, &#39;1+1B&#39; -&gt; 2 slabs with different field, &#39;2&#39; -&gt; two slabs added with a filling factor</span>
+<span class="n">Boundary</span> <span class="n">condition</span> <span class="o">=</span> <span class="mf">4.098e-5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>      <span class="c1"># I0, Q0, U0, V0</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">height</span> <span class="o">=</span> <span class="mf">3.0</span>                                <span class="c1"># Real height if positive, apparent height if negative arcsec</span>
+<span class="n">ff</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mf">0.0</span>         <span class="c1"># G</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mf">8.0</span>         <span class="c1"># km/s</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">1.0</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># Positive is redshift km/s</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">1.0</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">2</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mf">0.0</span>         <span class="c1"># G</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># deg</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mf">0.0</span>         <span class="c1"># km/s</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">0.0</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="mf">0.0</span>         <span class="c1"># Positive is redshift km/s</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">1.0</span>
 
-#####################
-# Ranges for the DIRECT method [min, max]
-#####################
-[Ranges]
-a =             0,0.5
-ff =            0.0,1.0
-    [[Slab 1]]
-    B =         800,1100
-    thetaB =    0,180
-    chiB =      0,180
-    vdopp =     2,12
-    tau =       0.1,2
-    vmac =      -5,5
-    beta =      0.5,2
-    [[Slab 2]]
-    B =         800,1100
-    thetaB =    0,180
-    chiB =      0,180
-    vdopp =     2,12
-    tau =       0.1,2
-    vmac =      -5,5
-    beta =      0.5,2
+<span class="c1">#####################</span>
+<span class="c1"># Ranges for the DIRECT method [min, max]</span>
+<span class="c1">#####################</span>
+<span class="p">[</span><span class="n">Ranges</span><span class="p">]</span>
+<span class="n">a</span> <span class="o">=</span>             <span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span>
+<span class="n">ff</span> <span class="o">=</span>            <span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mi">800</span><span class="p">,</span><span class="mi">1100</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">2</span><span class="p">,</span><span class="mi">12</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">0.1</span><span class="p">,</span><span class="mi">2</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">0.5</span><span class="p">,</span><span class="mi">2</span>
+    <span class="p">[[</span><span class="n">Slab</span> <span class="mi">2</span><span class="p">]]</span>
+    <span class="n">B</span> <span class="o">=</span>         <span class="mi">800</span><span class="p">,</span><span class="mi">1100</span>
+    <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span><span class="mi">180</span>
+    <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">2</span><span class="p">,</span><span class="mi">12</span>
+    <span class="n">tau</span> <span class="o">=</span>       <span class="mf">0.1</span><span class="p">,</span><span class="mi">2</span>
+    <span class="n">vmac</span> <span class="o">=</span>      <span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span>
+    <span class="n">beta</span> <span class="o">=</span>      <span class="mf">0.5</span><span class="p">,</span><span class="mi">2</span>
 
-#####################
-# Parameters to invert
-#####################
-[Inversion]
-Iterations in LM = 20
-Number of cycles = 4
-Inversion modes = &#39;DIRECT&#39;, &#39;LM&#39;, &#39;DIRECT&#39;, &#39;LM&#39;        # &#39;DIRECT&#39; for DIRECT algorithm and &#39;LM&#39; for Levenberg-Marquardt
-    [[Cycles]]
-    a =             1, 1, 0, 0
-    ff =            0, 0, 0, 0
-        [[[Slab 1]]]
-        B =         0, 0, 1, 1
-        thetaB =    0, 0, 1, 1
-        chiB =      0, 0, 1, 1
-        vdopp =     1, 1, 0, 0
-        tau =       1, 1, 0, 0
-        vmac =      1, 1, 0, 0
-        beta =      0, 0, 0, 0
-        [[[Slab 2]]]
-        B =         0, 0, 0, 0
-        thetaB =    0, 0, 0, 0
-        chiB =      0, 0, 0, 0
-        vdopp =     0, 0, 0, 0
-        tau =       0, 0, 0, 0
-        vmac =      0, 0, 0, 0
-        beta =      0, 0, 0, 0
-    [[Weights]]
-        Stokes I =  1.0, 1.0, 1.0, 1.0
-        Stokes Q =  0.0, 0.0, 1.0, 1.0
-        Stokes U =  0.0, 0.0, 1.0, 1.0
-        Stokes V =  0.0, 0.0, 1.0, 1.0
+<span class="c1">#####################</span>
+<span class="c1"># Parameters to invert</span>
+<span class="c1">#####################</span>
+<span class="p">[</span><span class="n">Inversion</span><span class="p">]</span>
+<span class="n">Iterations</span> <span class="ow">in</span> <span class="n">LM</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">cycles</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">Inversion</span> <span class="n">modes</span> <span class="o">=</span> <span class="s1">&#39;DIRECT&#39;</span><span class="p">,</span> <span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="s1">&#39;DIRECT&#39;</span><span class="p">,</span> <span class="s1">&#39;LM&#39;</span>        <span class="c1"># &#39;DIRECT&#39; for DIRECT algorithm and &#39;LM&#39; for Levenberg-Marquardt</span>
+    <span class="p">[[</span><span class="n">Cycles</span><span class="p">]]</span>
+    <span class="n">a</span> <span class="o">=</span>             <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">ff</span> <span class="o">=</span>            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">[[[</span><span class="n">Slab</span> <span class="mi">1</span><span class="p">]]]</span>
+        <span class="n">B</span> <span class="o">=</span>         <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">tau</span> <span class="o">=</span>       <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">vmac</span> <span class="o">=</span>      <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">beta</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">[[[</span><span class="n">Slab</span> <span class="mi">2</span><span class="p">]]]</span>
+        <span class="n">B</span> <span class="o">=</span>         <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">thetaB</span> <span class="o">=</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">chiB</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">vdopp</span> <span class="o">=</span>     <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">tau</span> <span class="o">=</span>       <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">vmac</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">beta</span> <span class="o">=</span>      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="p">[[</span><span class="n">Weights</span><span class="p">]]</span>
+        <span class="n">Stokes</span> <span class="n">I</span> <span class="o">=</span>  <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+        <span class="n">Stokes</span> <span class="n">Q</span> <span class="o">=</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+        <span class="n">Stokes</span> <span class="n">U</span> <span class="o">=</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+        <span class="n">Stokes</span> <span class="n">V</span> <span class="o">=</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
 </pre></div>
 </div>
 </div>
@@ -413,13 +415,13 @@ the names of the input files, the names of the output files, verbosity
 level and to decide whether &nbsp;is to be applied to work in synthesis or
 inversion mode. Using the example included in the present version of ,
 we analyze one by one all the inputs.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Input model file</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Input model file</span>
 <span class="s1">&#39;ATOMS/helium.mod&#39;</span>
 </pre></div>
 </div>
 <p>Definition of the file with the atomic model. See §[sec:atomic_model]
 for an explanation of the file format.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Initial parameters file</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Initial parameters file</span>
 <span class="s1">&#39;init_parameters.dat&#39;</span>
 </pre></div>
 </div>
@@ -427,14 +429,14 @@ for an explanation of the file format.</p>
 values of the parameters in this file are taken as initial values for
 the inversion or for the synthesis. See §[sec:init_parameters] for a
 detailed description of the file.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Range of parameters for the DIRECT method</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Range of parameters for the DIRECT method</span>
 <span class="s1">&#39;direct_range.dat&#39;</span>
 </pre></div>
 </div>
 <p>This file is used to define the lower and upper limits of the intervals
 inside which the DIRECT method searches for the minimum of the
 <span class="math">\(\chi^2\)</span> function. See §[sec:direct_range] for details.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Output for the upper level rho^K_Q(J,J&#39;) in the vertical reference frame</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Output for the upper level rho^K_Q(J,J&#39;) in the vertical reference frame</span>
 <span class="s1">&#39;ATOMIC_POL/vertical_upper.rho&#39;</span>
 
 <span class="c1"># Output for the lower level rho^K_Q(J,J&#39;) in the vertical reference frame</span>
@@ -455,7 +457,7 @@ the chosen reference system, and the two most desired reference systems
 are the one in which the quantization axis is chosen along the solar
 local vertical direction and the one in which the quantization axis is
 chosen along the magnetic field vector.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Output absorption/emission coefficients</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Output absorption/emission coefficients</span>
 <span class="s1">&#39;INVERTED/rtcoef.emer&#39;</span>
 
 <span class="c1"># Output absorption/emission coefficients neglecting atomic polarization</span>
@@ -467,7 +469,7 @@ coefficients <span class="math">\(\eta_{I,Q,U,V}\)</span> and the anomalous disp
 coefficients <span class="math">\(\rho_{Q,U,V}\)</span> for each wavelength point are saved in
 these files. The first file includes the effects of atomic level
 polarization, while the second one neglects its influence.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># File with the observed profiles</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># File with the observed profiles</span>
 <span class="s1">&#39;OBSERVATION/test.prof&#39;</span>
 </pre></div>
 </div>
@@ -485,7 +487,7 @@ lines have to be present in the input file even if &nbsp;is used in synthesis
 mode.</p>
 <p>When using , the input file is more complicated and is described in
 §[sec:phazel_files].</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># File with the inverted profiles</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># File with the inverted profiles</span>
 <span class="s1">&#39;test.inversion&#39;</span>
 
 <span class="c1"># File with the parameters from the inversion</span>
@@ -498,14 +500,14 @@ the same as that explained for the file containing the observation. When
 &nbsp;is run in inversion mode, the final inferred parameters of the model
 are saved in the file indicated in the second line. Again, for &nbsp;the
 output files are described in §[sec:phazel_files].</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># File that sets the parameters to invert</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># File that sets the parameters to invert</span>
 <span class="s1">&#39;invert_parameters.dat&#39;</span>
 </pre></div>
 </div>
 <p>This file defines which parameters to invert in the inversion mode,
 together with the algorithm to be used in each cycle and the weight used
 for each Stokes parameter.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Verbose mode (0-&gt; no, 1-&gt; yes)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Verbose mode (0-&gt; no, 1-&gt; yes)</span>
 <span class="mi">0</span>
 </pre></div>
 </div>
@@ -513,7 +515,7 @@ for each Stokes parameter.</p>
 Stokes profiles affected by atomic level polarization it is sometimes
 useful to turn the verbose mode on for analyzing the process of the code
 while calculating.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Linear system solver (0-&gt; LU, 1-&gt; CG)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Linear system solver (0-&gt; LU, 1-&gt; CG)</span>
 <span class="mi">0</span>
 </pre></div>
 </div>
@@ -526,15 +528,15 @@ methods are a much better option. We recommend to use the LU
 decomposition when possible and move to the CG solution only when
 necessary. The CG solution are based on routines developed by Dr. Mark
 K. Seager from Lawrence Livermore National Lab.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3),
-                       simplified slab (4), exact slab (5)
-5
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3),</span>
+                       <span class="n">simplified</span> <span class="n">slab</span> <span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">exact</span> <span class="n">slab</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="mi">5</span>
 </pre></div>
 </div>
 <p>This flag is used to choose the level of approximation for the solution
 of the radiative transfer equation. The meaning of each option is
 explained below in §[sec:radiative_transfer].</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Synthesis mode -&gt; 0 , Inversion mode -&gt; 1</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Synthesis mode -&gt; 0 , Inversion mode -&gt; 1</span>
 <span class="mi">0</span>
 </pre></div>
 </div>
@@ -551,7 +553,7 @@ the inversion mode, the values in this file are chosen as initial
 conditions for the inversion for those parameters that are left free.
 For those that are left fixed, the code uses the values defined in this
 file. We explain them step by step.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Include stimulated emission (0-&gt; no, 1-&gt; yes)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Include stimulated emission (0-&gt; no, 1-&gt; yes)</span>
 <span class="mi">1</span>
 </pre></div>
 </div>
@@ -560,18 +562,18 @@ stimulated emission in the emergent Stokes profiles. Although stimulated
 emission is negligible for most solar it can be of importance for very
 strong radiation fields. We recommend to use always 1 since the
 computational time is barely affected by this flag.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Include magnetic field (0-&gt; no, 1-&gt; yes)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Include magnetic field (0-&gt; no, 1-&gt; yes)</span>
 <span class="mi">1</span>
 </pre></div>
 </div>
 <p>This flag is used to slightly reduce the computational work for the
 non-magnetic case because, if set to zero, the magnetic kernel [see Eq.
 ([eq:see])] is not calculated.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Include depolarization rates (0-&gt; no, 1-&gt; yes)
-0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Include depolarization rates (0-&gt; no, 1-&gt; yes)</span>
+<span class="mi">0</span>
 
-# Value of delta if depol. rates are included (not used if prev. value = 0)
-1.d14
+<span class="c1"># Value of delta if depol. rates are included (not used if prev. value = 0)</span>
+<span class="mf">1.</span><span class="n">d14</span>
 </pre></div>
 </div>
 <p>In the present version of &nbsp;it is possible to include the effect of
@@ -579,7 +581,7 @@ depolarizing collisions only in the ground level of the atomic system.
 In case the effect of collisions is to be accounted for, set the first
 parameter to 1 and give the collisional rate in the next parameter in
 units of s<span class="math">\(^{-1}\)</span>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Include Paschen-Back effect (0-&gt; no, 1-&gt; yes)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Include Paschen-Back effect (0-&gt; no, 1-&gt; yes)</span>
 <span class="mi">1</span>
 </pre></div>
 </div>
@@ -593,8 +595,8 @@ Paschen-Back effect is used to calculate the wavelength positions and
 the strengths of the <span class="math">\(\pi\)</span> and <span class="math">\(\sigma\)</span> components. The
 difference in the computational work between both approaches is rather
 small.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Number of slabs (1-&gt; 1 slab, 2-&gt; 2 slabs with same B,
-3-&gt; 2 slabs with different B, -2 -&gt; 2 slabs with filling factor)
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Number of slabs (1-&gt; 1 slab, 2-&gt; 2 slabs with same B,</span>
+<span class="mi">3</span><span class="o">-&gt;</span> <span class="mi">2</span> <span class="n">slabs</span> <span class="k">with</span> <span class="n">different</span> <span class="n">B</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">-&gt;</span> <span class="mi">2</span> <span class="n">slabs</span> <span class="k">with</span> <span class="n">filling</span> <span class="n">factor</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>&nbsp;can be used using one slab (option 1) of constant physical properties
@@ -606,8 +608,8 @@ is placed in front of the first one, so that the boundary condition of
 the second slab is the emergent radiation from the first. In option -2,
 the radiation emerging from both slabs is added weighted with a filling
 factor, which is indicated below.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-0.3d0 90.d0 90.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Magnetic field strength [G], thetaB [degrees], chiB [degrees]</span>
+<span class="mf">0.3</span><span class="n">d0</span> <span class="mf">90.</span><span class="n">d0</span> <span class="mf">90.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>The magnetic field vector is defined here. The strength in G and the
@@ -619,8 +621,8 @@ obtained following the strategy explained in Appendix C of
 <a href="#id2"><span class="problematic" id="id3">:raw-latex:`\cite{belluzzi07}`</span></a>. If two slabs are used (setting option 3
 or -2 above), put the two field vectors next to each one in the format
 <span class="math">\((B,\theta_B,\chi_B)_1 (B,\theta_B,\chi_B)_2\)</span>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Apparent height (if &lt;0) or real height (if &gt;0) of the atoms in arcsec
-3.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Apparent height (if &lt;0) or real height (if &gt;0) of the atoms in arcsec</span>
+<span class="mf">3.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>The tensors <span class="math">\(J^0_0\)</span> and <span class="math">\(J^2_0\)</span> that quantify the mean
@@ -628,8 +630,8 @@ intensity of the radiation field and its anisotropy are calculated
 assuming a standard solar center-to-limb variation (CLV) and taking into
 account geometrical effects. This parameter gives the height at which
 the slab of atoms is placed with respect to the surface of the Sun.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-1.0d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)</span>
+<span class="mf">1.0</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>This quantity is the optical depth of the slab at the wavelength
@@ -638,8 +640,8 @@ example, for the 10830 Å&nbsp;multiplet of He i, this is the position of the
 red blended component. If two slabs with option 2 or 3 are used, put the
 two optical depths together. If option -2 is used, then add the filling
 factor as a third number.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Source function increase
-1.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Source function increase</span>
+<span class="mf">1.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>The source function of the slab will be multiplied by this number. This
@@ -647,15 +649,15 @@ is a way to generate lines in emission even when the slab is seen on the
 solar disk. If two components (one after the other) are used, this
 number only modifies the source function of the second component. This
 allows us to simulate self-absorption in the code.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Boundary Stokes parameters (I0,Q0,U0,V0)
-4.098d-5 0.d0 0.d0 0.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Boundary Stokes parameters (I0,Q0,U0,V0)</span>
+<span class="mf">4.098</span><span class="n">d</span><span class="o">-</span><span class="mi">5</span> <span class="mf">0.</span><span class="n">d0</span> <span class="mf">0.</span><span class="n">d0</span> <span class="mf">0.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>Boundary conditions for the Stokes vector used in the solution of the
 radiative transfer equation. If the radiation field is the photospheric
 continuum, the IDL routine <code class="docutils literal"><span class="pre">IDL_routines/solar_field.pro</span></code> can be used
 to return an estimation.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Transition where to compute the emergent Stokes profiles</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Transition where to compute the emergent Stokes profiles</span>
 <span class="mi">1</span>
 </pre></div>
 </div>
@@ -663,21 +665,21 @@ to return an estimation.</p>
 the emergent Stokes profiles for the chosen transition. For the moment,
 only one transition at a time is allowed. We plan to extend this to
 synthesize several lines.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Include atomic level polarization? (0-&gt; no, 1-&gt; yes)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Include atomic level polarization? (0-&gt; no, 1-&gt; yes)</span>
 <span class="mi">1</span>
 </pre></div>
 </div>
 <p>The synthesis or inversion options can be used taking into account or
 neglecting the presence of atomic level polarization. This flag controls
 it.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Observation angle with respect to the local solar vertical theta,chi,gamma [degrees]
-0.d0 0.d0 90.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Observation angle with respect to the local solar vertical theta,chi,gamma [degrees]</span>
+<span class="mf">0.</span><span class="n">d0</span> <span class="mf">0.</span><span class="n">d0</span> <span class="mf">90.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>The line-of-sight direction is defined using the angles described in
 Fig. [fig:geometry]. All angles are given in degrees.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Wavelength axis: minimum, maximum and number of grid points
--3.d0 2.5d0 200
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Wavelength axis: minimum, maximum and number of grid points</span>
+<span class="o">-</span><span class="mf">3.</span><span class="n">d0</span> <span class="mf">2.5</span><span class="n">d0</span> <span class="mi">200</span>
 </pre></div>
 </div>
 <p>In case the code is run in synthesis mode, this line is used to set the
@@ -685,8 +687,8 @@ lower and upper limits (in cm<span class="math">\(^{-1}\)</span>) of the wavelen
 The last parameter gives the number of wavelength points to be used. In
 the inversion mode, the wavelength axis is chosen automatically from the
 observation and these numbers are overridden.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10829.0911d0   6.5d0   0.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Line wavelength [A], Doppler velocity [km/s] and damping [a]</span>
+<span class="mf">10829.0911</span><span class="n">d0</span>   <span class="mf">6.5</span><span class="n">d0</span>   <span class="mf">0.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>This line is used to define the wavelength of the multiplet (wavelength
@@ -698,22 +700,22 @@ constant, if its value is negative, it is computed using the natural
 damping and using the Doppler broadening. The absolute value of the
 input value is used then as an enhancement factor (so you should use
 <span class="math">\(-1\)</span> is you want to use the natural width).</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Macroscopic velocity [km/s] (&gt;0 is a redshift)
-0.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Macroscopic velocity [km/s] (&gt;0 is a redshift)</span>
+<span class="mf">0.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>This defines the wavelength shift produced by the presence of a bulk
 motion of the plasma. Note that positive velocities imply redshifts. If
 two components (options 2, 3 or -2) are used, put the two bulk
 velocities.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Include magneto-optical effects in the RT</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Include magneto-optical effects in the RT</span>
 <span class="mi">1</span>
 </pre></div>
 </div>
 <p>It is possible to include (1) or neglect (0) the influence of the
 anomalous dispersion coefficients <span class="math">\(\rho_{Q,U,V}\)</span> in the
 calculation of the emergent Stokes profiles.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Include stimulated emission in the RT</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Include stimulated emission in the RT</span>
 <span class="mi">1</span>
 </pre></div>
 </div>
@@ -730,7 +732,7 @@ DIRECT method is controlled with this file, in which we must specify the
 upper and lower limits of the model parameters, together with details
 about the stopping criterion. In the following, we describe all the
 options in detail.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Output file</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Output file</span>
 <span class="s1">&#39;direct.location&#39;</span>
 </pre></div>
 </div>
@@ -742,7 +744,7 @@ ambiguities. In this case, the method will clearly mark the position of
 the possible solutions by evaluating the merit function more times in
 the surroundings of the compatible solutions. Note that this lines are
 absent on the &nbsp;configuration file.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Maximum number of function evaluations (&lt;0 -&gt; don&#39;t use this criteria)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Maximum number of function evaluations (&lt;0 -&gt; don&#39;t use this criteria)</span>
 <span class="o">-</span><span class="mi">1</span>
 
 <span class="c1"># Reduction in the volume (&lt;0 -&gt; don&#39;t use this criteria, typically 0.01)</span>
@@ -760,53 +762,53 @@ ratio between the hypervolume where the global minimum is located and
 the original hypervolume is smaller than the given threshold. We have
 verified that 0.001 gives very good results. Setting one of the two
 parameters to values <span class="math">\(&lt; 0\)</span> will disconnect it.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Magnetic field (0-Bmax)
-800.d0  1100.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Magnetic field (0-Bmax)</span>
+<span class="mf">800.</span><span class="n">d0</span>  <span class="mf">1100.</span><span class="n">d0</span>
 
-# thetab  (0 .. 180)
-30.d0  180.d0
+<span class="c1"># thetab  (0 .. 180)</span>
+<span class="mf">30.</span><span class="n">d0</span>  <span class="mf">180.</span><span class="n">d0</span>
 
-# chib (0 .. 180)
--180.d0  0.d0
+<span class="c1"># chib (0 .. 180)</span>
+<span class="o">-</span><span class="mf">180.</span><span class="n">d0</span>  <span class="mf">0.</span><span class="n">d0</span>
 
-# vdopp (0 .. 20)
-2.d0  7.d0
+<span class="c1"># vdopp (0 .. 20)</span>
+<span class="mf">2.</span><span class="n">d0</span>  <span class="mf">7.</span><span class="n">d0</span>
 
-# dtau (0 .. 5)
-0.d0  1.d0
+<span class="c1"># dtau (0 .. 5)</span>
+<span class="mf">0.</span><span class="n">d0</span>  <span class="mf">1.</span><span class="n">d0</span>
 
-# delta_collision (0 .. 18)
-0.d0  18.d0
+<span class="c1"># delta_collision (0 .. 18)</span>
+<span class="mf">0.</span><span class="n">d0</span>  <span class="mf">18.</span><span class="n">d0</span>
 
-# vmacro (-10 .. 10)
--10.d0  10.d0
+<span class="c1"># vmacro (-10 .. 10)</span>
+<span class="o">-</span><span class="mf">10.</span><span class="n">d0</span>  <span class="mf">10.</span><span class="n">d0</span>
 
-# damping (0 .. 4)
-0.d0  4.d0
+<span class="c1"># damping (0 .. 4)</span>
+<span class="mf">0.</span><span class="n">d0</span>  <span class="mf">4.</span><span class="n">d0</span>
 
-# beta (0 .. 10)
-0.d0  1.d0
+<span class="c1"># beta (0 .. 10)</span>
+<span class="mf">0.</span><span class="n">d0</span>  <span class="mf">1.</span><span class="n">d0</span>
 
-# height (0 .. 100)
-0.d0  100.d0
+<span class="c1"># height (0 .. 100)</span>
+<span class="mf">0.</span><span class="n">d0</span>  <span class="mf">100.</span><span class="n">d0</span>
 
-# dtau2 (0 .. 5)
-0.d0  2.d0
+<span class="c1"># dtau2 (0 .. 5)</span>
+<span class="mf">0.</span><span class="n">d0</span>  <span class="mf">2.</span><span class="n">d0</span>
 
-# vmacro2 (-10 .. 10)
-25.d0  35.d0
+<span class="c1"># vmacro2 (-10 .. 10)</span>
+<span class="mf">25.</span><span class="n">d0</span>  <span class="mf">35.</span><span class="n">d0</span>
 
-# Magnetic field 2 (0-Bmax)
-800.d0  1100.d0
+<span class="c1"># Magnetic field 2 (0-Bmax)</span>
+<span class="mf">800.</span><span class="n">d0</span>  <span class="mf">1100.</span><span class="n">d0</span>
 
-# thetab 2 (0 .. 180)
-30.d0  180.d0
+<span class="c1"># thetab 2 (0 .. 180)</span>
+<span class="mf">30.</span><span class="n">d0</span>  <span class="mf">180.</span><span class="n">d0</span>
 
-# chib 2 (0 .. 180)
--180.d0  0.d0
+<span class="c1"># chib 2 (0 .. 180)</span>
+<span class="o">-</span><span class="mf">180.</span><span class="n">d0</span>  <span class="mf">0.</span><span class="n">d0</span>
 
-# vdopp 2 (0 .. 20)
-2.d0  12.d0
+<span class="c1"># vdopp 2 (0 .. 20)</span>
+<span class="mf">2.</span><span class="n">d0</span>  <span class="mf">12.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>The previous lines define the space of parameters where the DIRECT
@@ -817,7 +819,7 @@ method will look for the global minimum.</p>
 <p>This file is used to set the behavior of the inversion mode: the
 structure of the inversion cycle, setting the free and the fixed
 parameters.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Maximum number of iterations</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Maximum number of iterations</span>
 <span class="mi">20</span>
 </pre></div>
 </div>
@@ -826,7 +828,7 @@ iterations to be carried out in each cycle. Sometimes the LM scheme
 stops before reaching the maximum number of iterations because the
 relative change in the parameters from one iteration to the next is
 below 10<span class="math">\(^{-4}\)</span>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Number of cycles</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Number of cycles</span>
 <span class="mi">2</span>
 </pre></div>
 </div>
@@ -835,53 +837,53 @@ the first cycle, the DIRECT method is used to give a first estimation of
 the solution. In the second cycle, the LM method is used to refine the
 solution until arriving to the final one. This parameter sets the number
 of cycles used.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Invert the magnetic field strength
-1 1 1 1
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Invert the magnetic field strength</span>
+<span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span>
 
-# Invert the magnetic field inclination
-1 1 1 1
+<span class="c1"># Invert the magnetic field inclination</span>
+<span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span>
 
-# Invert the magnetic field azimuth
-1 1 0 0
+<span class="c1"># Invert the magnetic field azimuth</span>
+<span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the Doppler width
-0 0 0 0
+<span class="c1"># Invert the Doppler width</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the optical depth or strength of the line
-0 0 0 0
+<span class="c1"># Invert the optical depth or strength of the line</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the D^2 of the lower level
-0 0 0 0
+<span class="c1"># Invert the D^2 of the lower level</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the macroscopic velocity
-0 0 0 0
+<span class="c1"># Invert the macroscopic velocity</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the damping
-0 0 0 0
+<span class="c1"># Invert the damping</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the source function gradient
-0 0 0 0
+<span class="c1"># Invert the source function gradient</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the height of the He atoms
-0 0 0 0
+<span class="c1"># Invert the height of the He atoms</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the optical depth or strength of the line of component 2
-0 0 0 0
+<span class="c1"># Invert the optical depth or strength of the line of component 2</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the macroscopic velocity of component 2
-0 0 0 0
+<span class="c1"># Invert the macroscopic velocity of component 2</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 
-# Invert the magnetic field strength of component 2
-0 0 1 1
+<span class="c1"># Invert the magnetic field strength of component 2</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>
 
-# Invert the magnetic field inclination of component 2
-0 0 1 1
+<span class="c1"># Invert the magnetic field inclination of component 2</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>
 
-# Invert the magnetic field azimuth of component 2
-0 0 1 1
+<span class="c1"># Invert the magnetic field azimuth of component 2</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>
 
-# Invert the Doppler width of component 2
-0 0 0 0
+<span class="c1"># Invert the Doppler width of component 2</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
 </pre></div>
 </div>
 <p>Depending on the number of cycles, the previous lines define whether a
@@ -889,17 +891,17 @@ parameter is inverted (setting a 1 in the corresponding cycle) or kept
 fixed to the value given in the <code class="docutils literal"><span class="pre">init_parameters.dat</span></code> file (setting a
 0 in the corresponding cycle). The number of 0s/1s in each line has to
 be larger or equal to the number of cycles.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Weights for Stokes I in each cycle
-1.d0 1.d0 1.d0 1.d0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Weights for Stokes I in each cycle</span>
+<span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span>
 
-# Weights for Stokes Q in each cycle
-1.d0 1.d0 1.d0 1.d0
+<span class="c1"># Weights for Stokes Q in each cycle</span>
+<span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span>
 
-# Weights for Stokes U in each cycle
-1.d0 1.d0 1.d0 1.d0
+<span class="c1"># Weights for Stokes U in each cycle</span>
+<span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span>
 
-# Weights for Stokes V in each cycle
-1.d0 1.d0 1.d0 1.d0
+<span class="c1"># Weights for Stokes V in each cycle</span>
+<span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span> <span class="mf">1.</span><span class="n">d0</span>
 </pre></div>
 </div>
 <p>Since the inversion is based on the gradient descent minimization of the
@@ -908,8 +910,8 @@ important to modify sometimes the weight of each Stokes vector in order
 to increase the sensitivity of the <span class="math">\(\chi^2\)</span>-function to some model
 parameters. The code allows to change the relative weight of each Stokes
 vector in each cycle.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Inversion modes (1-&gt; LM, 2-&gt; DIRECT, 3-&gt; PIKAIA)
-2 1 2 1
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Inversion modes (1-&gt; LM, 2-&gt; DIRECT, 3-&gt; PIKAIA)</span>
+<span class="mi">2</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">1</span>
 </pre></div>
 </div>
 <p>The optimization method used in each cycle is set in this line. Note
@@ -927,7 +929,7 @@ utility written in IDL that, given an inverted map, obtains all the
 other solutions which are ambiguous in the saturation regime. This can
 be called, including the appropriate paths and discarding the final
 <code class="docutils literal"><span class="pre">.nc</span></code> extension, by:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">IDL</span><span class="o">&gt;</span> <span class="n">disamb</span><span class="p">,</span> <span class="s1">&#39;file_with_inversions&#39;</span><span class="p">,</span> <span class="s1">&#39;file_with_observations&#39;</span><span class="p">,</span> <span class="n">angleObs</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">IDL</span><span class="o">&gt;</span> <span class="n">disamb</span><span class="p">,</span> <span class="s1">&#39;file_with_inversions&#39;</span><span class="p">,</span> <span class="s1">&#39;file_with_observations&#39;</span><span class="p">,</span> <span class="n">angleObs</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal"><span class="pre">angleObs</span></code> is the observation angle <span class="math">\(\theta\)</span> (so that it
@@ -947,7 +949,7 @@ Section [sec:ambiguities].</p>
 <p>We have developed a wrapper to allow the user to call the synthesis
 routines of Hazel in Python. To do so, just enter into the directory
 <code class="docutils literal"><span class="pre">SourcePy</span></code> and type</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>python setup.py build_ext --inplace
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">inplace</span>
 </pre></div>
 </div>
 <p>and a library <code class="docutils literal"><span class="pre">pyhazel.so</span></code> will be generated (and also copied to the
@@ -1001,13 +1003,13 @@ consideration,
 <span class="math">\(\bm{\epsilon}(\nu,\mathbf{\Omega})=({\epsilon}_I,{\epsilon}_Q,{\epsilon
 }_U,{\epsilon}_V)^{\dag}\)</span> is the emission vector and</p>
 <div class="math">
-\[\begin{split}  \mathbf{K} = \left( \begin{array}{cccc}
+\[ \begin{align}\begin{aligned}\begin{split}  \mathbf{K} = \left( \begin{array}{cccc}
   \eta_I &amp; \eta_Q &amp; \eta_U &amp; \eta_V \\
   \eta_Q &amp; \eta_I &amp; \rho_V &amp; -\rho_U \\
   \eta_U &amp; -\rho_V &amp; \eta_I &amp; \rho_Q \\
   \eta_V &amp; \rho_U &amp; -\rho_Q &amp; \eta_I
   \end{array} \right)
-  \label{eq:propagation}\end{split}\]\[is the propagation matrix. Alternatively, introducing the optical\]</div>
+  \label{eq:propagation}\end{split}\\is the propagation matrix. Alternatively, introducing the optical\end{aligned}\end{align} \]</div>
 <p>distance along the ray, <span class="math">\({\rm d}{\tau}=-{\eta_I}{\rm d}s\)</span>, one can
 write the Stokes-vector transfer Eq. ([eq:rad_transfer]) in the
 following two ways:</p>
@@ -1016,9 +1018,9 @@ following two ways:</p>
 evolution operator introduced by <a href="#id10"><span class="problematic" id="id11">:raw-latex:`\cite{landi_landi85}`</span></a>,
 is</p>
 <div class="math">
-\[  {{d}\over{d{\tau}}}{\bf I}\,=\,{\bf K}^{*}
+\[ \begin{align}\begin{aligned}  {{d}\over{d{\tau}}}{\bf I}\,=\,{\bf K}^{*}
   {\bf I}\,-\,{\bf S},
-  \label{eq:rad_transfer_peo}\]\[where :math:`{\bf K}^{*}={\bf K}/{\eta_I}` and\]</div>
+  \label{eq:rad_transfer_peo}\\where :math:`{\bf K}^{*}={\bf K}/{\eta_I}` and\end{aligned}\end{align} \]</div>
 <p><span class="math">\({\bf S}=\bm{\epsilon}/{\eta_I}\)</span>. The formal solution of this
 equation can be seen in eq. (23) of <a href="#id12"><span class="problematic" id="id13">:raw-latex:`\cite{trujillo03}`</span></a>.</p>
 </li>
@@ -1026,8 +1028,8 @@ equation can be seen in eq. (23) of <a href="#id12"><span class="problematic" id
 above-mentioned evolution operator is
 <a href="#id14"><span class="problematic" id="id15">:raw-latex:`\citep[e.g.,][]{rees_delo89}`</span></a></p>
 <div class="math">
-\[  {{d}\over{d{\tau}}}{\bf I}\,=\,{\bf I}\,-\,{\bf S}_{\rm eff},
-  \label{eq:rad_transfer_delo}\]\[where the effective source-function vector\]</div>
+\[ \begin{align}\begin{aligned}  {{d}\over{d{\tau}}}{\bf I}\,=\,{\bf I}\,-\,{\bf S}_{\rm eff},
+  \label{eq:rad_transfer_delo}\\where the effective source-function vector\end{aligned}\end{align} \]</div>
 <p><span class="math">\(\,{\bf S}_{\rm eff}\,=\,{\bf S}\,-\,
 {\bf K}^{'}{\bf I},\,\,\,\)</span> being
 <span class="math">\(\,{\bf K}^{'}={\bf K}^{*}-{\bf 1}\)</span> (with <span class="math">\(\bf 1\)</span> the
@@ -1165,8 +1167,8 @@ longer eigenfunctions of the total Hamiltonian and <span class="math">\(J\)</spa
 longer a good quantum number. In this case, the eigenfunctions of the
 full Hamiltonian can be written as the following linear combination:</p>
 <div class="math">
-\[  \label{eq:eigenfunctions_total_hamiltonian}
-  |\beta L S j M\rangle = \sum_J C_J^j(\beta L S, M) |\beta L S J M\rangle,\]\[where :math:`j` is a pseudo-quantum number which is used for labeling\]</div>
+\[ \begin{align}\begin{aligned}  \label{eq:eigenfunctions_total_hamiltonian}
+  |\beta L S j M\rangle = \sum_J C_J^j(\beta L S, M) |\beta L S J M\rangle,\\where :math:`j` is a pseudo-quantum number which is used for labeling\end{aligned}\end{align} \]</div>
 <p>the energy eigenstates belonging to the subspace corresponding to
 assigned values of the quantum numbers <span class="math">\(\beta\)</span>, <span class="math">\(L\)</span>,
 <span class="math">\(S\)</span>, and <span class="math">\(M\)</span>, and where the coefficients <span class="math">\(C_J^j\)</span> can
@@ -1192,26 +1194,26 @@ values of (<span class="math">\(M_L+2M_S\)</span>).</p>
 polarization of the energy levels is described with the aid of the
 density matrix elements</p>
 <div class="math">
-\[\rho^{\beta L S}(jM,j'M') = \langle \beta L S j M | \rho | \beta L S j' M'\rangle,\]\[where :math:`\rho` is the atomic density matrix operator. Using the\]</div>
+\[ \begin{align}\begin{aligned}\rho^{\beta L S}(jM,j'M') = \langle \beta L S j M | \rho | \beta L S j' M'\rangle,\\where :math:`\rho` is the atomic density matrix operator. Using the\end{aligned}\end{align} \]</div>
 <p>expression of the eigenfunctions of the total Hamiltonian given by Eq.
 ([eq:eigenfunctions_total_hamiltonian]), the density matrix elements
 can be rewritten as:</p>
 <div class="math">
-\[  \rho^{\beta L S}(jM,j'M') = \sum_{JJ'} C_J^j(\beta L S, M) C_{J'}^{j'}(\beta L
-  S, M') \rho^{\beta L S}(JM,J'M'),\]\[where :math:`\rho^{\beta L S}(JM,J'M')` are the density matrix elements\]</div>
+\[ \begin{align}\begin{aligned}  \rho^{\beta L S}(jM,j'M') = \sum_{JJ'} C_J^j(\beta L S, M) C_{J'}^{j'}(\beta L
+  S, M') \rho^{\beta L S}(JM,J'M'),\\where :math:`\rho^{\beta L S}(JM,J'M')` are the density matrix elements\end{aligned}\end{align} \]</div>
 <p>on the basis of the eigenvectors <span class="math">\(| \beta L S J M\rangle\)</span>.</p>
 <p>Following <a href="#id43"><span class="problematic" id="id44">:raw-latex:`\cite{landi_landolfi04}`</span></a>, it is helpful to use the
 spherical statistical tensor representation, which is related to the
 previous one by the following linear combination:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   {^{\beta LS}\rho^K_Q(J,J')} &amp;=&amp; \sum_{jj'MM'} C_J^j(\beta L S, M)
   C_{J'}^{j'}(\beta L S, M') \nonumber \\
   &amp;\times&amp; (-1)^{J-M} \sqrt{2K+1} { \left(\begin{array}{ccc}
   J&amp;J'&amp;K\\
   M&amp;-M'&amp;-Q
   \end{array}\right) }
-  \rho^{\beta L S}(jM,j'M'),\end{aligned}\end{split}\]\[where the 3-j symbol is defined as indicated by any suitable textbook\]</div>
+  \rho^{\beta L S}(jM,j'M'),\end{aligned}\end{split}\\where the 3-j symbol is defined as indicated by any suitable textbook\end{aligned}\end{align} \]</div>
 <p>on Racah algebra.</p>
 </div>
 <div class="section" id="statistical-equilibrium-equations">
@@ -1222,7 +1224,7 @@ written in a reference system in which the quantization axis (<span class="math"
 is directed along the magnetic field vector and neglecting the influence
 of collisions, can be written as <a href="#id45"><span class="problematic" id="id46">:raw-latex:`\citep{landi_landolfi04}`</span></a>:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \frac{d}{dt} {^{\beta LS}\rho^K_Q(J,J')} &amp;=&amp; -2\pi \mathrm{i} \sum_{K' Q'}
   \sum_{J'' J'''} N_{\beta LS}(KQJJ',K'Q'J''J''') {^{\beta LS}\rho^{K'}_{Q'}(J'',J''')}
   \nonumber \\
@@ -1239,7 +1241,7 @@ of collisions, can be written as <a href="#id45"><span class="problematic" id="i
   \mathbb{R}_A(\beta L S K Q J J' K' Q' J'' J''') \nonumber \\
   &amp; &amp; + \mathbb{R}_E(\beta L S K Q J J' K'
   Q' J'' J''') + \mathbb{R}_S(\beta L S K Q J J' K' Q' J'' J''') \Big].
-  \label{eq:see}\end{aligned}\end{split}\]\[The first term in the right hand side of Eq. ([eq:see]) takes into\]</div>
+  \label{eq:see}\end{aligned}\end{split}\\The first term in the right hand side of Eq. ([eq:see]) takes into\end{aligned}\end{align} \]</div>
 <p>account the influence of the magnetic field on the atomic level
 polarization. This term has its simplest expression in the chosen
 magnetic field reference frame
@@ -1266,8 +1268,8 @@ spherical components of the radiation field tensor:</p>
 tensors that depend on the reference frame and on the ray direction
 <span class="math">\(\mathbf{\Omega}\)</span>. They are given by</p>
 <div class="math">
-\[  \mathcal{T}^K_Q(i,\mathbf{\Omega}) = \sum_P t^K_P(i) \mathcal{D}^K_{PQ}(R'),
-  \label{eq:tkq}\]\[where :math:`R'` is the rotation that carries the reference system\]</div>
+\[ \begin{align}\begin{aligned}  \mathcal{T}^K_Q(i,\mathbf{\Omega}) = \sum_P t^K_P(i) \mathcal{D}^K_{PQ}(R'),
+  \label{eq:tkq}\\where :math:`R'` is the rotation that carries the reference system\end{aligned}\end{align} \]</div>
 <p>defined by the line-of-sight <span class="math">\(\mathbf{\Omega}\)</span> and by the
 polarization unit vectors <span class="math">\(\mathbf{e}_1\)</span> and <span class="math">\(\mathbf{e}_2\)</span>
 into the reference system of the magnetic field, while
@@ -1303,9 +1305,9 @@ equations are written in the reference system whose quantization axis is
 parallel to the magnetic field. The following equation indicates how to
 obtain the density matrix elements in a new reference system:</p>
 <div class="math">
-\[  \left[ {^{\beta L S}\rho^{K}_{Q}(J,J') } \right]_\mathrm{new} = \sum_{Q'} \left[
+\[ \begin{align}\begin{aligned}  \left[ {^{\beta L S}\rho^{K}_{Q}(J,J') } \right]_\mathrm{new} = \sum_{Q'} \left[
   {^{\beta L S}\rho^{K}_{Q'}(J,J') } \right]_\mathrm{old}
-  \mathcal{D}^K_{Q' Q}(R)^*,\]\[where :math:`\mathcal{D}^K_{Q' Q}(R)^*` is the complex conjugate of the\]</div>
+  \mathcal{D}^K_{Q' Q}(R)^*,\\where :math:`\mathcal{D}^K_{Q' Q}(R)^*` is the complex conjugate of the\end{aligned}\end{align} \]</div>
 <p>rotation matrix for the rotation <span class="math">\(R\)</span> that carries the old
 reference system into the new one.</p>
 </div>
@@ -1317,9 +1319,9 @@ that quantifies how well the Stokes profiles calculated in our
 atmospheric model reproduce the observed Stokes profiles. To this end,
 we have chosen the standard <span class="math">\(\chi^2\)</span>–function, defined as:</p>
 <div class="math">
-\[  \chi^2 = \frac{1}{4N_\lambda} \sum_{i=1}^4 \sum_{j=1}^{N_\lambda}
+\[ \begin{align}\begin{aligned}  \chi^2 = \frac{1}{4N_\lambda} \sum_{i=1}^4 \sum_{j=1}^{N_\lambda}
   \frac{\left[S_i^\mathrm{syn}(\lambda_j)-S_i^\mathrm{obs}(\lambda_j) \right]^2}{
-  \sigma_i^2(\lambda_j)} ,\]\[where :math:`N_\lambda` is the number of wavelength points and\]</div>
+  \sigma_i^2(\lambda_j)} ,\\where :math:`N_\lambda` is the number of wavelength points and\end{aligned}\end{align} \]</div>
 <p><span class="math">\(\sigma_i^2(\lambda_j)\)</span> is the variance associated to the
 <span class="math">\(j\)</span>-th wavelength point of the <span class="math">\(i\)</span>-th Stokes profiles. The
 minimization algorithm tries to find the value of the parameters of our
@@ -1397,7 +1399,7 @@ hypervolume is <span class="math">\(V\)</span>. This hypervolume is obtained as 
 the length <span class="math">\(d_i\)</span> of each dimension associated with each of the
 <span class="math">\(N\)</span> parameters:</p>
 <div class="math">
-\[V = \prod_i^N d_i.\]\[When the hypervolume decreases by a factor :math:`f` after the DIRECT\]</div>
+\[ \begin{align}\begin{aligned}V = \prod_i^N d_i.\\When the hypervolume decreases by a factor :math:`f` after the DIRECT\end{aligned}\end{align} \]</div>
 <p>algorithm has discarded some of the hyperrectangles, its size along each
 dimension is approximately decreased by a factor <span class="math">\(f^{1/N}\)</span>. In
 order to end up with a small region where the global minimum is located,
@@ -1429,9 +1431,9 @@ to stop after a fixed number of evaluations of the merit function.</p>
 the geometry of the field. For a <span class="math">\(J=0 \to J=1\)</span> transition, the
 linear polarization can be written as:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   Q &amp;=&amp; \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \cos 2\Phi_B \nonumber \\
-  U &amp;=&amp; \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \sin 2\Phi_B.\end{aligned}\end{split}\]\[These expressions contain a mixture of angles to make it clear that the\]</div>
+  U &amp;=&amp; \frac{q}{2} \left( 3 \cos^2 \theta_B-1 \right) \sin^2\Theta_B \sin 2\Phi_B.\end{aligned}\end{split}\\These expressions contain a mixture of angles to make it clear that the\end{aligned}\end{align} \]</div>
 <p>polarization amplitude depends on both the angle between the vertical
 and the magnetic field and between the magnetic field and the
 line-of-sight (LOS).</p>
@@ -1439,34 +1441,34 @@ line-of-sight (LOS).</p>
 reference system of the vertical and the reference system of the LOS
 are:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathbf{B} &amp;=&amp; B \left(\sin \theta_B \cos \phi_B \mathbf{i}+\sin \theta_B \sin \phi_B \mathbf{j}+\cos \theta_B \mathbf{k} \right) \nonumber \\
-  \mathbf{B} &amp;=&amp; B \left(\sin \Theta_B \cos \Phi_B \mathbf{i}'+\sin \Theta_B \sin \Phi_B \mathbf{j}'+\cos \Theta_B \mathbf{k}' \right),\end{aligned}\end{split}\]\[where the unit vectors are related by a simple rotation:\]</div>
+  \mathbf{B} &amp;=&amp; B \left(\sin \Theta_B \cos \Phi_B \mathbf{i}'+\sin \Theta_B \sin \Phi_B \mathbf{j}'+\cos \Theta_B \mathbf{k}' \right),\end{aligned}\end{split}\\where the unit vectors are related by a simple rotation:\end{aligned}\end{align} \]</div>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathbf{i}' &amp;=&amp; \cos \theta \mathbf{i} - \sin \theta \mathbf{k} \nonumber \\
-  \mathbf{k}' &amp;=&amp; \sin \theta \mathbf{i} + \cos \theta \mathbf{k}.\end{aligned}\end{split}\]\[Introducing these relations on the expression for the magnetic field,\]</div>
+  \mathbf{k}' &amp;=&amp; \sin \theta \mathbf{i} + \cos \theta \mathbf{k}.\end{aligned}\end{split}\\Introducing these relations on the expression for the magnetic field,\end{aligned}\end{align} \]</div>
 <p>we find that the following has to be fulfilled, given that the magnetic
 field vector is the same in both reference systems:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \sin \theta_B \cos \phi_B &amp;=&amp; \sin \Theta_B \cos \Phi_B \cos \theta + \cos \Theta_B + \sin \theta \nonumber \\
   \sin \theta_B \sin \phi_B &amp;=&amp; \sin \Theta_B \sin \Phi_B \nonumber \\
-  \cos \theta_B &amp;=&amp; \cos \Theta_B \cos \theta - \sin \Theta_B \cos \Phi_B \sin \theta.\end{aligned}\end{split}\]\[Solving the previous three equations in the two directions, we find the\]</div>
+  \cos \theta_B &amp;=&amp; \cos \Theta_B \cos \theta - \sin \Theta_B \cos \Phi_B \sin \theta.\end{aligned}\end{split}\\Solving the previous three equations in the two directions, we find the\end{aligned}\end{align} \]</div>
 <p>following transformations between the angles in the vertical reference
 system and the LOS reference system:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \cos \Theta_B &amp;=&amp; \cos\theta \cos\theta_B + \sin\theta \sin\theta_B \cos\phi_B \nonumber \\
   \sin \Theta_B &amp;=&amp; +\sqrt{1-\cos^2\Theta_B} \nonumber \\
   \cos \Phi_B &amp;=&amp; \frac{\cos\theta \sin\theta_B \cos\phi_B - \cos\theta_B \sin\theta}{\sin \Theta_B} \nonumber \\
-  \sin \Phi_B &amp;=&amp; \frac{\sin\theta_B \sin\phi_B}{\sin\Theta_B}\end{aligned}\end{split}\]\[and\]</div>
+  \sin \Phi_B &amp;=&amp; \frac{\sin\theta_B \sin\phi_B}{\sin\Theta_B}\end{aligned}\end{split}\\and\end{aligned}\end{align} \]</div>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \cos \theta_B &amp;=&amp; \cos\theta \cos\Theta_B - \sin\theta \sin\Theta_B \cos\Phi_B \nonumber \\
   \sin \theta_B &amp;=&amp; +\sqrt{1-\cos^2\theta_B} \nonumber \\
   \cos \phi_B &amp;=&amp; \frac{\cos\theta \sin\Theta_B \cos\Phi_B + \cos\Theta_B \sin\theta}{\sin \theta_B} \nonumber \\
-  \sin \phi_B &amp;=&amp; \frac{\sin\Theta_B \sin\Phi_B}{\sin\theta_B}.\end{aligned}\end{split}\]\[Note that, since :math:`\Theta_B \in [0,\pi]`, we can safely use the\]</div>
+  \sin \phi_B &amp;=&amp; \frac{\sin\Theta_B \sin\Phi_B}{\sin\theta_B}.\end{aligned}\end{split}\\Note that, since :math:`\Theta_B \in [0,\pi]`, we can safely use the\end{aligned}\end{align} \]</div>
 <p>square root and take the positive value. In order to transform from one
 reference system to the other, we can compute the inclination easily by
 inverting the sinus or the cosinus. However, the situation is different
@@ -1483,11 +1485,11 @@ the LOS reference system is the same for Stokes <span class="math">\(Q\)</span> 
 we can only compensate for changes in the sign. Therefore, we have the
 following potential ambiguities:</p>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \Phi_B' &amp;=&amp; \Phi_B \nonumber \\
   \Phi_B' &amp;=&amp; \Phi_B -\pi/2 \nonumber \\
   \Phi_B' &amp;=&amp; \Phi_B + \pi/2 \nonumber \\
-  \Phi_B' &amp;=&amp; \Phi_B + \pi.\end{aligned}\end{split}\]\[For each case, we have to compute the value of :math:`\Theta_B'` that\]</div>
+  \Phi_B' &amp;=&amp; \Phi_B + \pi.\end{aligned}\end{split}\\For each case, we have to compute the value of :math:`\Theta_B'` that\end{aligned}\end{align} \]</div>
 <p>keeps the value of <span class="math">\(Q\)</span> and <span class="math">\(U\)</span> unchanged. Therefore, once we
 find a solution to the inversion problem in the form of the pair
 <span class="math">\((\theta_B,\phi_B)\)</span>, we can find the remaining solutions in the
@@ -1501,29 +1503,29 @@ reduced to 4 (or 2 if no 90<span class="math">\(^\circ\)</span> ambiguity is pre
 <h1>PhiB’=PhiB<a class="headerlink" href="#phib-phib" title="Permalink to this headline">¶</a></h1>
 <p>Under this change, we have that</p>
 <div class="math">
-\[\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = \cos \Phi_B, \quad \sin \Phi_B' = \sin \Phi_B.\]\[Making use of the previous relations between the angles wrt to the\]</div>
+\[ \begin{align}\begin{aligned}\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = \cos \Phi_B, \quad \sin \Phi_B' = \sin \Phi_B.\\Making use of the previous relations between the angles wrt to the\end{aligned}\end{align} \]</div>
 <p>vertical and the LOS, we have to solve the following equation:</p>
 <div class="math">
-\[\left( 3 \cos^2\theta_B'-1 \right) \sin^2 \Theta_B' = \left( 3 \cos^2\theta_B-1 \right) \sin^2 \Theta_B,\]\[which can be written as:\]</div>
+\[ \begin{align}\begin{aligned}\left( 3 \cos^2\theta_B'-1 \right) \sin^2 \Theta_B' = \left( 3 \cos^2\theta_B-1 \right) \sin^2 \Theta_B,\\which can be written as:\end{aligned}\end{align} \]</div>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta - \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[After some algebra and doing the substitution :math:`t=\sin\Theta_B'`,\]</div>
+\[ \begin{align}\begin{aligned}  \left[ 3 \left( \cos \Theta_B' \cos \theta - \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\\After some algebra and doing the substitution :math:`t=\sin\Theta_B'`,\end{aligned}\end{align} \]</div>
 <p>we end up with the following equation to be solved:</p>
 <div class="math">
-\[A t^4 + Bt^2 + C t^3 \sqrt{1-t^2} = K,\]\[where\]</div>
+\[ \begin{align}\begin{aligned}A t^4 + Bt^2 + C t^3 \sqrt{1-t^2} = K,\\where\end{aligned}\end{align} \]</div>
 <div class="math">
-\[\begin{split}  \begin{aligned}
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   A &amp;=&amp; -3\cos^2 \theta + 3\sin^2 \theta \cos^2 \Phi_B \nonumber \\
   B &amp;=&amp; 3\cos^2 \theta - 1 \nonumber \\
   C &amp;=&amp; -6 \cos\theta \sin\theta \cos \Phi_B \nonumber \\
-  K &amp;=&amp; \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\end{aligned}\end{split}\]\[The previous equation can be solved if we make the change of variables\]</div>
+  K &amp;=&amp; \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\end{aligned}\end{split}\\The previous equation can be solved if we make the change of variables\end{aligned}\end{align} \]</div>
 <p><span class="math">\(t=\pm \sqrt{Z}\)</span>, resulting in:</p>
 <div class="math">
-\[(C^2+A^2) Z^4 + (-C^2+2AB) Z^3 + (-2AK+B^2) Z^2 - 2BKZ + K^2 = 0.\]\[This polynomial of 4-th order can have four different solutions. From\]</div>
+\[ \begin{align}\begin{aligned}(C^2+A^2) Z^4 + (-C^2+2AB) Z^3 + (-2AK+B^2) Z^2 - 2BKZ + K^2 = 0.\\This polynomial of 4-th order can have four different solutions. From\end{aligned}\end{align} \]</div>
 <p>these solutions, we have to take only the real solutions which are
 larger than 0, given the range of variation of <span class="math">\(\Theta_B\)</span>:</p>
 <div class="math">
-\[t \in \mathbb{R}, \qquad 0 \leq t \leq 1.\]\[Once the solutions for :math:`t` are found, we make\]</div>
+\[ \begin{align}\begin{aligned}t \in \mathbb{R}, \qquad 0 \leq t \leq 1.\\Once the solutions for :math:`t` are found, we make\end{aligned}\end{align} \]</div>
 <p><span class="math">\(\Theta_B' = \arcsin t\)</span>. Note that, for a fixed value of
 <span class="math">\(t\)</span>, two values of <span class="math">\(\Theta_B'\)</span> are possible. We choose the
 correct one by evaluating the expressions for <span class="math">\(Q\)</span> and <span class="math">\(U\)</span>
@@ -1537,10 +1539,10 @@ system.</p>
 <h1>PhiB’=PhiB+pi<a class="headerlink" href="#phib-phib-pi" title="Permalink to this headline">¶</a></h1>
 <p>Under this change, we have:</p>
 <div class="math">
-\[\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = -\cos \Phi_B, \quad \sin \Phi_B' = -\sin \Phi_B.\]\[Following the same approach, we have to solve for :math:`\Theta_B'` in\]</div>
+\[ \begin{align}\begin{aligned}\cos 2\Phi_B' = \cos 2\Phi_B, \quad \sin 2\Phi_B' = \sin 2\Phi_B, \quad \cos \Phi_B' = -\cos \Phi_B, \quad \sin \Phi_B' = -\sin \Phi_B.\\Following the same approach, we have to solve for :math:`\Theta_B'` in\end{aligned}\end{align} \]</div>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[The solution are obtained as the roots of the same equations as before\]</div>
+\[ \begin{align}\begin{aligned}  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\\The solution are obtained as the roots of the same equations as before\end{aligned}\end{align} \]</div>
 <p>but now</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -1556,10 +1558,10 @@ reference system.</p>
 <h1>PhiB’=PhiB+pi/2<a class="headerlink" href="#phib-phib-pi-2" title="Permalink to this headline">¶</a></h1>
 <p>Under this change, we have:</p>
 <div class="math">
-\[\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = -\sin \Phi_B, \quad \sin \Phi_B' = \cos \Phi_B.\]\[Following the same approach, we have to solve for :math:`\Theta_B'` in\]</div>
+\[ \begin{align}\begin{aligned}\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = -\sin \Phi_B, \quad \sin \Phi_B' = \cos \Phi_B.\\Following the same approach, we have to solve for :math:`\Theta_B'` in\end{aligned}\end{align} \]</div>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[The solution are obtained as the roots of the same equations as before\]</div>
+\[ \begin{align}\begin{aligned}  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\\The solution are obtained as the roots of the same equations as before\end{aligned}\end{align} \]</div>
 <p>but now</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -1575,10 +1577,10 @@ reference system.</p>
 <h1>PhiB’=PhiB-pi/2<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h1>
 <p>Under this change, we have:</p>
 <div class="math">
-\[\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = \sin \Phi_B, \quad \sin \Phi_B' = -\cos \Phi_B.\]\[Following the same approach, we have to solve for :math:`\Theta_B'` in\]</div>
+\[ \begin{align}\begin{aligned}\cos 2\Phi_B' = -\cos 2\Phi_B, \quad \sin 2\Phi_B' = -\sin 2\Phi_B, \quad \cos \Phi_B' = \sin \Phi_B, \quad \sin \Phi_B' = -\cos \Phi_B.\\Following the same approach, we have to solve for :math:`\Theta_B'` in\end{aligned}\end{align} \]</div>
 <div class="math">
-\[  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
-  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\]\[The solution are obtained as the roots of the same equations as before\]</div>
+\[ \begin{align}\begin{aligned}  \left[ 3 \left( \cos \Theta_B' \cos \theta + \sin\theta \sin\Theta_B' \sin\Phi_B\right)^2-1 \right] \sin^2 \Theta_B' =
+  \left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta_B \cos\Phi_B\right)^2-1 \right] \sin^2 \Theta_B.\\The solution are obtained as the roots of the same equations as before\end{aligned}\end{align} \]</div>
 <p>but now</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -1589,16 +1591,6 @@ K &amp;=&amp; -\left[ 3 \left( \cos \Theta_B \cos \theta - \sin\theta \sin\Theta
 <p>The angles <span class="math">\((\theta_B,\phi_B)\)</span> are obtained by doing the
 transformation from <span class="math">\((\Theta_B',\Phi_B-\pi/2)\)</span> to the vertical
 reference system.</p>
-</div>
-<div class="section" id="acknowledgements">
-<h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
-<p>We would like to thank Egidio Landi Degl’Innocenti and Marco Landolfi
-for sharing with us their deep knowledge on the physics of the spectral
-line polarization, which they have described in great detail in their
-rigorous monograph on “Polarization in Spectral Lines&#8221;. Finantial
-support by the Spanish Ministry of Education and Science through
-projects AYA2007-63881 and the European Commission through the SOLAIRE
-network (MTRN-CT-2006-035484) is gratefully acknowledged.</p>
 <p>11 natexlab#1#1</p>
 <p>, E.&nbsp;U., &amp; Shortley, G.&nbsp;H. 1935, The Theory of Atomic Spectra
 (Cambridge: Cambridge University Press)</p>

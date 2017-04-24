@@ -23,12 +23,15 @@ Indices and tables
 ==================
 
 * :doc:`installation`
-* :doc:`manual`
+* :doc:`inputFiles`
+* :doc:`atomicModels`
+* :doc:`inputOutput`
+* :doc:`prepareData`
+* :doc:`python`
+* :doc:`graphical`
 * :doc:`equations`
 * :doc:`ambiguities`
-* :doc:`python`
-* :ref:`modindex`
-* :ref:`search`
+* :doc:`acknowledgment`
 * :doc:`disclaimer`
 
 .. toctree::
@@ -39,9 +42,11 @@ Indices and tables
    inputFiles
    atomicModels
    inputOutput
+   prepareData
    python
    graphical
    equations
    ambiguities
+   acknowledgment
    disclaimer
 

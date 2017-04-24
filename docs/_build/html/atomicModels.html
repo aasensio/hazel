@@ -84,12 +84,14 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Atomic models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepareData.html">How to prepare the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgment.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
 </ul>
 
@@ -113,7 +115,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -141,29 +143,29 @@
 calculation. This section describes the model atom file in detail by
 using the example <code class="docutils literal"><span class="pre">helium.mod</span></code> that is included in the present version
 of Hazel. The atom model for He I is given by:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>2
-5
-1        0
-                   0.00
-2        2
-                   0.00
-                  -0.987913
-                  -1.064340
-3        0
-                   0.00
-4        2
-                   0.00
-                  -0.270647
-                  -0.292616
-5        4
-                   0.00
-                  -0.044187
-                  -0.046722
-4
-1    1    2    1.022d7    10829.0911    1.0000000    1.0000000    0.0000000
-2    1    4    9.478d6    3888.6046    0.2000000    1.0000000    0.0000000
-3    2    3    2.780d7    7065.7085    1.0000000    1.0000000    0.0000000
-4    2    5    7.060d7    5875.9663    1.0000000    1.0000000    0.0000000
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span>
+<span class="mi">5</span>
+<span class="mi">1</span>        <span class="mi">0</span>
+                   <span class="mf">0.00</span>
+<span class="mi">2</span>        <span class="mi">2</span>
+                   <span class="mf">0.00</span>
+                  <span class="o">-</span><span class="mf">0.987913</span>
+                  <span class="o">-</span><span class="mf">1.064340</span>
+<span class="mi">3</span>        <span class="mi">0</span>
+                   <span class="mf">0.00</span>
+<span class="mi">4</span>        <span class="mi">2</span>
+                   <span class="mf">0.00</span>
+                  <span class="o">-</span><span class="mf">0.270647</span>
+                  <span class="o">-</span><span class="mf">0.292616</span>
+<span class="mi">5</span>        <span class="mi">4</span>
+                   <span class="mf">0.00</span>
+                  <span class="o">-</span><span class="mf">0.044187</span>
+                  <span class="o">-</span><span class="mf">0.046722</span>
+<span class="mi">4</span>
+<span class="mi">1</span>    <span class="mi">1</span>    <span class="mi">2</span>    <span class="mf">1.022</span><span class="n">d7</span>    <span class="mf">10829.0911</span>    <span class="mf">1.0000000</span>    <span class="mf">1.0000000</span>    <span class="mf">0.0000000</span>
+<span class="mi">2</span>    <span class="mi">1</span>    <span class="mi">4</span>    <span class="mf">9.478</span><span class="n">d6</span>    <span class="mf">3888.6046</span>    <span class="mf">0.2000000</span>    <span class="mf">1.0000000</span>    <span class="mf">0.0000000</span>
+<span class="mi">3</span>    <span class="mi">2</span>    <span class="mi">3</span>    <span class="mf">2.780</span><span class="n">d7</span>    <span class="mf">7065.7085</span>    <span class="mf">1.0000000</span>    <span class="mf">1.0000000</span>    <span class="mf">0.0000000</span>
+<span class="mi">4</span>    <span class="mi">2</span>    <span class="mi">5</span>    <span class="mf">7.060</span><span class="n">d7</span>    <span class="mf">5875.9663</span>    <span class="mf">1.0000000</span>    <span class="mf">1.0000000</span>    <span class="mf">0.0000000</span>
 </pre></div>
 </div>
 <p>The first two numbers define the general properties of the atom. The

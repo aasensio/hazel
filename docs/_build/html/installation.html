@@ -82,14 +82,16 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputFiles.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atomicModels.html">Atomic models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inputOutput.html">Input/output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepareData.html">How to prepare the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graphical.html">Graphical front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="equations.html">Basic Equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambiguities.html">Ambiguities in the Hanle effect in the saturation regime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgment.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
 </ul>
 
@@ -113,7 +115,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -163,7 +165,7 @@ the code in several machines. As an example, we focus on <a href="#id1"><span cl
 is appropriate for compiling the code in standard Intel machines. It can be run
 by providing the version that will be compiled, together with the compiler. By
 default, it will compile the serial version with the Intel Fortran compiler:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make version=serial compiler=ifort
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">version</span><span class="o">=</span><span class="n">serial</span> <span class="n">compiler</span><span class="o">=</span><span class="n">ifort</span>
 </pre></div>
 </div>
 <p>After compiling and linking, the executable is copied to appropriate
@@ -177,7 +179,7 @@ of the NetCDF distribution.</p>
 <p>The code makes use of the MPI package for parallelization, so it has to
 be installed on your system. In order to obtain the executable file (for
 instance for the Intel compiler), just type:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make version=mpi compiler=ifort supercomputer=local
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">version</span><span class="o">=</span><span class="n">mpi</span> <span class="n">compiler</span><span class="o">=</span><span class="n">ifort</span> <span class="n">supercomputer</span><span class="o">=</span><span class="n">local</span>
 </pre></div>
 </div>
 <p>The current supported options for the makefile are the following:</p>
@@ -191,7 +193,7 @@ the location of the NetCDF include files and libraries (<code class="docutils li
 and the correct compilation and linking flags for your compiler (<code class="docutils literal"><span class="pre">COMPILER_OPTS</span></code> and <code class="docutils literal"><span class="pre">COMPILER_LINKS</span></code>).
 If you want to run the GUI, you first need to compile the serial
 version of the code. Finally, the generated object and module files can be cleaned typing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>make clean
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
 </pre></div>
 </div>
 </div>
