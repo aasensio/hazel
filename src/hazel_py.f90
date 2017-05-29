@@ -20,7 +20,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	real(c_double), intent(in), dimension(nLambdaInput) :: lambdaAxisInput
 	real(c_double), intent(in), dimension(3) :: B1Input, anglesInput
 	real(c_double), intent(in), dimension(3) :: B2Input
-	real(c_double), intent(in), dimension(4) :: boundaryInput
+	real(c_double), intent(in), dimension(4,nLambdaInput) :: boundaryInput
 	real(c_double), intent(in):: tau2Input, dopplerWidth2Input, dopplerVelocity2Input, ffInput
 	real(c_double), intent(in), dimension(4) :: nbarInput, omegaInput
 	real(c_double), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput, betaInput, beta2Input
@@ -100,8 +100,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	if (params%nslabs /= 1) then
 		params%beta2 = beta2Input
 	endif
-
-	fixed%Stokes_incident = boundaryInput
+	
 	fixed%nemiss = transInput
 	fixed%use_atomic_pol = atomicPolInput
 	fixed%thetad = anglesInput(1)
@@ -156,6 +155,8 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	
 	allocate(observation%wl(observation%n))
 	allocate(inversion%stokes_unperturbed(0:3,fixed%no))
+	allocate(fixed%stokes_boundary(0:3,observation%n))
+	fixed%stokes_boundary(0:3,:) = boundaryInput
 	
 	observation%wl = lambdaAxisInput
 
@@ -165,7 +166,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
 	
 	do i = 1, 4
-		stokesOutput(i,:) = inversion%stokes_unperturbed(i-1,:)		
+		stokesOutput(i,:) = inversion%stokes_unperturbed(i-1,:)
 	enddo
 	
 	wavelengthOutput = observation%wl + fixed%wl

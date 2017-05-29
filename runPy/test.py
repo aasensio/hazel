@@ -12,7 +12,6 @@ B2Input = np.asarray([10.0,70.0,0.0])
 hInput = 3.e0
 tau1Input = 1.e0
 tau2Input = 1.e0
-boundaryInput  = np.asarray([4.098e-5,0.0,0.0,0.0])
 transInput = 1
 atomicPolInput = 1
 magoptInput = 1
@@ -30,6 +29,8 @@ beta2Input = 1.0
 nbarInput = np.asarray([0.0,0.0,0.0,0.0])
 omegaInput = np.asarray([0.0,0.0,0.0,0.0])
 normalization = 0
+boundaryInput  = np.zeros((nLambdaInput,4))
+boundaryInput[:,0] = 4.098e-5
 
 
 
@@ -47,7 +48,6 @@ B2Input = np.asarray([10.0,70.0,0.0])
 hInput = 3.e0
 tau1Input = 1.e0
 tau2Input = 1.e0
-boundaryInput  = np.asarray([4.098e-5,0.0,0.0,0.0])
 transInput = 1
 atomicPolInput = 1
 magoptInput = 1
@@ -65,6 +65,8 @@ beta2Input = 1.0
 nbarInput = np.asarray([0.0,0.0,0.0,0.0])
 omegaInput = np.asarray([0.0,0.0,0.0,0.0])
 normalization = 0
+boundaryInput  = np.zeros((nLambdaInput,4))
+boundaryInput[:,0] = 4.098e-5
 
 
 

@@ -21,7 +21,7 @@
 1
 
 # Magnetic field strength [G], thetaB [degrees], chiB [degrees]
-2220.0000  32.000000  0.0000000
+390.00000  32.000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the atoms in arcsec
 3.0000000
@@ -33,6 +33,7 @@
 1.0000000
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
+'single'
 4.0980933e-05 0.0000000 0.0000000 0.0000000
 
 # Transition where to compute the emission
@@ -51,7 +52,7 @@
 10829.091  5.5890000  0.0000000
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
--1.2000000
+2.4000000
 
 # Include magneto-optical effects in the RT
 1

@@ -335,7 +335,12 @@ else:
 	f.write(config['synthesis']['slab 1']['beta']+"  "+config['synthesis']['slab 2']['beta']+"\n")
 f.write("\n")
 f.write("# Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center\n")
-f.write("  ".join(config['synthesis']['boundary condition'])+"\n")
+if (type(config['synthesis']['boundary condition']) is list):
+	f.write("'single'\n")
+	f.write("  ".join(config['synthesis']['boundary condition'])+"\n")
+else:
+	f.write("'file'\n")
+	f.write("'{0}'\n".format(config['synthesis']['boundary condition']))
 f.write("\n")
 f.write("# Transition where to compute the emergent Stokes profiles\n")
 f.write(multiplets[config['general parameters']['multiplet']]+"\n")
@@ -370,6 +375,6 @@ f.close()
 
 # Run the code
 try:
-	call(['mpiexec','-n',nProcs,'./phazel'])
+	call(['mpiexec','-n',nProcs,'./hazel'])
 except:
 	print("A problem occured. Exiting...")

@@ -147,10 +147,10 @@ contains
             if (.not.allocated(etaV)) allocate(etaV(in_fixed%no))
             if (.not.allocated(dtau)) allocate(dtau(in_fixed%no))
             
-            I0 = in_fixed%Stokes_incident(0)
-            Q0 = in_fixed%Stokes_incident(1)
-            U0 = in_fixed%Stokes_incident(2)
-            V0 = in_fixed%Stokes_incident(3)
+            ! I0 = in_fixed%Stokes_incident(0)
+            ! Q0 = in_fixed%Stokes_incident(1)
+            ! U0 = in_fixed%Stokes_incident(2)
+            ! V0 = in_fixed%Stokes_incident(3)
                         
             if (in_fixed%use_atomic_pol == 1 .or. in_fixed%use_atomic_pol == -1) then
                 epsI = epsilon(0,:)
@@ -214,15 +214,15 @@ contains
             ds = in_params%dtau / maxval(etaI)
             dtau = etaI * ds
 
-            output(0,:) = I0 * exp(-dtau) + epsI/etaI * (1.d0-exp(-dtau))
+            output(0,:) = in_fixed%stokes_boundary(0,:) * exp(-dtau) + epsI/etaI * (1.d0-exp(-dtau))
 
-            output(1,:) = Q0 * exp(-dtau) + epsQ/etaI * (1.d0-exp(-dtau)) - epsI * etaQ/etaI**2 * (1.d0-exp(-dtau)) + &
+            output(1,:) = in_fixed%stokes_boundary(1,:) * exp(-dtau) + epsQ/etaI * (1.d0-exp(-dtau)) - epsI * etaQ/etaI**2 * (1.d0-exp(-dtau)) + &
             etaQ/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
 
-            output(2,:) = U0 * exp(-dtau) + epsU/etaI * (1.d0-exp(-dtau)) - epsI * etaU/etaI**2 * (1.d0-exp(-dtau)) + &
+            output(2,:) = in_fixed%stokes_boundary(2,:) * exp(-dtau) + epsU/etaI * (1.d0-exp(-dtau)) - epsI * etaU/etaI**2 * (1.d0-exp(-dtau)) + &
             etaU/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)
 
-            output(3,:) = V0 * exp(-dtau) + epsV/etaI * (1.d0-exp(-dtau)) - epsI * etaV/etaI**2 * (1.d0-exp(-dtau)) + &
+            output(3,:) = in_fixed%stokes_boundary(3,:) * exp(-dtau) + epsV/etaI * (1.d0-exp(-dtau)) - epsI * etaV/etaI**2 * (1.d0-exp(-dtau)) + &
             etaV/etaI * dtau * exp(-dtau) * (epsI/etaI-I0)                          
 
 ! If we include an additional slab with different field
@@ -463,10 +463,10 @@ contains
             if (.not.allocated(Stokes1)) allocate(Stokes1(4))
             
             
-            StokesM(1) = in_fixed%Stokes_incident(0)
-            StokesM(2) = in_fixed%Stokes_incident(1)
-            StokesM(3) = in_fixed%Stokes_incident(2)
-            StokesM(4) = in_fixed%Stokes_incident(3)
+            ! StokesM(1) = in_fixed%Stokes_incident(0)
+            ! StokesM(2) = in_fixed%Stokes_incident(1)
+            ! StokesM(3) = in_fixed%Stokes_incident(2)
+            ! StokesM(4) = in_fixed%Stokes_incident(3)
                         
             if (in_fixed%use_atomic_pol == 1 .or. in_fixed%use_atomic_pol == -1) then
 ! Emission              
@@ -558,6 +558,9 @@ contains
             dtau = etaI * ds
             
             do i = 1, in_fixed%no
+
+                StokesM(1:4) = in_fixed%stokes_boundary(0:3,i)
+
                 call fill_absorption_matrix(kappa_prime,etaI(i),etaQ(i),etaU(i),etaV(i),rhoQ(i),rhoU(i),rhoV(i))
                 kappa_prime = kappa_prime / etaI(i) - identity
                 source(1) = epsI(i) / etaI(i)
@@ -805,13 +808,13 @@ contains
                 
             endif
 
-            output(0,:) = I0 + (epsI - etaI * I0) * in_params%dtau !dtau / etaI
+            output(0,:) = in_fixed%stokes_boundary(0,:) + (epsI - etaI * I0) * in_params%dtau !dtau / etaI
 
-            output(1,:) = Q0 + (epsQ - etaQ * I0) * in_params%dtau !dtau / etaI
+            output(1,:) = in_fixed%stokes_boundary(1,:) + (epsQ - etaQ * I0) * in_params%dtau !dtau / etaI
 
-            output(2,:) = U0 + (epsU - etaU * I0) * in_params%dtau !dtau / etaI
+            output(2,:) = in_fixed%stokes_boundary(2,:) + (epsU - etaU * I0) * in_params%dtau !dtau / etaI
 
-            output(3,:) = V0 + (epsV - etaV * I0) * in_params%dtau !dtau / etaI
+            output(3,:) = in_fixed%stokes_boundary(3,:) + (epsV - etaV * I0) * in_params%dtau !dtau / etaI
 
 
 ! If we include an additional slab with different field
@@ -918,10 +921,10 @@ contains
             if (.not.allocated(Stokes0)) allocate(Stokes0(4))
             if (.not.allocated(Stokes1)) allocate(Stokes1(4))
             
-            StokesM(1) = in_fixed%Stokes_incident(0)
-            StokesM(2) = in_fixed%Stokes_incident(1)
-            StokesM(3) = in_fixed%Stokes_incident(2)
-            StokesM(4) = in_fixed%Stokes_incident(3)
+            ! StokesM(1) = in_fixed%Stokes_incident(0)
+            ! StokesM(2) = in_fixed%Stokes_incident(1)
+            ! StokesM(3) = in_fixed%Stokes_incident(2)
+            ! StokesM(4) = in_fixed%Stokes_incident(3)
 
                         
             if (in_fixed%use_atomic_pol == 1 .or. in_fixed%use_atomic_pol == -1) then
@@ -1014,6 +1017,9 @@ contains
             endif           
             
             do i = 1, in_fixed%no
+
+                StokesM(1:4) = in_fixed%stokes_boundary(0:3,i)
+                
                 call fill_absorption_matrix(kappa_star,etaI(i),etaQ(i),etaU(i),etaV(i),rhoQ(i),rhoU(i),rhoV(i))
                 kappa_star = kappa_star / etaI(i)
                 source(1) = epsI(i) / etaI(i)

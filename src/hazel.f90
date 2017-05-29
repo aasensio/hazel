@@ -112,7 +112,10 @@ implicit none
 		endif
 		observation%n = fixed%no
 		allocate(observation%wl(observation%n))
-		if (.not.associated(inversion%stokes_unperturbed)) allocate(inversion%stokes_unperturbed(0:3,fixed%no))		
+		if (.not.associated(inversion%stokes_unperturbed)) allocate(inversion%stokes_unperturbed(0:3,fixed%no))
+
+		call set_boundary_condition(fixed, inversion)
+
 		call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
 		call write_final_profiles(output_inverted_profiles,observation,inversion)
 	endif
@@ -275,6 +278,8 @@ implicit none
 					if (kill == 0) then
 ! 						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Received observation'
 ! 						write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Doing inversion'
+						call set_boundary_condition(fixed, inversion)
+						
 						call doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
 						if (error == 0) then
 							call send_model(params, errorparams, observation, inversion, package_size_model, myrank, index_obs)

@@ -32,7 +32,7 @@ ifeq ($(version), mpi)
 			NETCDF_LIB = -L/usr/pkg/netCDF/netCDF-4.1.1/lib -lnetcdff
 			COMPILER = mpif90
 			COMPILER_LINKS = #-L/net/nas4/fis/aasensio/scratch/MPICH/lib 
-			COMPILER_OPTS = -c -O1 -ffree-line-length-none #-I/net/nas4/fis/aasensio/scratch/MPICH/include
+			COMPILER_OPTS = -c -O3 -ffree-line-length-none #-I/net/nas4/fis/aasensio/scratch/MPICH/include
 			PREPROCESS = -D$(version) -cpp
 		else
 			NETCDF_INCLUDE = -I/net/nas4/fis/aasensio/scratch/LIBS/NETCDF/include
@@ -70,7 +70,7 @@ ifeq ($(version), serial)
 		PREPROCESS = -D$(version) -cpp
 	else		
 		COMPILER = ifort
-		COMPILER_OPTS = -c -O3
+		COMPILER_OPTS = -c -O3 
 		PREPROCESS = -D$(version) -fpp
 	endif
 	HAZEL_DEP = hazel.f90 allen.o synth.o rt_coef.o SEE.o maths.o vars.o mpi_routines_fake.o inversion.o io.o

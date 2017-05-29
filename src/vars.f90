@@ -56,9 +56,11 @@ implicit none
 		integer :: pix_par_id, col_par_id, map_par_id, par_id
 		integer :: pix_error_id, col_error_id, map_error_id, error_id
 		integer :: damping_treatment
-		real(kind=8), pointer :: upper_direct(:), lower_direct(:)
+		real(kind=8), pointer :: upper_direct(:), lower_direct(:), stokes_boundary(:,:)
 		real(kind=8) :: volper
-		integer :: DIRmaxf
+		integer :: DIRmaxf, stokes_boundary_len
+		character(len=10) :: Stokes_incident_mode
+		character(len=100) :: Stokes_incident_file
 	end type fixed_parameters
 	
 	type type_observation

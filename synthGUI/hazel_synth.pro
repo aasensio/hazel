@@ -3,7 +3,7 @@
 ;-----------------------------------------
 pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 
-	siz = 60
+	siz = 61
 	file = strarr(siz)
 	openr,2,'init_parameters.dat'
 	tmp = ''
@@ -32,9 +32,9 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 	thetaObs_str = strtrim(string(state.thetaObs),2)
 	chiObs_str = strtrim(string(state.chiObs),2)
 	gammaObs_str = strtrim(string(state.gammaObs),2)
-	file[44] = thetaObs_str + '  ' + chiObs_str + '  ' + gammaObs_str
+	file[45] = thetaObs_str + '  ' + chiObs_str + '  ' + gammaObs_str
 
-	file[38] = strtrim(string(state.Multiplet,FORMAT='(I1)'),2)
+	file[39] = strtrim(string(state.Multiplet,FORMAT='(I1)'),2)
 
 	file[17] = strtrim(string(state.paschen),2)
 
@@ -42,7 +42,7 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 	file[20] = strtrim(string(state.number_slabs),2)
 
 ; Add 3
-	file[41] = strtrim(string(1-state.effects),2)
+	file[39] = strtrim(string(1-state.effects),2)
 	if (state.number_slabs eq 1) then begin
 		file[29] = strtrim(string(state.dtau_desired),2)
 	endif
@@ -60,7 +60,9 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 		file[32] = strtrim(string(state.beta),2)+ ' '+strtrim(string(state.beta2),2)
 	endif
 
-	file[35] = strtrim(string(state.stokes0[0]),2)+ ' '+strtrim(string(state.stokes0[1]),2)+ ' '+$
+	file[35] = "'single'"
+
+	file[36] = strtrim(string(state.stokes0[0]),2)+ ' '+strtrim(string(state.stokes0[1]),2)+ ' '+$
 		strtrim(string(state.stokes0[2]),2)+ ' '+strtrim(string(state.stokes0[3]),2)
 
 	file[11] = '0'
@@ -102,7 +104,7 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 
 	wleft = -1.d8 * state.waveaxis[0] / wl^2
 	wright = -1.d8 * state.waveaxis[1] / wl^2
-	file(47) = strtrim(string(wright),2)+ ' '+strtrim(string(wleft),2)+ ' '+$
+	file[48] = strtrim(string(wright),2)+ ' '+strtrim(string(wleft),2)+ ' '+$
 		strtrim(string(state.waveaxis[2],FORMAT='(I5)'),2)
 
 	PC = 2.99792458d10
@@ -115,23 +117,23 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 	damp_str = strtrim(string(state.damping),2)
 	
 	if (state.number_slabs le 2) then begin
-		file(50) = wl_str + '  ' + vdopp_str + '  '+ damp_str
+		file[51] = wl_str + '  ' + vdopp_str + '  '+ damp_str
 	endif
 	if (state.number_slabs eq -2 or state.number_slabs eq 3) then begin
 		vdopp2_str = strtrim(string(state.Doppler2),2)
-		file(50) = wl_str + '  ' + vdopp_str + '  ' + vdopp2_str + '  '+ damp_str
+		file[51] = wl_str + '  ' + vdopp_str + '  ' + vdopp2_str + '  '+ damp_str
 	endif
 		
 
 	if (state.number_slabs eq 1) then begin
-		file(53) = strtrim(string(state.vel),2)
+		file[54] = strtrim(string(state.vel),2)
 	endif
 	if (state.number_slabs eq 2 or state.number_slabs eq -2 or state.number_slabs eq 3) then begin
-		file(53) = strtrim(string(state.vel),2)+ ' '+strtrim(string(state.vel2),2)
+		file[54] = strtrim(string(state.vel),2)+ ' '+strtrim(string(state.vel2),2)
 	endif
 
-	file(59) = strtrim(string(state.stimulated),2)
-	file(56) = strtrim(string(state.magneto_opt),2)
+	file[60] = strtrim(string(state.stimulated),2)
+	file[57] = strtrim(string(state.magneto_opt),2)
 
 	openw,2,'experiment.dat'
 	for i = 0, siz-1 do begin

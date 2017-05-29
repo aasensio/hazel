@@ -12,7 +12,7 @@ cdef extern:
 
 def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[double,ndim=1] B2Input, double hInput, 
 	double tau1Input, double tau2Input, 
-	ar[double,ndim=1] boundaryInput, int transInput, int atomicPolInput, int magoptInput, ar[double,ndim=1] anglesInput, 
+	ar[double,ndim=2] boundaryInput, int transInput, int atomicPolInput, int magoptInput, ar[double,ndim=1] anglesInput, 
 	int nLambdaInput, ar[double,ndim=1] lambdaAxisInput,  
 	double dopplerWidthInput, double dopplerWidth2Input, double dampingInput, double dopplerVelocityInput, 
 	double dopplerVelocity2Input, double ffInput, double betaInput, double beta2Input, ar[double,ndim=1] nbarInput, ar[double,ndim=1] omegaInput, int normalization):
@@ -28,7 +28,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 		hInput: (float) height
 		tau1Input: (float) optical depth of the first component
 		tau2Input: (float) optical depth of the second component        
-		boundaryInput: (float) vector of size 4 with the boundary condition for (I,Q,U,V)
+		boundaryInput: (float) vector of size nLambda x 4 with the boundary condition for (I,Q,U,V)
 		transInput: (int) transition to compute from the model atom
 		atomicPolInput: (int) include or not atomic polarization
 		magoptInput: (int) include or not magneto-optical effects
@@ -61,7 +61,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 		ar[double,ndim=3] etaOutput = empty((4,4,nLambdaInput), order='F')
    
 	c_hazel(&synModeInput, &nSlabsInput, &B1Input[0], &B2Input[0], &hInput, &tau1Input, &tau2Input, 
-		&boundaryInput[0], &transInput, &atomicPolInput, &magoptInput, &anglesInput[0], &nLambdaInput, &lambdaAxisInput[0],  
+		&boundaryInput[0,0], &transInput, &atomicPolInput, &magoptInput, &anglesInput[0], &nLambdaInput, &lambdaAxisInput[0],  
 		&dopplerWidthInput, &dopplerWidth2Input, &dampingInput, &dopplerVelocityInput, 
 		&dopplerVelocity2Input, &ffInput, &betaInput, &beta2Input, &nbarInput[0], &omegaInput[0], &normalization, <double*> wavelengthOutput.data, 
 		<double*> stokesOutput.data, <double*> epsOutput.data, <double*> etaOutput.data)

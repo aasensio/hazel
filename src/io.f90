@@ -106,7 +106,7 @@ contains
 	type(variable_parameters) :: in_params
 	type(fixed_parameters) :: in_fixed
 	real(kind=8) :: delta, height
-	integer :: j
+	integer :: j, i
 	
 		nparam = 0
 		
@@ -210,7 +210,20 @@ contains
 		
 ! Incident Stokes parameters
 		call lb(12,2)
-		read(12,*) (in_fixed%Stokes_incident(j),j=0,3)
+		read(12,*) in_fixed%Stokes_incident_mode
+		if (index(in_fixed%Stokes_incident_mode, 'single') /= 0) then
+			read(12,*) (in_fixed%Stokes_incident(j),j=0,3)
+		endif
+		if (index(in_fixed%Stokes_incident_mode, 'file') /= 0) then
+			read(12,*) in_fixed%Stokes_incident_file
+			open(unit=18, file=in_fixed%Stokes_incident_file, action='read', status='old')
+			read(18,*) in_fixed%stokes_boundary_len
+			allocate(in_fixed%stokes_boundary(0:3,in_fixed%stokes_boundary_len))
+			do i = 1, in_fixed%stokes_boundary_len
+				read(18,*) (in_fixed%stokes_boundary(j,i),j=0,3)
+			enddo
+			close(18)
+		endif
 		
 ! Transition where to compute the emission
 		call lb(12,2)
@@ -520,6 +533,29 @@ contains
 		deallocate(rnutab)		
 		
 	end subroutine clean
+
+!------------------------------------------------------------
+! Set boundary condition
+!------------------------------------------------------------
+	subroutine set_boundary_condition(in_fixed, in_inversion)
+	type(fixed_parameters) :: in_fixed
+	type(type_inversion) :: in_inversion
+	integer :: j
+
+		if (index(in_fixed%Stokes_incident_mode, 'single') /= 0) then
+			if (.not. associated(in_fixed%stokes_boundary)) allocate(in_fixed%stokes_boundary(0:3,in_fixed%no))
+			do j = 0, 3
+				in_fixed%stokes_boundary(j,:) = in_fixed%Stokes_incident(j)
+			enddo
+		endif
+		if (index(in_fixed%Stokes_incident_mode, 'file') /= 0) then
+			if (in_fixed%stokes_boundary_len /= in_fixed%no) then
+				write(*,*) 'Wavelength axis in boundary condition file is different from synthesis wavelength axis'
+				stop
+			endif
+		endif
+
+	end subroutine set_boundary_condition
 
 !------------------------------------------------------------
 ! Number of columns in a line

@@ -77,6 +77,7 @@ contains
 		call MPI_Bcast(fixed%omax,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 		call MPI_Bcast(fixed%no,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
 		call MPI_Bcast(fixed%wl,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+		call MPI_Bcast(fixed%Stokes_incident_mode,10,MPI_CHARACTER,0,MPI_COMM_WORLD,ierr)
 		
 		call MPI_Bcast(params%vdopp,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 		if (params%nslabs == 3 .or. params%nslabs == -2) then
