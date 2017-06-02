@@ -42,7 +42,7 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 	file[20] = strtrim(string(state.number_slabs),2)
 
 ; Add 3
-	file[39] = strtrim(string(1-state.effects),2)
+	file[42] = strtrim(string(1-state.effects),2)
 	if (state.number_slabs eq 1) then begin
 		file[29] = strtrim(string(state.dtau_desired),2)
 	endif
@@ -82,7 +82,7 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 
 ; S I
 		if (state.which_atom eq 1) then begin
-			file_with_atom = 'ATOMS/sulfur.mod'
+			file_with_atom = 'ATOMS/calcium.mod'
 		endif
 
 ; Na I
@@ -161,9 +161,9 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 			file(5) = "'ATOMS/helium.mod'"
 		endif
 
-; S I
+; Ca II
 		if (state.which_atom eq 1) then begin
-			file(5) = "'ATOMS/sulfur.mod'"
+			file(5) = "'ATOMS/calcium.mod'"
 		endif
 
 ; Na I

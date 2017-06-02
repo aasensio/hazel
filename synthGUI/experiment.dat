@@ -40,16 +40,16 @@
 1
 
 # Use atomic polarization? (0-> no, 1-> yes)
-1
+0
 
 # Observation angle with respect to the vertical theta,chi,gamma [degrees]
 0.0000000  0.0000000  0.0000000
 
 # Wavelength axis: minimum, maximum and number of grid points
--2.9845855 1.7054774 100
+217.79689 230.60847 300
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10829.091  5.5890000  0.0000000
+3951.0600  5.5890000  1.0200000
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
 2.4000000

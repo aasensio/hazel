@@ -57,7 +57,7 @@ An example of the file, that is self-explanatory, is:
     #####################
     [Synthesis]
     Number of slabs = '1'                       # '1' -> single slab, '1+1' -> two slabs with same field, '1+1B' -> 2 slabs with different field, '2' -> two slabs added with a filling factor
-    Boundary condition = 4.098e-5, 0.0, 0.0, 0.0      # I0, Q0, U0, V0
+    Boundary condition = 4.098e-5, 0.0, 0.0, 0.0      # I0, Q0, U0, V0. It can also be a file that contains the boundary condition vs wavelength (see boundary.dat in run directory)
     a = 0.0
     height = 3.0                                # Real height if positive, apparent height if negative arcsec
     ff = 0.0

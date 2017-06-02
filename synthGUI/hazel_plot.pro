@@ -11,9 +11,9 @@ pro plot_profiles, stokes, state
 	 	   file_with_atom = 'ATOMS/helium.mod'
 	 	endif	 
 	 
-; S I
+; CaII
 	 	if (state.which_atom eq 1) then begin
-	 	  	file_with_atom = 'ATOMS/sulfur.mod'
+	 	  	file_with_atom = 'ATOMS/calcium.mod'
 	 	endif
 	 
 ; Na I

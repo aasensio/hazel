@@ -25,7 +25,7 @@ function hazel_init, reset_state=reset_state
 	 	endif
 	 
 	 	if (state.which_atom eq 1) then begin
-	 	  	state.baseWidget = widget_base(TITLE='Hazel Synthesis : S I', MBAR=menuBar)	 	  	
+	 	  	state.baseWidget = widget_base(TITLE='Hazel Synthesis : Ca II', MBAR=menuBar)	 	  	
 	 	endif
 	 
 	 	if (state.which_atom eq 2) then begin
@@ -43,7 +43,7 @@ function hazel_init, reset_state=reset_state
 	 
 	 atomMenu = widget_button(menuBar, VALUE='Multiterm', /MENU)
 	 heliumButton = widget_button(atomMenu, VALUE='He I', UVALUE='HELIUM')
-	 sulfurButton = widget_button(atomMenu, VALUE='S I', UVALUE='SULFUR')
+	 sulfurButton = widget_button(atomMenu, VALUE='Ca II', UVALUE='CALCIUM')
 	 sodiumButton = widget_button(atomMenu, VALUE='Na I', UVALUE='SODIUM')
 	 
 ; 	 atomMenu = widget_button(menuBar, VALUE='Multilevel HFS', /MENU)	 

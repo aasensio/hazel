@@ -373,17 +373,17 @@ pro hazel_Event, event
 									 widget_control, state.baseWidget, $
 									 	BASE_SET_TITLE='Hanle Simulator : He I'
 		   		 	   	end
-		  'SULFUR' : 	begin
+		  'CALCIUM' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
 		   		 	   		 state.which_atom = 1
 									 state.multiplet = 1
 									 state.which_code = 0
 									 widget_control, hand, SET_UVALUE=state
-									 widget_control, state.MultipletSlider, SET_SLIDER_MAX=1
+									 widget_control, state.MultipletSlider, SET_SLIDER_MAX=2
 									 widget_control, state.MultipletSlider, SET_VALUE=1
-									 widget_control, state.MultipletSlider, sensitive=0
+									 widget_control, state.MultipletSlider, sensitive=1
 									 widget_control, state.baseWidget, $
-									 	BASE_SET_TITLE='Hanle Simulator : S I'
+									 	BASE_SET_TITLE='Hanle Simulator : Ca II'
 		   		 	   	end
 		   'SODIUM' : 	begin
 		   		 	   		 widget_control, Event.id, GET_VALUE=value
