@@ -32,3 +32,5 @@ git commit -m "Deploy to GitHub Pages"
 # repo's gh-pages branch. (All previous history on the gh-pages branch
 # will be lost, since we are overwriting it.)
 git push -f git@github.com:aasensio/hazel.git master:gh-pages
+
+rm -rf _build

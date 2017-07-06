@@ -23,11 +23,8 @@ Indices and tables
 ==================
 
 * :doc:`installation`
-<<<<<<< HEAD
 * :doc:`inputFiles`
-=======
 * :doc:`configuration`
->>>>>>> 047c6a4a8a03596a8fb4278c2a9e10fc60944d2f
 * :doc:`atomicModels`
 * :doc:`inputOutput`
 * :doc:`prepareData`
@@ -35,12 +32,8 @@ Indices and tables
 * :doc:`graphical`
 * :doc:`equations`
 * :doc:`ambiguities`
-<<<<<<< HEAD
-* :doc:`acknowledgment`
-=======
 * :doc:`refsys`
 * :doc:`acknowledgements`
->>>>>>> 047c6a4a8a03596a8fb4278c2a9e10fc60944d2f
 * :doc:`disclaimer`
 
 .. toctree::
@@ -56,11 +49,7 @@ Indices and tables
    graphical
    equations
    ambiguities
-<<<<<<< HEAD
-   acknowledgment
-=======
    refsys
    acknowledgements
->>>>>>> 047c6a4a8a03596a8fb4278c2a9e10fc60944d2f
    disclaimer
 
