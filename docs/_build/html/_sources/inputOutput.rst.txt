@@ -12,7 +12,7 @@ observing position and boundary condition. The file consists of the
 following variables:
 
 -  lambda: vector of size *nlambda* containing the wavelength axis with
-   respect to the center of the multiplet.
+   respect to the center of the multiplet (10829.0911 Angstrom for the multiplet at 10830 Angstrom).
 
 -  map: array of size *(npixel,8,nlambda)* containing the Stokes vector
    :math:`(I,Q,U,V)` and the associated standard deviation of the noise

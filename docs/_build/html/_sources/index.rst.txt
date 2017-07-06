@@ -23,7 +23,11 @@ Indices and tables
 ==================
 
 * :doc:`installation`
+<<<<<<< HEAD:docs/_build/html/_sources/index.txt
 * :doc:`inputFiles`
+=======
+* :doc:`configuration`
+>>>>>>> 047c6a4a8a03596a8fb4278c2a9e10fc60944d2f:docs/_build/html/_sources/index.rst.txt
 * :doc:`atomicModels`
 * :doc:`inputOutput`
 * :doc:`prepareData`
@@ -31,7 +35,12 @@ Indices and tables
 * :doc:`graphical`
 * :doc:`equations`
 * :doc:`ambiguities`
+<<<<<<< HEAD:docs/_build/html/_sources/index.txt
 * :doc:`acknowledgment`
+=======
+* :doc:`refsys`
+* :doc:`acknowledgements`
+>>>>>>> 047c6a4a8a03596a8fb4278c2a9e10fc60944d2f:docs/_build/html/_sources/index.rst.txt
 * :doc:`disclaimer`
 
 .. toctree::
@@ -39,7 +48,7 @@ Indices and tables
    :maxdepth: 2
 
    installation
-   inputFiles
+   configuration
    atomicModels
    inputOutput
    prepareData
@@ -47,6 +56,11 @@ Indices and tables
    graphical
    equations
    ambiguities
+<<<<<<< HEAD:docs/_build/html/_sources/index.txt
    acknowledgment
+=======
+   refsys
+   acknowledgements
+>>>>>>> 047c6a4a8a03596a8fb4278c2a9e10fc60944d2f:docs/_build/html/_sources/index.rst.txt
    disclaimer
 
