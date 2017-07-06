@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-How to prepare the data
-=======================
-=======
 Data preparation		
 -----------------		
 
@@ -47,4 +43,3 @@ Hazel. The process takes the following steps:
    for the telescope, which is sometimes difficult to get. It is always a good advice to have the scattering		
    geometry in mind and try to adapt it to your observations. See :ref:`image_geometry` for more information.		
 		
->>>>>>> 047c6a4a8a03596a8fb4278c2a9e10fc60944d2f
