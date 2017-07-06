@@ -375,6 +375,6 @@ f.close()
 
 # Run the code
 try:
-	call(['mpiexec','-n',nProcs,'./hazel'])
+	call(['mpiexec','-n',sys.argv[2],'./hazel'])
 except:
 	print("A problem occured. Exiting...")

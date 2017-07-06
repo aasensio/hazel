@@ -12,7 +12,7 @@ function hazel_init, reset_state=reset_state
 		   	paschen: 1L, effects: 0L, observation: 0L, stokes0: [1.d0,0.d0,0.d0,0.d0], dtau_desired: 3.d0, height: 20.d0, $
 		   	postcript: 0L, dtaured: 3.d0, beta: 1.d0, beta2: 1.0, damping: 0.d0, stimulated: 0, magneto_opt: 0, obs_file: '', $
 				i0_allen: 0L, D2: 0.d0, factor_10830_nbar: 1.d0, factor_10830_omega: 1.d0, waveaxis: [-3.d0,2.5d0,200.d0],$
-				which_atom: 0L, MultipletSlider: 0L, normaliz: 1L, j10: 0.d0, which_code: 0,$
+				which_atom: 0L, MultipletSlider: 0L, normaliz: 1L, j10: 0.d0, which_code: 1,$
 				bfield_var: [1.d-4,1.d3,15], which_rho_plot: 0L, which_refframe: 0L,$
 				path_save: '.', randomazimuth: 0L, number_slabs: 1, dtau_desired2: 0.d0, vel: 0.d0, vel2: 0.d0, ff: 0.d0, useAllen: 1}
 	endif else begin
@@ -46,8 +46,8 @@ function hazel_init, reset_state=reset_state
 	 sulfurButton = widget_button(atomMenu, VALUE='Ca II', UVALUE='CALCIUM')
 	 sodiumButton = widget_button(atomMenu, VALUE='Na I', UVALUE='SODIUM')
 	 
-; 	 atomMenu = widget_button(menuBar, VALUE='Multilevel HFS', /MENU)	 
-; 	 sodiumButton = widget_button(atomMenu, VALUE='Na I', UVALUE='SODIUM_HFS')
+ 	 atomMenu = widget_button(menuBar, VALUE='Multilevel HFS', /MENU)	 
+ 	 sodiumButton = widget_button(atomMenu, VALUE='Na I', UVALUE='SODIUM_HFS')
 	 
 	 horizBase = widget_base(hanleBase, /ROW)
 	 
@@ -60,8 +60,8 @@ function hazel_init, reset_state=reset_state
 	 ; factor_10830 = widget_text(rightBase, VALUE=strtrim(string(state.factor_10830_nbar),2),UVALUE='fact_10830_nbar',/EDITABLE,XSIZE=8,YSIZE=1)
 	 ; factor_10830_wlb = widget_label(rightBase, VALUE='w factor')
 	 ; factor_10830_w = widget_text(rightBase, VALUE=strtrim(string(state.factor_10830_omega),2),UVALUE='fact_10830_w',/EDITABLE,XSIZE=8,YSIZE=1)
-	 ; j10_wlb = widget_label(rightBase, VALUE='J10/J00')
-	 ; j10 = widget_text(rightBase, VALUE=strtrim(string(state.j10),2),UVALUE='j10_tensor',/EDITABLE,XSIZE=8,YSIZE=1)
+	 j10_wlb = widget_label(rightBase, VALUE='J10/J00')
+	 j10 = widget_text(rightBase, VALUE=strtrim(string(state.j10),2),UVALUE='j10_tensor',/EDITABLE,XSIZE=8,YSIZE=1)
 	 
 ; Emission or tangent observation
 	 t4 = widget_base(rightBase, /COLUMN, FRAME=1)

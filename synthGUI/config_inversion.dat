@@ -3,7 +3,7 @@
 ***********************************************
 
 # Input model file
-'ATOMS/calcium.mod'
+'ATOMS/helium.mod'
 
 # Initial parameters file
 'experiment.dat'

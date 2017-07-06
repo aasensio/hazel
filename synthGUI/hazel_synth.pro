@@ -203,7 +203,7 @@ pro synthesize, state, handler, plot_profiles=plot_profiles, texto=texto
 	if (state.which_code eq 0) then begin
 		spawn,'./hazel'
 	endif else begin
-		print, 'Not available'
+		spawn,'./hazel'
 	endelse
 
 	if (keyword_set(plot_profiles)) then begin
