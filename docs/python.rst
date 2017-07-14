@@ -44,6 +44,7 @@ inputs:
         nbarInput: (float) vector of size 4 to define nbar for every transition of the model atom (set them to zero to use Allen's)
         omegaInput: (float) vector of size 4 to define omega for every transition of the model atom (set them to zero to use Allen's)
         normalization: (int) normalization of the output Stokes parameters (0-> I_max, 1-> I_peak)
+        deltaCollision: (float) depolarizing rate for lower term
         
     Returns:
         wavelengthOutput: (float) vector of size nLambdaInput with the wavelength axis

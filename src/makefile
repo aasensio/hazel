@@ -70,7 +70,7 @@ ifeq ($(version), serial)
 		PREPROCESS = -D$(version) -cpp
 	else		
 		COMPILER = ifort
-		COMPILER_OPTS = -c -g #-O3 
+		COMPILER_OPTS = -c -O3 
 		PREPROCESS = -D$(version) -fpp
 	endif
 	HAZEL_DEP = hazel.f90 allen.o synth.o rt_coef.o SEE.o maths.o vars.o mpi_routines_fake.o inversion.o io.o

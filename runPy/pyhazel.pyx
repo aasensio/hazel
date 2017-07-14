@@ -6,7 +6,7 @@ cdef extern:
 		double* boundaryInput, int* transInput, int* atomicPolInput, int* magoptInput, double* anglesInput, int* nLambdaInput, double* lambdaAxisInput,
 		double* dopplerWidthInput, double* dopplerWidth2Input, double* dampingInput, double* dopplerVelocityInput, 
 		double* dopplerVelocity2Input, double* ffInput, double* betaInput, double* beta2Input, double* nbarInput, double* omegaInput, 
-		int* normalization, double* wavelengthOutput, double* stokesOutput, double* epsOutput, double* etaOutput)
+		int* normalization, double* deltaCollision, double* wavelengthOutput, double* stokesOutput, double* epsOutput, double* etaOutput)
 		
 	void c_init()
 
@@ -15,7 +15,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 	ar[double,ndim=2] boundaryInput, int transInput, int atomicPolInput, int magoptInput, ar[double,ndim=1] anglesInput, 
 	int nLambdaInput, ar[double,ndim=1] lambdaAxisInput,  
 	double dopplerWidthInput, double dopplerWidth2Input, double dampingInput, double dopplerVelocityInput, 
-	double dopplerVelocity2Input, double ffInput, double betaInput, double beta2Input, ar[double,ndim=1] nbarInput, ar[double,ndim=1] omegaInput, int normalization):
+	double dopplerVelocity2Input, double ffInput, double betaInput, double beta2Input, ar[double,ndim=1] nbarInput, ar[double,ndim=1] omegaInput, int normalization, double deltaCollision=0.0):
 	
 	"""
 	Carry out a synthesis with Hazel
@@ -46,6 +46,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 		nbarInput: (float) vector of size 4 to define nbar for every transition of the model atom (set them to zero to use Allen's)
 		omegaInput: (float) vector of size 4 to define omega for every transition of the model atom (set them to zero to use Allen's)
 		normalization: (int) normalization of the output Stokes parameters (0-> I_max, 1-> I_peak)
+		deltaCollision: (float) depolarizing rate for lower term
 		
     Returns:
         wavelengthOutput: (float) vector of size nLambdaInput with the wavelength axis
@@ -63,7 +64,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
 	c_hazel(&synModeInput, &nSlabsInput, &B1Input[0], &B2Input[0], &hInput, &tau1Input, &tau2Input, 
 		&boundaryInput[0,0], &transInput, &atomicPolInput, &magoptInput, &anglesInput[0], &nLambdaInput, &lambdaAxisInput[0],  
 		&dopplerWidthInput, &dopplerWidth2Input, &dampingInput, &dopplerVelocityInput, 
-		&dopplerVelocity2Input, &ffInput, &betaInput, &beta2Input, &nbarInput[0], &omegaInput[0], &normalization, <double*> wavelengthOutput.data, 
+		&dopplerVelocity2Input, &ffInput, &betaInput, &beta2Input, &nbarInput[0], &omegaInput[0], &normalization, &deltaCollision, <double*> wavelengthOutput.data, 
 		<double*> stokesOutput.data, <double*> epsOutput.data, <double*> etaOutput.data)
     
 	return wavelengthOutput, stokesOutput, epsOutput, etaOutput

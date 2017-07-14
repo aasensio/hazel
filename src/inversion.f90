@@ -87,7 +87,7 @@ contains
                 iter = 1
                 successful = 1
 
-                call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)              
+                call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
                 if (error == 1) return
     
 ! Main inversion loop

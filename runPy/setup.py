@@ -29,7 +29,7 @@ def get_libgfortran_dir():
         return []
 
 # compile the fortran modules without linking
-fortran_mod_comp = 'cd ../src ; make version=python compiler=gfortran'
+fortran_mod_comp = 'cd ../src ; make clean ; make version=python compiler=gfortran'
 system(fortran_mod_comp)
 
 ext_modules = [Extension(# module name:

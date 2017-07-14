@@ -12,7 +12,7 @@ implicit none
 contains
 subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, &
 	transInput, atomicPolInput, magopttInput, anglesInput, nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, &
-	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalizationInput, &
+	dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalizationInput, deltaCollInput, &
 	wavelengthOutput, stokesOutput, epsOutput, etaOutput) bind(c)
 
 	integer(c_int), intent(in) :: synModeInput, nSlabsInput, transInput, atomicPolInput, magopttInput
@@ -23,7 +23,7 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 	real(c_double), intent(in), dimension(4,nLambdaInput) :: boundaryInput
 	real(c_double), intent(in):: tau2Input, dopplerWidth2Input, dopplerVelocity2Input, ffInput
 	real(c_double), intent(in), dimension(4) :: nbarInput, omegaInput
-	real(c_double), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput, betaInput, beta2Input
+	real(c_double), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput, betaInput, beta2Input, deltaCollInput
 	real(c_double), intent(out), dimension(nLambdaInput) :: wavelengthOutput
 	real(c_double), intent(out), dimension(4,nLambdaInput) :: stokesOutput
 	real(c_double), intent(out), dimension(4,nLambdaInput) :: epsOutput
@@ -145,8 +145,12 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
 
 	use_mag_opt_RT = magopttInput
 	use_stim_emission_RT = 1
-	
-	
+
+	if (deltaCollInput /= 0) then
+		idep = 1
+		params%delta_collision = deltaCollInput	
+	endif
+
 !*********************************
 !** SYNTHESIS MODE
 !*********************************	
