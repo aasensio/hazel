@@ -123,7 +123,7 @@ implicit none
 !*********************************
 !** INVERSION MODE
 !*********************************
-    if (working_mode >= 0 .and. nprocs /= 0) then
+    if (working_mode >= 0 .and. nprocs >= 0) then
         if (verbose_mode == 1 .and. myrank == 0) then
             print *, 'Working in INVERSION mode'
         endif
@@ -311,6 +311,7 @@ implicit none
             status_obs = 1
             do while (status_obs == 1)
                 call read_observation(input_observed_profiles, fixed, observation, params, n_procs_done, status_obs)
+                call set_boundary_condition(fixed, inversion)
                 call doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
             enddo
             

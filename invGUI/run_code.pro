@@ -1,7 +1,7 @@
 pro run_code, info, inversion=inversion
 	if (keyword_set(inversion)) then begin
 		file_delete, 'done.info', /quiet, /allow_nonexistent
-		
+				
 		spawn,'./hazel &';, result_spawn
 	
 		exists = 0

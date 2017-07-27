@@ -69,7 +69,7 @@ pro generate_conf_files, info, action
 	
 ; init_parameters_10830.dat
 	openr,2,'CONF/init_parameters.dat'
-	str = strarr(60)
+	str = strarr(61)
 	readf,2,str
 	close,2
 		
@@ -106,35 +106,36 @@ pro generate_conf_files, info, action
 	endif
 	
 	str(32) = strtrim(string(info.source),2)
-	str(35) = strtrim(string(info.boundary(0)),2)+' '+strtrim(string(info.boundary(1)),2)+' '+$
+	str[35] = "'single'"
+	str(36) = strtrim(string(info.boundary(0)),2)+' '+strtrim(string(info.boundary(1)),2)+' '+$
 		strtrim(string(info.boundary(2)),2)+' '+strtrim(string(info.boundary(3)),2)
-	str(38) = strtrim(string(info.multiplet),2)
-	str(41) = strtrim(string(info.atom_pol),2)
-	str(44) = strtrim(string(info.theta_obs),2)+'  '+strtrim(string(info.chi_obs),2)+'  '+strtrim(string(info.gamm_obs),2)
+	str(39) = strtrim(string(info.multiplet),2)
+	str(42) = strtrim(string(info.atom_pol),2)
+	str(45) = strtrim(string(info.theta_obs),2)+'  '+strtrim(string(info.chi_obs),2)+'  '+strtrim(string(info.gamm_obs),2)
 	
 	wave = wavelength_component(info.atom,info.multiplet-1)
 
 	if (info.number_slabs eq 1 or info.number_slabs eq 2) then begin
-		str[50] = strtrim(string(wave),2)+'  '+strtrim(string(info.vdopp),2)+'  '+strtrim(string(info.damping),2)
+		str[51] = strtrim(string(wave),2)+'  '+strtrim(string(info.vdopp),2)+'  '+strtrim(string(info.damping),2)
 	endif
 	if (info.number_slabs eq 3 or info.number_slabs eq -2) then begin
-		str[50] = strtrim(string(wave),2)+'  '+strtrim(string(info.vdopp),2)+'  '+strtrim(string(info.vdopp2),2)+$
+		str[51] = strtrim(string(wave),2)+'  '+strtrim(string(info.vdopp),2)+'  '+strtrim(string(info.vdopp2),2)+$
 			'  '+strtrim(string(info.damping),2)
 	endif
 
 	if (info.number_slabs eq 1) then begin
-		str(53) = strtrim(string(info.vmacro),2)
+		str(54) = strtrim(string(info.vmacro),2)
 	endif
 	if (info.number_slabs eq 2 or info.number_slabs eq 3 or info.number_slabs eq -2) then begin
-		str(53) = strtrim(string(info.vmacro),2)+' '+strtrim(string(info.vmacro2),2)
+		str(54) = strtrim(string(info.vmacro),2)+' '+strtrim(string(info.vmacro2),2)
 		str(32) = strtrim(string(info.source),2)+' '+strtrim(string(info.source2),2)
 	endif
 	
-	str(56) = strtrim(string(info.mag_opt),2)
-	str(59) = strtrim(string(info.stimulated),2)
+	str(57) = strtrim(string(info.mag_opt),2)
+	str(60) = strtrim(string(info.stimulated),2)
 	
 	openw,2,'init_parameters.dat',width=132
-	for i = 0, 59 do begin
+	for i = 0, 60 do begin
 		printf,2,str(i)
 	endfor	
 	close,2
