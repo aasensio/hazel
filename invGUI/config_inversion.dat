@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'/scratch/Downloads/umbra_sample_pixel.prof'
+'/scratch/Dropbox/test/houston_he/profile_8.prof'
 
 # File with the inverted profiles
 'out.dat'

@@ -199,7 +199,7 @@ contains
                     call write_final_profiles(output_inverted_profiles,observation,inversion)
 
 ! Write the final parameters in a file so that it can be used for restarting the inversion code
-                    call write_experiment(params, fixed)
+                    call write_experiment(params, fixed, errorparams)
                 
                     call print_parameters(params,'-Final Parameters : ',.TRUE.)
                     print *, 'Final chi^2 : ', inversion%chisq
@@ -232,7 +232,7 @@ contains
                     call write_final_profiles(output_inverted_profiles,observation,inversion)
                 
 ! Write the final parameters in a file so that it can be used for restarting the inversion code
-                    call write_experiment(params, fixed)
+                    call write_experiment(params, fixed, errorparams)
                     
                     call print_parameters(params,'-Final Parameters : ',.TRUE.)
                     print *, 'Final chi^2 : ', inversion%chisq
