@@ -1,0 +1,129 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+B	../weakf.py	/^B = np.linspace(0.0,1200.0,100)$/;"	kind:variable	line:33
+B1Input	../test.py	/^B1Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:10
+B1Input	../test.py	/^B1Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:46
+B1Input	../weakf.py	/^	B1Input = np.asarray([B[i],0.0,0.0])$/;"	kind:variable	line:36
+B1Input	../weakf.py	/^B1Input = np.asarray([300.0,20.0,41.0])$/;"	kind:variable	line:8
+B2Input	../test.py	/^B2Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:11
+B2Input	../test.py	/^B2Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:47
+B2Input	../weakf.py	/^B2Input = np.asarray([0.0,0.0,0.0])$/;"	kind:variable	line:9
+Extension	../setup.py	/^from distutils.extension import Extension$/;"	kind:namespace	line:3
+PIPE	../setup.py	/^from subprocess import Popen, PIPE$/;"	kind:namespace	line:8
+Popen	../setup.py	/^from subprocess import Popen, PIPE$/;"	kind:namespace	line:8
+alpha	../weakf.py	/^	alpha = -4.67e-13 * geff * 10830.0**2$/;"	kind:variable	line:47
+anglesInput	../test.py	/^anglesInput = np.asarray([0.0,0.0,0.0])$/;"	kind:variable	line:18
+anglesInput	../test.py	/^anglesInput = np.asarray([0.0,0.0,0.0])$/;"	kind:variable	line:54
+anglesInput	../weakf.py	/^anglesInput = np.asarray([0.0,0.0,90.0])$/;"	kind:variable	line:16
+ar	../pyhazel.pyx	/^from numpy cimport ndarray as ar$/;"	kind:namespace	line:1
+atomicPolInput	../test.py	/^atomicPolInput = 1$/;"	kind:variable	line:16
+atomicPolInput	../test.py	/^atomicPolInput = 1$/;"	kind:variable	line:52
+atomicPolInput	../weakf.py	/^atomicPolInput = 1$/;"	kind:variable	line:15
+ax	../test.py	/^ax = ax.flatten()$/;"	kind:variable	line:85
+beta2Input	../test.py	/^beta2Input = 1.0$/;"	kind:variable	line:28
+beta2Input	../test.py	/^beta2Input = 1.0$/;"	kind:variable	line:64
+beta2Input	../weakf.py	/^beta2Input = 1.0$/;"	kind:variable	line:26
+betaInput	../test.py	/^betaInput = 1.0$/;"	kind:variable	line:27
+betaInput	../test.py	/^betaInput = 1.0$/;"	kind:variable	line:63
+betaInput	../weakf.py	/^betaInput = 1.0$/;"	kind:variable	line:25
+boundaryInput	../test.py	/^boundaryInput  = np.zeros((nLambdaInput,4))$/;"	kind:variable	line:32
+boundaryInput	../test.py	/^boundaryInput  = np.zeros((nLambdaInput,4))$/;"	kind:variable	line:68
+boundaryInput	../weakf.py	/^boundaryInput  = np.asarray([4.098e-5,0.0,0.0,0.0])$/;"	kind:variable	line:13
+build_ext	../setup.py	/^from Cython.Distutils import build_ext$/;"	kind:namespace	line:4
+clean.py	../clean.py	1;"	kind:file	line:1
+cmdclass	../setup.py	/^      cmdclass = {'build_ext': build_ext},$/;"	kind:variable	line:48
+dIdl	../weakf.py	/^	dIdl = np.gradient(stokesI, deltaL)$/;"	kind:variable	line:45
+dampingInput	../test.py	/^dampingInput = 0.e0$/;"	kind:variable	line:23
+dampingInput	../test.py	/^dampingInput = 0.e0$/;"	kind:variable	line:59
+dampingInput	../weakf.py	/^dampingInput = 0.e0$/;"	kind:variable	line:21
+deltaL	../weakf.py	/^	deltaL = l[1]-l[0]$/;"	kind:variable	line:42
+dopplerVelocity2Input	../test.py	/^dopplerVelocity2Input = 5.e0$/;"	kind:variable	line:25
+dopplerVelocity2Input	../test.py	/^dopplerVelocity2Input = 5.e0$/;"	kind:variable	line:61
+dopplerVelocity2Input	../weakf.py	/^dopplerVelocity2Input = 0.e0$/;"	kind:variable	line:23
+dopplerVelocityInput	../test.py	/^dopplerVelocityInput = -5.e0$/;"	kind:variable	line:24
+dopplerVelocityInput	../test.py	/^dopplerVelocityInput = -5.e0$/;"	kind:variable	line:60
+dopplerVelocityInput	../weakf.py	/^dopplerVelocityInput = 0.e0$/;"	kind:variable	line:22
+dopplerWidth2Input	../test.py	/^dopplerWidth2Input = 6.5e0$/;"	kind:variable	line:22
+dopplerWidth2Input	../test.py	/^dopplerWidth2Input = 6.5e0$/;"	kind:variable	line:58
+dopplerWidth2Input	../weakf.py	/^dopplerWidth2Input = 0.e0$/;"	kind:variable	line:20
+dopplerWidthInput	../test.py	/^dopplerWidthInput = 6.5e0$/;"	kind:variable	line:21
+dopplerWidthInput	../test.py	/^dopplerWidthInput = 6.5e0$/;"	kind:variable	line:57
+dopplerWidthInput	../weakf.py	/^dopplerWidthInput = 6.e0$/;"	kind:variable	line:19
+empty	../pyhazel.pyx	/^from numpy import empty$/;"	kind:namespace	line:2
+ext_modules	../setup.py	/^      ext_modules = ext_modules)$/;"	kind:variable	line:52
+ext_modules	../setup.py	/^ext_modules = [Extension(# module name:$/;"	kind:variable	line:35
+extra_compile_args	../setup.py	/^                         extra_compile_args=['-fPIC', '-O3'],$/;"	kind:variable	line:42
+extra_link_args	../setup.py	/^                         extra_link_args=['..\/src\/vars.o', '..\/src\/maths.o', '..\/src\/allen.o', '..\/src\/svd.o', '..\/src\/io_py.o', '..\/src\/SEE.o', '..\/src\/rt_coef.o', '..\/src\/synth.o',$/;"	kind:variable	line:44
+ffInput	../test.py	/^ffInput = 0.e0$/;"	kind:variable	line:26
+ffInput	../test.py	/^ffInput = 0.e0$/;"	kind:variable	line:62
+ffInput	../weakf.py	/^ffInput = 0.e0$/;"	kind:variable	line:24
+geff	../weakf.py	/^	geff = 1.42$/;"	kind:variable	line:46
+get_include	../setup.py	/^from numpy import get_include$/;"	kind:namespace	line:6
+get_libgfortran_dir	../setup.py	/^def get_libgfortran_dir():$/;"	kind:function	line:11
+hInput	../test.py	/^hInput = 3.e0$/;"	kind:variable	line:12
+hInput	../test.py	/^hInput = 3.e0$/;"	kind:variable	line:48
+hInput	../weakf.py	/^hInput = 3.e0$/;"	kind:variable	line:10
+include_dirs	../setup.py	/^      include_dirs = [get_include()],$/;"	kind:variable	line:51
+inferred	../weakf.py	/^inferred = np.zeros((2,100))$/;"	kind:variable	line:34
+init	../pyhazel.pyx	/^def init():$/;"	kind:function	line:72
+labels	../test.py	/^labels = ['I\/Imax','Q\/Imax','U\/Imax','V\/Imax']$/;"	kind:variable	line:81
+labels	../weakf.py	/^labels = ['I\/Imax','Q\/Imax','U\/Imax','V\/Imax']$/;"	kind:variable	line:56
+lambdaAxisInput	../test.py	/^lambdaAxisInput = np.linspace(-1.5e0,2.5e0,nLambdaInput)$/;"	kind:variable	line:20
+lambdaAxisInput	../test.py	/^lambdaAxisInput = np.linspace(-1.5e0,2.5e0,nLambdaInput)$/;"	kind:variable	line:56
+lambdaAxisInput	../weakf.py	/^lambdaAxisInput = np.linspace(-1.5e0,2.5e0,150)$/;"	kind:variable	line:17
+libraries	../setup.py	/^                         libraries=["gfortran"],$/;"	kind:variable	line:39
+library_dirs	../setup.py	/^                         library_dirs=get_libgfortran_dir(),$/;"	kind:variable	line:40
+magoptInput	../test.py	/^magoptInput = 1$/;"	kind:variable	line:17
+magoptInput	../test.py	/^magoptInput = 1$/;"	kind:variable	line:53
+matplotlib	../test.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+matplotlib	../weakf.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+nLambdaInput	../test.py	/^nLambdaInput = 128$/;"	kind:variable	line:19
+nLambdaInput	../test.py	/^nLambdaInput = 128$/;"	kind:variable	line:55
+nLambdaInput	../weakf.py	/^nLambdaInput = 150$/;"	kind:variable	line:18
+nSlabsInput	../test.py	/^nSlabsInput = 2$/;"	kind:variable	line:9
+nSlabsInput	../test.py	/^nSlabsInput = 3$/;"	kind:variable	line:45
+nSlabsInput	../weakf.py	/^nSlabsInput = 1$/;"	kind:variable	line:7
+nbarInput	../test.py	/^nbarInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:29
+nbarInput	../test.py	/^nbarInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:65
+nbarInput	../weakf.py	/^nbarInput = np.asarray([0.1,0.1,0.1,0.1])$/;"	kind:variable	line:27
+normalization	../test.py	/^normalization = 0$/;"	kind:variable	line:31
+normalization	../test.py	/^normalization = 0$/;"	kind:variable	line:67
+np	../test.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../weakf.py	/^import numpy as np$/;"	kind:namespace	line:1
+omegaInput	../test.py	/^omegaInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:30
+omegaInput	../test.py	/^omegaInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:66
+omegaInput	../weakf.py	/^omegaInput = np.asarray([0.21,0.1,0.1,0.1])$/;"	kind:variable	line:28
+os	../clean.py	/^import os$/;"	kind:namespace	line:1
+os	../setup.py	/^import os$/;"	kind:namespace	line:9
+pl	../test.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+pl	../weakf.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+print_function	../setup.py	/^from __future__ import print_function$/;"	kind:namespace	line:1
+pyhazel	../test.py	/^import pyhazel$/;"	kind:namespace	line:2
+pyhazel	../weakf.py	/^import pyhazel$/;"	kind:namespace	line:2
+pyhazel.pyx	../pyhazel.pyx	1;"	kind:file	line:1
+setup	../setup.py	/^from distutils.core import setup$/;"	kind:namespace	line:2
+setup.py	../setup.py	1;"	kind:file	line:1
+stokesI	../weakf.py	/^	stokesI = stokes[0,80:]$/;"	kind:variable	line:43
+stokesV	../weakf.py	/^	stokesV = stokes[3,80:]$/;"	kind:variable	line:44
+stop	../weakf.py	/^from ipdb import set_trace as stop$/;"	kind:namespace	line:4
+synModeInput	../test.py	/^synModeInput = 5$/;"	kind:variable	line:44
+synModeInput	../test.py	/^synModeInput = 5$/;"	kind:variable	line:8
+synModeInput	../weakf.py	/^synModeInput = 5$/;"	kind:variable	line:6
+synth	../pyhazel.pyx	/^def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[double,ndim=1] B2Input, double hInput, $/;"	kind:function	line:13
+system	../setup.py	/^from os import system$/;"	kind:namespace	line:7
+tau1Input	../test.py	/^tau1Input = 1.e0$/;"	kind:variable	line:13
+tau1Input	../test.py	/^tau1Input = 1.e0$/;"	kind:variable	line:49
+tau1Input	../weakf.py	/^tau1Input = 1.e0$/;"	kind:variable	line:11
+tau2Input	../test.py	/^tau2Input = 1.e0$/;"	kind:variable	line:14
+tau2Input	../test.py	/^tau2Input = 1.e0$/;"	kind:variable	line:50
+tau2Input	../weakf.py	/^tau2Input = 0.e0$/;"	kind:variable	line:12
+test.py	../test.py	1;"	kind:file	line:1
+time	../test.py	/^import time$/;"	kind:namespace	line:4
+transInput	../test.py	/^transInput = 1$/;"	kind:variable	line:15
+transInput	../test.py	/^transInput = 1$/;"	kind:variable	line:51
+transInput	../weakf.py	/^transInput = 1$/;"	kind:variable	line:14
+weakf.py	../weakf.py	1;"	kind:file	line:1

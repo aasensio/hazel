@@ -10,12 +10,12 @@ B2Input = np.asarray([0.0,0.0,0.0])
 hInput = 3.e0
 tau1Input = 1.e0
 tau2Input = 0.e0
-boundaryInput  = np.asarray([4.098e-5,0.0,0.0,0.0])
 transInput = 1
 atomicPolInput = 1
+magoptInput = 1
 anglesInput = np.asarray([0.0,0.0,90.0])
-lambdaAxisInput = np.linspace(-1.5e0,2.5e0,150)
 nLambdaInput = 150
+lambdaAxisInput = np.linspace(-1.5e0,2.5e0,nLambdaInput)
 dopplerWidthInput = 6.e0
 dopplerWidth2Input = 0.e0
 dampingInput = 0.e0
@@ -26,18 +26,23 @@ betaInput = 1.0
 beta2Input = 1.0
 nbarInput = np.asarray([0.1,0.1,0.1,0.1])
 omegaInput = np.asarray([0.21,0.1,0.1,0.1])
+normalization = 0
+boundaryInput  = np.zeros((nLambdaInput,4))
+boundaryInput[:,0] = 4.098e-5
+
 
 pyhazel.init()
 
 # Compute the Stokes parameters using many default parameters, using Allen's data
-B = np.linspace(0.0,1200.0,100)
-inferred = np.zeros((2,100))
-for i in range(100):
+n = 20
+B = np.linspace(0.0,1200.0,n)
+inferred = np.zeros((2,n))
+for i in range(n):
 	B1Input = np.asarray([B[i],0.0,0.0])
 	[l, stokes, etaOutput, epsOutput] = pyhazel.synth(synModeInput, nSlabsInput, B1Input, B2Input, hInput, 
-	                        tau1Input, tau2Input, boundaryInput, transInput, atomicPolInput, anglesInput, 
-	                        nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, 
-	                        dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput)
+                        tau1Input, tau2Input, boundaryInput, transInput, atomicPolInput, magoptInput, anglesInput, 
+                        nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, 
+                        dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalization)
 
 	deltaL = l[1]-l[0]
 	stokesI = stokes[0,80:]

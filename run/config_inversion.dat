@@ -30,7 +30,7 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'OBSERVATION/pru1.prof'
+'OBSERVATION/prominence_ApJ_642_554.prof'
 
 # File with the inverted profiles
 'test.inversion'
@@ -51,7 +51,7 @@
 0
 
 # Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3), simplified slab (4), exact slab (5)
-5
+0
 
 # Synthesis mode -> 0 , Inversion mode -> 1
-0
+1

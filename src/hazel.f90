@@ -80,7 +80,7 @@ implicit none
 ! Broadcast relevant information from the main configuration file
 ! to all nodes
     call bcast_main_conf
-    
+  
         
 ! Read the file with the experiment
     if (myrank == 0) then
@@ -123,7 +123,7 @@ implicit none
 !*********************************
 !** INVERSION MODE
 !*********************************
-    if (working_mode >= 0 .and. nprocs >= 0) then
+    if (working_mode > 0 .and. nprocs >= 0) then
         if (verbose_mode == 1 .and. myrank == 0) then
             print *, 'Working in INVERSION mode'
         endif
@@ -139,7 +139,7 @@ implicit none
         if (myrank == 0) then
             call preread_observations(input_observed_profiles, fixed, observation)
         endif
-
+        
 ! Broadcast relevant information about observation size
         call bcast_observation_info
 
@@ -310,7 +310,7 @@ implicit none
 ! out the inversion serially
             status_obs = 1
             do while (status_obs == 1)
-                call read_observation(input_observed_profiles, fixed, observation, params, n_procs_done, status_obs)
+                call read_observation(input_observed_profiles, fixed, observation, params, n_procs_done, status_obs)                
                 call set_boundary_condition(fixed, inversion)
                 call doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
             enddo

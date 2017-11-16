@@ -24,7 +24,7 @@
 0.0000000  0.0000000  0.0000000
 
 # Apparent height (if negative) or real height (if positive) of the He I atoms in arcsec
-4.0000000
+20.000000
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
 0.0000000
@@ -34,7 +34,7 @@
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
 'single'
-3.83700e-05 0.00000 0.00000 0.00000
+0.00000 0.00000 0.00000 0.00000
 
 # Transition where to compute the emission
 1
@@ -43,7 +43,7 @@
 1
 
 # Observation angle with respect to the vertical theta,chi,gamma [degrees]
-40.000000  236.00000  90.000000
+90.000000  0.0000000  90.000000
 
 # Wavelength axis: minimum, maximum and number of grid points
 -3.d0 2.5d0 200

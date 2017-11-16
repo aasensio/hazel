@@ -21,7 +21,7 @@
 1 1 0 0 
 
 # Invert the optical depth or strength of the line
-1 1 0 0 
+0 0 0 0 
 
 # Invert the D^2 of the lower level
 0 0 0 0 
@@ -61,7 +61,7 @@
 
 # Invert beta of component 2
 0 0 0 0 
- 
+
 # Weights for Stokes I in each cycle
 1.0000000 1.0000000 0.0000000 0.0000000 
 

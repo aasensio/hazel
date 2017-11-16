@@ -25,15 +25,15 @@ contains
 	integer :: nf, i, j
 		
 		compute_chisq = 0.d0
-
+		
 ! Compute the chisq using the appropriate weights for each cycle
 		do i = 0, 3
 			weight = in_inversion%stokes_weights(i,in_inversion%loop_cycle)
 			compute_chisq = compute_chisq + weight * &
 				sum((in_observation%stokes(i,:)-in_inversion%stokes_unperturbed(i,:))**2/in_observation%sigma(i,:)**2) / &
-				(4.d0*in_observation%n)				
+				(4.d0*in_observation%n)			
 		enddo
-
+		
 	end function compute_chisq
 	
 !------------------------------------------------------------
@@ -963,6 +963,7 @@ contains
 	character(len=120) :: temporal_file
 
 		temporal_file = 'temporal.prof'
+
 		
 		j = 1
 		do i = 1, params%n_total
@@ -1018,7 +1019,7 @@ contains
 		endif
 		
 		f = compute_chisq(observation,inversion)
-
+		
 !   		write(*,FMT='(10X,A,I4,A,F18.8)') 'D  - chi^2(', iidata(1), ') : ', f
 		
 		if (iidata(1) == 0) then

@@ -66,7 +66,7 @@ endif
 ifeq ($(version), serial)
 	ifeq ($(compiler), gfortran)
 		COMPILER = gfortran
-		COMPILER_OPTS = -c -O3 -ffree-line-length-none
+		COMPILER_OPTS = -c -O3 -ffree-line-length-none 
 		PREPROCESS = -D$(version) -cpp
 	else		
 		COMPILER = ifort

@@ -34,6 +34,7 @@ contains
     !
     ! Open PSF file and read
     !
+    print *, 'Using PSF'
     unit = 1
     OPEN(unit, FILE=filename, status='OLD')
     read(unit,*) npsf ! Number of elements of the PSF
