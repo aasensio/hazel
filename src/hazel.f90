@@ -162,7 +162,7 @@ implicit none
 
         package_size_obs = sizeof(n_procs_done) + sizeof(observation%wl) + sizeof(observation%stokes(0:3,:)) + &
             sizeof(observation%sigma(0:3,:)) + sizeof(fixed%Stokes_incident) + sizeof(params%height) + &
-            sizeof(fixed%thetad) + 8*sizeof(params%bgauss)
+            sizeof(fixed%thetad) + sizeof(fixed%gammad) + 8*sizeof(params%bgauss)
              
         if (params%nslabs == 2) then
             package_size_obs = package_size_obs + 2*sizeof(params%bgauss)
