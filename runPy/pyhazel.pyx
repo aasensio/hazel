@@ -1,5 +1,5 @@
 from numpy cimport ndarray as ar
-from numpy import empty
+from numpy import empty, linspace, zeros, array
 
 cdef extern:
 	void c_hazel(int* synModeInput, int* nSlabsInput, double* B1Input, double* B2Input, double* hInput, double* tau1Input, double* tau2Input, 
@@ -10,12 +10,13 @@ cdef extern:
 		
 	void c_init()
 
-def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[double,ndim=1] B2Input, double hInput, 
-	double tau1Input, double tau2Input, 
-	ar[double,ndim=2] boundaryInput, int transInput, int atomicPolInput, int magoptInput, ar[double,ndim=1] anglesInput, 
-	int nLambdaInput, ar[double,ndim=1] lambdaAxisInput,  
-	double dopplerWidthInput, double dopplerWidth2Input, double dampingInput, double dopplerVelocityInput, 
-	double dopplerVelocity2Input, double ffInput, double betaInput, double beta2Input, ar[double,ndim=1] nbarInput, ar[double,ndim=1] omegaInput, int normalization, double deltaCollision=0.0):
+def _synth(int synModeInput=5, int nSlabsInput=1, ar[double,ndim=1] B1Input=zeros(3), ar[double,ndim=1] B2Input=zeros(3), double hInput=3.0, 
+	double tau1Input=1.0, double tau2Input=0.0, 
+	ar[double,ndim=2] boundaryInput=zeros((128,4)), int transInput=1, int atomicPolInput=1, int magoptInput=1, ar[double,ndim=1] anglesInput=zeros(3), 
+	int nLambdaInput=128, ar[double,ndim=1] lambdaAxisInput=linspace(-1.5,2.5,128),  
+	double dopplerWidthInput=5.0, double dopplerWidth2Input=5.0, double dampingInput=0.0, double dopplerVelocityInput=0.0, 
+	double dopplerVelocity2Input=0.0, double ffInput=1.0, double betaInput=1.0, double beta2Input=1.0, ar[double,ndim=1] nbarInput=zeros(4), 
+	ar[double,ndim=1] omegaInput=zeros(4), int normalization=0, double deltaCollision=0.0):
 	
 	"""
 	Carry out a synthesis with Hazel
@@ -69,7 +70,7 @@ def synth(int synModeInput, int nSlabsInput, ar[double,ndim=1] B1Input, ar[doubl
     
 	return wavelengthOutput, stokesOutput, epsOutput, etaOutput
 	
-def init():
+def _init():
 	"""
 	Initialize and do some precomputations that can be avoided in the subsequent calls to the synthesis
 	

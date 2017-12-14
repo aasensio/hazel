@@ -1,19 +1,10 @@
-import matplotlib
-#~ print(matplotlib.rcParams['backend'])
-matplotlib.use('Qt5Agg')
-print('backend = ',matplotlib.get_backend())
 import sys, os, random
 import numpy as np
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 import i0Allen
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from hazel import hazel
-#~ from ipdb import set_trace as stop
-# from IPython.core.debugger import Pdb
-# ipdb = Pdb()
-# stop = ipdb.set_trace
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+import pyhazel
+from ipdb import set_trace as stop
 import pickle
 import os.path
 
@@ -40,35 +31,21 @@ class FloatSlider(QSlider):
     def setValue(self, value):
         super(FloatSlider, self).setValue(int(value * self._multi))
 
-#~ class ExtendedQLabel(QLabel):
- 
-    #~ def __init(self, parent):
-        #~ QLabel.__init__(self, parent)
-        #~ clicked = pyqtSignal()
- 
-    #~ def mouseReleaseEvent(self, ev):
-        #~ self.emit(SIGNAL('clicked()'))
-        #~ self.clicked.emit()
 class ExtendedQLabel(QLabel):
+ 
     def __init(self, parent):
-        super().__init__(parent)
-
-    clicked = pyqtSignal()
-    rightClicked = pyqtSignal()
-
-    def mousePressEvent(self, ev):
-        if ev.button() == Qt.RightButton:
-            self.rightClicked.emit()
-        else:
-            self.clicked.emit()
+        QLabel.__init__(self, parent)
+ 
+    def mouseReleaseEvent(self, ev):
+        self.emit(SIGNAL('clicked()'))
 
 
 class AppForm(QMainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
-        self.setWindowTitle('Hazel GUI')
+        self.setWindowTitle('hazel')
 
-        self.resize(1500,200)
+        self.resize(1200,200)
 
         self.create_menu()
         self.create_main_frame()
@@ -80,7 +57,7 @@ class AppForm(QMainWindow):
         d = {'synModeInput' : self.synModeInput, 'nSlabsInput' : self.nSlabsInput, 'B1Input' : self.B1Input,
             'B2Input' : self.B2Input, 'hInput' : self.hInput, 'tau1Input' : self.tau1Input,
             'tau2Input' : self.tau2Input, 'boundaryInput'  : self.boundaryInput,
-            'transInput' : self.transInput, 'atomicPolInput' : self.atomicPolInput, 'magoptInput':self.magoptInput,'anglesInput' : self.anglesInput,
+            'transInput' : self.transInput, 'atomicPolInput' : self.atomicPolInput, 'anglesInput' : self.anglesInput,
             'lambdaAxisInput' : self.lambdaAxisInput, 'nLambdaInput' : self.nLambdaInput,
             'dopplerWidthInput' : self.dopplerWidthInput, 'dopplerWidth2Input' : self.dopplerWidth2Input, 'dampingInput' : self.dampingInput,
             'dopplerVelocityInput' : self.dopplerVelocityInput, 'dopplerVelocity2Input' : self.dopplerVelocity2Input, 'ffInput' : self.ffInput,
@@ -102,7 +79,6 @@ class AppForm(QMainWindow):
                 self.boundaryInput  = d['boundaryInput']
                 self.transInput = d['transInput']
                 self.atomicPolInput = d['atomicPolInput']
-                self.magoptInput = d['magoptInput']
                 self.anglesInput = d['anglesInput']
                 self.lambdaAxisInput = d['lambdaAxisInput']
                 self.nLambdaInput = d['nLambdaInput']
@@ -126,16 +102,15 @@ class AppForm(QMainWindow):
                 self.B2Input = np.asarray([0.0,0.0,0.0])
                 self.hInput = 3.e0
                 self.tau1Input = 1.e0
-                self.tau2Input = 1.e0
+                self.tau2Input = 0.e0
                 self.boundaryInput  = np.asarray([0.0,0.0,0.0,0.0])
                 self.transInput = 1
                 self.atomicPolInput = 1
-                self.magoptInput = 1
                 self.anglesInput = np.asarray([90.0,0.0,90.0])
                 self.lambdaAxisInput = np.asarray([-1.5e0,2.5e0])
                 self.nLambdaInput = 150
                 self.dopplerWidthInput = 6.e0
-                self.dopplerWidth2Input = 6.e0
+                self.dopplerWidth2Input = 0.e0
                 self.dampingInput = 0.e0
                 self.dopplerVelocityInput = 0.e0
                 self.dopplerVelocity2Input = 0.e0
@@ -145,7 +120,7 @@ class AppForm(QMainWindow):
                 self.nbarInput = np.asarray([0.0,0.0,0.0,0.0])
                 self.omegaInput = np.asarray([0.0,0.0,0.0,0.0])
                 self.obsFile = ''
-                self.normalization = 0                
+                self.normalization = 0
         else:
             self.synModeInput = 5
             self.nSlabsInput = 1
@@ -153,16 +128,15 @@ class AppForm(QMainWindow):
             self.B2Input = np.asarray([0.0,0.0,0.0])
             self.hInput = 3.e0
             self.tau1Input = 1.e0
-            self.tau2Input = 1.e0
+            self.tau2Input = 0.e0
             self.boundaryInput  = np.asarray([0.0,0.0,0.0,0.0])
             self.transInput = 1
             self.atomicPolInput = 1
-            self.magoptInput = 1
             self.anglesInput = np.asarray([90.0,0.0,90.0])
             self.lambdaAxisInput = np.asarray([-1.5e0,2.5e0])
             self.nLambdaInput = 150
             self.dopplerWidthInput = 6.e0
-            self.dopplerWidth2Input = 6.e0
+            self.dopplerWidth2Input = 0.e0
             self.dampingInput = 0.e0
             self.dopplerVelocityInput = 0.e0
             self.dopplerVelocity2Input = 0.e0
@@ -172,7 +146,7 @@ class AppForm(QMainWindow):
             self.nbarInput = np.asarray([0.0,0.0,0.0,0.0])
             self.omegaInput = np.asarray([0.0,0.0,0.0,0.0])
             self.obsFile = ''
-            self.normalization = 0            
+            self.normalization = 0
         
     
 #######################################################################
@@ -181,8 +155,8 @@ class AppForm(QMainWindow):
     def on_about(self):
         msg = """ Hazel:
         
-         A. Asensio Ramos (Instituto de Astrofisica de Canarias, Spain)
-         https://github.com/aasensio/hazel
+         * A. Asensio Ramos
+         * Instituto de Astrofisica de Canarias, Spain
         """
         QMessageBox.about(self, "About hazel", msg.strip())
     
@@ -221,39 +195,31 @@ class AppForm(QMainWindow):
     #     self.canvas.draw()
 
     def redrawProfiles(self):
-        self.status_text.setText("Computing")
+        self.status_text = "Computing"
         lambdaAxisInputA = np.linspace(self.lambdaAxisInput[0],self.lambdaAxisInput[1],self.nLambdaInput)
-        boundary = np.zeros((self.nLambdaInput,4))
-        for i in range(4):
-            boundary[:,i] = self.boundaryInput[i]
-        [l, stokes, etaOutput, epsOutput] = self.hazel.synth(self.synModeInput, self.nSlabsInput, self.B1Input, self.B2Input, self.hInput, 
-                        self.tau1Input, self.tau2Input, boundary, self.transInput, self.atomicPolInput,self.magoptInput, self.anglesInput, 
+        [l, stokes, etaOutput, epsOutput] = pyhazel.synth(self.synModeInput, self.nSlabsInput, self.B1Input, self.B2Input, self.hInput, 
+                        self.tau1Input, self.tau2Input, self.boundaryInput, self.transInput, self.atomicPolInput, self.anglesInput, 
                         self.nLambdaInput, lambdaAxisInputA, self.dopplerWidthInput, self.dopplerWidth2Input, self.dampingInput, 
                         self.dopplerVelocityInput, self.dopplerVelocity2Input, self.ffInput, self.betaInput, self.beta2Input, self.nbarInput, self.omegaInput,
                         self.normalization)
         
-        label = ['I', 'Q', 'U', 'V']
         for i in range(4):         
             self.axes[i].clear()
-            self.axes[i].plot(l - 10829.0911,stokes[i,:])            
+            self.axes[i].plot(l - 10829.0911,stokes[i,:])
             if (self.obsFile != ''):
-                self.axes[i].plot(self.obsStokes[:,0], self.obsStokes[:,i+1], 'r.')                
+                self.axes[i].plot(l - 10829.0911, self.obsStokes[:,i+1], 'r.')
             for item in ([self.axes[i].title, self.axes[i].xaxis.label, self.axes[i].yaxis.label] +
                 self.axes[i].get_xticklabels() + self.axes[i].get_yticklabels()):
                 item.set_fontsize(10)
-            self.axes[i].set_xlim(self.lambdaAxisInput)
-            self.axes[i].set_xlabel(u'\u03BB [\u00C5]')
-            self.axes[i].set_ylabel('{0}/Ic'.format(label[i]))
 
-                
         self.fig.canvas.draw()
-        self.status_text.setText("OK")
+        self.status_text = "OK"
 
     def loadObservation(self):
-        self.obsFile = QFileDialog.getOpenFileName(self, 'Open file', '')        
+        self.obsFile = QFileDialog.getOpenFileName(self, 'Open file', '')
         if (self.obsFile != ''):
-            self.obsStokes = np.loadtxt(str(self.obsFile[0]))
-            self.loadedFile.setText('Loaded: {0}'.format(self.obsFile[0]))
+            self.obsStokes = np.loadtxt(str(self.obsFile))
+            self.loadedFile.setText('Loaded: {0}'.format(self.obsFile))
 
     def resetObservation(self):
         self.obsFile = ''
@@ -292,18 +258,6 @@ class AppForm(QMainWindow):
         self.B1Input[1] = self.sliderthB1.value()
         self.redrawProfiles()
 
-    def onSliderLeftthB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.sliderthB1.setMinimum(float(text))
-            self.sliderLeftthB1.setText(text)
-
-    def onSliderRightthB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.sliderthB1.setMaximum(float(text))
-            self.sliderRightthB1.setText(text)
-
     def onSliderValuethB1(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value thB1:')
         if (ok):
@@ -317,18 +271,6 @@ class AppForm(QMainWindow):
         self.sliderValuephiB1.setText(str(self.sliderphiB1.value()))
         self.B1Input[2] = self.sliderphiB1.value()
         self.redrawProfiles()
-
-    def onSliderLeftphiB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.sliderphiB1.setMinimum(float(text))
-            self.sliderLeftphiB1.setText(text)
-
-    def onSliderRightphiB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.sliderphiB1.setMaximum(float(text))
-            self.sliderRightphiB1.setText(text)
 
     def onSliderValuephiB1(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value phiB1:')
@@ -345,18 +287,6 @@ class AppForm(QMainWindow):
         self.dopplerWidthInput = self.slidervthB1.value()
         self.redrawProfiles()
 
-    def onSliderLeftvthB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.slidervthB1.setMinimum(float(text))
-            self.sliderLeftvthB1.setText(text)
-
-    def onSliderRightvthB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.slidervthB1.setMaximum(float(text))
-            self.sliderRightvthB1.setText(text)
-
     def onSliderValuevthB1(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value vth1:')
         if (ok):
@@ -371,20 +301,8 @@ class AppForm(QMainWindow):
         self.dopplerVelocityInput = self.slidervB1.value()
         self.redrawProfiles()
 
-    def onSliderLeftvB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.slidervB1.setMinimum(float(text))
-            self.sliderLeftvB1.setText(text)
-
-    def onSliderRightvB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.slidervB1.setMaximum(float(text))
-            self.sliderRightvB1.setText(text)
-
     def onSliderValuevB1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value v1:')
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value vth1:')
         if (ok):
             self.slidervB1.setValue(float(text))
             self.sliderValuevB1.setText(text)
@@ -397,25 +315,13 @@ class AppForm(QMainWindow):
         self.tau1Input = self.slidertau1.value()
         self.redrawProfiles()
 
-    def onSliderLefttau1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.slidertau1.setMinimum(float(text))
-            self.sliderLefttau1.setText(text)
-
-    def onSliderRighttau1(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.slidertau1.setMaximum(float(text))
-            self.sliderRighttau1.setText(text)
-
     def onSliderValuetau1(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value tau1:')
         if (ok):
             self.slidertau1.setValue(float(text))
             self.sliderValuetau1.setText(text)
             self.tau1Input = self.slidertau1.value()
-            self.redrawProfiles()            
+            self.redrawProfiles()
 
 # B2
     def onSliderB2(self):
@@ -436,7 +342,7 @@ class AppForm(QMainWindow):
             self.sliderRightB2.setText(text)
 
     def onSliderValueB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value B2:')
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value:')
         if (ok):
             self.sliderB2.setValue(float(text))
             self.sliderValueB2.setText(text)
@@ -449,20 +355,8 @@ class AppForm(QMainWindow):
         self.B2Input[1] = self.sliderB2.value()
         self.redrawProfiles()
 
-    def onSliderLeftthB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.sliderthB2.setMinimum(float(text))
-            self.sliderLeftthB2.setText(text)
-
-    def onSliderRightthB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.sliderthB2.setMaximum(float(text))
-            self.sliderRightthB2.setText(text)
-
     def onSliderValuethB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value thB2:')
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value:')
         if (ok):
             self.sliderthB2.setValue(float(text))
             self.sliderValuethB2.setText(text)
@@ -475,20 +369,8 @@ class AppForm(QMainWindow):
         self.B2Input[2] = self.sliderphiB2.value()
         self.redrawProfiles()
 
-    def onSliderLeftphiB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.sliderphiB2.setMinimum(float(text))
-            self.sliderLeftphiB2.setText(text)
-
-    def onSliderRightphiB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.sliderphiB2.setMaximum(float(text))
-            self.sliderRightphiB2.setText(text)
-
     def onSliderValuephiB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value phiB2:')
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value:')
         if (ok):
             self.sliderphiB2.setValue(float(text))
             self.sliderValuephiB2.setText(text)
@@ -498,53 +380,29 @@ class AppForm(QMainWindow):
 # vth2
     def onSlidervthB2(self):
         self.sliderValuevthB2.setText(str(self.slidervthB2.value()))
-        self.dopplerWidth2Input = self.slidervthB2.value()
+        self.dopplerWidthInput2 = self.slidervthB2.value()
         self.redrawProfiles()
-
-    def onSliderLeftvthB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.slidervthB2.setMinimum(float(text))
-            self.sliderLeftvthB2.setText(text)
-
-    def onSliderRightvthB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.slidervthB2.setMaximum(float(text))
-            self.sliderRightvthB2.setText(text)
 
     def onSliderValuevthB2(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value vth2:')
         if (ok):
             self.slidervthB2.setValue(float(text))
             self.sliderValuevthB2.setText(text)
-            self.dopplerWidth2Input = self.slidervthB2.value()
+            self.dopplerWidthInput2 = self.slidervthB2.value()
             self.redrawProfiles()
 
 # v2
     def onSlidervB2(self):
         self.sliderValuevB2.setText(str(self.slidervB2.value()))
-        self.dopplerVelocity2Input = self.slidervB2.value()
+        self.dopplerVelocityInput2 = self.slidervB2.value()
         self.redrawProfiles()
 
-    def onSliderLeftvB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.slidervB2.setMinimum(float(text))
-            self.sliderLeftvB2.setText(text)
-
-    def onSliderRightvB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.slidervB2.setMaximum(float(text))
-            self.sliderRightvB2.setText(text)
-
     def onSliderValuevB2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value v2:')
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value vth2:')
         if (ok):
             self.slidervB2.setValue(float(text))
             self.sliderValuevB2.setText(text)
-            self.dopplerVelocity2Input = self.slidervB2.value()
+            self.dopplerVelocityInput2 = self.slidervB2.value()
             self.redrawProfiles()
 
 # tau2
@@ -552,18 +410,6 @@ class AppForm(QMainWindow):
         self.sliderValuetau2.setText(str(self.slidertau2.value()))
         self.tau2Input = self.slidertau2.value()
         self.redrawProfiles()
-
-    def onSliderLefttau2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter lower limit:')
-        if (ok):
-            self.slidertau2.setMinimum(float(text))
-            self.sliderLefttau2.setText(text)
-
-    def onSliderRighttau2(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter upper limit:')
-        if (ok):
-            self.slidertau2.setMaximum(float(text))
-            self.sliderRighttau2.setText(text)
 
     def onSliderValuetau2(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter value tau2:')
@@ -650,8 +496,8 @@ class AppForm(QMainWindow):
 
 # ff
     def onSliderff(self):
-        self.sliderValueff.setText(str(self.sliderff.value()))
-        self.ffInput = self.sliderff.value()
+        self.sliderValuerff.setText(str(self.sliderff.value()))
+        self.ffInput = self.slideff.value()
         self.redrawProfiles()
 
     def onSliderValueff(self):
@@ -692,7 +538,7 @@ class AppForm(QMainWindow):
 
 # multiplet
     def onSlidermultiplet(self):     
-        self.sliderValuemultiplet.setText(self.multiplets[self.slidermultiplet.value()-1])
+        self.sliderValuermultiplet.setText(self.multiplets[self.slidermultiplet.value()-1])
 
 # thin
     def onRadioThin(self):     
@@ -723,22 +569,17 @@ class AppForm(QMainWindow):
 
     def onCheckAllen(self, state):
         if (state == 2):
-            self.sliderValuetheta.setText(str(self.slidertheta.value()))
+            self.sliderValuertheta.setText(str(self.slidertheta.value()))
             if (self.checkAllen.isChecked()):
-                theta = float(self.sliderValuetheta.text())
+                theta = float(self.sliderValuertheta.text())
                 mu = np.cos(theta * np.pi / 180.0)
                 i0 = i0Allen.i0Allen(10830.0, mu)
-                self.I0.setText('{0:10.3e}'.format(i0))
+                self.I0.setText(str(i0))
             self.anglesInput[0] = self.slidertheta.value()
             self.I0.setEnabled(False)
             self.Q0.setEnabled(False)
             self.U0.setEnabled(False)
             self.V0.setEnabled(False)
-            self.boundaryInput[0] = float(self.I0.text())
-            self.boundaryInput[1] = float(self.Q0.text())
-            self.boundaryInput[2] = float(self.U0.text())
-            self.boundaryInput[3] = float(self.V0.text())
-            self.redrawProfiles()
         else:
             self.I0.setEnabled(True)
             self.Q0.setEnabled(True)
@@ -779,7 +620,9 @@ class AppForm(QMainWindow):
             self.nSlabsInput = -2
         self.redrawProfiles()
 
-        
+    def onChangeSlabs(self):
+        pass
+    
 #######################################################################
 # INITIALIZATION
 #######################################################################
@@ -793,7 +636,7 @@ class AppForm(QMainWindow):
         
 # Hazel configuration
         self.loadConfig()
-        self.hazel = hazel()
+        pyhazel.init()
 
         self.multiplets = ['10830', '3888', '7065',' 5876']
         
@@ -808,11 +651,9 @@ class AppForm(QMainWindow):
         self.maxLabelSize = 150
 
         self.dpi = 80
-        # self.fig, self.ax = pl.subplots(ncols=2, nrows=2, figsize=(6,6))        
-        self.fig = Figure((10.0, 8.0), dpi=self.dpi)
-        self.fig.set_tight_layout(True)
-        #~ self.canvas = FigureCanvas(self.fig)
-        self.canvas = FigureCanvasQTAgg(self.fig)
+        # self.fig, self.ax = pl.subplots(ncols=2, nrows=2, figsize=(6,6))
+        self.fig = Figure((8.0, 7.0), dpi=self.dpi)
+        self.canvas = FigureCanvas(self.fig)
         layout = QVBoxLayout()
         # self.canvas.setParent(self.main_frame)
         layout.addWidget(self.canvas)
@@ -820,8 +661,10 @@ class AppForm(QMainWindow):
         self.axes = [None]*4
 
         for i in range(4):
-            self.axes[i] = self.fig.add_subplot(2,2,i+1)        
-        
+            self.axes[i] = self.fig.add_subplot(2,2,i+1)
+
+        self.fig.tight_layout()
+
         
         # Bind the 'pick' event for clicking on one of the bars
         #
@@ -853,18 +696,13 @@ class AppForm(QMainWindow):
             boxB1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValueB1.setMinimumWidth(self.minLabelSize)
         self.sliderValueB1.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderB1, SIGNAL('sliderReleased()'), self.onSliderB1)
-        #~ self.connect(self.sliderLeftB1, SIGNAL('clicked()'), self.onSliderLeftB1)
-        #~ self.connect(self.sliderRightB1, SIGNAL('clicked()'), self.onSliderRightB1)
-        #~ self.connect(self.sliderValueB1, SIGNAL('clicked()'), self.onSliderValueB1)
-        self.sliderB1.sliderReleased.connect(self.onSliderB1)
-        self.sliderLeftB1.clicked.connect(self.onSliderLeftB1)
-        self.sliderRightB1.clicked.connect(self.onSliderRightB1)
-        self.sliderValueB1.clicked.connect(self.onSliderValueB1)
-        
+        self.connect(self.sliderB1, SIGNAL('sliderReleased()'), self.onSliderB1)
+        self.connect(self.sliderLeftB1, SIGNAL('clicked()'), self.onSliderLeftB1)
+        self.connect(self.sliderRightB1, SIGNAL('clicked()'), self.onSliderRightB1)
+        self.connect(self.sliderValueB1, SIGNAL('clicked()'), self.onSliderValueB1)
                 
 
-        sliderLabel = QLabel(u'\u03B8B [deg]')
+        sliderLabel = QLabel('thB [deg]')
         self.sliderthB1 = FloatSlider(Qt.Horizontal)
         self.sliderLeftthB1 = ExtendedQLabel('0')
         self.sliderRightthB1 = ExtendedQLabel('180')
@@ -881,14 +719,10 @@ class AppForm(QMainWindow):
             boxB1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuethB1.setMinimumWidth(self.minLabelSize)
         self.sliderValuethB1.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderthB1, SIGNAL('sliderReleased()'), self.onSliderthB1)
-        #~ self.connect(self.sliderValuethB1, SIGNAL('clicked()'), self.onSliderValuethB1)
-        self.sliderthB1.sliderReleased.connect(self.onSliderthB1)
-        self.sliderValuethB1.clicked.connect(self.onSliderValuethB1)
-        self.sliderLeftthB1.clicked.connect(self.onSliderLeftthB1)
-        self.sliderRightthB1.clicked.connect(self.onSliderRightthB1)
+        self.connect(self.sliderthB1, SIGNAL('sliderReleased()'), self.onSliderthB1)
+        self.connect(self.sliderValuethB1, SIGNAL('clicked()'), self.onSliderValuethB1)
 
-        sliderLabel = QLabel(u'\u03A6B [deg]')
+        sliderLabel = QLabel('phiB [deg]')
         self.sliderphiB1 = FloatSlider(Qt.Horizontal)
         self.sliderLeftphiB1 = ExtendedQLabel('-180')
         self.sliderRightphiB1 = ExtendedQLabel('180')
@@ -905,12 +739,8 @@ class AppForm(QMainWindow):
             boxB1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuephiB1.setMinimumWidth(self.minLabelSize)
         self.sliderValuephiB1.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderphiB1, SIGNAL('sliderReleased()'), self.onSliderphiB1)
-        #~ self.connect(self.sliderValuephiB1, SIGNAL('clicked()'), self.onSliderValuephiB1)
-        self.sliderphiB1.sliderReleased.connect(self.onSliderphiB1)
-        self.sliderValuephiB1.clicked.connect(self.onSliderValuephiB1)
-        self.sliderLeftphiB1.clicked.connect(self.onSliderLeftphiB1)
-        self.sliderRightphiB1.clicked.connect(self.onSliderRightphiB1)
+        self.connect(self.sliderphiB1, SIGNAL('sliderReleased()'), self.onSliderphiB1)
+        self.connect(self.sliderValuephiB1, SIGNAL('clicked()'), self.onSliderValuephiB1)
 
         sliderLabel = QLabel('width [km/s]')
         self.slidervthB1 = FloatSlider(Qt.Horizontal)
@@ -929,13 +759,8 @@ class AppForm(QMainWindow):
             boxB1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuevthB1.setMinimumWidth(self.minLabelSize)
         self.sliderValuevthB1.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidervthB1, SIGNAL('sliderReleased()'), self.onSlidervthB1)
-        #~ self.connect(self.sliderValuevthB1, SIGNAL('clicked()'), self.onSliderValuevthB1)
-        self.slidervthB1.sliderReleased.connect(self.onSlidervthB1)
-        self.sliderValuevthB1.clicked.connect(self.onSliderValuevthB1)        
-        self.sliderLeftvthB1.clicked.connect(self.onSliderLeftvthB1)
-        self.sliderRightvthB1.clicked.connect(self.onSliderRightvthB1)
-        
+        self.connect(self.slidervthB1, SIGNAL('sliderReleased()'), self.onSlidervthB1)
+        self.connect(self.sliderValuevthB1, SIGNAL('clicked()'), self.onSliderValuevthB1)
 
         sliderLabel = QLabel('v [km/s]')
         self.slidervB1 = FloatSlider(Qt.Horizontal)
@@ -954,15 +779,10 @@ class AppForm(QMainWindow):
             boxB1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuevB1.setMinimumWidth(self.minLabelSize)
         self.sliderValuevB1.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidervB1, SIGNAL('sliderReleased()'), self.onSlidervB1)
-        #~ self.connect(self.sliderValuevB1, SIGNAL('clicked()'), self.onSliderValuevB1)
-        self.slidervB1.sliderReleased.connect(self.onSlidervB1)
-        self.sliderValuevB1.clicked.connect(self.onSliderValuevB1)
-        self.sliderLeftvB1.clicked.connect(self.onSliderLeftvB1)
-        self.sliderRightvB1.clicked.connect(self.onSliderRightvB1)
-        
+        self.connect(self.slidervB1, SIGNAL('sliderReleased()'), self.onSlidervB1)
+        self.connect(self.sliderValuevB1, SIGNAL('clicked()'), self.onSliderValuevB1)
 
-        sliderLabel = QLabel(u'\u03C4')
+        sliderLabel = QLabel('tau')
         self.slidertau1 = FloatSlider(Qt.Horizontal)
         self.sliderLefttau1 = ExtendedQLabel('0.0')
         self.sliderRighttau1 = ExtendedQLabel('10')
@@ -979,12 +799,8 @@ class AppForm(QMainWindow):
             boxB1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuetau1.setMinimumWidth(self.minLabelSize)
         self.sliderValuetau1.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidertau1, SIGNAL('sliderReleased()'), self.onSlidertau1)
-        #~ self.connect(self.sliderValuetau1, SIGNAL('clicked()'), self.onSliderValuetau1)
-        self.slidertau1.sliderReleased.connect(self.onSlidertau1)
-        self.sliderValuetau1.clicked.connect(self.onSliderValuetau1)
-        self.sliderLefttau1.clicked.connect(self.onSliderLefttau1)
-        self.sliderRighttau1.clicked.connect(self.onSliderRighttau1)
+        self.connect(self.slidertau1, SIGNAL('sliderReleased()'), self.onSlidertau1)
+        self.connect(self.sliderValuetau1, SIGNAL('clicked()'), self.onSliderValuetau1)
 
         # Second component
         # 
@@ -1004,17 +820,12 @@ class AppForm(QMainWindow):
             boxB2.setAlignment(w, Qt.AlignVCenter)
         self.sliderValueB2.setMinimumWidth(self.minLabelSize)
         self.sliderValueB2.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderB2, SIGNAL('sliderReleased()'), self.onSliderB2)
-        #~ self.connect(self.sliderLeftB2, SIGNAL('clicked()'), self.onSliderLeftB2)
-        #~ self.connect(self.sliderRightB2, SIGNAL('clicked()'), self.onSliderRightB2)
-        #~ self.connect(self.sliderValueB2, SIGNAL('clicked()'), self.onSliderValueB2)
-        self.sliderB2.sliderReleased.connect(self.onSliderB2)
-        self.sliderLeftB2.clicked.connect(self.onSliderLeftB2)
-        self.sliderRightB2.clicked.connect(self.onSliderRightB2)
-        self.sliderValueB2.clicked.connect(self.onSliderValueB2)
-        
+        self.connect(self.sliderB2, SIGNAL('sliderReleased()'), self.onSliderB2)
+        self.connect(self.sliderLeftB2, SIGNAL('clicked()'), self.onSliderLeftB2)
+        self.connect(self.sliderRightB2, SIGNAL('clicked()'), self.onSliderRightB2)
+        self.connect(self.sliderValueB2, SIGNAL('clicked()'), self.onSliderValueB2)
 
-        sliderLabel = QLabel(u'\u03B8B [deg]')
+        sliderLabel = QLabel('thB [deg]')
         self.sliderthB2 = FloatSlider(Qt.Horizontal)
         self.sliderLeftthB2 = ExtendedQLabel('0')
         self.sliderRightthB2 = ExtendedQLabel('180')
@@ -1031,17 +842,13 @@ class AppForm(QMainWindow):
             boxB2.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuethB2.setMinimumWidth(self.minLabelSize)
         self.sliderValuethB2.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderthB2, SIGNAL('sliderReleased()'), self.onSliderthB2)
-        #~ self.connect(self.sliderValuethB2, SIGNAL('clicked()'), self.onSliderValuethB2)
-        self.sliderthB2.sliderReleased.connect(self.onSliderthB2)
-        self.sliderValuethB2.clicked.connect(self.onSliderValuethB2)        
-        self.sliderLeftthB2.clicked.connect(self.onSliderLeftthB2)
-        self.sliderRightthB2.clicked.connect(self.onSliderRightthB2)
+        self.connect(self.sliderthB2, SIGNAL('sliderReleased()'), self.onSliderthB2)
+        self.connect(self.sliderValuethB2, SIGNAL('clicked()'), self.onSliderValuethB2)        
 
-        sliderLabel = QLabel(u'\u03A6B [deg]')
+        sliderLabel = QLabel('phiB [deg]')
         self.sliderphiB2 = FloatSlider(Qt.Horizontal)
-        self.sliderLeftphiB2 = ExtendedQLabel('0')
-        self.sliderRightphiB2 = ExtendedQLabel('180')
+        self.sliderLeftPhiB2 = ExtendedQLabel('0')
+        self.sliderRightPhiB2 = ExtendedQLabel('180')
         self.sliderphiB2.setMinimum(-180)
         self.sliderphiB2.setMaximum(180)
         self.sliderphiB2.setValue(self.B2Input[2])
@@ -1050,22 +857,18 @@ class AppForm(QMainWindow):
         self.sliderphiB2.setMinimumWidth(self.minSizeSlider)
         self.sliderphiB2.setMaximumWidth(self.maxSizeSlider)
         self.sliderValuephiB2 = ExtendedQLabel('{0:6.1f}'.format(self.B2Input[2]))
-        for l, w in enumerate([sliderLabel, self.sliderLeftphiB2, self.sliderphiB2, self.sliderRightphiB2, self.sliderValuephiB2]):
+        for l, w in enumerate([sliderLabel, self.sliderLeftPhiB2, self.sliderphiB2, self.sliderRightPhiB2, self.sliderValuephiB2]):
             boxB2.addWidget(w, 2, l)
             boxB2.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuephiB2.setMinimumWidth(self.minLabelSize)
         self.sliderValuephiB2.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderphiB2, SIGNAL('sliderReleased()'), self.onSliderphiB2)
-        #~ self.connect(self.sliderValuephiB2, SIGNAL('clicked()'), self.onSliderValuephiB2)
-        self.sliderphiB2.sliderReleased.connect(self.onSliderphiB2)
-        self.sliderValuephiB2.clicked.connect(self.onSliderValuephiB2)
-        self.sliderLeftphiB2.clicked.connect(self.onSliderLeftphiB2)
-        self.sliderRightphiB2.clicked.connect(self.onSliderRightphiB2)
+        self.connect(self.sliderphiB2, SIGNAL('sliderReleased()'), self.onSliderphiB2)
+        self.connect(self.sliderValuephiB2, SIGNAL('clicked()'), self.onSliderValuephiB2)
 
         sliderLabel = QLabel('width [km/s]')
         self.slidervthB2 = FloatSlider(Qt.Horizontal)
         self.sliderLeftvthB2 = ExtendedQLabel('0')
-        self.sliderRightvthB2 = ExtendedQLabel('15')
+        self.sliderRightvthB2 = ExtendedQLabel('180')
         self.slidervthB2.setMinimum(0.1)
         self.slidervthB2.setMaximum(20)
         self.slidervthB2.setValue(self.dopplerWidth2Input)
@@ -1079,17 +882,13 @@ class AppForm(QMainWindow):
             boxB2.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuevthB2.setMinimumWidth(self.minLabelSize)
         self.sliderValuevthB2.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidervthB2, SIGNAL('sliderReleased()'), self.onSlidervthB2)
-        #~ self.connect(self.sliderValuevthB2, SIGNAL('clicked()'), self.onSliderValuevthB2)
-        self.slidervthB2.sliderReleased.connect(self.onSlidervthB2)
-        self.sliderValuevthB2.clicked.connect(self.onSliderValuevthB2)
-        self.sliderLeftvthB2.clicked.connect(self.onSliderLeftvthB2)
-        self.sliderRightvthB2.clicked.connect(self.onSliderRightvthB2)
+        self.connect(self.slidervthB2, SIGNAL('sliderReleased()'), self.onSlidervthB2)
+        self.connect(self.sliderValuevthB2, SIGNAL('clicked()'), self.onSliderValuevthB2)
 
         sliderLabel = QLabel('v [km/s]')
         self.slidervB2 = FloatSlider(Qt.Horizontal)
-        self.sliderLeftvB2 = ExtendedQLabel('-10')
-        self.sliderRightvB2 = ExtendedQLabel('10')
+        self.sliderLeftvB2 = ExtendedQLabel('0')
+        self.sliderRightvB2 = ExtendedQLabel('180')
         self.slidervB2.setMinimum(-10)
         self.slidervB2.setMaximum(10)
         self.slidervB2.setValue(self.dopplerVelocity2Input)
@@ -1103,17 +902,13 @@ class AppForm(QMainWindow):
             boxB2.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuevB2.setMinimumWidth(self.minLabelSize)
         self.sliderValuevB2.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidervB2, SIGNAL('sliderReleased()'), self.onSlidervB2)
-        #~ self.connect(self.sliderValuevB2, SIGNAL('clicked()'), self.onSliderValuevB2)
-        self.slidervB2.sliderReleased.connect(self.onSlidervB2)
-        self.sliderValuevB2.clicked.connect(self.onSliderValuevB2)
-        self.sliderLeftvB2.clicked.connect(self.onSliderLeftvB2)
-        self.sliderRightvB2.clicked.connect(self.onSliderRightvB2)
+        self.connect(self.slidervB2, SIGNAL('sliderReleased()'), self.onSlidervB2)
+        self.connect(self.sliderValuevB2, SIGNAL('clicked()'), self.onSliderValuevB2)
 
-        sliderLabel = QLabel(u'\u03C4')
+        sliderLabel = QLabel('tau')
         self.slidertau2 = FloatSlider(Qt.Horizontal)
         self.sliderLefttau2 = ExtendedQLabel('0')
-        self.sliderRighttau2 = ExtendedQLabel('3')
+        self.sliderRighttau2 = ExtendedQLabel('180')
         self.slidertau2.setMinimum(0.0)
         self.slidertau2.setMaximum(10.0)
         self.slidertau2.setValue(self.tau2Input)
@@ -1127,12 +922,8 @@ class AppForm(QMainWindow):
             boxB2.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuetau2.setMinimumWidth(self.minLabelSize)
         self.sliderValuetau2.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidertau2, SIGNAL('sliderReleased()'), self.onSlidertau2)
-        #~ self.connect(self.sliderValuetau2, SIGNAL('clicked()'), self.onSliderValuetau2)
-        self.slidertau2.sliderReleased.connect(self.onSlidertau2)
-        self.sliderValuetau2.clicked.connect(self.onSliderValuetau2)
-        self.sliderLefttau2.clicked.connect(self.onSliderLefttau2)
-        self.sliderRighttau2.clicked.connect(self.onSliderRighttau2)
+        self.connect(self.slidertau2, SIGNAL('sliderReleased()'), self.onSlidertau2)
+        self.connect(self.sliderValuetau2, SIGNAL('clicked()'), self.onSliderValuetau2)
 
 
         comp1Group = QGroupBox("Component 1")
@@ -1163,19 +954,12 @@ class AppForm(QMainWindow):
         self.radioPeakNorm = QRadioButton("Normalize peak")
         self.radioMaxNorm.setChecked(True)
 
-        #~ self.connect(self.radioThin, SIGNAL('clicked()'), self.onRadioThin)
-        #~ self.connect(self.radioExact, SIGNAL('clicked()'), self.onRadioExact)
-        #~ self.connect(self.radioAtompol, SIGNAL('clicked()'), self.onRadioAtompol)
+        self.connect(self.radioThin, SIGNAL('clicked()'), self.onRadioThin)
+        self.connect(self.radioExact, SIGNAL('clicked()'), self.onRadioExact)
+        self.connect(self.radioAtompol, SIGNAL('clicked()'), self.onRadioAtompol)
 
-        #~ self.connect(self.radioMaxNorm, SIGNAL('clicked()'), self.onRadioMaxNorm)
-        #~ self.connect(self.radioPeakNorm, SIGNAL('clicked()'), self.onRadioPeakNorm)
-        
-        self.radioThin.clicked.connect(self.onRadioThin)
-        self.radioExact.clicked.connect(self.onRadioExact)
-        self.radioAtompol.clicked.connect(self.onRadioAtompol)
-        
-        self.radioMaxNorm.clicked.connect(self.onRadioMaxNorm)
-        self.radioPeakNorm.clicked.connect(self.onRadioPeakNorm)
+        self.connect(self.radioMaxNorm, SIGNAL('clicked()'), self.onRadioMaxNorm)
+        self.connect(self.radioPeakNorm, SIGNAL('clicked()'), self.onRadioPeakNorm)
 
         
         vboxRadTran = QHBoxLayout()
@@ -1194,8 +978,7 @@ class AppForm(QMainWindow):
         boundary = QGridLayout()
         self.checkAllen = QCheckBox("Use Allen")
         self.checkAllen.toggle()
-        #~ self.connect(self.checkAllen, SIGNAL('stateChanged(int)'), self.onCheckAllen) 
-        self.checkAllen.stateChanged.connect(self.onCheckAllen) 
+        self.connect(self.checkAllen, SIGNAL('stateChanged(int)'), self.onCheckAllen)        
 
         boundary.addWidget(self.checkAllen, 0, 0)
 
@@ -1203,52 +986,39 @@ class AppForm(QMainWindow):
         self.I0 = QLineEdit("0")
         boundary.addWidget(title, 0, 1)
         boundary.addWidget(self.I0, 0, 2)
-        #~ self.connect(self.I0, SIGNAL('editingFinished()'), self.onChangeI0)
-        self.I0.editingFinished.connect(self.onChangeI0)        
+        self.connect(self.I0, SIGNAL('editingFinished()'), self.onChangeI0)        
 
         title = QLabel('Q0:')
         self.Q0 = QLineEdit("0")        
         boundary.addWidget(title, 0, 3)
         boundary.addWidget(self.Q0, 0, 4)
-        #~ self.connect(self.Q0, SIGNAL('editingFinished()'), self.onChangeQ0)
-        self.Q0.editingFinished.connect(self.onChangeQ0)
+        self.connect(self.Q0, SIGNAL('editingFinished()'), self.onChangeQ0)
 
         title = QLabel('U0:')
         self.U0 = QLineEdit("0")
         boundary.addWidget(title, 0, 5)
         boundary.addWidget(self.U0, 0, 6)
-        #~ self.connect(self.U0, SIGNAL('editingFinished()'), self.onChangeU0)
-        self.U0.editingFinished.connect(self.onChangeU0)
+        self.connect(self.U0, SIGNAL('editingFinished()'), self.onChangeU0)
 
         title = QLabel('V0:')
         self.V0 = QLineEdit("0")
         boundary.addWidget(title, 0, 7)
         boundary.addWidget(self.V0, 0, 8)
-        #~ self.connect(self.V0, SIGNAL('editingFinished()'), self.onChangeV0)
-        self.V0.editingFinished.connect(self.onChangeV0)
+        self.connect(self.V0, SIGNAL('editingFinished()'), self.onChangeV0)
 
         self.I0.setEnabled(False)
         self.Q0.setEnabled(False)
         self.U0.setEnabled(False)
         self.V0.setEnabled(False)
 
-        title = QLabel('N. slabs:')
+        title = QLabel('N slabs:')
         self.nslabs = QComboBox()
         self.nslabs.addItem("One")
         self.nslabs.addItem("Two vertical")
         self.nslabs.addItem("Two horizontal")
         boundary.addWidget(title, 0, 9)
         boundary.addWidget(self.nslabs, 0, 10)
-        if (self.nSlabsInput == 1):
-            self.nslabs.setCurrentIndex(0)
-        if (self.nSlabsInput == 2):
-            self.nslabs.setCurrentIndex(1)
-        if (self.nSlabsInput == -2):
-            self.nslabs.setCurrentIndex(2)
-            
-        
-        #~ self.connect(self.nslabs, SIGNAL('activated(int)'), self.onChangenSlabs)
-        self.nslabs.activated[int].connect(self.onChangenSlabs)
+        self.connect(self.nslabs, SIGNAL('activated(int)'), self.onChangenSlabs)
         
 
         wave = QGridLayout()
@@ -1257,38 +1027,35 @@ class AppForm(QMainWindow):
         # wave.addWidget(title, 0, 0)
         # wave.addWidget(self.allen, 0, 1)
 
-        title = QLabel('Left wavelength:')
-        self.leftWave = QLineEdit(str(self.lambdaAxisInput[0]))        
-        boundary.addWidget(title, 0, 11)
-        boundary.addWidget(self.leftWave, 0, 12)
-        #~ self.connect(self.leftWave, SIGNAL('editingFinished()'), self.onChangeleftWave)
-        self.leftWave.editingFinished.connect(self.onChangeleftWave)
+        title = QLabel('wl:')
+        self.leftWave = QLineEdit(str(self.lambdaAxisInput[0]))
+        wave.addWidget(title, 0, 2)
+        wave.addWidget(self.leftWave, 0, 3)
+        self.connect(self.leftWave, SIGNAL('editingFinished()'), self.onChangeleftWave)
 
-        title = QLabel('Right wavelength:')
+        title = QLabel('wr:')
         self.rightWave = QLineEdit(str(self.lambdaAxisInput[1]))
-        boundary.addWidget(title, 0, 13)
-        boundary.addWidget(self.rightWave, 0, 14)
-        #~ self.connect(self.rightWave, SIGNAL('editingFinished()'), self.onChangerightWave)
-        self.rightWave.editingFinished.connect(self.onChangerightWave)
+        wave.addWidget(title, 0, 4)
+        wave.addWidget(self.rightWave, 0, 5)
+        self.connect(self.rightWave, SIGNAL('editingFinished()'), self.onChangerightWave)
 
-        title = QLabel('N. wavelengths:')
+        title = QLabel('step:')
         self.stepWave = QLineEdit(str(self.nLambdaInput))
-        boundary.addWidget(title, 0, 15)
-        boundary.addWidget(self.stepWave, 0, 16)
-        #~ self.connect(self.stepWave, SIGNAL('editingFinished()'), self.onChangestepWave)
-        self.stepWave.editingFinished.connect(self.onChangestepWave)
+        wave.addWidget(title, 0, 6)
+        wave.addWidget(self.stepWave, 0, 7)
+        self.connect(self.stepWave, SIGNAL('editingFinished()'), self.onChangestepWave)
 
         vboxR = QVBoxLayout()        
         vboxR.addWidget(radTranGroup)
         vboxR.addWidget(normalizationGroup)
         vboxR.addLayout(boundary)
-        # vboxR.addLayout(wave)
+        vboxR.addLayout(wave)
 
 
         # Radiative transfer
         # 
         boxO1 = QGridLayout()
-        sliderLabel = QLabel(u'\u03B8 [deg]')
+        sliderLabel = QLabel('theta [deg]')
         self.slidertheta = FloatSlider(Qt.Horizontal)
         self.slidertheta.setMinimum(0.0)
         self.slidertheta.setMaximum(180)
@@ -1303,19 +1070,17 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuetheta.setMinimumWidth(self.minLabelSize)
         self.sliderValuetheta.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidertheta, SIGNAL('sliderReleased()'), self.onSliderTheta)
-        #~ self.connect(self.sliderValuetheta, SIGNAL('clicked()'), self.onSliderValueTheta)
-        self.slidertheta.sliderReleased.connect(self.onSliderTheta)
-        self.sliderValuetheta.clicked.connect(self.onSliderValueTheta)
+        self.connect(self.slidertheta, SIGNAL('sliderReleased()'), self.onSliderTheta)
+        self.connect(self.sliderValuetheta, SIGNAL('clicked()'), self.onSliderValueTheta)
         if (self.checkAllen.isChecked()):
             theta = float(self.sliderValuetheta.text())
             mu = np.cos(theta * np.pi / 180.0)
             i0 = i0Allen.i0Allen(10830.0, mu)
-            self.I0.setText('{0:10.3e}'.format(i0))
+            self.I0.setText(str(i0))
             self.boundaryInput[0] = i0
 
 
-        sliderLabel = QLabel(u'\u03A6 [deg]')
+        sliderLabel = QLabel('phi [deg]')
         self.sliderphi = FloatSlider(Qt.Horizontal)
         self.sliderphi.setMinimum(0.0)
         self.sliderphi.setMaximum(180)
@@ -1330,12 +1095,10 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuephi.setMinimumWidth(self.minLabelSize)
         self.sliderValuephi.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderphi, SIGNAL('sliderReleased()'), self.onSliderPhi)
-        #~ self.connect(self.sliderValuephi, SIGNAL('clicked()'), self.onSliderValuePhi)
-        self.sliderphi.sliderReleased.connect(self.onSliderPhi)
-        self.sliderValuephi.clicked.connect(self.onSliderValuePhi)
+        self.connect(self.sliderphi, SIGNAL('sliderReleased()'), self.onSliderPhi)
+        self.connect(self.sliderValuephi, SIGNAL('clicked()'), self.onSliderValuePhi)
 
-        sliderLabel = QLabel(u'\u03B3 [deg]')
+        sliderLabel = QLabel('gamma [deg]')
         self.slidergamma = FloatSlider(Qt.Horizontal)
         self.slidergamma.setMinimum(0)
         self.slidergamma.setMaximum(180)
@@ -1350,12 +1113,10 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuegamma.setMinimumWidth(self.minLabelSize)
         self.sliderValuegamma.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidergamma, SIGNAL('sliderReleased()'), self.onSliderGamma)
-        #~ self.connect(self.sliderValuegamma, SIGNAL('clicked()'), self.onSliderValueGamma)
-        self.slidergamma.sliderReleased.connect(self.onSliderGamma)
-        self.sliderValuegamma.clicked.connect(self.onSliderValueGamma)
+        self.connect(self.slidergamma, SIGNAL('sliderReleased()'), self.onSliderGamma)
+        self.connect(self.sliderValuegamma, SIGNAL('clicked()'), self.onSliderValueGamma)
 
-        sliderLabel = QLabel('Height [arcsec]')
+        sliderLabel = QLabel('height [deg]')
         self.sliderheight = FloatSlider(Qt.Horizontal)
         self.sliderheight.setMinimum(0.1)
         self.sliderheight.setMaximum(20.0)
@@ -1370,12 +1131,10 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValueheight.setMinimumWidth(self.minLabelSize)
         self.sliderValueheight.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderheight, SIGNAL('sliderReleased()'), self.onSliderHeight)
-        #~ self.connect(self.sliderValueheight, SIGNAL('clicked()'), self.onSliderValueHeight)
-        self.sliderheight.sliderReleased.connect(self.onSliderHeight)
-        self.sliderValueheight.clicked.connect(self.onSliderValueHeight)
+        self.connect(self.sliderheight, SIGNAL('sliderReleased()'), self.onSliderHeight)
+        self.connect(self.sliderValueheight, SIGNAL('clicked()'), self.onSliderValueHeight)
 
-        sliderLabel = QLabel('Damping')
+        sliderLabel = QLabel('a')
         self.sliderDamp = FloatSlider(Qt.Horizontal)
         self.sliderDamp.setMinimum(0.0)
         self.sliderDamp.setMaximum(2.0)
@@ -1390,12 +1149,10 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValueDamp.setMinimumWidth(self.minLabelSize)
         self.sliderValueDamp.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderDamp, SIGNAL('sliderReleased()'), self.onSliderDamp)
-        #~ self.connect(self.sliderValueDamp, SIGNAL('clicked()'), self.onSliderValueDamp)
-        self.sliderDamp.sliderReleased.connect(self.onSliderDamp)
-        self.sliderValueDamp.clicked.connect(self.onSliderValueDamp)
+        self.connect(self.sliderDamp, SIGNAL('sliderReleased()'), self.onSliderDamp)
+        self.connect(self.sliderValueDamp, SIGNAL('clicked()'), self.onSliderValueDamp)
 
-        sliderLabel = QLabel('Fill fraction')
+        sliderLabel = QLabel('ff')
         self.sliderff = FloatSlider(Qt.Horizontal)
         self.sliderff.setMinimum(0.0)
         self.sliderff.setMaximum(1.0)
@@ -1410,12 +1167,10 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValueff.setMinimumWidth(self.minLabelSize)
         self.sliderValueff.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderff, SIGNAL('sliderReleased()'), self.onSliderff)
-        #~ self.connect(self.sliderValueff, SIGNAL('clicked()'), self.onSliderValueff)
-        self.sliderff.sliderReleased.connect( self.onSliderff)
-        self.sliderValueff.clicked.connect(self.onSliderValueff)
+        self.connect(self.sliderff, SIGNAL('sliderReleased()'), self.onSliderff)
+        self.connect(self.sliderValueff, SIGNAL('clicked()'), self.onSliderValueff)
 
-        sliderLabel = QLabel(u'\u03B21')
+        sliderLabel = QLabel('S2/S1 s1')
         self.sliderS2S1 = FloatSlider(Qt.Horizontal)
         self.sliderS2S1.setMinimum(0.0)
         self.sliderS2S1.setMaximum(2.0)
@@ -1430,12 +1185,10 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValueS2S1.setMinimumWidth(self.minLabelSize)
         self.sliderValueS2S1.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderS2S1, SIGNAL('sliderReleased()'), self.onSliderS2S1)
-        #~ self.connect(self.sliderValueS2S1, SIGNAL('clicked()'), self.onSliderValueS2S1)
-        self.sliderS2S1.sliderReleased.connect(self.onSliderS2S1)
-        self.sliderValueS2S1.clicked.connect(self.onSliderValueS2S1)
+        self.connect(self.sliderS2S1, SIGNAL('sliderReleased()'), self.onSliderS2S1)
+        self.connect(self.sliderValueS2S1, SIGNAL('clicked()'), self.onSliderValueS2S1)
 
-        sliderLabel = QLabel(u'\u03B22')
+        sliderLabel = QLabel('S2/S1 s2')
         self.sliderS2S1B = FloatSlider(Qt.Horizontal)
         self.sliderS2S1B.setMinimum(0.0)
         self.sliderS2S1B.setMaximum(2.0)
@@ -1450,12 +1203,10 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValueS2S1B.setMinimumWidth(self.minLabelSize)
         self.sliderValueS2S1B.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.sliderS2S1B, SIGNAL('sliderReleased()'), self.onSliderS2S1B)
-        #~ self.connect(self.sliderValueS2S1B, SIGNAL('clicked()'), self.onSliderValueS2S1B)
-        self.sliderS2S1B.sliderReleased.connect(self.onSliderS2S1B)
-        self.sliderValueS2S1B.clicked.connect(self.onSliderValueS2S1B)
+        self.connect(self.sliderS2S1B, SIGNAL('sliderReleased()'), self.onSliderS2S1B)
+        self.connect(self.sliderValueS2S1B, SIGNAL('clicked()'), self.onSliderValueS2S1B)
 
-        sliderLabel = QLabel('Multiplet')
+        sliderLabel = QLabel('multiplet')
         self.slidermultiplet = QSlider(Qt.Horizontal)
         self.slidermultiplet.setRange(1, 4)
         self.slidermultiplet.setValue(self.transInput)
@@ -1469,8 +1220,8 @@ class AppForm(QMainWindow):
             boxO1.setAlignment(w, Qt.AlignVCenter)
         self.sliderValuemultiplet.setMinimumWidth(self.minLabelSize)
         self.sliderValuemultiplet.setMaximumWidth(self.maxLabelSize)
-        #~ self.connect(self.slidermultiplet, SIGNAL('sliderReleased()'), self.onSlidermultiplet)
-        self.slidermultiplet.sliderReleased.connect(self.onSlidermultiplet)
+        self.connect(self.slidermultiplet, SIGNAL('sliderReleased()'), self.onSlidermultiplet)
+
 
         obsGroup = QGroupBox("Observation")
         obsGroup.setLayout(boxO1)
@@ -1502,12 +1253,9 @@ class AppForm(QMainWindow):
         vboxO.addLayout(vboxO1)
         vboxO.addLayout(vboxO2)
 
-        #~ self.connect(self.calculateButton, SIGNAL('clicked()'), self.redrawProfiles)
-        #~ self.connect(self.loadButton, SIGNAL('clicked()'), self.loadObservation)
-        #~ self.connect(self.resetButton, SIGNAL('clicked()'), self.resetObservation)
-        self.calculateButton.clicked.connect(self.redrawProfiles)
-        self.loadButton.clicked.connect(self.loadObservation)
-        self.resetButton.clicked.connect( self.resetObservation)
+        self.connect(self.calculateButton, SIGNAL('clicked()'), self.redrawProfiles)
+        self.connect(self.loadButton, SIGNAL('clicked()'), self.loadObservation)
+        self.connect(self.resetButton, SIGNAL('clicked()'), self.resetObservation)
         
         # Final layout
         #
@@ -1643,9 +1391,7 @@ class AppForm(QMainWindow):
             action.setToolTip(tip)
             action.setStatusTip(tip)
         if slot is not None:
-            #~ trigger = pyqtSignal()
-            #~ trigger.connect(action, SIGNAL(signal), slot)
-            action.triggered.connect(slot)
+            self.connect(action, SIGNAL(signal), slot)
         if checkable:
             action.setCheckable(True)
         return action
