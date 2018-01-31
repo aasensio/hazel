@@ -157,9 +157,14 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
     fixed%no = nLambdaInput
     observation%n = fixed%no
     
+    if (associated(observation%wl)) deallocate(observation%wl)
+    if (associated(inversion%stokes_unperturbed)) deallocate(inversion%stokes_unperturbed)          
+    if (associated(fixed%stokes_boundary)) deallocate(fixed%stokes_boundary)
+    
     allocate(observation%wl(observation%n))
     allocate(inversion%stokes_unperturbed(0:3,fixed%no))
     allocate(fixed%stokes_boundary(0:3,observation%n))
+    
     fixed%stokes_boundary(0:3,:) = boundaryInput
     
     observation%wl = lambdaAxisInput
@@ -197,6 +202,17 @@ subroutine c_hazel(synModeInput, nSlabsInput, B1Input, B2Input, hInput, tau1Inpu
     etaOutput(4,2,:) = mag_opt(2,:) - mag_opt_stim(2,:)
     etaOutput(3,4,:) = mag_opt(1,:) - mag_opt_stim(1,:)
     etaOutput(4,3,:) = -mag_opt(1,:) - mag_opt_stim(1,:)
+
+    if (allocated(epsilon)) deallocate(epsilon)
+	if (allocated(epsilon_zeeman)) deallocate(epsilon_zeeman)
+    if (allocated(eta)) deallocate(eta)
+    if (allocated(eta_zeeman)) deallocate(eta_zeeman)
+    if (allocated(eta_stim)) deallocate(eta_stim)
+    if (allocated(eta_stim_zeeman)) deallocate(eta_stim_zeeman)
+    if (allocated(mag_opt)) deallocate(mag_opt)
+    if (allocated(mag_opt_zeeman)) deallocate(mag_opt_zeeman)
+    if (allocated(mag_opt_stim)) deallocate(mag_opt_stim)
+    if (allocated(mag_opt_stim_zeeman)) deallocate(mag_opt_stim_zeeman)
     
 !   open(unit=31,file=input_model_file,action='write',status='replace')
 !   close(31,status='delete')
@@ -212,6 +228,7 @@ subroutine c_init() bind(c)
     if (fixed%no /= size(observation%wl)) then
         if (associated(observation%wl)) deallocate(observation%wl)
         if (associated(inversion%stokes_unperturbed)) deallocate(inversion%stokes_unperturbed)          
+        if (associated(fixed%stokes_boundary)) deallocate(fixed%stokes_boundary)
     endif
 
 ! Initialize Allen's data

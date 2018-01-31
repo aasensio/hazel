@@ -668,26 +668,23 @@ contains
 		
 		
 ! Clean the allocated memory
-!		deallocate(njlevu)
-!		deallocate(njlevl)		
-!		deallocate(autl)
-!		deallocate(autu)
-!		deallocate(cl)
-!		deallocate(cu)
-!		deallocate(tmp)
-!		deallocate(onum)
-!		deallocate(rot_mat_vert_mag)
-!		deallocate(prof)
-		
-!		deallocate(rhol)
-!		deallocate(rhou)
-!		deallocate(rhoml)
-!		deallocate(rhomu)
-		
-!		deallocate(epsilon)
-!		deallocate(eta)
-!		deallocate(epsilon_zeeman)
-!		deallocate(eta_zeeman)
+#if defined(python)
+		deallocate(tmp1)
+		deallocate(tmp2)
+		deallocate(onum)
+		deallocate(prof)
+		deallocate(njlevl)
+		deallocate(autl)
+		deallocate(cl)
+		deallocate(njlevu)
+		deallocate(autu)
+		deallocate(cu)
+		deallocate(rhou)
+		deallocate(rhomu)
+		deallocate(rhol)
+		deallocate(rhoml)
+		deallocate(rot_mat_vert_mag)
+#endif				
 								
 	end subroutine calc_rt_coef
 end module rt_coef
