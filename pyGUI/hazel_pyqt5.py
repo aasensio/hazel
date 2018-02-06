@@ -10,12 +10,13 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from hazel import hazel
-#~ from ipdb import set_trace as stop
+from ipdb import set_trace as stop
 # from IPython.core.debugger import Pdb
 # ipdb = Pdb()
 # stop = ipdb.set_trace
 import pickle
 import os.path
+from astropy.io import fits
 
 import matplotlib.pyplot as pl
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
@@ -222,20 +223,21 @@ class AppForm(QMainWindow):
 
     def redrawProfiles(self):
         self.status_text.setText("Computing")
-        lambdaAxisInputA = np.linspace(self.lambdaAxisInput[0],self.lambdaAxisInput[1],self.nLambdaInput)
-        boundary = np.zeros((self.nLambdaInput,4))
+        self.lambdaAxisInputA = np.linspace(self.lambdaAxisInput[0],self.lambdaAxisInput[1],self.nLambdaInput)
+        self.boundary = np.zeros((self.nLambdaInput,4))
         for i in range(4):
-            boundary[:,i] = self.boundaryInput[i]
+            self.boundary[:,i] = self.boundaryInput[i]
         [l, stokes, etaOutput, epsOutput] = self.hazel.synth(self.synModeInput, self.nSlabsInput, self.B1Input, self.B2Input, self.hInput, 
-                        self.tau1Input, self.tau2Input, boundary, self.transInput, self.atomicPolInput,self.magoptInput, self.anglesInput, 
-                        self.nLambdaInput, lambdaAxisInputA, self.dopplerWidthInput, self.dopplerWidth2Input, self.dampingInput, 
+                        self.tau1Input, self.tau2Input, self.boundary, self.transInput, self.atomicPolInput,self.magoptInput, self.anglesInput, 
+                        self.nLambdaInput, self.lambdaAxisInputA, self.dopplerWidthInput, self.dopplerWidth2Input, self.dampingInput, 
                         self.dopplerVelocityInput, self.dopplerVelocity2Input, self.ffInput, self.betaInput, self.beta2Input, self.nbarInput, self.omegaInput,
                         self.normalization)
-        
+
+                
         label = ['I', 'Q', 'U', 'V']
         for i in range(4):         
             self.axes[i].clear()
-            self.axes[i].plot(l - 10829.0911,stokes[i,:])            
+            self.axes[i].plot(l - self.multiplet_lambda[self.transInput-1],stokes[i,:])            
             if (self.obsFile != ''):
                 self.axes[i].plot(self.obsStokes[:,0], self.obsStokes[:,i+1], 'r.')                
             for item in ([self.axes[i].title, self.axes[i].xaxis.label, self.axes[i].yaxis.label] +
@@ -244,13 +246,54 @@ class AppForm(QMainWindow):
             self.axes[i].set_xlim(self.lambdaAxisInput)
             self.axes[i].set_xlabel(u'\u03BB [\u00C5]')
             self.axes[i].set_ylabel('{0}/Ic'.format(label[i]))
+        
+        self.axes[0].set_title('{0}'.format(self.multiplets[self.transInput-1]))
 
                 
         self.fig.canvas.draw()
         self.status_text.setText("OK")
 
+        return l, stokes
+
+    def save_profiles(self):
+        l, stokes = self.redrawProfiles()
+        
+        hdr = fits.Header()
+        hdr['MODE'] = str(self.synModeInput)
+        hdr['NSLABS'] = str(self.nSlabsInput)
+        hdr['B1'] = str(self.B1Input)
+        hdr['B2'] = str(self.B2Input)
+        hdr['HEIGHT'] = str(self.hInput)
+        hdr['TAU1'] = str(self.tau1Input)
+        hdr['TAU2'] = str(self.tau2Input)
+        hdr['BOUNDARY'] = str(self.boundaryInput)
+        hdr['TRANS'] = str(self.transInput)
+        hdr['ATOMPOL'] = str(self.atomicPolInput)
+        hdr['MAGOPT'] = str(self.magoptInput)
+        hdr['ANGLES'] = str(self.anglesInput)
+        hdr['NLAMBDA'] = str(self.nLambdaInput)
+        hdr['LAMBDA'] = str(self.lambdaAxisInput)
+        hdr['DOPPLER1'] = str(self.dopplerWidthInput)
+        hdr['DOPPLER2'] = str(self.dopplerWidth2Input)
+        hdr['DAMPING'] = str(self.dampingInput)
+        hdr['V1'] = str(self.dopplerVelocityInput)
+        hdr['V2'] = str(self.dopplerVelocity2Input)
+        hdr['FF'] = str(self.ffInput)
+        hdr['BETA1'] = str(self.betaInput)
+        hdr['BETA2'] = str(self.beta2Input)
+        hdr['NBAR'] = str(self.nbarInput)
+        hdr['OMEGA'] = str(self.omegaInput)
+        hdr['NORM'] = str(self.normalization)
+
+        hdu = fits.PrimaryHDU(stokes, header=hdr)
+        save_file = str(QFileDialog.getSaveFileName(self, 'Save data file', '*.fits')[0])
+        
+        hdu.writeto(save_file, overwrite=True)
+        print('Profiles saved to : {0}'.format(save_file))
+
+
     def loadObservation(self):
-        self.obsFile = QFileDialog.getOpenFileName(self, 'Open file', '')        
+        self.obsFile = QFileDialog.getOpenFileName(self, 'Open file', '')
         if (self.obsFile != ''):
             self.obsStokes = np.loadtxt(str(self.obsFile[0]))
             self.loadedFile.setText('Loaded: {0}'.format(self.obsFile[0]))
@@ -579,7 +622,7 @@ class AppForm(QMainWindow):
         if (self.checkAllen.isChecked()):
             theta = float(self.sliderValuetheta.text())
             mu = np.cos(theta * np.pi / 180.0)
-            i0 = i0Allen.i0Allen(10830.0, mu)
+            i0 = i0Allen.i0Allen(self.multiplet_lambda[self.transInput-1], mu)
             self.I0.setText(str(i0))
         self.anglesInput[0] = self.slidertheta.value()
         self.redrawProfiles()
@@ -692,6 +735,7 @@ class AppForm(QMainWindow):
 
 # multiplet
     def onSlidermultiplet(self):     
+        self.transInput = self.slidermultiplet.value()
         self.sliderValuemultiplet.setText(self.multiplets[self.slidermultiplet.value()-1])
 
 # thin
@@ -720,14 +764,13 @@ class AppForm(QMainWindow):
         self.normalization = 1
         self.redrawProfiles()
 
-
     def onCheckAllen(self, state):
         if (state == 2):
             self.sliderValuetheta.setText(str(self.slidertheta.value()))
             if (self.checkAllen.isChecked()):
                 theta = float(self.sliderValuetheta.text())
                 mu = np.cos(theta * np.pi / 180.0)
-                i0 = i0Allen.i0Allen(10830.0, mu)
+                i0 = i0Allen.i0Allen(self.multiplet_lambda[self.transInput-1], mu)
                 self.I0.setText('{0:10.3e}'.format(i0))
             self.anglesInput[0] = self.slidertheta.value()
             self.I0.setEnabled(False)
@@ -779,11 +822,21 @@ class AppForm(QMainWindow):
             self.nSlabsInput = -2
         self.redrawProfiles()
 
+    def onClickCanvas(self, event):
+        if (event.button >= 2):
+            save_file = QFileDialog.getSaveFileName(self, 'Save image', '*.png *.pdf')
+            self.fig.savefig(str(save_file[0]))
+            print("File saved : {0}".format(str(save_file[0])))
+
         
 #######################################################################
 # INITIALIZATION
 #######################################################################
     def create_main_frame(self):
+        
+        self.multiplets = ['10830', '3888', '7065',' 5876']
+        self.multiplet_lambda = [10829.0911, 3888.6046, 7065.7085, 5875.9663]
+
         self.main_frame = QWidget()
 
         self.fontSize = 9
@@ -795,7 +848,7 @@ class AppForm(QMainWindow):
         self.loadConfig()
         self.hazel = hazel()
 
-        self.multiplets = ['10830', '3888', '7065',' 5876']
+        
         
         # Create the mpl Figure and FigCanvas objects. 
         # 5x4 inches, 100 dots-per-inch
@@ -822,7 +875,8 @@ class AppForm(QMainWindow):
         for i in range(4):
             self.axes[i] = self.fig.add_subplot(2,2,i+1)        
         
-        
+        self.canvas.mpl_connect('button_release_event', self.onClickCanvas)
+
         # Bind the 'pick' event for clicking on one of the bars
         #
         # self.canvas.mpl_connect('pick_event', self.on_pick)
@@ -1309,8 +1363,8 @@ class AppForm(QMainWindow):
         self.sliderValuetheta.clicked.connect(self.onSliderValueTheta)
         if (self.checkAllen.isChecked()):
             theta = float(self.sliderValuetheta.text())
-            mu = np.cos(theta * np.pi / 180.0)
-            i0 = i0Allen.i0Allen(10830.0, mu)
+            mu = np.cos(theta * np.pi / 180.0)            
+            i0 = i0Allen.i0Allen(self.multiplet_lambda[self.transInput-1], mu)
             self.I0.setText('{0:10.3e}'.format(i0))
             self.boundaryInput[0] = i0
 
@@ -1482,6 +1536,7 @@ class AppForm(QMainWindow):
         self.calculateButton = QPushButton("Calculate")
         self.loadButton = QPushButton("Load observation")
         self.resetButton = QPushButton("Reset observation")
+        self.saveProfButton = QPushButton("Save profile")
         if (self.obsFile != ''):
             self.loadedFile = ExtendedQLabel('Loaded: {0}'.format(self.obsFile))
         else:
@@ -1489,9 +1544,11 @@ class AppForm(QMainWindow):
 
         boxO2 = QVBoxLayout()
         boxO2.addWidget(self.calculateButton)
+        boxO2.addWidget(self.saveProfButton)
         boxO2.addWidget(self.loadButton)
         boxO2.addWidget(self.resetButton)
         boxO2.addWidget(self.loadedFile)
+        
 
         calcGroup = QGroupBox("Calculate")
         calcGroup.setLayout(boxO2)
@@ -1507,7 +1564,8 @@ class AppForm(QMainWindow):
         #~ self.connect(self.resetButton, SIGNAL('clicked()'), self.resetObservation)
         self.calculateButton.clicked.connect(self.redrawProfiles)
         self.loadButton.clicked.connect(self.loadObservation)
-        self.resetButton.clicked.connect( self.resetObservation)
+        self.resetButton.clicked.connect(self.resetObservation)
+        self.saveProfButton.clicked.connect(self.save_profiles)
         
         # Final layout
         #

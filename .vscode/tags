@@ -1,0 +1,564 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AppForm	../pyGUI/hazel_pyqt4.py	/^class AppForm(QMainWindow):$/;"	kind:class	line:43
+AppForm	../pyGUI/hazel_pyqt5.py	/^class AppForm(QMainWindow):$/;"	kind:class	line:67
+B	../runPy/weakf.py	/^B = np.linspace(0.0,1200.0,n)$/;"	kind:variable	line:38
+B1Input	../runPy/test.py	/^B1Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:10
+B1Input	../runPy/test.py	/^B1Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:46
+B1Input	../runPy/weakf.py	/^	B1Input = np.asarray([B[i],0.0,0.0])$/;"	kind:variable	line:41
+B1Input	../runPy/weakf.py	/^B1Input = np.asarray([300.0,20.0,41.0])$/;"	kind:variable	line:8
+B2Input	../runPy/test.py	/^B2Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:11
+B2Input	../runPy/test.py	/^B2Input = np.asarray([10.0,70.0,0.0])$/;"	kind:variable	line:47
+B2Input	../runPy/weakf.py	/^B2Input = np.asarray([0.0,0.0,0.0])$/;"	kind:variable	line:9
+ConfigObj	../run/run.py	/^from configobj import ConfigObj$/;"	kind:namespace	line:3
+ConfigObj	../runMPI/run.py	/^from configobj import ConfigObj$/;"	kind:namespace	line:3
+ExtendedQLabel	../pyGUI/hazel_pyqt4.py	/^class ExtendedQLabel(QLabel):$/;"	kind:class	line:34
+ExtendedQLabel	../pyGUI/hazel_pyqt5.py	/^class ExtendedQLabel(QLabel):$/;"	kind:class	line:53
+Extension	../runPy/setup.py	/^from distutils.extension import Extension$/;"	kind:namespace	line:3
+Extension	../setup.py	/^from distutils.extension import Extension$/;"	kind:namespace	line:3
+Figure	../pyGUI/hazel_pyqt4.py	/^from matplotlib.figure import Figure$/;"	kind:namespace	line:13
+Figure	../pyGUI/hazel_pyqt5.py	/^from matplotlib.figure import Figure$/;"	kind:namespace	line:23
+FigureCanvas	../pyGUI/hazel_pyqt4.py	/^from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas$/;"	kind:namespace	line:12
+FigureCanvas	../pyGUI/hazel_pyqt5.py	/^from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas$/;"	kind:namespace	line:22
+FigureCanvasQTAgg	../pyGUI/hazel_pyqt5.py	/^from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg$/;"	kind:namespace	line:7
+FloatSlider	../pyGUI/hazel_pyqt4.py	/^class FloatSlider(QSlider):$/;"	kind:class	line:15
+FloatSlider	../pyGUI/hazel_pyqt5.py	/^class FloatSlider(QSlider):$/;"	kind:class	line:25
+General_atmosphere	../hazel/atmosphere.py	/^class General_atmosphere(object):$/;"	kind:class	line:3
+Hazel_atmosphere	../hazel/atmosphere.py	/^class Hazel_atmosphere(General_atmosphere):$/;"	kind:class	line:9
+MyWindowClass	../pyGUI/hazel_old.py	/^class MyWindowClass(QtGui.QMainWindow, form_class):$/;"	kind:class	line:6
+PIPE	../runPy/setup.py	/^from subprocess import Popen, PIPE$/;"	kind:namespace	line:8
+PIPE	../setup.py	/^from subprocess import Popen, PIPE$/;"	kind:namespace	line:8
+Popen	../runPy/setup.py	/^from subprocess import Popen, PIPE$/;"	kind:namespace	line:8
+Popen	../setup.py	/^from subprocess import Popen, PIPE$/;"	kind:namespace	line:8
+QtCore	../pyGUI/hazel_old.py	/^from PyQt4 import QtCore, QtGui, uic$/;"	kind:namespace	line:2
+QtGui	../pyGUI/hazel_old.py	/^from PyQt4 import QtCore, QtGui, uic$/;"	kind:namespace	line:2
+SIR_atmosphere	../hazel/atmosphere.py	/^class SIR_atmosphere(General_atmosphere):$/;"	kind:class	line:17
+__all__	../hazel/atmosphere.py	/^__all__ = ['Hazel_atmosphere', 'SIR_atmosphere']$/;"	kind:variable	line:1
+__all__	../pyGUI/hazel.py	/^__all__ = ["hazel"]$/;"	kind:variable	line:4
+__all__	../runPy/hazel.py	/^__all__ = ["hazel"]$/;"	kind:variable	line:4
+__init	../pyGUI/hazel_pyqt4.py	/^    def __init(self, parent):$/;"	kind:member	line:36
+__init	../pyGUI/hazel_pyqt5.py	/^    def __init(self, parent):$/;"	kind:member	line:54
+__init__	../hazel/atmosphere.py	/^    def __init__(self):$/;"	kind:member	line:10
+__init__	../hazel/atmosphere.py	/^    def __init__(self):$/;"	kind:member	line:18
+__init__	../hazel/atmosphere.py	/^    def __init__(self):$/;"	kind:member	line:4
+__init__	../pyGUI/hazel.py	/^    def __init__(self):$/;"	kind:member	line:17
+__init__	../pyGUI/hazel_old.py	/^	def __init__(self, parent=None):$/;"	kind:member	line:7
+__init__	../pyGUI/hazel_pyqt4.py	/^    def __init__(self, parent, decimals=3, *args, **kargs):$/;"	kind:member	line:16
+__init__	../pyGUI/hazel_pyqt4.py	/^    def __init__(self, parent=None):$/;"	kind:member	line:44
+__init__	../pyGUI/hazel_pyqt5.py	/^    def __init__(self, parent, decimals=3, *args, **kargs):$/;"	kind:member	line:26
+__init__	../pyGUI/hazel_pyqt5.py	/^    def __init__(self, parent=None):$/;"	kind:member	line:68
+__init__	../runPy/hazel.py	/^    def __init__(self):$/;"	kind:member	line:17
+__synthPerturbation	../pyGUI/hazel.py	/^    def __synthPerturbation(self, paramToModify, perturbation, *args):$/;"	kind:member	line:60
+__synthPerturbation	../runPy/hazel.py	/^    def __synthPerturbation(self, paramToModify, perturbation, *args):$/;"	kind:member	line:60
+_init	../runPy/pyhazel.pyx	/^def _init():$/;"	kind:function	line:73
+_init	../src/hazel/pyhazel.pyx	/^def _init():$/;"	kind:function	line:73
+_interpolate_nodes	../hazel/atmosphere.py	/^    def _interpolate_nodes(logTau, nodes, nodes_logtau=None, variable=None):$/;"	kind:member	line:23
+_synth	../runPy/pyhazel.pyx	/^def _synth(int synModeInput=5, int nSlabsInput=1, ar[double,ndim=1] B1Input=zeros(3), ar[double,ndim=1] B2Input=zeros(3), double hInput=3.0, $/;"	kind:function	line:13
+_synth	../src/hazel/pyhazel.pyx	/^def _synth(int synModeInput=5, int nSlabsInput=1, ar[double,ndim=1] B1Input=zeros(3), ar[double,ndim=1] B2Input=zeros(3), double hInput=3.0, $/;"	kind:function	line:13
+absolute_to_sky	../pyRoutines/angle_transformation.py	/^def absolute_to_sky(thetaB, chiB):$/;"	kind:function	line:7
+absolute_to_sky_general	../pyRoutines/angle_transformation.py	/^def absolute_to_sky_general(theta, thetaB, chiB):$/;"	kind:function	line:59
+add_actions	../pyGUI/hazel_pyqt4.py	/^    def add_actions(self, target, actions):$/;"	kind:member	line:1375
+add_actions	../pyGUI/hazel_pyqt5.py	/^    def add_actions(self, target, actions):$/;"	kind:member	line:1685
+all_solutions	../runMPI/allsols.py	/^def all_solutions(Qmeas, Umeas, tolerance):$/;"	kind:function	line:15
+allsols.py	../runMPI/allsols.py	1;"	kind:file	line:1
+alpha	../runPy/weakf.py	/^	alpha = -4.67e-13 * geff * 10830.0**2$/;"	kind:variable	line:52
+angle_transformation.py	../pyRoutines/angle_transformation.py	1;"	kind:file	line:1
+anglesInput	../runPy/test.py	/^anglesInput = np.asarray([0.0,0.0,0.0])$/;"	kind:variable	line:18
+anglesInput	../runPy/test.py	/^anglesInput = np.asarray([0.0,0.0,0.0])$/;"	kind:variable	line:54
+anglesInput	../runPy/weakf.py	/^anglesInput = np.asarray([0.0,0.0,90.0])$/;"	kind:variable	line:16
+app	../pyGUI/hazel_old.py	/^	app = QtGui.QApplication(sys.argv)$/;"	kind:variable	line:28
+ar	../runPy/pyhazel.pyx	/^from numpy cimport ndarray as ar$/;"	kind:namespace	line:1
+ar	../src/hazel/pyhazel.pyx	/^from numpy cimport ndarray as ar$/;"	kind:namespace	line:1
+ar	../src/sir/pysir.pyx	/^from numpy cimport ndarray as ar$/;"	kind:namespace	line:1
+array	../runPy/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2
+array	../src/hazel/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2
+ascontiguousarray	../src/sir/pysir.pyx	/^from numpy import empty, ascontiguousarray$/;"	kind:namespace	line:2
+atmosphere.py	../hazel/atmosphere.py	1;"	kind:file	line:1
+atomicPolInput	../runPy/test.py	/^atomicPolInput = 1$/;"	kind:variable	line:16
+atomicPolInput	../runPy/test.py	/^atomicPolInput = 1$/;"	kind:variable	line:52
+atomicPolInput	../runPy/weakf.py	/^atomicPolInput = 1$/;"	kind:variable	line:14
+author	../docs/conf.py	/^author = 'Andres Asensio Ramos'$/;"	kind:variable	line:54
+ax	../runPy/test.py	/^ax = ax.flatten()$/;"	kind:variable	line:85
+beta2Input	../runPy/test.py	/^beta2Input = 1.0$/;"	kind:variable	line:28
+beta2Input	../runPy/test.py	/^beta2Input = 1.0$/;"	kind:variable	line:64
+beta2Input	../runPy/weakf.py	/^beta2Input = 1.0$/;"	kind:variable	line:26
+betaInput	../runPy/test.py	/^betaInput = 1.0$/;"	kind:variable	line:27
+betaInput	../runPy/test.py	/^betaInput = 1.0$/;"	kind:variable	line:63
+betaInput	../runPy/weakf.py	/^betaInput = 1.0$/;"	kind:variable	line:25
+boundaryInput	../runPy/test.py	/^boundaryInput  = np.zeros((nLambdaInput,4))$/;"	kind:variable	line:32
+boundaryInput	../runPy/test.py	/^boundaryInput  = np.zeros((nLambdaInput,4))$/;"	kind:variable	line:68
+boundaryInput	../runPy/weakf.py	/^boundaryInput  = np.zeros((nLambdaInput,4))$/;"	kind:variable	line:30
+build_ext	../runPy/setup.py	/^from Cython.Distutils import build_ext$/;"	kind:namespace	line:4
+build_ext	../setup.py	/^from Cython.Distutils import build_ext$/;"	kind:namespace	line:4
+call	../run/run.py	/^from subprocess import call$/;"	kind:namespace	line:6
+call	../runMPI/run.py	/^from subprocess import call$/;"	kind:namespace	line:6
+clean.py	../runPy/clean.py	1;"	kind:file	line:1
+clicked	../pyGUI/hazel_pyqt5.py	/^    clicked = pyqtSignal()$/;"	kind:variable	line:57
+closeEvent	../pyGUI/hazel_pyqt4.py	/^    def closeEvent(self, event):$/;"	kind:member	line:1399
+closeEvent	../pyGUI/hazel_pyqt5.py	/^    def closeEvent(self, event):$/;"	kind:member	line:1711
+cmdclass	../runPy/setup.py	/^      cmdclass = {'build_ext': build_ext},$/;"	kind:variable	line:48
+cmdclass	../setup.py	/^      cmdclass = {'build_ext': build_ext},$/;"	kind:variable	line:48
+conf.py	../docs/conf.py	1;"	kind:file	line:1
+config	../run/run.py	/^config = ConfigObj(input_lower)$/;"	kind:variable	line:30
+config	../runMPI/run.py	/^config = ConfigObj(input_lower)$/;"	kind:variable	line:30
+copyright	../docs/conf.py	/^copyright = '2016, Andres Asensio Ramos'$/;"	kind:variable	line:53
+create_action	../pyGUI/hazel_pyqt4.py	/^    def create_action(  self, text, slot=None, shortcut=None, $/;"	kind:member	line:1382
+create_action	../pyGUI/hazel_pyqt5.py	/^    def create_action(  self, text, slot=None, shortcut=None, $/;"	kind:member	line:1692
+create_main_frame	../pyGUI/hazel_pyqt4.py	/^    def create_main_frame(self):$/;"	kind:member	line:629
+create_main_frame	../pyGUI/hazel_pyqt5.py	/^    def create_main_frame(self):$/;"	kind:member	line:835
+create_menu	../pyGUI/hazel_pyqt4.py	/^    def create_menu(self):        $/;"	kind:member	line:1338
+create_menu	../pyGUI/hazel_pyqt5.py	/^    def create_menu(self):        $/;"	kind:member	line:1648
+create_status_bar	../pyGUI/hazel_pyqt4.py	/^    def create_status_bar(self):$/;"	kind:member	line:1316
+create_status_bar	../pyGUI/hazel_pyqt5.py	/^    def create_status_bar(self):$/;"	kind:member	line:1626
+dIdl	../runPy/weakf.py	/^	dIdl = np.gradient(stokesI, deltaL)$/;"	kind:variable	line:50
+dampingInput	../runPy/test.py	/^dampingInput = 0.e0$/;"	kind:variable	line:23
+dampingInput	../runPy/test.py	/^dampingInput = 0.e0$/;"	kind:variable	line:59
+dampingInput	../runPy/weakf.py	/^dampingInput = 0.e0$/;"	kind:variable	line:21
+deltaL	../runPy/weakf.py	/^	deltaL = l[1]-l[0]$/;"	kind:variable	line:47
+doPlot.py	../runMPI/doPlot.py	1;"	kind:file	line:1
+dopplerVelocity2Input	../runPy/test.py	/^dopplerVelocity2Input = 5.e0$/;"	kind:variable	line:25
+dopplerVelocity2Input	../runPy/test.py	/^dopplerVelocity2Input = 5.e0$/;"	kind:variable	line:61
+dopplerVelocity2Input	../runPy/weakf.py	/^dopplerVelocity2Input = 0.e0$/;"	kind:variable	line:23
+dopplerVelocityInput	../runPy/test.py	/^dopplerVelocityInput = -5.e0$/;"	kind:variable	line:24
+dopplerVelocityInput	../runPy/test.py	/^dopplerVelocityInput = -5.e0$/;"	kind:variable	line:60
+dopplerVelocityInput	../runPy/weakf.py	/^dopplerVelocityInput = 0.e0$/;"	kind:variable	line:22
+dopplerWidth2Input	../runPy/test.py	/^dopplerWidth2Input = 6.5e0$/;"	kind:variable	line:22
+dopplerWidth2Input	../runPy/test.py	/^dopplerWidth2Input = 6.5e0$/;"	kind:variable	line:58
+dopplerWidth2Input	../runPy/weakf.py	/^dopplerWidth2Input = 0.e0$/;"	kind:variable	line:20
+dopplerWidthInput	../runPy/test.py	/^dopplerWidthInput = 6.5e0$/;"	kind:variable	line:21
+dopplerWidthInput	../runPy/test.py	/^dopplerWidthInput = 6.5e0$/;"	kind:variable	line:57
+dopplerWidthInput	../runPy/weakf.py	/^dopplerWidthInput = 6.e0$/;"	kind:variable	line:19
+empty	../runPy/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2
+empty	../src/hazel/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2
+empty	../src/sir/pysir.pyx	/^from numpy import empty, ascontiguousarray$/;"	kind:namespace	line:2
+exclude_patterns	../docs/conf.py	/^exclude_patterns = ['_build']$/;"	kind:variable	line:80
+ext_modules	../runPy/setup.py	/^      ext_modules = ext_modules)$/;"	kind:variable	line:52
+ext_modules	../runPy/setup.py	/^ext_modules = [Extension(# module name:$/;"	kind:variable	line:35
+ext_modules	../setup.py	/^      ext_modules = ext_modules)$/;"	kind:variable	line:52
+ext_modules	../setup.py	/^ext_modules = [Extension(# module name:$/;"	kind:variable	line:35
+extensions	../docs/conf.py	/^extensions = [$/;"	kind:variable	line:33
+extra_compile_args	../runPy/setup.py	/^                         extra_compile_args=['-fPIC', '-O3'],$/;"	kind:variable	line:42
+extra_compile_args	../setup.py	/^                         extra_compile_args=['-fPIC', '-O3'],$/;"	kind:variable	line:42
+extra_link_args	../runPy/setup.py	/^                         extra_link_args=['..\/src\/vars.o', '..\/src\/maths.o', '..\/src\/allen.o', '..\/src\/svd.o', '..\/src\/io_py.o', '..\/src\/SEE.o', '..\/src\/rt_coef.o', '..\/src\/synth.o',$/;"	kind:variable	line:44
+extra_link_args	../setup.py	/^                         extra_link_args=['..\/src\/vars.o', '..\/src\/maths.o', '..\/src\/allen.o', '..\/src\/svd.o', '..\/src\/io_py.o', '..\/src\/SEE.o', '..\/src\/rt_coef.o', '..\/src\/synth.o',$/;"	kind:variable	line:44
+f	../run/run.py	/^f = open('config_inversion.dat','w')$/;"	kind:variable	line:35
+f	../run/run.py	/^f = open('direct_range.dat','w')$/;"	kind:variable	line:117
+f	../run/run.py	/^f = open('init_parameters.dat','w')$/;"	kind:variable	line:285
+f	../run/run.py	/^f = open('invert_parameters.dat','w')$/;"	kind:variable	line:187
+f	../run/run.py	/^f = open(sys.argv[1],'r')$/;"	kind:variable	line:22
+f	../runMPI/doPlot.py	/^f = io.netcdf_file('OBSERVATION\/testEmission.nc')$/;"	kind:variable	line:25
+f	../runMPI/run.py	/^f = open('config_inversion.dat','w')$/;"	kind:variable	line:39
+f	../runMPI/run.py	/^f = open('direct_range.dat','w')$/;"	kind:variable	line:121
+f	../runMPI/run.py	/^f = open('init_parameters.dat','w')$/;"	kind:variable	line:289
+f	../runMPI/run.py	/^f = open('invert_parameters.dat','w')$/;"	kind:variable	line:191
+f	../runMPI/run.py	/^f = open(sys.argv[1],'r')$/;"	kind:variable	line:22
+ffInput	../runPy/test.py	/^ffInput = 0.e0$/;"	kind:variable	line:26
+ffInput	../runPy/test.py	/^ffInput = 0.e0$/;"	kind:variable	line:62
+ffInput	../runPy/weakf.py	/^ffInput = 0.e0$/;"	kind:variable	line:24
+fits	../pyGUI/hazel_pyqt5.py	/^from astropy.io import fits$/;"	kind:namespace	line:19
+form_class	../pyGUI/hazel_old.py	/^form_class = uic.loadUiType("hazel.ui")[0]                 # Load the UI$/;"	kind:variable	line:4
+geff	../runPy/weakf.py	/^	geff = 1.42$/;"	kind:variable	line:51
+genNetCDF	../pyRoutines/genNetCDF.py	/^def genNetCDF(wavelength, stI, stQ, stU, stV, sigmaI, sigmaQ, sigmaU, sigmaV, boundary, height, obsTheta, obsGamma, mask, pars, normalization, outputFile):$/;"	kind:function	line:4
+genNetCDF.py	../pyRoutines/genNetCDF.py	1;"	kind:file	line:1
+get_include	../runPy/setup.py	/^from numpy import get_include$/;"	kind:namespace	line:6
+get_include	../setup.py	/^from numpy import get_include$/;"	kind:namespace	line:6
+get_libgfortran_dir	../runPy/setup.py	/^def get_libgfortran_dir():$/;"	kind:function	line:11
+get_libgfortran_dir	../setup.py	/^def get_libgfortran_dir():$/;"	kind:function	line:11
+hInput	../runPy/test.py	/^hInput = 3.e0$/;"	kind:variable	line:12
+hInput	../runPy/test.py	/^hInput = 3.e0$/;"	kind:variable	line:48
+hInput	../runPy/weakf.py	/^hInput = 3.e0$/;"	kind:variable	line:10
+hazel	../pyGUI/hazel.py	/^class hazel:$/;"	kind:class	line:6
+hazel	../pyGUI/hazel_pyqt5.py	/^from hazel import hazel$/;"	kind:namespace	line:12
+hazel	../runPy/hazel.py	/^class hazel:$/;"	kind:class	line:6
+hazel	../runPy/test.py	/^from hazel import hazel$/;"	kind:namespace	line:2
+hazel.py	../pyGUI/hazel.py	1;"	kind:file	line:1
+hazel.py	../runPy/hazel.py	1;"	kind:file	line:1
+hazel_old.py	../pyGUI/hazel_old.py	1;"	kind:file	line:1
+hazel_pyqt4.py	../pyGUI/hazel_pyqt4.py	1;"	kind:file	line:1
+hazel_pyqt5.py	../pyGUI/hazel_pyqt5.py	1;"	kind:file	line:1
+html_static_path	../docs/conf.py	/^html_static_path = ['_static']$/;"	kind:variable	line:145
+html_theme	../docs/conf.py	/^html_theme = "sphinx_rtd_theme"$/;"	kind:variable	line:115
+html_theme_path	../docs/conf.py	/^html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]$/;"	kind:variable	line:116
+htmlhelp_basename	../docs/conf.py	/^htmlhelp_basename = 'Hazeldoc'$/;"	kind:variable	line:208
+i0Allen	../pyGUI/hazel_pyqt4.py	/^import i0Allen$/;"	kind:namespace	line:3
+i0Allen	../pyGUI/hazel_pyqt5.py	/^import i0Allen$/;"	kind:namespace	line:8
+i0Allen	../pyGUI/i0Allen.py	/^def i0Allen(wavelength, muAngle):$/;"	kind:function	line:3
+i0Allen	../pyRoutines/i0Allen.py	/^def i0Allen(wavelength, muAngle):$/;"	kind:function	line:3
+i0Allen.py	../pyGUI/i0Allen.py	1;"	kind:file	line:1
+i0Allen.py	../pyRoutines/i0Allen.py	1;"	kind:file	line:1
+id	../runMPI/run.py	/^	id = sys.argv[2] $/;"	kind:variable	line:34
+id	../runMPI/run.py	/^id = ''$/;"	kind:variable	line:32
+include_dirs	../runPy/setup.py	/^      include_dirs = [get_include()],$/;"	kind:variable	line:51
+include_dirs	../setup.py	/^      include_dirs = [get_include()],$/;"	kind:variable	line:51
+includeff	../run/run.py	/^	includeff = True$/;"	kind:variable	line:283
+includeff	../run/run.py	/^includeff = False$/;"	kind:variable	line:281
+includeff	../runMPI/run.py	/^	includeff = True$/;"	kind:variable	line:287
+includeff	../runMPI/run.py	/^includeff = False$/;"	kind:variable	line:285
+inferred	../runPy/weakf.py	/^inferred = np.zeros((2,n))$/;"	kind:variable	line:39
+init	../src/sir/pysir.pyx	/^def init():$/;"	kind:function	line:14
+input_lines	../run/run.py	/^input_lines = f.readlines()$/;"	kind:variable	line:23
+input_lines	../runMPI/run.py	/^input_lines = f.readlines()$/;"	kind:variable	line:23
+input_lower	../run/run.py	/^input_lower = ['']$/;"	kind:variable	line:25
+input_lower	../runMPI/run.py	/^input_lower = ['']$/;"	kind:variable	line:25
+inv_logit	../hazel/transforms.py	/^    def inv_logit(self, x):$/;"	kind:function	line:15
+io	../runMPI/doPlot.py	/^import scipy.io as io$/;"	kind:namespace	line:3
+jacobianTransformedParameters	../hazel/transforms.py	/^    def jacobianTransformedParameters(self, x):$/;"	kind:function	line:51
+l	../run/run.py	/^l = [str(leftLambda), str(rightLambda), config['general parameters']['wavelength axis'][2]]$/;"	kind:variable	line:353
+l	../runMPI/doPlot.py	/^l = f.variables['lambda'][:]$/;"	kind:variable	line:27
+labels	../runPy/test.py	/^labels = ['I\/Imax','Q\/Imax','U\/Imax','V\/Imax']$/;"	kind:variable	line:81
+labels	../runPy/weakf.py	/^labels = ['I\/Imax','Q\/Imax','U\/Imax','V\/Imax']$/;"	kind:variable	line:61
+lambda0	../run/run.py	/^lambda0 = {'10830': '10829.0911', '3889': '3888.6046', '7065': '7065.7085', '5876': '5876.9663'}$/;"	kind:variable	line:276
+lambda0	../runMPI/run.py	/^lambda0 = {'10830': '10830.0911', '3889': '3888.6046', '7065': '7065.7085', '5876': '5876.9663'}$/;"	kind:variable	line:280
+lambdaAxisInput	../runPy/test.py	/^lambdaAxisInput = np.linspace(-1.5e0,2.5e0,nLambdaInput)$/;"	kind:variable	line:20
+lambdaAxisInput	../runPy/test.py	/^lambdaAxisInput = np.linspace(-1.5e0,2.5e0,nLambdaInput)$/;"	kind:variable	line:56
+lambdaAxisInput	../runPy/weakf.py	/^lambdaAxisInput = np.linspace(-1.5e0,2.5e0,nLambdaInput)$/;"	kind:variable	line:18
+language	../docs/conf.py	/^language = None$/;"	kind:variable	line:70
+latex_documents	../docs/conf.py	/^latex_documents = [$/;"	kind:variable	line:229
+latex_elements	../docs/conf.py	/^latex_elements = {$/;"	kind:variable	line:212
+leftLambda	../run/run.py	/^leftLambda = -float(config['general parameters']['wavelength axis'][1]) * 1e8 \/ float(lambda0[config['general parameters']['multiplet']])**2$/;"	kind:variable	line:352
+libraries	../runPy/setup.py	/^                         libraries=["gfortran"],$/;"	kind:variable	line:39
+libraries	../setup.py	/^                         libraries=["gfortran"],$/;"	kind:variable	line:39
+library_dirs	../runPy/setup.py	/^                         library_dirs=get_libgfortran_dir(),$/;"	kind:variable	line:40
+library_dirs	../setup.py	/^                         library_dirs=get_libgfortran_dir(),$/;"	kind:variable	line:40
+linspace	../runPy/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2
+linspace	../src/hazel/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2
+loadConfig	../pyGUI/hazel_pyqt4.py	/^    def loadConfig(self):$/;"	kind:member	line:68
+loadConfig	../pyGUI/hazel_pyqt5.py	/^    def loadConfig(self):$/;"	kind:member	line:92
+loadObservation	../pyGUI/hazel_pyqt4.py	/^    def loadObservation(self):$/;"	kind:member	line:218
+loadObservation	../pyGUI/hazel_pyqt5.py	/^    def loadObservation(self):$/;"	kind:member	line:295
+logit	../hazel/transforms.py	/^    def logit(self, x):$/;"	kind:function	line:3
+lower_to_sep	../run/run.py	/^def lower_to_sep(string, separator='='):$/;"	kind:function	line:8
+lower_to_sep	../runMPI/run.py	/^def lower_to_sep(string, separator='='):$/;"	kind:function	line:8
+magoptInput	../runPy/test.py	/^magoptInput = 1$/;"	kind:variable	line:17
+magoptInput	../runPy/test.py	/^magoptInput = 1$/;"	kind:variable	line:53
+magoptInput	../runPy/weakf.py	/^magoptInput = 1$/;"	kind:variable	line:15
+main	../pyGUI/hazel_pyqt4.py	/^def main():$/;"	kind:function	line:1404
+main	../pyGUI/hazel_pyqt5.py	/^def main():$/;"	kind:function	line:1716
+man_pages	../docs/conf.py	/^man_pages = [$/;"	kind:variable	line:259
+master_doc	../docs/conf.py	/^master_doc = 'index'$/;"	kind:variable	line:49
+matplotlib	../pyGUI/hazel_pyqt4.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:11
+matplotlib	../pyGUI/hazel_pyqt5.py	/^import matplotlib$/;"	kind:namespace	line:1
+matplotlib	../pyGUI/hazel_pyqt5.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:21
+matplotlib	../runMPI/doPlot.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:2
+matplotlib	../runMPI/readResults.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:2
+matplotlib	../runPy/test.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+matplotlib	../runPy/weakf.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+method	../run/run.py	/^method = {'DIRECT': '2', 'LM': '1'}$/;"	kind:variable	line:186
+method	../runMPI/run.py	/^method = {'DIRECT': '2', 'LM': '1'}$/;"	kind:variable	line:190
+mousePressEvent	../pyGUI/hazel_pyqt5.py	/^    def mousePressEvent(self, ev):$/;"	kind:member	line:60
+mouseReleaseEvent	../pyGUI/hazel_pyqt4.py	/^    def mouseReleaseEvent(self, ev):$/;"	kind:member	line:39
+multiplets	../run/run.py	/^multiplets = {'10830': '1', '3889': '2', '7065': '3', '5876': '4'}$/;"	kind:variable	line:275
+multiplets	../runMPI/run.py	/^multiplets = {'10830': '1', '3889': '2', '7065': '3', '5876': '4'}$/;"	kind:variable	line:279
+myWindow	../pyGUI/hazel_old.py	/^	myWindow = MyWindowClass(None)$/;"	kind:variable	line:29
+n	../runPy/weakf.py	/^n = 20$/;"	kind:variable	line:37
+nLambdaInput	../runPy/test.py	/^nLambdaInput = 128$/;"	kind:variable	line:55
+nLambdaInput	../runPy/test.py	/^nLambdaInput = 228$/;"	kind:variable	line:19
+nLambdaInput	../runPy/weakf.py	/^nLambdaInput = 150$/;"	kind:variable	line:17
+nSlabs	../run/run.py	/^	nSlabs = 1$/;"	kind:variable	line:278
+nSlabs	../run/run.py	/^	nSlabs = 2$/;"	kind:variable	line:280
+nSlabs	../runMPI/run.py	/^	nSlabs = 1$/;"	kind:variable	line:282
+nSlabs	../runMPI/run.py	/^	nSlabs = 2$/;"	kind:variable	line:284
+nSlabsInput	../runPy/test.py	/^nSlabsInput = -2$/;"	kind:variable	line:45
+nSlabsInput	../runPy/test.py	/^nSlabsInput = 3$/;"	kind:variable	line:9
+nSlabsInput	../runPy/weakf.py	/^nSlabsInput = 1$/;"	kind:variable	line:7
+nbarInput	../runPy/test.py	/^nbarInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:29
+nbarInput	../runPy/test.py	/^nbarInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:65
+nbarInput	../runPy/weakf.py	/^nbarInput = np.asarray([0.1,0.1,0.1,0.1])$/;"	kind:variable	line:27
+netcdf	../pyRoutines/genNetCDF.py	/^from scipy.io import netcdf$/;"	kind:namespace	line:2
+netcdf	../runMPI/readResults.py	/^from scipy.io import netcdf$/;"	kind:namespace	line:3
+normalization	../runPy/test.py	/^normalization = 0$/;"	kind:variable	line:31
+normalization	../runPy/test.py	/^normalization = 0$/;"	kind:variable	line:67
+normalization	../runPy/weakf.py	/^normalization = 0$/;"	kind:variable	line:29
+np	../hazel/transforms.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../pyGUI/hazel.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../pyGUI/hazel_pyqt4.py	/^import numpy as np$/;"	kind:namespace	line:2
+np	../pyGUI/hazel_pyqt5.py	/^import numpy as np$/;"	kind:namespace	line:6
+np	../pyGUI/i0Allen.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../pyRoutines/angle_transformation.py	/^import numpy as np$/;"	kind:namespace	line:2
+np	../pyRoutines/genNetCDF.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../pyRoutines/i0Allen.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../runMPI/allsols.py	/^import numpy as np$/;"	kind:namespace	line:4
+np	../runMPI/doPlot.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../runMPI/readResults.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../runPy/hazel.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../runPy/test.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../runPy/weakf.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	../src/sir/pysir.pyx	/^import numpy as np$/;"	kind:namespace	line:3
+obs	../runMPI/doPlot.py	/^obs = f.variables['map'][:]$/;"	kind:variable	line:26
+omegaInput	../runPy/test.py	/^omegaInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:30
+omegaInput	../runPy/test.py	/^omegaInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:66
+omegaInput	../runPy/weakf.py	/^omegaInput = np.asarray([0.21,0.1,0.1,0.1])$/;"	kind:variable	line:28
+onChangeI0	../pyGUI/hazel_pyqt4.py	/^    def onChangeI0(self):        $/;"	kind:member	line:590
+onChangeI0	../pyGUI/hazel_pyqt5.py	/^    def onChangeI0(self):        $/;"	kind:member	line:792
+onChangeQ0	../pyGUI/hazel_pyqt4.py	/^    def onChangeQ0(self):     $/;"	kind:member	line:593
+onChangeQ0	../pyGUI/hazel_pyqt5.py	/^    def onChangeQ0(self):     $/;"	kind:member	line:795
+onChangeSlabs	../pyGUI/hazel_pyqt4.py	/^    def onChangeSlabs(self):$/;"	kind:member	line:623
+onChangeU0	../pyGUI/hazel_pyqt4.py	/^    def onChangeU0(self):     $/;"	kind:member	line:596
+onChangeU0	../pyGUI/hazel_pyqt5.py	/^    def onChangeU0(self):     $/;"	kind:member	line:798
+onChangeV0	../pyGUI/hazel_pyqt4.py	/^    def onChangeV0(self):     $/;"	kind:member	line:599
+onChangeV0	../pyGUI/hazel_pyqt5.py	/^    def onChangeV0(self):     $/;"	kind:member	line:801
+onChangeleftWave	../pyGUI/hazel_pyqt4.py	/^    def onChangeleftWave(self):$/;"	kind:member	line:602
+onChangeleftWave	../pyGUI/hazel_pyqt5.py	/^    def onChangeleftWave(self):$/;"	kind:member	line:804
+onChangenSlabs	../pyGUI/hazel_pyqt4.py	/^    def onChangenSlabs(self, index):$/;"	kind:member	line:614
+onChangenSlabs	../pyGUI/hazel_pyqt5.py	/^    def onChangenSlabs(self, index):$/;"	kind:member	line:816
+onChangerightWave	../pyGUI/hazel_pyqt4.py	/^    def onChangerightWave(self):$/;"	kind:member	line:606
+onChangerightWave	../pyGUI/hazel_pyqt5.py	/^    def onChangerightWave(self):$/;"	kind:member	line:808
+onChangestepWave	../pyGUI/hazel_pyqt4.py	/^    def onChangestepWave(self):$/;"	kind:member	line:610
+onChangestepWave	../pyGUI/hazel_pyqt5.py	/^    def onChangestepWave(self):$/;"	kind:member	line:812
+onCheckAllen	../pyGUI/hazel_pyqt4.py	/^    def onCheckAllen(self, state):$/;"	kind:member	line:570
+onCheckAllen	../pyGUI/hazel_pyqt5.py	/^    def onCheckAllen(self, state):$/;"	kind:member	line:767
+onClickCanvas	../pyGUI/hazel_pyqt5.py	/^    def onClickCanvas(self, event):$/;"	kind:member	line:825
+onRadioAtompol	../pyGUI/hazel_pyqt4.py	/^    def onRadioAtompol(self):$/;"	kind:member	line:554
+onRadioAtompol	../pyGUI/hazel_pyqt5.py	/^    def onRadioAtompol(self):$/;"	kind:member	line:752
+onRadioExact	../pyGUI/hazel_pyqt4.py	/^    def onRadioExact(self):     $/;"	kind:member	line:549
+onRadioExact	../pyGUI/hazel_pyqt5.py	/^    def onRadioExact(self):     $/;"	kind:member	line:747
+onRadioMaxNorm	../pyGUI/hazel_pyqt4.py	/^    def onRadioMaxNorm(self):$/;"	kind:member	line:560
+onRadioMaxNorm	../pyGUI/hazel_pyqt5.py	/^    def onRadioMaxNorm(self):$/;"	kind:member	line:758
+onRadioPeakNorm	../pyGUI/hazel_pyqt4.py	/^    def onRadioPeakNorm(self):$/;"	kind:member	line:565
+onRadioPeakNorm	../pyGUI/hazel_pyqt5.py	/^    def onRadioPeakNorm(self):$/;"	kind:member	line:763
+onRadioThin	../pyGUI/hazel_pyqt4.py	/^    def onRadioThin(self):     $/;"	kind:member	line:544
+onRadioThin	../pyGUI/hazel_pyqt5.py	/^    def onRadioThin(self):     $/;"	kind:member	line:742
+onSliderB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderB1(self):$/;"	kind:member	line:230
+onSliderB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderB1(self):$/;"	kind:member	line:307
+onSliderB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderB2(self):$/;"	kind:member	line:327
+onSliderB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderB2(self):$/;"	kind:member	line:464
+onSliderDamp	../pyGUI/hazel_pyqt4.py	/^    def onSliderDamp(self):$/;"	kind:member	line:484
+onSliderDamp	../pyGUI/hazel_pyqt5.py	/^    def onSliderDamp(self):$/;"	kind:member	line:681
+onSliderGamma	../pyGUI/hazel_pyqt4.py	/^    def onSliderGamma(self):$/;"	kind:member	line:456
+onSliderGamma	../pyGUI/hazel_pyqt5.py	/^    def onSliderGamma(self):$/;"	kind:member	line:653
+onSliderHeight	../pyGUI/hazel_pyqt4.py	/^    def onSliderHeight(self):$/;"	kind:member	line:470
+onSliderHeight	../pyGUI/hazel_pyqt5.py	/^    def onSliderHeight(self):$/;"	kind:member	line:667
+onSliderLeftB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderLeftB1(self):$/;"	kind:member	line:235
+onSliderLeftB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftB1(self):$/;"	kind:member	line:312
+onSliderLeftB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderLeftB2(self):$/;"	kind:member	line:332
+onSliderLeftB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftB2(self):$/;"	kind:member	line:469
+onSliderLeftphiB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftphiB1(self):$/;"	kind:member	line:364
+onSliderLeftphiB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftphiB2(self):$/;"	kind:member	line:521
+onSliderLefttau1	../pyGUI/hazel_pyqt5.py	/^    def onSliderLefttau1(self):$/;"	kind:member	line:443
+onSliderLefttau2	../pyGUI/hazel_pyqt5.py	/^    def onSliderLefttau2(self):$/;"	kind:member	line:599
+onSliderLeftthB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftthB1(self):$/;"	kind:member	line:338
+onSliderLeftthB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftthB2(self):$/;"	kind:member	line:495
+onSliderLeftvB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftvB1(self):$/;"	kind:member	line:417
+onSliderLeftvB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftvB2(self):$/;"	kind:member	line:573
+onSliderLeftvthB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftvthB1(self):$/;"	kind:member	line:391
+onSliderLeftvthB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderLeftvthB2(self):$/;"	kind:member	line:547
+onSliderPhi	../pyGUI/hazel_pyqt4.py	/^    def onSliderPhi(self):$/;"	kind:member	line:442
+onSliderPhi	../pyGUI/hazel_pyqt5.py	/^    def onSliderPhi(self):$/;"	kind:member	line:639
+onSliderRightB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderRightB1(self):$/;"	kind:member	line:241
+onSliderRightB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightB1(self):$/;"	kind:member	line:318
+onSliderRightB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderRightB2(self):$/;"	kind:member	line:338
+onSliderRightB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightB2(self):$/;"	kind:member	line:475
+onSliderRightphiB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightphiB1(self):$/;"	kind:member	line:370
+onSliderRightphiB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightphiB2(self):$/;"	kind:member	line:527
+onSliderRighttau1	../pyGUI/hazel_pyqt5.py	/^    def onSliderRighttau1(self):$/;"	kind:member	line:449
+onSliderRighttau2	../pyGUI/hazel_pyqt5.py	/^    def onSliderRighttau2(self):$/;"	kind:member	line:605
+onSliderRightthB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightthB1(self):$/;"	kind:member	line:344
+onSliderRightthB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightthB2(self):$/;"	kind:member	line:501
+onSliderRightvB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightvB1(self):$/;"	kind:member	line:423
+onSliderRightvB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightvB2(self):$/;"	kind:member	line:579
+onSliderRightvthB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightvthB1(self):$/;"	kind:member	line:397
+onSliderRightvthB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderRightvthB2(self):$/;"	kind:member	line:553
+onSliderS2S1	../pyGUI/hazel_pyqt4.py	/^    def onSliderS2S1(self):        $/;"	kind:member	line:512
+onSliderS2S1	../pyGUI/hazel_pyqt5.py	/^    def onSliderS2S1(self):        $/;"	kind:member	line:709
+onSliderS2S1B	../pyGUI/hazel_pyqt4.py	/^    def onSliderS2S1B(self):        $/;"	kind:member	line:526
+onSliderS2S1B	../pyGUI/hazel_pyqt5.py	/^    def onSliderS2S1B(self):        $/;"	kind:member	line:723
+onSliderTheta	../pyGUI/hazel_pyqt4.py	/^    def onSliderTheta(self):$/;"	kind:member	line:423
+onSliderTheta	../pyGUI/hazel_pyqt5.py	/^    def onSliderTheta(self):$/;"	kind:member	line:620
+onSliderValueB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueB1(self):$/;"	kind:member	line:247
+onSliderValueB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueB1(self):$/;"	kind:member	line:324
+onSliderValueB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueB2(self):$/;"	kind:member	line:344
+onSliderValueB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueB2(self):$/;"	kind:member	line:481
+onSliderValueDamp	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueDamp(self):$/;"	kind:member	line:489
+onSliderValueDamp	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueDamp(self):$/;"	kind:member	line:686
+onSliderValueGamma	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueGamma(self):$/;"	kind:member	line:461
+onSliderValueGamma	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueGamma(self):$/;"	kind:member	line:658
+onSliderValueHeight	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueHeight(self):$/;"	kind:member	line:475
+onSliderValueHeight	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueHeight(self):$/;"	kind:member	line:672
+onSliderValuePhi	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuePhi(self):$/;"	kind:member	line:447
+onSliderValuePhi	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuePhi(self):$/;"	kind:member	line:644
+onSliderValueS2S1	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueS2S1(self):$/;"	kind:member	line:517
+onSliderValueS2S1	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueS2S1(self):$/;"	kind:member	line:714
+onSliderValueS2S1B	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueS2S1B(self):$/;"	kind:member	line:531
+onSliderValueS2S1B	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueS2S1B(self):$/;"	kind:member	line:728
+onSliderValueTheta	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueTheta(self):$/;"	kind:member	line:433
+onSliderValueTheta	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueTheta(self):$/;"	kind:member	line:630
+onSliderValueff	../pyGUI/hazel_pyqt4.py	/^    def onSliderValueff(self):$/;"	kind:member	line:503
+onSliderValueff	../pyGUI/hazel_pyqt5.py	/^    def onSliderValueff(self):$/;"	kind:member	line:700
+onSliderValuephiB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuephiB1(self):$/;"	kind:member	line:275
+onSliderValuephiB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuephiB1(self):$/;"	kind:member	line:376
+onSliderValuephiB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuephiB2(self):$/;"	kind:member	line:372
+onSliderValuephiB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuephiB2(self):$/;"	kind:member	line:533
+onSliderValuetau1	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuetau1(self):$/;"	kind:member	line:318
+onSliderValuetau1	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuetau1(self):$/;"	kind:member	line:455
+onSliderValuetau2	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuetau2(self):$/;"	kind:member	line:414
+onSliderValuetau2	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuetau2(self):$/;"	kind:member	line:611
+onSliderValuethB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuethB1(self):$/;"	kind:member	line:261
+onSliderValuethB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuethB1(self):$/;"	kind:member	line:350
+onSliderValuethB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuethB2(self):$/;"	kind:member	line:358
+onSliderValuethB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuethB2(self):$/;"	kind:member	line:507
+onSliderValuevB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuevB1(self):$/;"	kind:member	line:304
+onSliderValuevB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuevB1(self):$/;"	kind:member	line:429
+onSliderValuevB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuevB2(self):$/;"	kind:member	line:400
+onSliderValuevB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuevB2(self):$/;"	kind:member	line:585
+onSliderValuevthB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuevthB1(self):$/;"	kind:member	line:290
+onSliderValuevthB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuevthB1(self):$/;"	kind:member	line:403
+onSliderValuevthB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderValuevthB2(self):$/;"	kind:member	line:386
+onSliderValuevthB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderValuevthB2(self):$/;"	kind:member	line:559
+onSliderff	../pyGUI/hazel_pyqt4.py	/^    def onSliderff(self):$/;"	kind:member	line:498
+onSliderff	../pyGUI/hazel_pyqt5.py	/^    def onSliderff(self):$/;"	kind:member	line:695
+onSlidermultiplet	../pyGUI/hazel_pyqt4.py	/^    def onSlidermultiplet(self):     $/;"	kind:member	line:540
+onSlidermultiplet	../pyGUI/hazel_pyqt5.py	/^    def onSlidermultiplet(self):     $/;"	kind:member	line:737
+onSliderphiB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderphiB1(self):$/;"	kind:member	line:270
+onSliderphiB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderphiB1(self):$/;"	kind:member	line:359
+onSliderphiB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderphiB2(self):$/;"	kind:member	line:367
+onSliderphiB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderphiB2(self):$/;"	kind:member	line:516
+onSlidertau1	../pyGUI/hazel_pyqt4.py	/^    def onSlidertau1(self):$/;"	kind:member	line:313
+onSlidertau1	../pyGUI/hazel_pyqt5.py	/^    def onSlidertau1(self):$/;"	kind:member	line:438
+onSlidertau2	../pyGUI/hazel_pyqt4.py	/^    def onSlidertau2(self):$/;"	kind:member	line:409
+onSlidertau2	../pyGUI/hazel_pyqt5.py	/^    def onSlidertau2(self):$/;"	kind:member	line:594
+onSliderthB1	../pyGUI/hazel_pyqt4.py	/^    def onSliderthB1(self):$/;"	kind:member	line:256
+onSliderthB1	../pyGUI/hazel_pyqt5.py	/^    def onSliderthB1(self):$/;"	kind:member	line:333
+onSliderthB2	../pyGUI/hazel_pyqt4.py	/^    def onSliderthB2(self):$/;"	kind:member	line:353
+onSliderthB2	../pyGUI/hazel_pyqt5.py	/^    def onSliderthB2(self):$/;"	kind:member	line:490
+onSlidervB1	../pyGUI/hazel_pyqt4.py	/^    def onSlidervB1(self):$/;"	kind:member	line:299
+onSlidervB1	../pyGUI/hazel_pyqt5.py	/^    def onSlidervB1(self):$/;"	kind:member	line:412
+onSlidervB2	../pyGUI/hazel_pyqt4.py	/^    def onSlidervB2(self):$/;"	kind:member	line:395
+onSlidervB2	../pyGUI/hazel_pyqt5.py	/^    def onSlidervB2(self):$/;"	kind:member	line:568
+onSlidervthB1	../pyGUI/hazel_pyqt4.py	/^    def onSlidervthB1(self):$/;"	kind:member	line:285
+onSlidervthB1	../pyGUI/hazel_pyqt5.py	/^    def onSlidervthB1(self):$/;"	kind:member	line:386
+onSlidervthB2	../pyGUI/hazel_pyqt4.py	/^    def onSlidervthB2(self):$/;"	kind:member	line:381
+onSlidervthB2	../pyGUI/hazel_pyqt5.py	/^    def onSlidervthB2(self):$/;"	kind:member	line:542
+on_about	../pyGUI/hazel_pyqt4.py	/^    def on_about(self):$/;"	kind:member	line:155
+on_about	../pyGUI/hazel_pyqt5.py	/^    def on_about(self):$/;"	kind:member	line:182
+on_decreasefont	../pyGUI/hazel_pyqt4.py	/^    def on_decreasefont(self):$/;"	kind:member	line:1332
+on_decreasefont	../pyGUI/hazel_pyqt5.py	/^    def on_decreasefont(self):$/;"	kind:member	line:1642
+on_increasefont	../pyGUI/hazel_pyqt4.py	/^    def on_increasefont(self):$/;"	kind:member	line:1326
+on_increasefont	../pyGUI/hazel_pyqt5.py	/^    def on_increasefont(self):$/;"	kind:member	line:1636
+os	../docs/conf.py	/^import os$/;"	kind:namespace	line:17
+os	../pyGUI/hazel_pyqt4.py	/^import os.path$/;"	kind:namespace	line:9
+os	../pyGUI/hazel_pyqt4.py	/^import sys, os, random$/;"	kind:namespace	line:1
+os	../pyGUI/hazel_pyqt5.py	/^import os.path$/;"	kind:namespace	line:18
+os	../pyGUI/hazel_pyqt5.py	/^import sys, os, random$/;"	kind:namespace	line:5
+os	../run/run.py	/^import os$/;"	kind:namespace	line:5
+os	../runMPI/run.py	/^import os$/;"	kind:namespace	line:5
+os	../runPy/clean.py	/^import os$/;"	kind:namespace	line:1
+os	../runPy/setup.py	/^import os$/;"	kind:namespace	line:9
+os	../setup.py	/^import os$/;"	kind:namespace	line:9
+out	../runPy/test.py	/^out = hazel()$/;"	kind:variable	line:6
+path	../pyGUI/hazel_pyqt4.py	/^import os.path$/;"	kind:namespace	line:9
+path	../pyGUI/hazel_pyqt5.py	/^import os.path$/;"	kind:namespace	line:18
+pdb	../runMPI/allsols.py	/^import pdb$/;"	kind:namespace	line:5
+physical_to_transformed	../hazel/transforms.py	/^    def physical_to_transformed(self, x):$/;"	kind:function	line:27
+pickle	../pyGUI/hazel_pyqt4.py	/^import pickle$/;"	kind:namespace	line:8
+pickle	../pyGUI/hazel_pyqt5.py	/^import pickle$/;"	kind:namespace	line:17
+pl	../pyGUI/hazel_pyqt4.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:11
+pl	../pyGUI/hazel_pyqt5.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:21
+pl	../runMPI/doPlot.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:2
+pl	../runMPI/readResults.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:2
+pl	../runPy/test.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+pl	../runPy/weakf.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
+print_function	../run/run.py	/^from __future__ import print_function$/;"	kind:namespace	line:2
+print_function	../runMPI/run.py	/^from __future__ import print_function$/;"	kind:namespace	line:2
+print_function	../runPy/setup.py	/^from __future__ import print_function$/;"	kind:namespace	line:1
+print_function	../setup.py	/^from __future__ import print_function$/;"	kind:namespace	line:1
+project	../docs/conf.py	/^project = 'Hazel'$/;"	kind:variable	line:52
+pygments_style	../docs/conf.py	/^pygments_style = 'sphinx'$/;"	kind:variable	line:98
+pyhazel	../pyGUI/hazel.py	/^import pyhazel$/;"	kind:namespace	line:2
+pyhazel	../pyGUI/hazel_pyqt4.py	/^import pyhazel$/;"	kind:namespace	line:6
+pyhazel	../runPy/hazel.py	/^import pyhazel$/;"	kind:namespace	line:2
+pyhazel	../runPy/weakf.py	/^import pyhazel$/;"	kind:namespace	line:2
+pyhazel.pyx	../runPy/pyhazel.pyx	1;"	kind:file	line:1
+pyhazel.pyx	../src/hazel/pyhazel.pyx	1;"	kind:file	line:1
+pysir.pyx	../src/sir/pysir.pyx	1;"	kind:file	line:1
+random	../pyGUI/hazel_pyqt4.py	/^import sys, os, random$/;"	kind:namespace	line:1
+random	../pyGUI/hazel_pyqt5.py	/^import sys, os, random$/;"	kind:namespace	line:5
+readResults	../runMPI/doPlot.py	/^def readResults(rootFile):$/;"	kind:function	line:5
+readResults	../runMPI/readResults.py	/^def readResults(rootFile):$/;"	kind:function	line:5
+readResults.py	../runMPI/readResults.py	1;"	kind:file	line:1
+redrawProfiles	../pyGUI/hazel_pyqt4.py	/^    def redrawProfiles(self):$/;"	kind:member	line:197
+redrawProfiles	../pyGUI/hazel_pyqt5.py	/^    def redrawProfiles(self):$/;"	kind:member	line:224
+release	../docs/conf.py	/^release = '1.0'$/;"	kind:variable	line:63
+resetObservation	../pyGUI/hazel_pyqt4.py	/^    def resetObservation(self):$/;"	kind:member	line:224
+resetObservation	../pyGUI/hazel_pyqt5.py	/^    def resetObservation(self):$/;"	kind:member	line:301
+rightClicked	../pyGUI/hazel_pyqt5.py	/^    rightClicked = pyqtSignal()$/;"	kind:variable	line:58
+rightLambda	../run/run.py	/^rightLambda = -float(config['general parameters']['wavelength axis'][0]) * 1e8 \/ float(lambda0[config['general parameters']['multiplet']])**2$/;"	kind:variable	line:351
+run.py	../run/run.py	1;"	kind:file	line:1
+run.py	../runMPI/run.py	1;"	kind:file	line:1
+saveConfig	../pyGUI/hazel_pyqt4.py	/^    def saveConfig(self):$/;"	kind:member	line:56
+saveConfig	../pyGUI/hazel_pyqt5.py	/^    def saveConfig(self):$/;"	kind:member	line:80
+save_profiles	../pyGUI/hazel_pyqt5.py	/^    def save_profiles(self):$/;"	kind:member	line:258
+scipy	../runMPI/doPlot.py	/^import scipy.io as io$/;"	kind:namespace	line:3
+setMaximum	../pyGUI/hazel_pyqt4.py	/^    def setMaximum(self, value):$/;"	kind:member	line:28
+setMaximum	../pyGUI/hazel_pyqt5.py	/^    def setMaximum(self, value):$/;"	kind:member	line:38
+setMinimum	../pyGUI/hazel_pyqt4.py	/^    def setMinimum(self, value):$/;"	kind:member	line:25
+setMinimum	../pyGUI/hazel_pyqt5.py	/^    def setMinimum(self, value):$/;"	kind:member	line:35
+setMultitermHe	../pyGUI/hazel_pyqt4.py	/^    def setMultitermHe(self):$/;"	kind:member	line:1320
+setMultitermHe	../pyGUI/hazel_pyqt5.py	/^    def setMultitermHe(self):$/;"	kind:member	line:1630
+setMultitermNa	../pyGUI/hazel_pyqt4.py	/^    def setMultitermNa(self):$/;"	kind:member	line:1323
+setMultitermNa	../pyGUI/hazel_pyqt5.py	/^    def setMultitermNa(self):$/;"	kind:member	line:1633
+setPSF	../src/sir/pysir.pyx	/^def setPSF(ar[float, ndim=1] xPSF, ar[float, ndim=1] yPSF):$/;"	kind:function	line:26
+setValue	../pyGUI/hazel_pyqt4.py	/^    def setValue(self, value):$/;"	kind:member	line:31
+setValue	../pyGUI/hazel_pyqt5.py	/^    def setValue(self, value):$/;"	kind:member	line:41
+setup	../runPy/setup.py	/^from distutils.core import setup$/;"	kind:namespace	line:2
+setup	../setup.py	/^from distutils.core import setup$/;"	kind:namespace	line:2
+setup.py	../runPy/setup.py	1;"	kind:file	line:1
+setup.py	../setup.py	1;"	kind:file	line:1
+sky_to_absolute	../pyRoutines/angle_transformation.py	/^def sky_to_absolute(thetaSky, chiSky):$/;"	kind:function	line:33
+sky_to_absolute_general	../pyRoutines/angle_transformation.py	/^def sky_to_absolute_general(theta, thetaSky, chiSky):$/;"	kind:function	line:86
+slabs	../run/run.py	/^slabs = {'1': '1', '1+1': '2', '1+1B': '3', '2': '-2'}$/;"	kind:variable	line:274
+slabs	../runMPI/run.py	/^slabs = {'1': '1', '1+1': '2', '1+1B': '3', '2': '-2'}$/;"	kind:variable	line:278
+sol	../runMPI/allsols.py	/^sol = all_solutions(0.75073, -0.10625, 7e-4)$/;"	kind:variable	line:42
+source_suffix	../docs/conf.py	/^source_suffix = '.rst'$/;"	kind:variable	line:43
+sphinx_rtd_theme	../docs/conf.py	/^import sphinx_rtd_theme$/;"	kind:namespace	line:18
+stokesI	../runPy/weakf.py	/^	stokesI = stokes[0,80:]$/;"	kind:variable	line:48
+stokesV	../runPy/weakf.py	/^	stokesV = stokes[3,80:]$/;"	kind:variable	line:49
+stop	../pyGUI/hazel_pyqt4.py	/^from ipdb import set_trace as stop$/;"	kind:namespace	line:7
+stop	../pyGUI/hazel_pyqt5.py	/^from ipdb import set_trace as stop$/;"	kind:namespace	line:13
+stop	../runPy/weakf.py	/^from ipdb import set_trace as stop$/;"	kind:namespace	line:4
+synModeInput	../runPy/test.py	/^synModeInput = 5$/;"	kind:variable	line:44
+synModeInput	../runPy/test.py	/^synModeInput = 5$/;"	kind:variable	line:8
+synModeInput	../runPy/weakf.py	/^synModeInput = 5$/;"	kind:variable	line:6
+synth	../pyGUI/hazel.py	/^    def synth(self, *args):     $/;"	kind:member	line:20
+synth	../runPy/hazel.py	/^    def synth(self, *args):     $/;"	kind:member	line:20
+synth	../src/sir/pysir.pyx	/^def synth(ar[float, ndim=2] modelIn, float macroturbulence, float filling, float stray):$/;"	kind:function	line:34
+synthRF	../src/sir/pysir.pyx	/^def synthRF(ar[float, ndim=2] modelIn, float macroturbulence, float filling, float stray):$/;"	kind:function	line:49
+synth_RF	../pyGUI/hazel.py	/^    def synth_RF(self, paramsRF, perturbation=1e-3, *args):$/;"	kind:member	line:111
+synth_RF	../runPy/hazel.py	/^    def synth_RF(self, paramsRF, perturbation=1e-3, *args):$/;"	kind:member	line:111
+sys	../docs/conf.py	/^import sys$/;"	kind:namespace	line:16
+sys	../pyGUI/hazel_old.py	/^import sys$/;"	kind:namespace	line:1
+sys	../pyGUI/hazel_pyqt4.py	/^import sys, os, random$/;"	kind:namespace	line:1
+sys	../pyGUI/hazel_pyqt5.py	/^import sys, os, random$/;"	kind:namespace	line:5
+sys	../run/run.py	/^import sys$/;"	kind:namespace	line:4
+sys	../runMPI/run.py	/^import sys$/;"	kind:namespace	line:4
+system	../runPy/setup.py	/^from os import system$/;"	kind:namespace	line:7
+system	../setup.py	/^from os import system$/;"	kind:namespace	line:7
+tau1Input	../runPy/test.py	/^tau1Input = 1.e0$/;"	kind:variable	line:13
+tau1Input	../runPy/test.py	/^tau1Input = 1.e0$/;"	kind:variable	line:49
+tau1Input	../runPy/weakf.py	/^tau1Input = 1.e0$/;"	kind:variable	line:11
+tau2Input	../runPy/test.py	/^tau2Input = 1.e0$/;"	kind:variable	line:14
+tau2Input	../runPy/test.py	/^tau2Input = 1.e0$/;"	kind:variable	line:50
+tau2Input	../runPy/weakf.py	/^tau2Input = 0.e0$/;"	kind:variable	line:12
+templates_path	../docs/conf.py	/^templates_path = ['_templates']$/;"	kind:variable	line:38
+test.py	../runPy/test.py	1;"	kind:file	line:1
+texinfo_documents	../docs/conf.py	/^texinfo_documents = [$/;"	kind:variable	line:273
+time	../runPy/test.py	/^import time$/;"	kind:namespace	line:4
+todo_include_todos	../docs/conf.py	/^todo_include_todos = False$/;"	kind:variable	line:107
+transInput	../runPy/test.py	/^transInput = 1$/;"	kind:variable	line:15
+transInput	../runPy/test.py	/^transInput = 1$/;"	kind:variable	line:51
+transInput	../runPy/weakf.py	/^transInput = 1$/;"	kind:variable	line:13
+transformed_to_physical	../hazel/transforms.py	/^    def transformed_to_physical(self, x):$/;"	kind:function	line:39
+transforms.py	../hazel/transforms.py	1;"	kind:file	line:1
+uic	../pyGUI/hazel_old.py	/^from PyQt4 import QtCore, QtGui, uic$/;"	kind:namespace	line:2
+unique	../runMPI/allsols.py	/^def unique(a, precision):$/;"	kind:function	line:7
+value	../pyGUI/hazel_pyqt4.py	/^    def value(self):$/;"	kind:member	line:22
+value	../pyGUI/hazel_pyqt5.py	/^    def value(self):$/;"	kind:member	line:32
+version	../docs/conf.py	/^version = '1.0'$/;"	kind:variable	line:61
+weakf.py	../runPy/weakf.py	1;"	kind:file	line:1
+yesno	../run/run.py	/^yesno = {'yes': '1', 'no': '0'}$/;"	kind:variable	line:273
+yesno	../runMPI/run.py	/^yesno = {'yes': '1', 'no': '0'}$/;"	kind:variable	line:277
+zeros	../runPy/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2
+zeros	../src/hazel/pyhazel.pyx	/^from numpy import empty, linspace, zeros, array$/;"	kind:namespace	line:2

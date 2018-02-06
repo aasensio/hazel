@@ -92,11 +92,11 @@ magoptInput	../weakf.py	/^magoptInput = 1$/;"	kind:variable	line:15
 matplotlib	../test.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
 matplotlib	../weakf.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:3
 n	../weakf.py	/^n = 20$/;"	kind:variable	line:37
-nLambdaInput	../test.py	/^nLambdaInput = 128$/;"	kind:variable	line:19
 nLambdaInput	../test.py	/^nLambdaInput = 128$/;"	kind:variable	line:55
+nLambdaInput	../test.py	/^nLambdaInput = 228$/;"	kind:variable	line:19
 nLambdaInput	../weakf.py	/^nLambdaInput = 150$/;"	kind:variable	line:17
-nSlabsInput	../test.py	/^nSlabsInput = 2$/;"	kind:variable	line:9
-nSlabsInput	../test.py	/^nSlabsInput = 3$/;"	kind:variable	line:45
+nSlabsInput	../test.py	/^nSlabsInput = -2$/;"	kind:variable	line:45
+nSlabsInput	../test.py	/^nSlabsInput = 3$/;"	kind:variable	line:9
 nSlabsInput	../weakf.py	/^nSlabsInput = 1$/;"	kind:variable	line:7
 nbarInput	../test.py	/^nbarInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:29
 nbarInput	../test.py	/^nbarInput = np.asarray([0.0,0.0,0.0,0.0])$/;"	kind:variable	line:65
