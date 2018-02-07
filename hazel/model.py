@@ -1,4 +1,5 @@
 from .atmosphere import Hazel_atmosphere, SIR_atmosphere, Parametric_atmosphere
+from .configuration import Configuration
 from collections import OrderedDict
 from . import pyhazel
 from .spectrum import Spectrum
@@ -8,19 +9,85 @@ from ipdb import set_trace as stop
 __all__ = ['Model']
 
 class Model(object):
-    def __init__(self):
+    def __init__(self, config=None):
         
         self.photospheres = []
         self.chromospheres = []
         self.chromospheres_order = []
+        self.atmospheres = {}
+        self.order_atmospheres = []
         self.stray = []
         self.parametric = []
         self.spectrum = []
+        self.configuration = None
+
+        if (config is not None):
+            self.configuration = Configuration(config)
+            self.use_configuration(self.configuration.config_dict)
 
         # Initialize pyhazel
         pyhazel._init()
 
-    def add_atmospheres(self, atmospheres, order=None):
+    def use_configuration(self, config_dict):
+
+        # Deal with the spectral regions        
+        tmp = config_dict['spectral regions']
+
+        self.verbose = bool(config_dict['working mode']['verbose'])
+
+        spec = {}
+
+        for key, value in tmp.items():
+            axis = value['lower, upper, n. wavelengths']
+            wvl = np.linspace(float(axis[0]), float(axis[1]), int(axis[2]))
+            spec[value['name']] = Spectrum(wvl)
+        
+        spec_list = [v for k, v in spec.items()]
+
+        self.add_spectrum(spec)
+
+        # Deal with the atmospheres
+        tmp = config_dict['atmospheres']
+
+        self.atmospheres = {}
+
+        for key, value in tmp.items():
+            if ('photosphere' in key):
+                if (self.verbose):
+                    print("Adding photosphere : {0}".format(value['name']))
+                self.atmospheres[value['name']] = SIR_atmosphere()
+                lines = [int(k) for k in list(value['spectral lines'])]
+                wvl_range = [float(k) for k in value['wavelength range']]
+                            
+                self.atmospheres[value['name']].add_active_line(lines=lines, spectrum=spec[value['spectral region']], wvl_range=np.array(wvl_range))
+                self.atmospheres[value['name']].load_model(value['input model'])
+                
+            
+            if ('chromosphere' in key):
+                if (self.verbose):
+                    print("Adding chromosphere : {0}".format(value['name']))
+                    self.atmospheres[value['name']] = Hazel_atmosphere()
+                    
+                    wvl_range = [float(k) for k in value['wavelength range']]
+
+                    self.atmospheres[value['name']].add_active_line(line=value['line'], spectrum=spec[value['spectral region']], wvl_range=np.array(wvl_range))
+
+                    # Set values of parameters
+                    self.atmospheres[value['name']].parameters['h'] = float(value['height'])
+                    for k, v in value['parameters'].items():
+                        for k2, v2 in self.atmospheres[value['name']].parameters.items():
+                            if (k.lower() == k2.lower()):
+                                self.atmospheres[value['name']].parameters[k2] = float(v)
+
+        tmp = config_dict['topology']
+        for key, value in tmp.items():
+            self.add_atmospheres(value)
+
+
+        self.initialize_ff()
+
+
+    def add_atmospheres(self, atmosphere_order):
         """
         Add a new photosphere to the model. They will be added with filling factors
 
@@ -38,51 +105,42 @@ class Model(object):
 
         """
 
-        assert order in ['vertical', 'horizontal', None]
+        # Transform the order to a list of lists        
+        vertical_order = atmosphere_order.split('->')        
+        order = []
+        for k in vertical_order:
+            name = k.strip().replace('(','').replace(')','').split('+')
+            
+            tmp = []
+            for n in name:
+                tmp.append(self.atmospheres[n])
 
-        n_atm = len(atmospheres)
+            order.append(tmp)
 
-        types = [atm.type for atm in atmospheres]
+        self.order_atmospheres.append(order)        
 
-        atm_type = types[0]
+        # assert order in ['vertical', 'horizontal', None]
 
-        if (not all(x==atm_type for x in types)):
-            raise ValueError("Added atmospheres are a mixture of photosphere and chromospheres and are not compatible.")
-        else:
+        # n_atm = len(atmospheres)
 
-            if (atm_type == 'chromosphere'):
-                self.chromospheres.append(atmospheres)
-                if (len(atmospheres) > 1):
-                    self.chromospheres_order.append(order)
-                else:
-                    self.chromospheres_order.append(None)
+        # types = [atm.type for atm in atmospheres]
 
-            if (atm_type == 'photosphere'):
-                self.photospheres.append(atmospheres)
+        # atm_type = types[0]
+
+        # if (not all(x==atm_type for x in types)):
+        #     raise ValueError("Added atmospheres are a mixture of photosphere and chromospheres and are not compatible.")
+        # else:
+
+        #     if (atm_type == 'chromosphere'):
+        #         self.chromospheres.append(atmospheres)
+        #         if (len(atmospheres) > 1):
+        #             self.chromospheres_order.append(order)
+        #         else:
+        #             self.chromospheres_order.append(None)
+
+        #     if (atm_type == 'photosphere'):
+        #         self.photospheres.append(atmospheres)
                 
-
-        # for atm in self.chromospheres
-        
-    # def add_chromosphere(self, order=0):
-    #     """
-    #     Add a new chromosphere to the model. The order is used to add chromospheres ones
-    #     after the other
-
-    #     Parameters
-    #     ----------
-    #     chromosphere : Hazel_atmosphere
-    #         A Hazel atmosphere
-    #     order : int (default: 0)
-    #         Order, starting from 0
-        
-    #     Returns
-    #     -------
-    #     None
-
-    #     """
-    #     chromosphere = Hazel_atmosphere()
-    #     self.chromospheres[order].append(chromosphere)
-
     def add_stray(self):
         """
         Add a new stray component
@@ -119,21 +177,16 @@ class Model(object):
         """
         Normalize all filling factors so that they add to one to avoid later problems
         """
-        
-        ff = 0.0
-        for atm in self.photospheres:
-            ff += atm.ff
 
-        for atm in self.photospheres:
-            atm.ff /= ff
+        for atmospheres in self.order_atmospheres:
+            for order in atmospheres:
+                total_ff = 0.0
+                for atm in order:
+                    total_ff += atm.ff
 
+                for atm in order:                    
+                    atm.ff /= total_ff                
 
-        ff = 0.0
-        for atm in self.chromospheres:
-            ff += atm.ff
-
-        for atm in self.chromospheres:
-            atm.ff /= ff
 
     def add_spectrum(self, spectra):
         """
@@ -172,30 +225,61 @@ class Model(object):
 
     def synthesize(self):
         stokes = None
-        if (self.photospheres is not None):
-            for i, components in enumerate(self.photospheres):                
-                for j, atm in enumerate(components):
-                    stokes = atm.synthesize()
+        stokes_out = None
 
-                    ind_low, ind_top = atm.wvl_range
-                    atm.spectrum.stokes[:, ind_low:ind_top+1] = stokes[1:,:]
-
-                    pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
-
-        if (len(self.chromospheres) != 0):
-            for i, components in enumerate(self.chromospheres):
-                
-                if (self.chromospheres_order[i] in ['vertical', None]):
-                    for j, atm in enumerate(components):
-                        if (j == 0):
-                            stokes = atm.synthesize()
-                        else:
-                            stokes = atm.synthesize(stokes)
-
+        for atmospheres in self.order_atmospheres:
+            
+            for n, order in enumerate(atmospheres):
+                                                                
+                for k, atm in enumerate(order):
+                                                            
+                    if (n > 0):
                         ind_low, ind_top = atm.wvl_range
-                        atm.spectrum.stokes[:, ind_low:ind_top] = stokes
+                        stokes_out = atm.spectrum.stokes[:, ind_low:ind_top]
+                                                                            
+                    if (k == 0):
+                        stokes = atm.ff * atm.synthesize(stokes_out)
+                    else:                        
+                        stokes += atm.ff * atm.synthesize(stokes_out)
+                                
+                ind_low, ind_top = atm.wvl_range
+                
+                atm.spectrum.stokes[:, ind_low:ind_top+1] = stokes
 
-                        pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
+                pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
+        stop()
+                
+                
+                    
+
+                    
+
+        # # for component in self.order_atmospheres:
+            
+        # if (self.photospheres is not None):
+        #     for i, components in enumerate(self.photospheres):                
+        #         for j, atm in enumerate(components):
+        #             stokes = atm.synthesize()
+
+        #             ind_low, ind_top = atm.wvl_range
+        #             atm.spectrum.stokes[:, ind_low:ind_top+1] = stokes[1:,:]
+
+        #             pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
+
+        # if (len(self.chromospheres) != 0):
+        #     for i, components in enumerate(self.chromospheres):
+                
+        #         if (self.chromospheres_order[i] in ['vertical', None]):
+        #             for j, atm in enumerate(components):
+        #                 if (j == 0):
+        #                     stokes = atm.synthesize()
+        #                 else:
+        #                     stokes = atm.synthesize(stokes)
+
+        #                 ind_low, ind_top = atm.wvl_range
+        #                 atm.spectrum.stokes[:, ind_low:ind_top] = stokes
+
+        #                 pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
 
         pl.show()
                                          

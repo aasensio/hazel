@@ -1171,7 +1171,7 @@ contains
                 Imax = output(0,1)
             endif
             do i = 0, 3
-                output(i,:) = output(i,:) / Imax                
+                output(i,:) = output(i,:) !/ Imax                
             enddo
             
         endif

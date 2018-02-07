@@ -5,6 +5,8 @@ data/LINEAS
 data/THEVENIN
 hazel/__init__.py
 hazel/atmosphere.py
+hazel/configuration.py
+hazel/hsra.py
 hazel/model.py
 hazel/spectrum.py
 hazel/transforms.py

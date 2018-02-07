@@ -4,6 +4,7 @@ import os
 from .util import i0_allen
 from . import pyhazel
 from . import pysir
+from .hsra import hsra_continuum
 from ipdb import set_trace as stop
 
 __all__ = ['Hazel_atmosphere', 'SIR_atmosphere']
@@ -104,7 +105,7 @@ class Hazel_atmosphere(General_atmosphere):
         ind_top = (np.abs(spectrum.wavelength_axis - wvl_range[1])).argmin()
 
         self.spectrum = spectrum
-        self.wvl_axis = spectrum.wavelength_axis[ind_low:ind_top]
+        self.wvl_axis = spectrum.wavelength_axis[ind_low:ind_top+1]
         self.wvl_range = [ind_low, ind_top]
 
         self.parameters = OrderedDict()
@@ -136,9 +137,9 @@ class Hazel_atmosphere(General_atmosphere):
         
         if (stokes is None):
             boundaryInput  = np.zeros((nLambdaInput,4))
-            boundaryInput[:,0] = i0_allen(self.multiplets[self.active_line],1.0)
-        else:
-            boundaryInput = stokes.T * i0_allen(self.multiplets[self.active_line],1.0)
+            boundaryInput[:,0] = hsra_continuum(self.multiplets[self.active_line]) #i0_allen(self.multiplets[self.active_line],1.0)            
+        else:            
+            boundaryInput = stokes.T * hsra_continuum(self.multiplets[self.active_line]) #i0_allen(self.multiplets[self.active_line],1.0)
             
         dopplerWidthInput = self.parameters['deltav']
         dopplerWidth2Input = 0.e0
@@ -159,8 +160,8 @@ class Hazel_atmosphere(General_atmosphere):
             ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalization)
 
         l, stokes, eta, eps = pyhazel._synth(*args)
-
-        return stokes
+        
+        return stokes / hsra_continuum(self.multiplets[self.active_line])
 
 class SIR_atmosphere(General_atmosphere):
     def __init__(self):
@@ -168,6 +169,7 @@ class SIR_atmosphere(General_atmosphere):
         super().__init__('photosphere')
         self.ff = 1.0
         self.initialization = True
+        self.parameters = dict()
         
     def list_lines(self):
         """
@@ -226,7 +228,7 @@ class SIR_atmosphere(General_atmosphere):
         self.wvl_range = [ind_low, ind_top]
 
         low = spectrum.wavelength_axis[ind_low]
-        top = spectrum.wavelength_axis[ind_top]
+        top = spectrum.wavelength_axis[ind_top] + 1e-3
         delta = (spectrum.wavelength_axis[1] - spectrum.wavelength_axis[0])
 
         ff = open('LINEAS', 'r')
@@ -236,9 +238,9 @@ class SIR_atmosphere(General_atmosphere):
         for i in range(len(lines)):
             for l in flines:
                 tmp = l.split()
-                index = int(tmp[0].split('=')[0])                
+                index = int(tmp[0].split('=')[0])
                 if (index == lines[0]):
-                    wvl = float(tmp[2])
+                    wvl = float(tmp[2])                    
                                     
         f.write("{0}            :  {1}, {2}, {3}\n".format(str(lines)[1:-1], 1e3*(low-wvl), 1e3*delta, 1e3*(top-wvl)))
         f.close()
@@ -340,9 +342,9 @@ class SIR_atmosphere(General_atmosphere):
         
         if (returnRF):
             stokes, rf = pysir.synthRF(self.model, self.macroturbulence, self.filling_factor, self.stray)
-            return stokes, rf
+            return stokes[1:,:], rf
         else:
             stokes = pysir.synth(self.model, self.macroturbulence, self.filling_factor, self.stray)
-            return stokes    
+            return stokes[1:,:]
 
-        return stokes, rf
+        return stokes[1:,:], rf
