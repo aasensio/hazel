@@ -12,7 +12,7 @@ cdef extern:
 
 def _synth(int synModeInput=5, int nSlabsInput=1, ar[double,ndim=1] B1Input=zeros(3), ar[double,ndim=1] B2Input=zeros(3), double hInput=3.0, 
 	double tau1Input=1.0, double tau2Input=0.0, 
-	ar[double,ndim=2] boundaryInput=zeros((128,4)), int transInput=1, int atomicPolInput=1, int magoptInput=1, ar[double,ndim=1] anglesInput=zeros(3), 
+	ar[double,ndim=2,mode='fortran'] boundaryInput=zeros((4,128)), int transInput=1, int atomicPolInput=1, int magoptInput=1, ar[double,ndim=1] anglesInput=zeros(3), 
 	int nLambdaInput=128, ar[double,ndim=1] lambdaAxisInput=linspace(-1.5,2.5,128),  
 	double dopplerWidthInput=5.0, double dopplerWidth2Input=5.0, double dampingInput=0.0, double dopplerVelocityInput=0.0, 
 	double dopplerVelocity2Input=0.0, double ffInput=1.0, double betaInput=1.0, double beta2Input=1.0, ar[double,ndim=1] nbarInput=zeros(4), 
@@ -29,7 +29,7 @@ def _synth(int synModeInput=5, int nSlabsInput=1, ar[double,ndim=1] B1Input=zero
 		hInput: (float) height
 		tau1Input: (float) optical depth of the first component
 		tau2Input: (float) optical depth of the second component        
-		boundaryInput: (float) vector of size nLambda x 4 with the boundary condition for (I,Q,U,V)
+		boundaryInput: (float) vector of size 4xnLambda with the boundary condition for (I,Q,U,V)
 		transInput: (int) transition to compute from the model atom
 		atomicPolInput: (int) include or not atomic polarization
 		magoptInput: (int) include or not magneto-optical effects

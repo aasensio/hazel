@@ -8,6 +8,7 @@ hazel/atmosphere.py
 hazel/configuration.py
 hazel/hsra.py
 hazel/model.py
+hazel/sir.py
 hazel/spectrum.py
 hazel/transforms.py
 hazel/util.py
@@ -17,12 +18,13 @@ hazel.egg-info/dependency_links.txt
 hazel.egg-info/not-zip-safe
 hazel.egg-info/requires.txt
 hazel.egg-info/top_level.txt
+hazel/codes/__init__.py
 src/hazel/SEE.f90
 src/hazel/allen.f90
+src/hazel/hazel_code.pyx
 src/hazel/hazel_py.f90
 src/hazel/io_py.f90
 src/hazel/maths.f90
-src/hazel/pyhazel.pyx
 src/hazel/rt_coef.f90
 src/hazel/singleton.f90
 src/hazel/svd.f90
@@ -74,10 +76,10 @@ src/sir/mvoigtc.f
 src/sir/planck.f
 src/sir/plank2.f
 src/sir/polint.f
-src/sir/pysir.pyx
 src/sir/refrax.f
 src/sir/rnorma.f
 src/sir/saha.f
+src/sir/sir_code.pyx
 src/sir/sublande.f
 src/sir/sublande2.f
 src/sir/taulinea.f

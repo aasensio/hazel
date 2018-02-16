@@ -98,9 +98,9 @@ DOCSTRING = __doc__.strip().split("\n")
 # Milne-Eddington
 path = pathGlobal+"sir"
 list_files = glob.glob(path+'/*.f*')
-list_files.append(path+'/pysir.pyx')
+list_files.append(path+'/sir_code.pyx')
 
-lib_sir = MyExtension('hazel.pysir',
+lib_sir = MyExtension('hazel.codes.sir_code',
                   libraries=["gfortran"],
                   library_dirs=get_libgfortran_dir(),
                   sources=list_files,
@@ -111,9 +111,9 @@ lib_sir = MyExtension('hazel.pysir',
 path = pathGlobal+"hazel"
 list_files = [path+'/vars.f90', path+'/singleton.f90', path+'/maths.f90', path+'/allen.f90', path+'/svd.f90', 
             path+'/io_py.f90', path+'/SEE.f90', path+'/rt_coef.f90', path+'/synth.f90',
-			path+'/hazel_py.f90', path+'/pyhazel.pyx']
+			path+'/hazel_py.f90', path+'/hazel_code.pyx']
 
-lib_hazel = MyExtension('hazel.pyhazel',
+lib_hazel = MyExtension('hazel.codes.hazel_code',
                   libraries=["gfortran"],
                   library_dirs=get_libgfortran_dir(),
                   sources=list_files,

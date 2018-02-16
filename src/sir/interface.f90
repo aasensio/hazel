@@ -8,18 +8,31 @@ integer, parameter :: kn=400      !maximum number of nodes (64)
 integer, parameter :: kl=10       !maximum number of lines (100)
 integer, parameter :: kld=5000    !maximum number of wavelengths (600)
 integer, parameter :: mfitmax=200 !maximum number of total nodes (200)
-integer, parameter :: kld4=4*kld, kldt=kld*kn, kldt4=4*kldt, kt8=8*kt+2
+integer, parameter :: kld4=4*kld, kldt=kld*kn, kldt4=4*kldt, kt8=8*kt+2, kl4=4*kl
 
+type configuration
+	integer ntl,nlin(kl),npas(kl),nble(kl)
+	real*4 dlamda(kld)
+	integer ntls,nlins(kl4),npass(kl4)
+	real*4 dlamdas(kld4)
+end type configuration
+
+type(configuration) :: conf(10)
 
 contains
 
-	subroutine c_init(nLambda) bind(c)
+	subroutine c_init(index, nLambda) bind(c)
+	integer(c_int), intent(in) :: index
 	integer(c_int), intent(out) :: nLambda
 
 	integer :: i, j, ifiltro
 	integer ntl,nlin(kl),npas(kl),nble(kl)
 	real*4 dlamda(kld)
+	integer ntls,nlins(kl4),npass(kl4)
+	real*4 dlamdas(kld4)       
+
 	common/Malla/ntl,nlin,npas,nble,dlamda
+    common/Malla4/ntls,nlins,npass,dlamdas  !common para StokesFRsub
 	common/ifiltro/ifiltro
 
 		call leyendo
@@ -33,7 +46,17 @@ contains
 		end do
 
 		ifiltro = 0
-		
+
+		conf(index)%ntl = ntl
+		conf(index)%nlin = nlin
+		conf(index)%npas = npas
+		conf(index)%nble = nble
+		conf(index)%dlamda = dlamda
+		conf(index)%ntls = ntls
+		conf(index)%nlins = nlins
+		conf(index)%npass = npass
+		conf(index)%dlamdas = dlamdas
+
 	end subroutine c_init
 
 	subroutine c_setpsf(nPSF, xPSF, yPSF) bind(c)
@@ -57,8 +80,8 @@ contains
 	end subroutine c_setpsf
 
 
-	subroutine c_synth(nDepth, nLambda,  macroturbulence, filling, stray, model, stokes) bind(c)
-	integer(c_int), intent(in) :: nDepth, nLambda
+	subroutine c_synth(index, nDepth, nLambda,  macroturbulence, filling, stray, model, stokes) bind(c)
+	integer(c_int), intent(in) :: index, nDepth, nLambda
 	real(c_float), intent(in) :: model(8,ndepth)
 	real(c_float), intent(in) :: macroturbulence, filling, stray
 	real(c_float), intent(out) :: stokes(5,nLambda)
@@ -67,20 +90,36 @@ contains
     real*4 rt(kldt4),rp(kldt4),rh(kldt4),rv(kldt4)
     real*4 rg(kldt4),rf(kldt4),rm(kldt4), rmac(kld4)
     integer ist(4),i,k,ntot, j, l, itau
-	integer ntl,nlin(kl),npas(kl),nble(kl)
-	real*4 dlamda(kld)
 	character*100 Stokesfilename
 	integer*4 mnodos(18), ntau
 	real*4 atmosmodel(kt8), pesostray
 	real*4 tau(kt),t(kt),pe(kt),pg(kt),z(kt),ro(kt)
 	real*4 voffset,xmu
-	common/Malla/ntl,nlin,npas,nble,dlamda  !common para StokesFRsub
+
+	integer ntl,nlin(kl),npas(kl),nble(kl)
+	real*4 dlamda(kld)
+	integer ntls,nlins(kl4),npass(kl4)
+	real*4 dlamdas(kld4)
+
     common/OutputStokes/Stokesfilename
 
     common/Atmosmodel/atmosmodel,ntau !common para StokesFRsub
 	common/numeronodos/mnodos         !para StokesFRsub
     common/offset/voffset             !para StokesFRsub
     common/anguloheliocent/xmu        !para StokesFRsub
+
+	common/Malla/ntl,nlin,npas,nble,dlamda  !common para StokesFRsub
+    common/Malla4/ntls,nlins,npass,dlamdas  !common para StokesFRsub
+
+		ntl = conf(index)%ntl
+		nlin = conf(index)%nlin
+		npas = conf(index)%npas
+		nble = conf(index)%nble
+		dlamda = conf(index)%dlamda
+		ntls = conf(index)%ntls
+		nlins = conf(index)%nlins
+		npass = conf(index)%npass
+		dlamdas = conf(index)%dlamdas
 
 	    ntau = nDepth
 
@@ -140,8 +179,8 @@ contains
 	end subroutine c_synth
 
 
-	subroutine c_synthrf(nDepth, nLambda, macroturbulence, filling, stray, model, stokes, RFt, RFp, RFh, RFv, RFg, RFf, RFmic, RFmac) bind(c)
-	integer(c_int), intent(in) :: nDepth, nLambda
+	subroutine c_synthrf(index, nDepth, nLambda, macroturbulence, filling, stray, model, stokes, RFt, RFp, RFh, RFv, RFg, RFf, RFmic, RFmac) bind(c)
+	integer(c_int), intent(in) :: index, nDepth, nLambda
 	real(c_float), intent(in) :: model(8,ndepth)
 	real(c_float), intent(in) :: macroturbulence, filling, stray
 	real(c_float), intent(out) :: stokes(5,nLambda)
@@ -152,20 +191,36 @@ contains
     real*4 rt(kldt4),rp(kldt4),rh(kldt4),rv(kldt4)
     real*4 rg(kldt4),rf(kldt4),rm(kldt4), rmac(kld4)
     integer ist(4),i,k,ntot, j, l, itau
-	integer ntl,nlin(kl),npas(kl),nble(kl)
-	real*4 dlamda(kld)
 	character*100 Stokesfilename
 	integer*4 mnodos(18), ntau
 	real*4 tau(kt),t(kt),pe(kt),pg(kt),z(kt),ro(kt)
 	real*4 atmosmodel(kt8), pesostray
 	real*4 voffset,xmu
-	common/Malla/ntl,nlin,npas,nble,dlamda  !common para StokesFRsub
+
+	integer ntl,nlin(kl),npas(kl),nble(kl)
+	real*4 dlamda(kld)
+	integer ntls,nlins(kl4),npass(kl4)
+	real*4 dlamdas(kld4)
+
     common/OutputStokes/Stokesfilename
 
     common/Atmosmodel/atmosmodel,ntau !common para StokesFRsub
 	common/numeronodos/mnodos         !para StokesFRsub
     common/offset/voffset             !para StokesFRsub
     common/anguloheliocent/xmu        !para StokesFRsub
+
+	common/Malla/ntl,nlin,npas,nble,dlamda  !common para StokesFRsub
+    common/Malla4/ntls,nlins,npass,dlamdas  !common para StokesFRsub
+
+		ntl = conf(index)%ntl
+		nlin = conf(index)%nlin
+		npas = conf(index)%npas
+		nble = conf(index)%nble
+		dlamda = conf(index)%dlamda
+		ntls = conf(index)%ntls
+		nlins = conf(index)%nlins
+		npass = conf(index)%npass
+		dlamdas = conf(index)%dlamdas
 
 	    ntau = nDepth
 

@@ -3,23 +3,17 @@ from numpy import empty, ascontiguousarray
 import numpy as np
 
 cdef extern:
-	void c_init(int *nLambda)
+	void c_init(int *index, int *nLambda)
 	void c_setpsf(int *nPSF, float *xPSF, float *yPSF)
-	void c_synthrf(int *nDepth, int *nLambda, float *macroturbulence, float *filling, float *stray, float *model, float *stokes, float *rt, float *rp, float *rh,
+	void c_synthrf(int *index, int *nDepth, int *nLambda, float *macroturbulence, float *filling, float *stray, float *model, float *stokes, float *rt, float *rp, float *rh,
 		float *rv, float *rf, float *rg, float *rm, float *rmac)
-	void c_synth(int *nDepth, int *nLambda, float *macroturbulence, float *filling, float *stray, float *model, float *stokes)
+	void c_synth(int *index, int *nDepth, int *nLambda, float *macroturbulence, float *filling, float *stray, float *model, float *stokes)
 
-cdef int nLambdaGlobal = 1
-
-def init():
+def init(int index):
 	cdef:
 		int nLambda
-
-	global nLambdaGlobal
 	
-	c_init(&nLambda)
-
-	nLambdaGlobal = nLambda
+	c_init(&index, &nLambda)
 
 	return nLambda
 
@@ -31,10 +25,9 @@ def setPSF(ar[float, ndim=1] xPSF, ar[float, ndim=1] yPSF):
 
 	return
 
-def synth(ar[float, ndim=2] modelIn, float macroturbulence, float filling, float stray):
+def synth(int index, int nLambda, ar[float, ndim=2] modelIn, float macroturbulence, float filling, float stray):
 
 	cdef:
-		int nLambda = nLambdaGlobal
 		int nDepth = modelIn.shape[0]
 		ar[float, ndim=2, mode="c"] model		
 		ar[float, ndim=2] stokes = empty((5,nLambda), order='F', dtype=np.float32)		
@@ -42,14 +35,13 @@ def synth(ar[float, ndim=2] modelIn, float macroturbulence, float filling, float
 	# Make sure that the 2D array is C_CONTIGUOUS
 	model = ascontiguousarray(modelIn)
 
-	c_synth(&nDepth, &nLambda, &macroturbulence, &filling, &stray, &model[0,0], <float*> stokes.data)
+	c_synth(&index, &nDepth, &nLambda, &macroturbulence, &filling, &stray, &model[0,0], <float*> stokes.data)
 	
 	return stokes
 
-def synthRF(ar[float, ndim=2] modelIn, float macroturbulence, float filling, float stray):
+def synthRF(int index, int nLambda, ar[float, ndim=2] modelIn, float macroturbulence, float filling, float stray):
 
 	cdef:
-		int nLambda = nLambdaGlobal
 		int nDepth = modelIn.shape[0]
 		ar[float, ndim=2, mode="c"] model		
 		ar[float, ndim=2] stokes = empty((5,nLambda), order='F', dtype=np.float32)
@@ -65,7 +57,7 @@ def synthRF(ar[float, ndim=2] modelIn, float macroturbulence, float filling, flo
 	# Make sure that the 2D array is C_CONTIGUOUS
 	model = ascontiguousarray(modelIn)
 
-	c_synthrf(&nDepth, &nLambda, &macroturbulence, &filling, &stray, &model[0,0], <float*> stokes.data, <float*> rt.data, <float*> rp.data, 
+	c_synthrf(&index, &nDepth, &nLambda, &macroturbulence, &filling, &stray, &model[0,0], <float*> stokes.data, <float*> rt.data, <float*> rp.data, 
 		<float*> rh.data, <float*> rv.data, <float*> rf.data, <float*> rg.data, <float*> rm.data, <float*> rmac.data)
 	
 	return stokes, [rt, rp, rh, rv, rf, rg, rm, rmac]

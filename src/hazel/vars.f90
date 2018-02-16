@@ -21,10 +21,6 @@ implicit none
 	integer :: n_terms, nrhos, file_pointer, ntran, is2, jlimit2, nparam
 	
 	real(kind=8), allocatable :: lsto2(:), energy(:,:)
-	real(kind=8), allocatable :: epsilon(:,:), eta(:,:), epsilon_zeeman(:,:), eta_zeeman(:,:)
-	real(kind=8), allocatable :: eta_stim(:,:), eta_stim_zeeman(:,:), mag_opt(:,:), mag_opt_zeeman(:,:)
-	real(kind=8), allocatable :: mag_opt_stim(:,:), mag_opt_stim_zeeman(:,:)
-	
 	real(kind=8), allocatable :: threej(:)
 	
 !	real(kind=8) :: bgauss, thetabd, chibd, thb, chb, thetad, chid, gammad
@@ -61,6 +57,14 @@ implicit none
 		integer :: DIRmaxf, stokes_boundary_len
 		character(len=10) :: Stokes_incident_mode
 		character(len=100) :: Stokes_incident_file
+		real(kind=8), dimension(4) :: nbarExternal, omegaExternal
+		real(kind=8), pointer :: epsilon(:,:), eta(:,:), epsilon_zeeman(:,:), eta_zeeman(:,:)
+		real(kind=8), pointer :: eta_stim(:,:), eta_stim_zeeman(:,:), mag_opt(:,:), mag_opt_zeeman(:,:)
+		real(kind=8), pointer :: mag_opt_stim(:,:), mag_opt_stim_zeeman(:,:)
+		real(kind=8), pointer, dimension(:) :: epsI, epsQ, epsU, epsV, etaI, etaQ, etaU, etaV, dtau
+    	real(kind=8), pointer, dimension(:) :: epsI2, epsQ2, epsU2, epsV2, etaI2, etaQ2, etaU2, etaV2
+    	real(kind=8), pointer, dimension(:) :: rhoQ, rhoU, rhoV, delta
+    	real(kind=8), pointer, dimension(:) :: rhoQ2, rhoU2, rhoV2
 	end type fixed_parameters
 	
 	type type_observation
@@ -85,10 +89,10 @@ implicit none
 	end type atom_model
 		
 	
-	type(variable_parameters) :: params, trial, scaled_params, errorparams
-	type(fixed_parameters) :: fixed
-	type(type_observation) :: observation
-	type(type_inversion) :: inversion
+	type(variable_parameters) :: params(10), trial, scaled_params, errorparams
+	type(fixed_parameters) :: fixed(10)
+	type(type_observation) :: observation(10)
+	type(type_inversion) :: inversion(10)
 	type(atom_model) :: atom
 	
 	character(len=6) :: parameters_name(18) = (/ 'B     ','thetaB','chiB  ', 'vdopp ', &
@@ -101,7 +105,7 @@ implicit none
 	
 	real(kind=8) :: chi2Level
 
-	real(kind=8), dimension(4) :: nbarExternal, omegaExternal
+	
 		
 	
 end module vars

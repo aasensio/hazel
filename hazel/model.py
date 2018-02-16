@@ -1,8 +1,8 @@
-from .atmosphere import Hazel_atmosphere, SIR_atmosphere, Parametric_atmosphere
-from .configuration import Configuration
+from hazel.atmosphere import Hazel_atmosphere, SIR_atmosphere, Parametric_atmosphere
+from hazel.configuration import Configuration
 from collections import OrderedDict
-from . import pyhazel
-from .spectrum import Spectrum
+from hazel.codes import hazel_code
+from hazel.spectrum import Spectrum
 import numpy as np
 import matplotlib.pyplot as pl
 from ipdb import set_trace as stop
@@ -26,7 +26,7 @@ class Model(object):
             self.use_configuration(self.configuration.config_dict)
 
         # Initialize pyhazel
-        pyhazel._init()
+        hazel_code._init()
 
     def use_configuration(self, config_dict):
 
@@ -51,6 +51,10 @@ class Model(object):
 
         self.atmospheres = {}
 
+        append = False
+        index_chromosphere = 0
+        index_photosphere = 0
+
         for key, value in tmp.items():
             if ('photosphere' in key):
                 if (self.verbose):
@@ -59,9 +63,11 @@ class Model(object):
                 lines = [int(k) for k in list(value['spectral lines'])]
                 wvl_range = [float(k) for k in value['wavelength range']]
                             
-                self.atmospheres[value['name']].add_active_line(lines=lines, spectrum=spec[value['spectral region']], wvl_range=np.array(wvl_range))
+                self.atmospheres[value['name']].add_active_line(index=index_photosphere, lines=lines, spectrum=spec[value['spectral region']], 
+                    wvl_range=np.array(wvl_range), append=append)
                 self.atmospheres[value['name']].load_model(value['input model'])
-                
+
+                index_photosphere += 1
             
             if ('chromosphere' in key):
                 if (self.verbose):
@@ -70,7 +76,7 @@ class Model(object):
                     
                     wvl_range = [float(k) for k in value['wavelength range']]
 
-                    self.atmospheres[value['name']].add_active_line(line=value['line'], spectrum=spec[value['spectral region']], wvl_range=np.array(wvl_range))
+                    self.atmospheres[value['name']].add_active_line(index=index_chromosphere, line=value['line'], spectrum=spec[value['spectral region']], wvl_range=np.array(wvl_range))
 
                     # Set values of parameters
                     self.atmospheres[value['name']].parameters['h'] = float(value['height'])
@@ -79,13 +85,30 @@ class Model(object):
                             if (k.lower() == k2.lower()):
                                 self.atmospheres[value['name']].parameters[k2] = float(v)
 
+                    index_chromosphere += 1
+
         tmp = config_dict['topology']
         for key, value in tmp.items():
             self.add_atmospheres(value)
 
 
         self.initialize_ff()
+        # self.adapt_wavelength_photosphere()
 
+    def adapt_wavelength_photosphere(self):
+        n_lambda = []
+        for k, v in self.atmospheres.items():
+            if (v.type == 'photosphere'):
+                n_lambda.append(len(v.wvl_axis))
+
+        shift = 0
+        ind = 0
+        for k, v in self.atmospheres.items():
+            if (v.type == 'photosphere'):
+                v.wvl_range += shift
+                shift += n_lambda[ind]
+                ind += 1
+                        
 
     def add_atmospheres(self, atmosphere_order):
         """
@@ -106,6 +129,9 @@ class Model(object):
         """
 
         # Transform the order to a list of lists        
+        if (self.verbose):
+            print("Adding atmosphere : {0}".format(atmosphere_order))
+
         vertical_order = atmosphere_order.split('->')        
         order = []
         for k in vertical_order:
@@ -115,7 +141,7 @@ class Model(object):
             for n in name:
                 tmp.append(self.atmospheres[n])
 
-            order.append(tmp)
+            order.append(tmp)            
 
         self.order_atmospheres.append(order)        
 
@@ -224,6 +250,18 @@ class Model(object):
             print(" - Axis {0} : min={1} -> max={2}".format(n, np.min(spectrum.wavelength_axis), np.max(spectrum.wavelength_axis)))
 
     def synthesize(self):
+        """
+        Synthesize all atmospheres
+
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        None
+
+        """
         stokes = None
         stokes_out = None
 
@@ -232,6 +270,8 @@ class Model(object):
             for n, order in enumerate(atmospheres):
                                                                 
                 for k, atm in enumerate(order):
+
+                    print(k, atm)
                                                             
                     if (n > 0):
                         ind_low, ind_top = atm.wvl_range
@@ -245,49 +285,3 @@ class Model(object):
                 ind_low, ind_top = atm.wvl_range
                 
                 atm.spectrum.stokes[:, ind_low:ind_top+1] = stokes
-
-                pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
-        stop()
-                
-                
-                    
-
-                    
-
-        # # for component in self.order_atmospheres:
-            
-        # if (self.photospheres is not None):
-        #     for i, components in enumerate(self.photospheres):                
-        #         for j, atm in enumerate(components):
-        #             stokes = atm.synthesize()
-
-        #             ind_low, ind_top = atm.wvl_range
-        #             atm.spectrum.stokes[:, ind_low:ind_top+1] = stokes[1:,:]
-
-        #             pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
-
-        # if (len(self.chromospheres) != 0):
-        #     for i, components in enumerate(self.chromospheres):
-                
-        #         if (self.chromospheres_order[i] in ['vertical', None]):
-        #             for j, atm in enumerate(components):
-        #                 if (j == 0):
-        #                     stokes = atm.synthesize()
-        #                 else:
-        #                     stokes = atm.synthesize(stokes)
-
-        #                 ind_low, ind_top = atm.wvl_range
-        #                 atm.spectrum.stokes[:, ind_low:ind_top] = stokes
-
-        #                 pl.plot(atm.spectrum.wavelength_axis, atm.spectrum.stokes[0,:])
-
-        pl.show()
-                                         
-        
-        # if (self.stray is not None):
-            # for atm in self.stray:
-                # atm.synthesize()
-
-        # if (self.parametric is not None):
-            # for atm in self.parametric:
-                # atm.synthesize()

@@ -79,28 +79,28 @@ contains
       	enddo
       endif
 
-		if (.not.allocated(epsilon)) allocate(epsilon(0:3,in_fixed%no))
-		if (.not.allocated(epsilon_zeeman)) allocate(epsilon_zeeman(0:3,in_fixed%no))
-		if (.not.allocated(eta)) allocate(eta(0:3,in_fixed%no))
-		if (.not.allocated(eta_zeeman)) allocate(eta_zeeman(0:3,in_fixed%no))
-		if (.not.allocated(eta_stim)) allocate(eta_stim(0:3,in_fixed%no))
-		if (.not.allocated(eta_stim_zeeman)) allocate(eta_stim_zeeman(0:3,in_fixed%no))
-		if (.not.allocated(mag_opt)) allocate(mag_opt(0:3,in_fixed%no))
-		if (.not.allocated(mag_opt_zeeman)) allocate(mag_opt_zeeman(0:3,in_fixed%no))
-		if (.not.allocated(mag_opt_stim)) allocate(mag_opt_stim(0:3,in_fixed%no))
-		if (.not.allocated(mag_opt_stim_zeeman)) allocate(mag_opt_stim_zeeman(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%epsilon)) allocate(in_fixed%epsilon(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%epsilon_zeeman)) allocate(in_fixed%epsilon_zeeman(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%eta)) allocate(in_fixed%eta(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%eta_zeeman)) allocate(in_fixed%eta_zeeman(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%eta_stim)) allocate(in_fixed%eta_stim(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%eta_stim_zeeman)) allocate(in_fixed%eta_stim_zeeman(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%mag_opt)) allocate(in_fixed%mag_opt(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%mag_opt_zeeman)) allocate(in_fixed%mag_opt_zeeman(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%mag_opt_stim)) allocate(in_fixed%mag_opt_stim(0:3,in_fixed%no))
+		if (.not.associated(in_fixed%mag_opt_stim_zeeman)) allocate(in_fixed%mag_opt_stim_zeeman(0:3,in_fixed%no))
 		
-		epsilon = 0.d0
-		epsilon_zeeman = 0.d0
-		eta = 0.d0
-		eta_zeeman = 0.d0
-		eta_stim = 0.d0
-		eta_stim_zeeman = 0.d0
+		in_fixed%epsilon = 0.d0
+		in_fixed%epsilon_zeeman = 0.d0
+		in_fixed%eta = 0.d0
+		in_fixed%eta_zeeman = 0.d0
+		in_fixed%eta_stim = 0.d0
+		in_fixed%eta_stim_zeeman = 0.d0
 		
-		mag_opt = 0.d0
-		mag_opt_stim = 0.d0
-		mag_opt_zeeman = 0.d0
-		mag_opt_stim_zeeman = 0.d0
+		in_fixed%mag_opt = 0.d0
+		in_fixed%mag_opt_stim = 0.d0
+		in_fixed%mag_opt_zeeman = 0.d0
+		in_fixed%mag_opt_stim_zeeman = 0.d0
 		if (.not.allocated(onum)) allocate(onum(in_fixed%no))
 		
 		
@@ -439,19 +439,19 @@ contains
 																		do istok = 0, 3																			
 																			tmp1 = prod * &
 																				real(tr(k,bigq,istok)*rhomu(jup2,jus2,ku,bigqu)*prof)																			
-																			epsilon(istok,:) = epsilon(istok,:) + tmp1
+																			in_fixed%epsilon(istok,:) = in_fixed%epsilon(istok,:) + tmp1
 																			
 ! Now the magneto-optical coefficients																			
 																			tmp2 = prod * &
 																				aimag(tr(k,bigq,istok)*rhomu(jup2,jus2,ku,bigqu)*prof)
-																			mag_opt_stim(istok,:) = mag_opt_stim(istok,:) + tmp2
+																			in_fixed%mag_opt_stim(istok,:) = in_fixed%mag_opt_stim(istok,:) + tmp2
 
 ! Only the Zeeman contribution, produced by the rho^0_0 multipole moments and the contribution of the splitting
 																			if (ku == 0 .and. bigqu == 0) then
-																				epsilon_zeeman(istok,:) = epsilon_zeeman(istok,:) + tmp1
+																				in_fixed%epsilon_zeeman(istok,:) = in_fixed%epsilon_zeeman(istok,:) + tmp1
 																			
 ! Only the Zeeman contribution, produced by the rho^0_0 multipole moments and the contribution of the splitting																			
-																				mag_opt_stim_zeeman(istok,:) = mag_opt_stim_zeeman(istok,:) + tmp2
+																				in_fixed%mag_opt_stim_zeeman(istok,:) = in_fixed%mag_opt_stim_zeeman(istok,:) + tmp2
 																			endif																			
 																			nloop = nloop + 1																			
 																		enddo ! Stokes parameter																		
@@ -553,19 +553,19 @@ contains
 																			do istok = 0, 3
 																				tmp1 = prod * &
 																					real(tr(k,bigq,istok)*rhoml(jls2,jlp2,kl,bigql)*prof)
-																				eta(istok,:) = eta(istok,:) + tmp1
+																				in_fixed%eta(istok,:) = in_fixed%eta(istok,:) + tmp1
 
 	! Now the magneto-optical coefficients
 																				tmp2 = prod * &
 																					aimag(tr(k,bigq,istok)*rhoml(jls2,jlp2,kl,bigql)*prof)
-																				mag_opt(istok,:) = mag_opt(istok,:) + tmp2
+																				in_fixed%mag_opt(istok,:) = in_fixed%mag_opt(istok,:) + tmp2
 
 	! Only the Zeeman contribution, produced by the rho^0_0 multipole moments and the contribution of the splitting
 																				if (kl == 0 .and. bigql == 0) then
-																					eta_zeeman(istok,:) = eta_zeeman(istok,:) + tmp1
+																					in_fixed%eta_zeeman(istok,:) = in_fixed%eta_zeeman(istok,:) + tmp1
 
 	! Only the Zeeman contribution, produced by the rho^0_0 multipole moments and the contribution of the splitting
-																					mag_opt_zeeman(istok,:) = mag_opt_zeeman(istok,:) + tmp2
+																					in_fixed%mag_opt_zeeman(istok,:) = in_fixed%mag_opt_zeeman(istok,:) + tmp2
 																				endif
 																				nloop = nloop + 1
 																			enddo ! Stokes parameter											
@@ -612,36 +612,36 @@ contains
 !		eta_stim = PH * freq / (4.d0*PI) * Bul * epsilon
 !		eta_stim_zeeman = PH * freq / (4.d0*PI) * Bul * epsilon_zeeman		
 		
-		eta_stim = epsilon
-		eta_stim_zeeman = epsilon_zeeman		
+		in_fixed%eta_stim = in_fixed%epsilon
+		in_fixed%eta_stim_zeeman = in_fixed%epsilon_zeeman		
 
 ! Emissivity
 !		epsilon = PH * freq / (4.d0*PI) * Bul * (2.d0*PH*freq**3) / PC**2 * epsilon
 !		epsilon_zeeman = PH * freq / (4.d0*PI) * Bul * (2.d0*PH*freq**3) / PC**2 * epsilon_zeeman
 				
-		epsilon = (2.d0*PH*freq**3) / PC**2 * epsilon
-		epsilon_zeeman = (2.d0*PH*freq**3) / PC**2 * epsilon_zeeman
+		in_fixed%epsilon = (2.d0*PH*freq**3) / PC**2 * in_fixed%epsilon
+		in_fixed%epsilon_zeeman = (2.d0*PH*freq**3) / PC**2 * in_fixed%epsilon_zeeman
 
 ! Absorption
 !		eta = PH * freq / (4.d0*PI) * Bul * eta
 !		eta_zeeman = PH * freq / (4.d0*PI) * Bul * eta_zeeman		
 				
-		eta = eta
-		eta_zeeman = eta_zeeman		
+		! eta = eta
+		! eta_zeeman = eta_zeeman		
 		
 ! Magneto-optical absorption
 !		mag_opt = PH * freq / (4.d0*PI) * Bul * mag_opt
 !		mag_opt_zeeman = PH * freq / (4.d0*PI) * Bul * mag_opt_zeeman
 		
-		mag_opt = mag_opt
-		mag_opt_zeeman = mag_opt_zeeman
+		! mag_opt = mag_opt
+		! mag_opt_zeeman = mag_opt_zeeman
 		
 ! Magneto-optical stimulated emission
 !		mag_opt_stim = PH * freq / (4.d0*PI) * Bul * mag_opt_stim
 !		mag_opt_stim_zeeman = PH * freq / (4.d0*PI) * Bul * mag_opt_stim_zeeman
 		
-		mag_opt_stim = mag_opt_stim
-		mag_opt_stim_zeeman = mag_opt_stim_zeeman
+		! mag_opt_stim = mag_opt_stim
+		! mag_opt_stim_zeeman = mag_opt_stim_zeeman
 		
 !-------------------------------------------------------------------------		
 ! And finally write the emission coefficients		

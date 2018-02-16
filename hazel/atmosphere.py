@@ -1,11 +1,11 @@
 from collections import OrderedDict
 import numpy as np
 import os
-from .util import i0_allen
-from . import pyhazel
-from . import pysir
-from .hsra import hsra_continuum
+from hazel.util import i0_allen
+from hazel.codes import hazel_code, sir_code
+from hazel.hsra import hsra_continuum
 from ipdb import set_trace as stop
+from hazel.sir import Sir
 
 __all__ = ['Hazel_atmosphere', 'SIR_atmosphere']
     
@@ -42,51 +42,14 @@ class Hazel_atmosphere(General_atmosphere):
 
         self.parameters = dict()
         
-
-    # def add_active_line(self, line, spectrum, wvl_range):
-    #     """
-    #     Add an active lines in this atmosphere
-        
-    #     Parameters
-    #     ----------
-    #     lines : str
-    #         Line to activate: ['10830','5876']
-    #     spectrum : Spectrum
-    #         Spectrum object
-    #     wvl_range : float
-    #         Vector containing wavelength range over which to synthesize this line
-        
-    #     Returns
-    #     -------
-    #     None
-    
-    #     """        
-    #     self.active_lines.append(line)
-    #     self.wavelength_range[line] = wvl_range
-    #     ind_low = (np.abs(spectrum.wavelength_axis - wvl_range[0])).argmin()
-    #     ind_top = (np.abs(spectrum.wavelength_axis - wvl_range[1])).argmin()
-
-    #     self.spectrum[line] = spectrum
-    #     self.wvl_axis[line] = spectrum.wavelength_axis[ind_low:ind_top]
-    #     self.wvl_range[line] = [ind_low, ind_top]
-
-    #     self.parameters[line] = OrderedDict()
-    #     self.parameters[line]['B'] = 0.0
-    #     self.parameters[line]['thetaB'] = 0.0
-    #     self.parameters[line]['phiB'] = 0.0
-    #     self.parameters[line]['h'] = 3.0
-    #     self.parameters[line]['tau'] = 1.0
-    #     self.parameters[line]['v'] = 0.0
-    #     self.parameters[line]['deltav'] = 8.0
-    #     self.parameters[line]['beta'] = 1.0
-    #     self.parameters[line]['a'] = 0.0
-
-    def add_active_line(self, line, spectrum, wvl_range):
+    def add_active_line(self, index, line, spectrum, wvl_range):
         """
         Add an active lines in this atmosphere
         
         Parameters
         ----------
+        index : int
+            Index of this chromosphere
         lines : str
             Line to activate: ['10830','5876']
         spectrum : Spectrum
@@ -119,47 +82,37 @@ class Hazel_atmosphere(General_atmosphere):
         self.parameters['beta'] = 1.0
         self.parameters['a'] = 0.0
 
+        self.index = index + 1
+
     def synthesize(self, stokes=None):
         
-        synModeInput = 5
-        nSlabsInput = 1
         B1Input = np.asarray([self.parameters['B'], self.parameters['thetaB'], self.parameters['phiB']])
-        B2Input = np.asarray([0.0,0.0,0.0])
         hInput = self.parameters['h']
         tau1Input = self.parameters['tau']
-        tau2Input = 0.e0        
         transInput = 1
-        atomicPolInput = 1
-        magoptInput = 1
         anglesInput = np.asarray([0.0,0.0,90.0])
         lambdaAxisInput = self.wvl_axis - self.multiplets[self.active_line]
         nLambdaInput = len(lambdaAxisInput)
         
         if (stokes is None):
-            boundaryInput  = np.zeros((nLambdaInput,4))
-            boundaryInput[:,0] = hsra_continuum(self.multiplets[self.active_line]) #i0_allen(self.multiplets[self.active_line],1.0)            
+            boundaryInput  = np.asfortranarray(np.zeros((4,nLambdaInput)))
+            boundaryInput[0,:] = hsra_continuum(self.multiplets[self.active_line]) #i0_allen(self.multiplets[self.active_line],1.0)            
         else:            
-            boundaryInput = stokes.T * hsra_continuum(self.multiplets[self.active_line]) #i0_allen(self.multiplets[self.active_line],1.0)
-            
+            boundaryInput = np.asfortranarray(stokes * hsra_continuum(self.multiplets[self.active_line])) #i0_allen(self.multiplets[self.active_line],1.0)
+                    
         dopplerWidthInput = self.parameters['deltav']
-        dopplerWidth2Input = 0.e0
         dampingInput = self.parameters['a']
         dopplerVelocityInput = self.parameters['v']
-        dopplerVelocity2Input = 0.e0
-        ffInput = 0.e0
         betaInput = 1.0
-        beta2Input = 1.0
         nbarInput = np.asarray([0.0,0.0,0.0,0.0])
         omegaInput = np.asarray([0.0,0.0,0.0,0.0])
-        normalization = 0
         
-        args = (synModeInput, nSlabsInput, 
-            B1Input, B2Input, hInput, tau1Input, tau2Input, boundaryInput, transInput, 
-            atomicPolInput, magoptInput, anglesInput, nLambdaInput, lambdaAxisInput, dopplerWidthInput, 
-            dopplerWidth2Input, dampingInput, dopplerVelocityInput, dopplerVelocity2Input, 
-            ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalization)
+        args = (self.index, B1Input, hInput, tau1Input, boundaryInput, transInput, 
+            anglesInput, nLambdaInput, lambdaAxisInput, dopplerWidthInput, 
+            dampingInput, dopplerVelocityInput, 
+            betaInput, nbarInput, omegaInput)
 
-        l, stokes, eta, eps = pyhazel._synth(*args)
+        l, stokes = hazel_code._synth(*args)
         
         return stokes / hsra_continuum(self.multiplets[self.active_line])
 
@@ -167,8 +120,7 @@ class SIR_atmosphere(General_atmosphere):
     def __init__(self):
         
         super().__init__('photosphere')
-        self.ff = 1.0
-        self.initialization = True
+        self.ff = 1.0        
         self.parameters = dict()
         
     def list_lines(self):
@@ -184,7 +136,7 @@ class SIR_atmosphere(General_atmosphere):
         for l in lines[:-1]:
             print(l[:-1])
 
-    def add_active_line(self, lines, spectrum, wvl_range):
+    def add_active_line(self, index, lines, spectrum, wvl_range, append=False):
         """
         Add an active lines in this atmosphere
         
@@ -202,31 +154,32 @@ class SIR_atmosphere(General_atmosphere):
         None
     
         """
+        
+        # if (not append):
 
-        if (self.initialization):
+        f = open('malla.grid', 'w')
+        f.write("IMPORTANT: a) All items must be separated by commas.                 \n")
+        f.write("           b) The first six characters of the last line                \n")
+        f.write("          in the header (if any) must contain the symbol ---       \n")
+        f.write("\n")                                                                       
+        f.write("Line and blends indices   :   Initial lambda     Step     Final lambda \n")
+        f.write("(in this order)                    (mA)          (mA)         (mA)     \n")
+        f.write("-----------------------------------------------------------------------\n")
+            
+        # else:
+            # f = open('malla.grid', 'a')      
 
-            f = open('malla.grid', 'w')
-            f.write("IMPORTANT: a) All items must be separated by commas.                 \n")
-            f.write("           b) The first six characters of the last line                \n")
-            f.write("          in the header (if any) must contain the symbol ---       \n")
-            f.write("\n")                                                                       
-            f.write("Line and blends indices   :   Initial lambda     Step     Final lambda \n")
-            f.write("(in this order)                    (mA)          (mA)         (mA)     \n")
-            f.write("-----------------------------------------------------------------------\n")
+        
+        self.index = index + 1
+        print(self.index)
 
-            self.initialization = False
-        else:
-            f = open('malla.grid', 'a')
-
-
-        # self.wavelength_range[line] = wvl_range
         ind_low = (np.abs(spectrum.wavelength_axis - wvl_range[0])).argmin()
         ind_top = (np.abs(spectrum.wavelength_axis - wvl_range[1])).argmin()
 
         self.spectrum = spectrum
         self.wvl_axis = spectrum.wavelength_axis[ind_low:ind_top+1]
-        self.wvl_range = [ind_low, ind_top]
-
+        self.wvl_range = np.array([ind_low, ind_top])
+        
         low = spectrum.wavelength_axis[ind_low]
         top = spectrum.wavelength_axis[ind_top] + 1e-3
         delta = (spectrum.wavelength_axis[1] - spectrum.wavelength_axis[0])
@@ -245,18 +198,7 @@ class SIR_atmosphere(General_atmosphere):
         f.write("{0}            :  {1}, {2}, {3}\n".format(str(lines)[1:-1], 1e3*(low-wvl), 1e3*delta, 1e3*(top-wvl)))
         f.close()
 
-
-        # if (not os.path.exists('LINEAS')):
-        #     local = str(__file__).split('/')
-        #     sdir = '/'.join(local[0:-2])+'/data'
-        #     shutil.copy(sdir+'/LINEAS', os.getcwd())
-
-        # if (not os.path.exists('THEVENIN')):
-        #     local = str(__file__).split('/')
-        #     sdir = '/'.join(local[0:-2])+'/data'
-        #     shutil.copy(sdir+'/THEVENIN', os.getcwd())
-            
-        pysir.init()
+        self.n_lambda = sir_code.init(self.index)
             
     def _interpolate_nodes(logTau, nodes, nodes_logtau=None, variable=None):
         """
@@ -314,7 +256,7 @@ class SIR_atmosphere(General_atmosphere):
         self.filling_factor = fillingFactor
         self.stray = stray
 
-    def synthesize(self, returnRF=False):
+    def synthesize(self, stokes_in, returnRF=False):
         """Carry out the synthesis and returns the Stokes parameters and the response 
         functions to all physical variables at all depths
         
@@ -339,12 +281,14 @@ class SIR_atmosphere(General_atmosphere):
             rf: (float array) Response functions to T, Pe, vmic, B, v, theta, phi, all of size (4,nLambda,nDepth), plus the RF to macroturbulence of size (4,nLambda)
                             It is not returned if returnRF=False
         """
-        
+        print(returnRF)
         if (returnRF):
-            stokes, rf = pysir.synthRF(self.model, self.macroturbulence, self.filling_factor, self.stray)
+            # stokes, rf = self.sir.synthRF(self.model, self.macroturbulence, self.filling_factor, self.stray)
+            stokes, rf = sir_code.synthRF(self.index, self.n_lambda, self.model, self.macroturbulence, self.filling_factor, self.stray)
             return stokes[1:,:], rf
         else:
-            stokes = pysir.synth(self.model, self.macroturbulence, self.filling_factor, self.stray)
+            # stokes = self.sir.synth(self.model, self.macroturbulence, self.filling_factor, self.stray)
+            stokes = sir_code.synth(self.index, self.n_lambda, self.model, self.macroturbulence, self.filling_factor, self.stray)
             return stokes[1:,:]
 
         return stokes[1:,:], rf
