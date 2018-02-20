@@ -8,6 +8,7 @@ hazel/atmosphere.py
 hazel/configuration.py
 hazel/hsra.py
 hazel/model.py
+hazel/multiprocess.py
 hazel/sir.py
 hazel/spectrum.py
 hazel/transforms.py

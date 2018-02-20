@@ -1,6 +1,7 @@
 import numpy as np
+from ipdb import set_trace as stop
 
-__all__ = ['i0_allen']
+__all__ = ['i0_allen', '_extract_parameter_cycles']
 
 def i0_allen(wavelength, muAngle):
 	"""
@@ -26,3 +27,11 @@ def i0_allen(wavelength, muAngle):
 	i0 = np.interp(wavelength, lambdaI0, I0)
 	
 	return (1.0 - u - v + u * muAngle + v * muAngle**2)* i0
+
+def _extract_parameter_cycles(s):
+	tmp = s[0].split('->')
+	value = float(tmp[0])
+	cycle1 = tmp[1].strip()
+	cycles = [cycle1] + s[1:]
+
+	return value, cycles

@@ -7,6 +7,7 @@ from hazel.hsra import hsra_continuum
 from ipdb import set_trace as stop
 from hazel.sir import Sir
 
+
 __all__ = ['Hazel_atmosphere', 'SIR_atmosphere']
     
 sir_parameters = OrderedDict.fromkeys('T B thetaB phiB v')
@@ -22,10 +23,10 @@ class General_atmosphere(object):
         self.wvl_range = dict()
         self.type = atm_type
         self.spectrum = dict()
+        self.active = False
 
         self.multiplets = {'10830': 10829.0911, '3888': 3888.6046, '7065': 7065.7085, '5876': 5875.9663}
 
-    # def set_
 
 class Parametric_atmosphere(General_atmosphere):
     def __init__(self):
@@ -69,7 +70,7 @@ class Hazel_atmosphere(General_atmosphere):
 
         self.spectrum = spectrum
         self.wvl_axis = spectrum.wavelength_axis[ind_low:ind_top+1]
-        self.wvl_range = [ind_low, ind_top]
+        self.wvl_range = [ind_low, ind_top+1]
 
         self.parameters = OrderedDict()
         self.parameters['B'] = 0.0
@@ -82,7 +83,58 @@ class Hazel_atmosphere(General_atmosphere):
         self.parameters['beta'] = 1.0
         self.parameters['a'] = 0.0
 
+        self.cycles = OrderedDict()
+        self.cycles['B'] = None
+        self.cycles['thetaB'] = None
+        self.cycles['phiB'] = None
+        self.cycles['h'] = None
+        self.cycles['tau'] = None
+        self.cycles['v'] = None
+        self.cycles['deltav'] = None
+        self.cycles['beta'] = None
+        self.cycles['a'] = None
+
         self.index = index + 1
+
+    def set_parameters(self, pars):
+        self.parameters['B'] = pars[0]
+        self.parameters['thetaB'] = pars[1]
+        self.parameters['phiB'] = pars[2]        
+        self.parameters['tau'] = pars[3]
+        self.parameters['v'] = pars[4]
+        self.parameters['deltav'] = pars[5]
+        self.parameters['beta'] = pars[6]
+        self.parameters['a'] = pars[7]
+
+    def load_reference_model(self, model_file, verbose):
+        """
+        Load a reference model or a model for every pixel for synthesis/inversion
+
+        Parameters
+        ----------
+        
+        model_file : str
+            String with the name of the file. Extensions can currently be "1d" or "h5"
+        verbose : bool
+            verbosity flag
+
+        Returns
+        -------
+            None
+        """
+        extension = os.path.splitext(model_file)[1][1:]
+        if (extension == '1d'):
+            if (verbose):
+                print('  - Reading 1D model {0} as reference'.format(model_file))
+            self.model_type = '1d'
+            out = np.loadtxt(model_file, skiprows=1)            
+            self.set_parameters(out)
+        
+        if (extension == 'h5'):
+            if (verbose):
+                print('  - Reading 3D model {0} as reference'.format(model_file))
+            self.model_type = '3d'
+            self.model_file = model_file
 
     def synthesize(self, stokes=None):
         
@@ -103,7 +155,7 @@ class Hazel_atmosphere(General_atmosphere):
         dopplerWidthInput = self.parameters['deltav']
         dampingInput = self.parameters['a']
         dopplerVelocityInput = self.parameters['v']
-        betaInput = 1.0
+        betaInput = self.parameters['beta']
         nbarInput = np.asarray([0.0,0.0,0.0,0.0])
         omegaInput = np.asarray([0.0,0.0,0.0,0.0])
         
@@ -111,7 +163,7 @@ class Hazel_atmosphere(General_atmosphere):
             anglesInput, nLambdaInput, lambdaAxisInput, dopplerWidthInput, 
             dampingInput, dopplerVelocityInput, 
             betaInput, nbarInput, omegaInput)
-
+        
         l, stokes = hazel_code._synth(*args)
         
         return stokes / hsra_continuum(self.multiplets[self.active_line])
@@ -122,6 +174,14 @@ class SIR_atmosphere(General_atmosphere):
         super().__init__('photosphere')
         self.ff = 1.0        
         self.parameters = dict()
+
+        self.cycles = OrderedDict()
+        self.cycles['T'] = None
+        self.cycles['vmic'] = None
+        self.cycles['v'] = None
+        self.cycles['B'] = None
+        self.cycles['thetaB'] = None
+        self.cycles['phiB'] = None
         
     def list_lines(self):
         """
@@ -171,14 +231,13 @@ class SIR_atmosphere(General_atmosphere):
 
         
         self.index = index + 1
-        print(self.index)
 
         ind_low = (np.abs(spectrum.wavelength_axis - wvl_range[0])).argmin()
         ind_top = (np.abs(spectrum.wavelength_axis - wvl_range[1])).argmin()
 
         self.spectrum = spectrum
         self.wvl_axis = spectrum.wavelength_axis[ind_low:ind_top+1]
-        self.wvl_range = np.array([ind_low, ind_top])
+        self.wvl_range = np.array([ind_low, ind_top+1])
         
         low = spectrum.wavelength_axis[ind_low]
         top = spectrum.wavelength_axis[ind_top] + 1e-3
@@ -240,12 +299,37 @@ class SIR_atmosphere(General_atmosphere):
             out = variable + np.polyval(coeff, logTau)
         return out
 
-    def load_model(self, model_file):
-        out = np.loadtxt('model.mod', dtype=np.float32)
-        out = np.delete(out, 2, axis=1)    
-        self.set_model(out)
+    def load_reference_model(self, model_file, verbose):
+        """
+        Load a reference model or a model for every pixel for synthesis/inversion
 
-    def set_model(self, model, macroturbulence=0.0, fillingFactor=1.0, stray=0.0):
+        Parameters
+        ----------
+        model_file : str
+            String with the name of the file. Extensions can currently be "1d" or "h5"
+        verbose : bool
+            Verbosity
+
+        Returns
+        -------
+        None
+        """
+        extension = os.path.splitext(model_file)[1][1:]
+        if (extension == '1d'):
+            if (verbose):
+                print('  - Reading 1D model {0} as reference'.format(model_file))
+            self.model_type = '1d'
+            out = np.loadtxt(model_file, dtype=np.float32, skiprows=1)
+            out = np.delete(out, 2, axis=1)
+            self.set_model(out)
+        
+        if (extension == 'h5'):
+            if (verbose):
+                print('  - Reading 3D model {0} as reference'.format(model_file))
+            self.model_type = '3d'
+            self.model_file = model_file
+            
+    def set_parameters(self, model, macroturbulence=0.0, fillingFactor=1.0, stray=0.0):
         if (model.shape[1] == 7):
             model = np.insert(model, 2, -np.ones(model.shape[0]), axis=1)
     # Boundary condition for Pe
@@ -260,8 +344,10 @@ class SIR_atmosphere(General_atmosphere):
         """Carry out the synthesis and returns the Stokes parameters and the response 
         functions to all physical variables at all depths
         
-        Args:
-            model (float array): an array of size [nDepth x 7] or [nDepth x 8], where the columns contain the depth stratification of:
+        Parameters
+        ----------
+        model : float
+            An array of size [nDepth x 7] or [nDepth x 8], where the columns contain the depth stratification of:
                 - log tau
                 - Temperature [K]
                 - Electron pressure [dyn cm^-2]  (optional)
@@ -270,18 +356,25 @@ class SIR_atmosphere(General_atmosphere):
                 - Line-of-sight velocity [km/s]
                 - Magnetic field inclination [deg]
                 - Magnetic field azimuth [deg]
-            macroturbulence (float, optional): macroturbulence velocity [km/s]. Default: 0
-            fillingFactor (float, optional): filling factor. Default: 1
-            stray (float, optional): stray light in %. Default: 0
-            returnRF (bool, optional): return response functions
+        macroturbulence : float, optional
+            Macroturbulence velocity [km/s]. Default: 0
+        fillingFactor : float, optional
+            Filling factor. Default: 1
+        stray : float, optional
+            Stray light in %. Default: 0
+        returnRF : bool, optional
+            Return response functions
         
-        Returns:
-            stokes: (float array) Stokes parameters, with the first index containing the wavelength displacement and the remaining
+        Returns
+        -------
+        
+        stokes : float
+            Stokes parameters, with the first index containing the wavelength displacement and the remaining
                                     containing I, Q, U and V. Size (5,nLambda)
-            rf: (float array) Response functions to T, Pe, vmic, B, v, theta, phi, all of size (4,nLambda,nDepth), plus the RF to macroturbulence of size (4,nLambda)
+        rf: float 
+            Response functions to T, Pe, vmic, B, v, theta, phi, all of size (4,nLambda,nDepth), plus the RF to macroturbulence of size (4,nLambda)
                             It is not returned if returnRF=False
         """
-        print(returnRF)
         if (returnRF):
             # stokes, rf = self.sir.synthRF(self.model, self.macroturbulence, self.filling_factor, self.stray)
             stokes, rf = sir_code.synthRF(self.index, self.n_lambda, self.model, self.macroturbulence, self.filling_factor, self.stray)

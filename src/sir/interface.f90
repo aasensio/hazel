@@ -15,6 +15,7 @@ type configuration
 	real*4 dlamda(kld)
 	integer ntls,nlins(kl4),npass(kl4)
 	real*4 dlamdas(kld4)
+	real*4 abu(92)
 end type configuration
 
 type(configuration) :: conf(10)
@@ -29,11 +30,12 @@ contains
 	integer ntl,nlin(kl),npas(kl),nble(kl)
 	real*4 dlamda(kld)
 	integer ntls,nlins(kl4),npass(kl4)
-	real*4 dlamdas(kld4)       
+	real*4 dlamdas(kld4), eps(92)
 
 	common/Malla/ntl,nlin,npas,nble,dlamda
     common/Malla4/ntls,nlins,npass,dlamdas  !common para StokesFRsub
 	common/ifiltro/ifiltro
+	common/abundances/eps
 
 		call leyendo
 
@@ -56,6 +58,7 @@ contains
 		conf(index)%nlins = nlins
 		conf(index)%npass = npass
 		conf(index)%dlamdas = dlamdas
+		conf(index)%abu = eps
 
 	end subroutine c_init
 

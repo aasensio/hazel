@@ -87,8 +87,8 @@ C       A.D. WITTMANN, GOETTINGEN (1975).
       entry neldatb(nel,t,wgt,abu,ei1,ei2)
 
 c     Leemos las abundancias
-200   if(ivez.eq.1)call leeabun(0,eps)   !el 0 lee, 1 escribe
-      ivez=2
+c ANDRES 200   if(ivez.eq.1)call leeabun(0,eps)   !el 0 lee, 1 escribe
+200      ivez=2
 
       WGT=W(NEL)
       EI1=E1(NEL)
