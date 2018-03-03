@@ -188,8 +188,9 @@ contains
                 if (myrank == 0) then
                     print *, 'Number of calls to forward modeling routines : ', fixed%total_forward_modeling
                 endif
-    
+
                 call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
+
                 if (error == 1) return
                 inversion%chisq = compute_chisq(observation,inversion)
                 
@@ -240,36 +241,6 @@ contains
                             
             endif
         
-! !*********************************
-! !** INVERSION MODE WITH PIKAIA
-! !*********************************
-!           if (inversion%algorithm(loop_cycle) == 3) then
-!               if (myrank == 0) then
-!                   print *, 'PIKAIA MODE'
-!               endif
-!   
-!               trial = params
-!               call invert_with_pikaia(trial)
-!               params = trial
-!               
-!               call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
-! 
-!               if (error == 1) return
-!               
-!               inversion%chisq = compute_chisq(observation,inversion)
-! 
-!               if (myrank == 0) then
-! ! Write the final profiles
-!                   call write_final_profiles(output_inverted_profiles,observation,inversion)
-!               
-! ! Write the final parameters in a file so that it can be used for restarting the inversion code
-!                   call write_experiment(params, fixed)
-!               
-!                   call print_parameters(params,'-Final Parameters : ',.TRUE.)
-!                   print *, 'Final chi^2 : ', inversion%chisq
-!               endif
-!           endif
-
             if (myrank == 0) then
                 print *
                 write(*,FMT='(A)') '*******************************'

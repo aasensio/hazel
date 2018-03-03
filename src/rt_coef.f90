@@ -79,6 +79,7 @@ contains
       	enddo
       endif
 
+
 		if (.not.allocated(epsilon)) allocate(epsilon(0:3,in_fixed%no))
 		if (.not.allocated(epsilon_zeeman)) allocate(epsilon_zeeman(0:3,in_fixed%no))
 		if (.not.allocated(eta)) allocate(eta(0:3,in_fixed%no))
@@ -106,7 +107,7 @@ contains
 		
 ! In the synthesis mode, generate a new wavelength axis (wavenumber in this case)
 #if ! defined(python)
-		if (working_mode == 0) then		
+		if (working_mode == 0 .and. nprocs == 1) then
 			do i = 1, in_fixed%no
 				onum(i) = in_fixed%omin + (in_fixed%omax-in_fixed%omin) * dfloat(i-1) / dfloat(in_fixed%no-1)
 			enddo			
@@ -117,7 +118,7 @@ contains
 #endif
 
 ! In the inversion mode, use the wavelength axis (wavenumber in this case) from the observation
-		if (working_mode == 1) then
+		if (working_mode == 1 .or. (working_mode == 0 .and. nprocs > 1)) then
 			onum = -1.d8 * in_observation%wl / in_fixed%wl**2
 		endif
 				
@@ -159,6 +160,7 @@ contains
 				
 ! Introduce the energy of the levels of the lower level
 		allocate(e0(0:jlimit2))
+		e0 = 0.0
       do j2 = jminl2, jmaxl2, 2
       	e0(j2) = energy(nl,j2)			
 		enddo
@@ -167,6 +169,7 @@ contains
 		call paschen_size(ll2,is2,j2max,njlargest)
 						
 		if (.not.allocated(njlevl)) allocate(njlevl(-j2max:j2max))
+		njlevl = 0
 		if (.not.allocated(autl)) allocate(autl(-j2max:j2max,njlargest))
 		autl = 0.d0
 		if (.not.allocated(cl)) allocate(cl(-j2max:j2max,njlargest,0:j2max))
@@ -183,6 +186,7 @@ contains
 		call paschen_size(lu2,is2,j2max,njlargest)
 		
 		if (.not.allocated(njlevu)) allocate(njlevu(-j2max:j2max))
+		njlevu = 0
 		if (.not.allocated(autu)) allocate(autu(-j2max:j2max,njlargest))
 		autu = 0.d0
 		if (.not.allocated(cu)) allocate(cu(-j2max:j2max,njlargest,0:j2max))
@@ -204,7 +208,7 @@ contains
 		rhol = 0.d0
 		if (.not.allocated(rhoml)) allocate(rhoml(0:j2max,0:j2max,0:kmax,-qmax:qmax))
 		rhoml = 0.d0
-		
+
 		do i = 1, nrhos
 			if (ntab(i) == nu) then
 				if (irtab(i) == 1) then
@@ -265,6 +269,7 @@ contains
 				endif
 			endif
 		enddo
+
 		
 ! We write the upper level rho^K_Q(J,J') in the reference frame of the vertical
 ! 		open(unit=12, file=output_rho_vertical_upper,action='write',status='replace')
@@ -382,6 +387,7 @@ contains
 		if (.not.allocated(tmp2)) allocate(tmp2(nfreq))
 		if (.not.allocated(prof)) allocate(prof(nfreq))
 
+	
       do ml2 = -jmaxl2, jmaxl2, 2
       	do mu2 = -jmaxu2, jmaxu2, 2
 	      	q2 = ml2-mu2
@@ -591,6 +597,7 @@ contains
 ! 			deallocate(prof)						
 		
 		endif
+
 		
 		call date_and_time(values=values_end)
 		start_time = values_start(5) * 3600 + values_start(6) * 60 + values_start(7) + 0.001 * values_start(8)

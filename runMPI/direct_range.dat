@@ -6,58 +6,58 @@
 -1
 
 # Reduction in the volume (<0 -> don't use this criteria, typically 0.01)
-0.001
+0.0001
 
 # Magnetic field (0-Bmax)
-0  1100
+0  2500
 
 # thetab  (0 .. 180)
 0  180
 
 # chib (0 .. 180)
-0  180
+-180  180
 
 # vdopp (0 .. 20)
-2  12
+3  28
 
 # dtau (0 .. 5)
-0.1  2
+0.001  4
 
 # delta_collision (0 .. 18)
 0.d0  18.d0
 
 # vmacro (-10 .. 10)
--5  5
+10  60
 
 # damping (0 .. 4)
 0  0.5
 
 # beta (0 .. 10)
-0.5  2
+0  2
 
 # height (0 .. 100)
 0.d0  100.d0
 
 # dtau2 (0 .. 5)
-0.1  2
+0.001  3
 
 # vmacro2 (-10 .. 10)
--5  5
+10  45
 
 # Magnetic field 2 (0-Bmax)
-0  1100
+0  2500
 
 # thetab 2 (0 .. 180)
 0  180
 
 # chib 2 (0 .. 180)
-0  180
+-180  180
 
 # vdopp 2 (0 .. 20)
-2  12
+5  25
 
 # ff
 0.0  1.0
 
 # beta2 (0 .. 10)
-0.5  2
+3  8

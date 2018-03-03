@@ -12,8 +12,16 @@ def lower_to_sep(string, separator='='):
 
 
 if (len(sys.argv) < 2):
-	print("Example usage: runHazel conf.ini [id]")
+	print("Example usage: ./run.py conf.ini n_procs")
 	exit()
+
+if (len(sys.argv) == 4):
+	start = sys.argv[3]
+	end = ''
+
+if (len(sys.argv) == 5):
+	start = sys.argv[3]
+	end = sys.argv[4]
 
 print("Using configuration file = "+sys.argv[1])
 
@@ -277,7 +285,7 @@ f.close()
 yesno = {'yes': '1', 'no': '0'}
 slabs = {'1': '1', '1+1': '2', '1+1B': '3', '2': '-2'}
 multiplets = {'10830': '1', '3889': '2', '7065': '3', '5876': '4'}
-lambda0 = {'10830': '10830.0911', '3889': '3888.6046', '7065': '7065.7085', '5876': '5876.9663'}
+lambda0 = {'10830': '10829.0911', '3889': '3888.6046', '7065': '7065.7085', '5876': '5876.9663'}
 if (config['synthesis']['number of slabs'] == '1'):
 	nSlabs = 1
 else:
@@ -375,6 +383,6 @@ f.close()
 
 # Run the code
 try:
-	call(['mpiexec','-n',sys.argv[2],'./hazel'])
+	call(['mpiexec','-n',sys.argv[2],'./hazel','config_inversion.dat', start,end])
 except:
 	print("A problem occured. Exiting...")

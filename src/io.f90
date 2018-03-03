@@ -744,7 +744,7 @@ contains
         endif
 
 ! In the inversion mode, the wavelength axis has to be the same as that introduced in the observation
-        if (working_mode == 1) then
+        if (working_mode == 1 .or. (working_mode == 0 .and. nprocs > 1)) then
             in_fixed%no = in_observation%n
         endif
 

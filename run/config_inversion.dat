@@ -30,16 +30,16 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'OBSERVATION/prominence_ApJ_642_554.prof'
+'OBSERVATION/absprofs_test.nc'
 
 # File with the inverted profiles
-'test.inversion'
+'absprofs_test.inversion'
 
 # File with the parameters from the inversion
-'test.parameters'
+'absprofs_test.parameters'
 
 # File with the final errors
-'test.errors'
+'absprofs_test.errors'
 
 # File that sets the parameters to invert
 'invert_parameters.dat'
@@ -54,4 +54,4 @@
 0
 
 # Synthesis mode -> 0 , Inversion mode -> 1
-1
+0

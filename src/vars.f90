@@ -102,6 +102,8 @@ implicit none
 	real(kind=8) :: chi2Level
 
 	real(kind=8), dimension(4) :: nbarExternal, omegaExternal
+
+	integer :: nprocs
 		
 	
 end module vars

@@ -108,7 +108,7 @@ contains
         error = 0
         
 ! Fill the statistical equilibrium equations
-        call fill_SEE(in_params, in_fixed, 1, error)        
+        call fill_SEE(in_params, in_fixed, 1, error)
 
 ! If the solution of the SEE gives an error, return
         if (error == 1) return

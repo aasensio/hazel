@@ -17,7 +17,7 @@ implicit none
 
     integer :: successful, n_procs_done, slave, status_obs
     character(len=120) :: temporal_file
-    integer :: mpi_status, myrank, nprocs, ierr, package_size_model, package_size_obs, kill, index_obs, i, error
+    integer :: mpi_status, myrank, ierr, package_size_model, package_size_obs, kill, index_obs, i, error
     integer, allocatable :: slave_active(:)
     character(len=8) :: date
     character(len=10) :: time
@@ -33,7 +33,7 @@ implicit none
 #else
     integer :: MPI_COMM_WORLD
     myrank = 0
-    nprocs = 0
+    nprocs = 1
 #endif
 
     nbarExternal = 1.d0
@@ -106,7 +106,7 @@ implicit none
 !*********************************
 !** SYNTHESIS MODE
 !*********************************  
-    if (working_mode == 0 .and. nprocs == 0) then
+    if (working_mode == 0 .and. nprocs == 1) then
         if (verbose_mode == 1) then
             print *, 'Working in SYNTHESIS mode'
         endif
@@ -123,7 +123,7 @@ implicit none
 !*********************************
 !** INVERSION MODE
 !*********************************
-    if (working_mode > 0 .and. nprocs >= 0) then
+    if (working_mode >= 0 .and. nprocs > 1) then
         if (verbose_mode == 1 .and. myrank == 0) then
             print *, 'Working in INVERSION mode'
         endif
@@ -206,6 +206,16 @@ implicit none
                         call send_observation(observation, package_size_obs, (n_procs_done - starting_pixel + 1), n_procs_done)
                         call date_and_time(date, time, zone, values)
                         write(*,FMT='(A10,A,I4,A,I5,A,I4)') time, ' * Master - Sent observation ', n_procs_done, ' to slave ', (n_procs_done - starting_pixel + 1)
+
+                        !!!!!!!!!!!!!!!!!!!!!
+!                     call set_boundary_condition(fixed, inversion)
+!                     call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
+!                     print *, '1 MASTER - ', params%bgauss, params%thetabd, params%chibd, params%vdopp, params%dtau
+!                     print *, '2 MASTER - ', params%delta_collision, params%vmacro, params%damping, params%beta, params%height
+!                     print *, '3 MASTER - ', params%vdopp2, params%beta, params%dtau2, params%vmacro2, params%bgauss2, params%thetabd2, params%chibd2, params%ff
+!                     print *, '5 MASTER - ', fixed%thetad, fixed%chid, fixed%gammad
+!                     print *, 'ST MASTER - ', epsilon(1,:)!inversion%stokes_unperturbed(1,:)
+! !!!!!!!!!!!!!!!!!!!!!
                         
 !                       write(24,FMT='(A10,A,I4,A,I5,A,I4)') time, ' Master ', myrank, ' - Sent observation ', n_procs_done, ' to Slave ', &
 !                           (n_procs_done - starting_pixel + 1)
@@ -234,6 +244,7 @@ implicit none
                 if (myrank == 0) then               
 
                     call receive_model(params, errorparams, observation, inversion, package_size_model, slave, index_obs)
+
 !                   call date_and_time(date, time, zone, values)
 !                   write(*,FMT='(A10,A,I4,A,I4)') time, ' - Master ', myrank, ' - Received result from Slave ', slave
                     
@@ -278,13 +289,20 @@ implicit none
                     if (kill == 0) then
 !                       write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Received observation'
 !                       write(*,FMT='(A,I4,A)') 'Slave  ', myrank, ' - Doing inversion'
-                        call set_boundary_condition(fixed, inversion)
+                        ! call set_boundary_condition(fixed, inversion)
+
+                        ! call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
+                        ! print *, '1 SLAVE - ', params%bgauss, params%thetabd, params%chibd, params%vdopp, params%dtau
+                        ! print *, '2 SLAVE - ', params%delta_collision, params%vmacro, params%damping, params%beta, params%height
+                        ! print *, '3 SLAVE - ', params%vdopp2, params%beta, params%dtau2, params%vmacro2, params%bgauss2, params%thetabd2, params%chibd2, params%ff
+                        ! print *, '5 SLAVE - ', fixed%thetad, fixed%chid, fixed%gammad
+                        ! print *, 'ST SLAVE - ', epsilon(1,:) !inversion%stokes_unperturbed(1,:)
                         
                         if (working_mode >= 1) then
                             call doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
                         endif
 
-                        if (working_mode == 0) then
+                        if (working_mode == 0) then                            
                             call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
                         endif
 

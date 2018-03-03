@@ -44,6 +44,7 @@ contains
             nbar = nbar_allen(atom%wavelength(nt), in_fixed, in_params, atom%reduction_factor(nt) * nbarExternal(nt))
             w = omega_allen(atom%wavelength(nt), in_fixed, in_params, atom%reduction_factor_omega(nt) * omegaExternal(nt))
 
+
 ! Neglect the influence of anisotropy
             if (in_fixed%use_atomic_pol == -1) then
                 w = 0.d0                

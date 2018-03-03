@@ -7,7 +7,7 @@ endif
 
 # Choose desired compiler (compiler=gfortran/ifort)
 ifndef $(compiler)
-	compiler = ifort
+	compiler = gfortran
 endif
 
 # Choose desired compiler (supercomputer=local/teide)
@@ -24,9 +24,9 @@ endif
 ifeq ($(version), mpi)
 	
 #------------------------
-# My local supercomputer
+# My desktop
 #------------------------
-	ifeq ($(supercomputer), local)		
+	ifeq ($(supercomputer), desktop)		
 		ifeq ($(compiler), gfortran)
 			NETCDF_INCLUDE = -I/usr/lib64/gfortran/modules
 			NETCDF_LIB = -L/usr/pkg/netCDF/netCDF-4.1.1/lib -lnetcdff
@@ -43,6 +43,21 @@ ifeq ($(version), mpi)
 			PREPROCESS = -D$(version) -fpp
 		endif
 	endif
+
+#------------------------
+# My laptop
+#------------------------
+	ifeq ($(supercomputer), laptop)		
+		ifeq ($(compiler), gfortran)
+			NETCDF_INCLUDE = -I/Users/aasensio/miniconda3/pkgs/netcdf-fortran-4.4.4-6/include
+			NETCDF_LIB = -L/Users/aasensio/miniconda3/pkgs/netcdf-fortran-4.4.4-6/lib -lnetcdff
+			COMPILER = mpif90
+			COMPILER_LINKS = #-L/net/nas4/fis/aasensio/scratch/MPICH/lib 
+			COMPILER_OPTS = -c -O3 -ffree-line-length-none #-I/net/nas4/fis/aasensio/scratch/MPICH/include
+			PREPROCESS = -D$(version) -cpp
+		endif
+	endif
+
 
 #------------------------
 # Teide supercomputer

@@ -27,32 +27,32 @@
 3.0
 
 # Optical depth of the slab in the maximum of I (slab) or strength of the line (ME)
-1.0
+0.2
 
 # Source function enhancement
 1.0
 
 # Boundary Stokes parameters (I0,Q0,U0,V0)  4.098093d-5 for 10830 A at disk center
 'single'
-4.18e-5  0.0  0.0  0.0
+4.04e-5  0.0  0.0  0.0
 
 # Transition where to compute the emergent Stokes profiles
-1
+4
 
 # Include atomic level polarization? (0-> no, 1-> yes)
 1
 
 # Observation angle with respect to the local solar vertical theta,chi,gamma [degrees]
-0.0  90.0  90.0
+22.0  0.0  57.0
 
 # Wavelength axis: minimum, maximum and number of grid points
 -3.0  2.5  200
 
 # Line wavelength [A], Doppler velocity [km/s] and damping [a]
-10830.0911  8.0  0.0
+5876.9663  8.0  0.0001
 
 # Macroscopic velocity [km/s] (>0 is a redshift)
-0.0
+15.0
 
 # Include magneto-optical effects in the RT
 1

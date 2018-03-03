@@ -66,7 +66,6 @@ contains
             call MPI_Bcast(params%ff,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         endif
         
-        call MPI_Bcast(params%beta,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%Stokes_incident,4,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%nemiss,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%use_atomic_pol,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
@@ -78,6 +77,7 @@ contains
         call MPI_Bcast(fixed%no,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%wl,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%Stokes_incident_mode,10,MPI_CHARACTER,0,MPI_COMM_WORLD,ierr)
+        call MPI_Bcast(fixed%damping_treatment,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
         
         call MPI_Bcast(params%vdopp,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         if (params%nslabs == 3 .or. params%nslabs == -2) then
@@ -134,7 +134,7 @@ contains
             allocate(atom%j10(atom%ntran))
         endif
 
-        call MPI_Bcast(lsto2,n_terms,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+        call MPI_Bcast(lsto2,n_terms,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(energy(:,0:jlimit2),n_terms*(jlimit2+1),MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 
         call MPI_Bcast(ntab,nrhos,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
@@ -143,7 +143,7 @@ contains
         call MPI_Bcast(ktab,nrhos,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(qtab,nrhos,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(irtab,nrhos,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
-        call MPI_Bcast(rnutab,nrhos,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+        call MPI_Bcast(rnutab,nrhos,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
                 
         call MPI_Bcast(atom%nterml,atom%ntran,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(atom%ntermu,atom%ntran,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
@@ -172,6 +172,7 @@ contains
 
         if (myrank /= 0) then
             allocate(params%inverted(params%n_total))
+            params%inverted = 0
             allocate(inversion%cycles(params%n_total,inversion%n_cycles))
             allocate(inversion%stokes_weights(0:3,inversion%n_cycles))
             allocate(inversion%algorithm(inversion%n_cycles))
@@ -534,6 +535,7 @@ contains
 ! And the synthetic observations
         call MPI_Unpack(buffer, packagesize, pos, in_inversion%stokes_unperturbed(0:3,:), 4*in_observation%n, &
             MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+
         
     end subroutine receive_model
     

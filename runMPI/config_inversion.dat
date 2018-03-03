@@ -30,16 +30,16 @@
 'INVERTED/rtcoef_noatompol.emer'
 
 # File with the observed profiles
-'OBSERVATION/test.nc'
+'OBSERVATION/absprofs_test.nc'
 
 # File with the inverted profiles
-'test.inversion'
+'absprofs_test.inversion'
 
 # File with the parameters from the inversion
-'test.parameters'
+'absprofs_test.parameters'
 
 # File with the final errors
-'test.errors'
+'absprofs_test.errors'
 
 # File that sets the parameters to invert
 'invert_parameters.dat'
@@ -51,7 +51,7 @@
 0
 
 # Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3), simplified slab (4), exact slab (5)
-5
+0
 
 # Synthesis mode -> 0 , Inversion mode -> 1
 1
