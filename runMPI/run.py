@@ -15,13 +15,7 @@ if (len(sys.argv) < 2):
 	print("Example usage: ./run.py conf.ini n_procs")
 	exit()
 
-if (len(sys.argv) == 4):
-	start = sys.argv[3]
-	end = ''
 
-if (len(sys.argv) == 5):
-	start = sys.argv[3]
-	end = sys.argv[4]
 
 print("Using configuration file = "+sys.argv[1])
 
@@ -382,7 +376,16 @@ f.write(yesno[config['general parameters']['include stimulated emission in the r
 f.close()
 
 # Run the code
+args = ['mpiexec','-n',sys.argv[2],'./hazel','config_inversion.dat']
+
+if (len(sys.argv) == 4):
+	args.append(sys.argv[3])
+
+if (len(sys.argv) == 5):
+	args.append(sys.argv[3])
+	args.append(sys.argv[4])
+
 try:
-	call(['mpiexec','-n',sys.argv[2],'./hazel','config_inversion.dat', start,end])
+	call(args)
 except:
 	print("A problem occured. Exiting...")

@@ -66,7 +66,7 @@ contains
             call MPI_Bcast(params%ff,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         endif
         
-        call MPI_Bcast(fixed%Stokes_incident,4,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+        call MPI_Bcast(fixed%Stokes_incident(0:3),4,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%nemiss,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%use_atomic_pol,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
         call MPI_Bcast(fixed%thetad,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
@@ -237,7 +237,7 @@ contains
         call MPI_Pack(observation%wl, observation%n, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
         call MPI_Pack(observation%stokes(0:3,:), 4*observation%n, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)     
         call MPI_Pack(observation%sigma(0:3,:), 4*observation%n, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
-        call MPI_Pack(fixed%Stokes_incident,4, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)        
+        call MPI_Pack(fixed%Stokes_incident(0:3),4, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)        
         call MPI_Pack(fixed%thetad,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
         call MPI_Pack(fixed%gammad,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
         call MPI_Pack(params%height,1, MPI_DOUBLE_PRECISION, buffer, packagesize, pos, MPI_COMM_WORLD, ierr)
@@ -303,7 +303,7 @@ contains
             call MPI_Unpack(buffer, packagesize, pos, observation%wl, observation%n, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)        
             call MPI_Unpack(buffer, packagesize, pos, observation%stokes(0:3,:), 4*observation%n, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)       
             call MPI_Unpack(buffer, packagesize, pos, observation%sigma(0:3,:), 4*observation%n, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
-            call MPI_Unpack(buffer, packagesize, pos, fixed%Stokes_incident, 4, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
+            call MPI_Unpack(buffer, packagesize, pos, fixed%Stokes_incident(0:3), 4, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
             call MPI_Unpack(buffer, packagesize, pos, fixed%thetad, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
             call MPI_Unpack(buffer, packagesize, pos, fixed%gammad, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
             call MPI_Unpack(buffer, packagesize, pos, params%height, 1, MPI_DOUBLE_PRECISION, MPI_COMM_WORLD, ierr)
