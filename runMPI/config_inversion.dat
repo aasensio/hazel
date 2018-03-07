@@ -51,7 +51,7 @@
 0
 
 # Optically thin (0), slab no-MO (1), M-E (2), slab DELOPAR (3), simplified slab (4), exact slab (5)
-0
+5
 
 # Synthesis mode -> 0 , Inversion mode -> 1
 1

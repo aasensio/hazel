@@ -299,10 +299,12 @@ implicit none
                         ! print *, 'ST SLAVE - ', epsilon(1,:) !inversion%stokes_unperturbed(1,:)
                         
                         if (working_mode >= 1) then
+                            call set_boundary_condition(fixed, inversion)
                             call doinversion(params, errorparams, fixed, observation, inversion, myrank, error)
                         endif
 
                         if (working_mode == 0) then                            
+                            call set_boundary_condition(fixed, inversion)
                             call do_synthesis(params, fixed, observation, inversion%stokes_unperturbed, error)
                         endif
 
