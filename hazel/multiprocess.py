@@ -24,8 +24,7 @@ class iterator(object):
             self.rank = self.comm.rank        # rank of this process
             self.status = MPI.Status()   # get MPI status object                        
         else:
-            self.rank = 0
-            
+            self.rank = 0            
 
     def get_rank(self, n_slaves=0):        
         if (self.use_mpi):
@@ -38,13 +37,21 @@ class iterator(object):
         # Then broadcast        
         if (self.use_mpi):
             if (self.rank == 0):                                
-                self.model = model                
-                self.comm.bcast(self.model, root=0)
+                self.model = model 
+
+                self.comm.Barrier()               
+                self.comm.bcast(self.model, root=0)                
+                self.comm.Barrier()
             else:
                 model = None
+
+                self.comm.Barrier()
                 self.model = self.comm.bcast(model, root=0)
+                self.comm.Barrier()
                 # Initialize pyhazel
-                hazel_code._init()                
+                hazel_code._init()
+                self.model.init_sir()
+                            
         else:
             self.model = model
 
@@ -69,15 +76,14 @@ class iterator(object):
             n_stokes, n_lambda = v.stokes.shape            
             db[k] = f.create_dataset(k, (self.model.n_pixels, n_stokes, n_lambda), dtype=np.float32)
 
-        # Open all atmospheric files
-        self.fhandler = {}
+        # Open all model files
         for k, v in self.model.atmospheres.items():
-            self.fhandler[k] = h5py.File(v.model_file, 'r')
-
+            v.model_handler.open()
+        
         # Loop over all pixels doing the synthesis and saving the results
         for i in tqdm(range(self.model.n_pixels)):
             for k, v in self.model.atmospheres.items():
-                m = self.fhandler[k]['model'][i,...]
+                m = v.model_handler.read(pixel=i)
                 v.set_parameters(m)
 
             self.model.synthesize()
@@ -107,11 +113,6 @@ class iterator(object):
             n_stokes, n_lambda = v.stokes.shape            
             db[k] = f.create_dataset(k, (self.model.n_pixels, n_stokes, n_lambda), dtype=np.float32)
 
-        # Open all atmospheric files
-        self.fhandler = {}
-        for k, v in self.model.atmospheres.items():
-            self.fhandler[k] = h5py.File(v.model_file, 'r')
-
         # Loop over all pixels doing the synthesis and saving the results
         task_index = 0
         num_workers = self.size - 1
@@ -119,8 +120,13 @@ class iterator(object):
         self.last_received = 0
         self.last_sent = 0
 
+        # Open all model files
+        for k, v in self.model.atmospheres.items():
+            v.model_handler.open()
+
         print("Starting calculation with {0} workers".format(num_workers), flush=True)
 
+        
         with tqdm(total=self.model.n_pixels, ncols=140) as pbar:
             while (closed_workers < num_workers):
                 data_received = self.comm.recv(source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=self.status)            
@@ -134,7 +140,7 @@ class iterator(object):
                         data_to_send = {'index': task_index}
 
                         for k, v in self.model.atmospheres.items():
-                            m = self.fhandler[k]['model'][task_index,...]
+                            m = v.model_handler.read(pixel=task_index)
                             data_to_send[k] = m
 
                         self.comm.send(data_to_send, dest=source, tag=tags.START)
@@ -147,9 +153,9 @@ class iterator(object):
                         self.comm.send(None, dest=source, tag=tags.EXIT)
                 elif tag == tags.DONE:
                     index = data_received['index']
-                    
-                    for k, v in self.model.spectrum.items():
-                        db[k][index,:,:] = data_received[k]
+                                    
+                    for k, v in self.model.spectrum.items():                    
+                        db[k][index,:,:] = data_received[k]                    
                     
                     self.last_received = '{0}->{1}'.format(index, source)
                     pbar.set_postfix(sent=self.last_sent, received=self.last_received)
@@ -160,6 +166,7 @@ class iterator(object):
         f.close()
 
     def mpi_slave_work(self):
+        
         while True:
             self.comm.send(None, dest=0, tag=tags.READY)
             data_received = self.comm.recv(source=0, tag=MPI.ANY_TAG, status=self.status)
@@ -167,17 +174,18 @@ class iterator(object):
             tag = self.status.Get_tag()
             
             if tag == tags.START:                                
-                task_index = data_received['index']                
-                for k, v in self.model.atmospheres.items():
+                task_index = data_received['index']
+                
+                for k, v in self.model.atmospheres.items():                    
                     v.set_parameters(data_received[k])
                 
-                self.model.synthesize()
+                self.model.synthesize()                
 
                 data_to_send = {'index': task_index}
 
                 for k, v in self.model.spectrum.items():
                     data_to_send[k] = self.model.spectrum[k].stokes
-
+                    
                 self.comm.send(data_to_send, dest=0, tag=tags.DONE)
             elif tag == tags.EXIT:
                 break

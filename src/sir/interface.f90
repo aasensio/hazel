@@ -1,5 +1,5 @@
 module sirMod
-use iso_c_binding, only: c_int, c_float
+use iso_c_binding, only: c_int, c_float, c_double
 
 implicit none
 
@@ -16,6 +16,19 @@ type configuration
 	integer ntls,nlins(kl4),npass(kl4)
 	real*4 dlamdas(kld4)
 	real*4 abu(92)
+	
+	character*2 atom_all(kl)
+	integer istage_all(kl)
+    real*4 wlengt_all(kl)
+    real*4 zeff_all(kl)
+	real*4 energy_all(kl)
+	real*4 loggf_all(kl)
+	integer mult_all(2,kl)
+	character*1 design_all(2,kl)
+	real*4 tam_all(2,kl)
+	real*4 alfa_all(kl)
+	real*4 sigma_all(kl)
+
 end type configuration
 
 type(configuration) :: conf(10)
@@ -31,13 +44,29 @@ contains
 	real*4 dlamda(kld)
 	integer ntls,nlins(kl4),npass(kl4)
 	real*4 dlamdas(kld4), eps(92)
+	character*2 atom
+	integer istage
+	real*4 wlengt
+	real*4 zeff
+	real*4 energy
+	real*4 loggf
+	integer mult(2)
+	character*1 design(2)
+	real*4 tam(2)
+	real*4 alfa
+	real*4 sigma
+
+	integer :: ixx, iln, ible, nxx
 
 	common/Malla/ntl,nlin,npas,nble,dlamda
     common/Malla4/ntls,nlins,npass,dlamdas  !common para StokesFRsub
 	common/ifiltro/ifiltro
 	common/abundances/eps
+	
 
 		call leyendo
+
+		!call lee_all_lines
 
 ! contamos el numero de puntos	
 		nLambda = 0
@@ -59,6 +88,38 @@ contains
 		conf(index)%npass = npass
 		conf(index)%dlamdas = dlamdas
 		conf(index)%abu = eps
+
+        ixx=0
+        do iln=1,ntl 
+           do ible=1,nble(iln)
+             ixx=ixx+1
+             nxx=nlin(ixx) 
+             if(nxx.eq.0)then
+                nxx=nlin(ixx-1)
+                call leelineasii(nxx,atom,istage,wlengt,zeff,energy,loggf,mult,design,tam,alfa,sigma)
+                loggf=-20.
+                wlengt=5000.
+             else
+                call leelineasii(nxx,atom,istage,wlengt,zeff,energy,loggf,mult,design,tam,alfa,sigma)
+             endif 
+             
+             conf(index)%atom_all(ixx)=atom
+             conf(index)%istage_all(ixx)=istage
+             conf(index)%wlengt_all(ixx)=wlengt
+             conf(index)%zeff_all(ixx)=zeff
+             conf(index)%energy_all(ixx)=energy
+             conf(index)%loggf_all(ixx)=loggf
+             conf(index)%mult_all(1,ixx)=mult(1)
+             conf(index)%mult_all(2,ixx)=mult(2)
+             conf(index)%design_all(1,ixx)=design(1)
+             conf(index)%design_all(2,ixx)=design(2)
+             conf(index)%tam_all(1,ixx)=tam(1)
+             conf(index)%tam_all(2,ixx)=tam(2)
+             conf(index)%alfa_all(ixx)=alfa
+             conf(index)%sigma_all(ixx)=sigma
+             
+           enddo
+        enddo   
 
 	end subroutine c_init
 
@@ -83,11 +144,11 @@ contains
 	end subroutine c_setpsf
 
 
-	subroutine c_synth(index, nDepth, nLambda,  macroturbulence, filling, stray, model, stokes) bind(c)
+	subroutine c_synth(index, nDepth, nLambda, macroturbulence, model, stokes) bind(c)
 	integer(c_int), intent(in) :: index, nDepth, nLambda
-	real(c_float), intent(in) :: model(8,ndepth)
-	real(c_float), intent(in) :: macroturbulence, filling, stray
-	real(c_float), intent(out) :: stokes(5,nLambda)
+	real(c_double), intent(in) :: model(8,ndepth)
+	real(c_double), intent(in) :: macroturbulence
+	real(c_double), intent(out) :: stokes(5,nLambda)
 	
 	real*4 stok(kld4)
     real*4 rt(kldt4),rp(kldt4),rh(kldt4),rv(kldt4)
@@ -104,6 +165,18 @@ contains
 	integer ntls,nlins(kl4),npass(kl4)
 	real*4 dlamdas(kld4)
 
+	character*2 atom_all(kl)
+	integer istage_all(kl)
+    real*4 wlengt_all(kl)
+    real*4 zeff_all(kl)
+	real*4 energy_all(kl)
+	real*4 loggf_all(kl)
+	integer mult_all(2,kl)
+	character*1 design_all(2,kl)
+	real*4 tam_all(2,kl)
+	real*4 alfa_all(kl)
+	real*4 sigma_all(kl)
+
     common/OutputStokes/Stokesfilename
 
     common/Atmosmodel/atmosmodel,ntau !common para StokesFRsub
@@ -113,6 +186,7 @@ contains
 
 	common/Malla/ntl,nlin,npas,nble,dlamda  !common para StokesFRsub
     common/Malla4/ntls,nlins,npass,dlamdas  !common para StokesFRsub
+	common/Lineas_all/atom_all,istage_all,wlengt_all,zeff_all,energy_all,loggf_all,mult_all,design_all,tam_all,alfa_all,sigma_all
 
 		ntl = conf(index)%ntl
 		nlin = conf(index)%nlin
@@ -124,6 +198,18 @@ contains
 		npass = conf(index)%npass
 		dlamdas = conf(index)%dlamdas
 
+		atom_all = conf(index)%atom_all
+		istage_all = conf(index)%istage_all
+		wlengt_all = conf(index)%wlengt_all
+		zeff_all = conf(index)%zeff_all
+		energy_all = conf(index)%energy_all
+		loggf_all = conf(index)%loggf_all
+		mult_all = conf(index)%mult_all
+		design_all = conf(index)%design_all
+		tam_all = conf(index)%tam_all
+		alfa_all = conf(index)%alfa_all
+		sigma_all = conf(index)%sigma_all
+
 	    ntau = nDepth
 
 ! offset de velocidad para perturbaciones relativas necesitamos que la velocidad sea siempre positiva        
@@ -132,8 +218,8 @@ contains
 
 ! Put the model in vectorized form
 		atmosmodel(8*ntau+1) = macroturbulence
-		atmosmodel(8*ntau+2) = filling
-		pesostray = stray
+		atmosmodel(8*ntau+2) = 1.0   ! filling
+		pesostray = 1.0              ! stray
 		do i = 1, ntau
 			do j = 0, 7
 				atmosmodel(i+j*ntau) = model(j+1,i)				
@@ -182,10 +268,10 @@ contains
 	end subroutine c_synth
 
 
-	subroutine c_synthrf(index, nDepth, nLambda, macroturbulence, filling, stray, model, stokes, RFt, RFp, RFh, RFv, RFg, RFf, RFmic, RFmac) bind(c)
+	subroutine c_synthrf(index, nDepth, nLambda, macroturbulence, model, stokes, RFt, RFp, RFh, RFv, RFg, RFf, RFmic, RFmac) bind(c)
 	integer(c_int), intent(in) :: index, nDepth, nLambda
 	real(c_float), intent(in) :: model(8,ndepth)
-	real(c_float), intent(in) :: macroturbulence, filling, stray
+	real(c_float), intent(in) :: macroturbulence
 	real(c_float), intent(out) :: stokes(5,nLambda)
 	real(c_float), intent(out), dimension(4,nLambda,nDepth) :: RFt, RFp, RFh, RFv, RFg, RFf, RFmic
 	real(c_float), intent(out), dimension(4,nLambda) :: RFmac
@@ -233,8 +319,8 @@ contains
 
 ! Put the model in vectorized form
 		atmosmodel(8*ntau+1) = macroturbulence
-		atmosmodel(8*ntau+2) = filling
-		pesostray = stray
+		atmosmodel(8*ntau+2) = 1.0 ! Filling
+		pesostray = 1.0            ! stray
 		do i = 1, ntau
 			do j = 0, 7
 				atmosmodel(i+j*ntau) = model(j+1,i)				

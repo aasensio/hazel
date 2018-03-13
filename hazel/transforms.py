@@ -1,62 +1,96 @@
 import numpy as np
 
-    def logit(self, x):
-        """
-        Logit function
-        
-        Args:
-            x (TYPE): x
-        
-        Returns:
-            TYPE: transformed x
-        """
-        return np.log(x / (1.0 - x))
+__all__ = ['physical_to_transformed', 'transformed_to_physical']
 
-    def inv_logit(self, x):
-        """
-        Inverse logit function
-        
-        Args:
-            x (TYPE): x
-        
-        Returns:
-            TYPE: transformed x
-        """
-        return 1.0 / (1.0 + np.exp(-x))
+def logit(x):
+    """
+    Logit function
+    
+    Parameters
+    ----------
+    x : float
+        Any array
 
-    def physical_to_transformed(self, x):
-        """
-        Transform from physical parameters to transformed (unconstrained) ones
-        
-        Args:
-            x (TYPE): vector of parameters
-        
-        Returns:
-            TYPE: transformed vector of parameters
-        """
-        return self.logit( (x-self.lower) / (self.upper - self.lower))
+    Returns
+    -------
+    logit : float
+        Logit transform of the input
+    """
+    return np.log(x / (1.0 - x))
 
-    def transformed_to_physical(self, x):
-        """
-        Transform from transformed (unconstrained) parameters to physical ones
-        
-        Args:
-            x (TYPE): vector of transformed parameters
-        
-        Returns:
-            TYPE: vector of parameters
-        """
-        return self.lower + (self.upper - self.lower) * self.inv_logit(x)
+def inv_logit(self, x):
+    """
+    Inverse logit function
+    
+    Parameters
+    ----------
+    x : float
+        Any array
 
-    def jacobianTransformedParameters(self, x):
-        """
-        Compute the Jacobian of the transformation from unconstrained parameters to physical parameters
-        
-        Args:
-            x (TYPE): vector of parameters
-        
-        Returns:
-            TYPE: transformed vector of parameters
-        """
-        temp = self.inv_logit(x)
-        return (self.upper - self.lower) * temp * (1.0 - temp)
+    Returns
+    -------
+    inv_logit : float
+        Inverse logit transform of the input
+    """
+    return 1.0 / (1.0 + np.exp(-x))
+
+def physical_to_transformed(x, lower, upper):
+    """
+    Transform from physical parameters to unconstrained physical parameters
+    
+    Parameters
+    ----------
+    x : float
+        Any array
+    lower : float
+        Lower limit of the parameter
+    upper : float
+        Upper limit of the parameter
+
+    Returns
+    -------
+    out : float
+        Transformed parameters
+    """
+    return _logit( (x-lower) / (upper - lower))
+
+def transformed_to_physical(x, lower, upper):
+    """
+    Transform from unconstrained physical parameters to physical parameters
+    
+    Parameters
+    ----------
+    x : float
+        Any array
+    lower : float
+        Lower limit of the parameter
+    upper : float
+        Upper limit of the parameter
+
+    Returns
+    -------
+    out : float
+        Transformed parameters
+    """
+    return lower + (upper - lower) * inv_logit(x)
+
+def jacobianTransformedParameters(x):
+    """
+    Compute the Jacobian of the transformation from unconstrained parameters to physical parameters
+    
+    Parameters
+    ----------
+    x : float
+        Any array
+    lower : float
+        Lower limit of the parameter
+    upper : float
+        Upper limit of the parameter
+
+    Returns
+    -------
+    out : float
+        Transformed parameters
+    """
+    temp = self.inv_logit(x)
+    return (upper - lower) * temp * (1.0 - temp)

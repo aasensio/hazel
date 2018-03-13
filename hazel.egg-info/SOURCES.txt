@@ -5,10 +5,15 @@ data/LINEAS
 data/THEVENIN
 hazel/__init__.py
 hazel/atmosphere.py
+hazel/chromosphere.py
 hazel/configuration.py
+hazel/h5py_pickle.py
 hazel/hsra.py
+hazel/io.py
 hazel/model.py
 hazel/multiprocess.py
+hazel/parametric.py
+hazel/photosphere.py
 hazel/sir.py
 hazel/spectrum.py
 hazel/transforms.py
@@ -56,6 +61,7 @@ src/sir/inicia_pefrompgt.f
 src/sir/interface.f90
 src/sir/intmodel.f
 src/sir/kappach.f
+src/sir/lee_all_lines.f
 src/sir/lee_malla.f
 src/sir/lee_model.f
 src/sir/leeabun.f
@@ -87,3 +93,4 @@ src/sir/taulinea.f
 src/sir/voigt.f
 src/sir/zeeman.f
 src/sir/zeeman_jk.f
+test/test.py
