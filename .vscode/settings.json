@@ -1,3 +1,6 @@
 {
-    "python.pythonPath": "/Users/aasensio/miniconda3/envs/py36/bin/python"
+    "python.pythonPath": "/scratch/miniconda3/envs/py36/bin/python",
+    "python.linting.flake8Enabled": true,
+    "python.linting.pydocstyleEnabled": false,
+    "python.linting.enabled": true
 }

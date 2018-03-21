@@ -1,6 +1,7 @@
 from hazel.chromosphere import Hazel_atmosphere
 from hazel.photosphere import SIR_atmosphere
 from hazel.parametric import Parametric_atmosphere
+from hazel.stray import Straylight_atmosphere
 from hazel.configuration import Configuration
 from collections import OrderedDict
 from hazel.codes import hazel_code, sir_code
@@ -22,8 +23,8 @@ class Model(object):
         self.chromospheres = []
         self.chromospheres_order = []
         self.atmospheres = {}
-        self.order_atmospheres = []
-        self.stray = []
+        self.order_atmospheres = []        
+        self.straylight = []
         self.parametric = []
         self.spectrum = []
         self.configuration = None
@@ -53,10 +54,22 @@ class Model(object):
         self.working_mode = config_dict['working mode']['action']
 
         spec = {}
+        topologies = []
+        straylights = []
 
         for key, value in tmp.items():
             if (self.verbose):
                 print('Adding spectral region {0}'.format(value['name']))
+
+            if ('wavelength file' not in value):
+                value['wavelength file'] = 'None'
+            if ('wavelength weight file' not in value):
+                value['wavelength weight file'] = 'None'
+            if ('observations file' not in value):
+                value['observations file'] = 'None'
+            if ('straylight file' not in value):
+                value['straylight file'] = 'None'
+
 
             if (value['wavelength file'] == 'None'):
                 if ('lower, upper, n. wavelengths' in value):
@@ -85,8 +98,19 @@ class Model(object):
                 if (self.verbose):
                     print('  - Using observations from {0}'.format(value['observations file']))
                 obs_file = value['observations file']
+
+            if (value['straylight file'] == 'None'):
+                if (self.verbose):
+                    print('  - Not using straylight')
+                stray_file = None
+            else:
+                if (self.verbose):
+                    print('  - Using straylight from {0}'.format(value['straylight file']))
+                stray_file = value['straylight file']
                         
-            spec[value['name']] = Spectrum(wvl=wvl, weights=weights, observed_file=obs_file, name=value['name'])
+            spec[value['name']] = Spectrum(wvl=wvl, weights=weights, observed_file=obs_file, stray=stray_file, name=value['name'])
+
+            topologies.append(value['topology'])            
         
         self.spectrum = spec
         
@@ -117,12 +141,17 @@ class Model(object):
                     print('  - New available parametric : {0}'.format(value['name']))
 
                 self.add_parametric(value)
-                            
 
-        tmp = config_dict['topology']
+            if ('straylight' in key):
+                if (self.verbose):
+                    print('  - New available straylight : {0}'.format(value['name']))
+
+                self.add_straylight(value)
+                            
+        # Adding topologies
         if (self.verbose):
             print("Adding topologies") 
-        for key, value in tmp.items():
+        for value in topologies:
             self.add_topology(value)
 
         # Remove unused atmospheres defined in the configuration file and not in the topology
@@ -142,7 +171,7 @@ class Model(object):
                 v.index = index_chromosphere
                 index_chromosphere += 1
 
-        self.initialize_ff()
+        # self.initialize_ff()
 
         # Check that number of pixels is the same for all read files
         n_pixels = [v.n_pixel for k, v in self.atmospheres.items()]
@@ -337,6 +366,59 @@ class Model(object):
                         else:
                             self.atmospheres[atm['name']].ranges[k2] = hazel.util.tofloat(v)
 
+    
+    def add_straylight(self, atmosphere):
+        """
+        Programmatically add a straylight atmosphere
+
+        Parameters
+        ----------
+        atmosphere : dict
+            Dictionary containing the following data
+            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength range', 'Reference atmospheric model',
+            'Ranges', 'Nodes'
+
+        Returns
+        -------
+        None
+        """
+
+        # Make sure that all keys of the input dictionary are in lower case
+        # This is irrelevant if a configuration file is used because this has been
+        # already done
+        atm = hazel.util.lower_dict_keys(atmosphere)
+
+        self.atmospheres[atm['name']] = Straylight_atmosphere()
+                
+        wvl_range = [float(k) for k in atm['wavelength range']]
+
+        self.atmospheres[atm['name']].add_active_line(spectrum=self.spectrum[atm['spectral region']], 
+            wvl_range=np.array(wvl_range))
+
+        my_file = Path(atm['reference atmospheric model'])
+        if (not my_file.exists()):
+            raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
+
+        self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
+
+        if (self.atmospheres[atm['name']].model_type == '3d'):
+            self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
+        
+        # Set values of parameters
+        for k, v in atm['nodes'].items():
+            for k2, v2 in self.atmospheres[atm['name']].parameters.items():
+                if (k.lower() == k2.lower()):                            
+                    self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
+
+        if ('ranges' in atm):
+            for k, v in atm['ranges'].items():
+                for k2, v2 in self.atmospheres[atm['name']].parameters.items():
+                    if (k.lower() == k2.lower()):
+                        if (v == 'None'):
+                            self.atmospheres[atm['name']].ranges[k2] = None
+                        else:
+                            self.atmospheres[atm['name']].ranges[k2] = hazel.util.tofloat(v)        
+
     def remove_unused_atmosphere(self):
         """
         Remove unused atmospheres
@@ -423,7 +505,7 @@ class Model(object):
 
         """
 
-        # Transform the order to a list of lists        
+        # Transform the order to a list of lists
         if (self.verbose):
             print('  - {0}'.format(atmosphere_order))
 
@@ -435,68 +517,51 @@ class Model(object):
             
             tmp = []
             for n in name:
-                # tmp.append(self.atmospheres[n])
                 tmp.append(n)
                 self.atmospheres[n].active = True
 
-            order.append(tmp)            
+            order.append(tmp)
+        
+        order_flat = [item for sublist in order for item in sublist]
 
+        # Check that straylight components, if any, are not at the last position
+        for atm in order_flat[:-1]:            
+            if (self.atmospheres[atm].type == 'straylight'):
+                raise Exception("Straylight components can only be at the last position of a topology.")
+        
         self.order_atmospheres.append(order)
                 
-    def initialize_ff(self):
+    def normalize_ff(self):
         """
-        Normalize all filling factors so that they add to one to avoid later problems
+        Normalize all filling factors so that they add to one to avoid later problems.
+        We use a softmax function to make sure they all add to one and can be unconstrained
+
+        ff_i = exp(x_i) / sum(exp(x_i))
+
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        None
         """
 
         for atmospheres in self.order_atmospheres:
             for order in atmospheres:
+
                 total_ff = 0.0
-                for atm in order:
-                    total_ff += self.atmospheres[atm].ff
+                for atm in order:                    
+                    if (self.atmospheres[atm].type is not 'straylight'):                        
+                        total_ff += np.exp(self.atmospheres[atm].parameters['ff'])
 
                 for atm in order:                    
-                    self.atmospheres[atm].ff /= total_ff                
-
-
-    def add_spectrum(self, spectra):
-        """
-        Add wavelength axis for the synthesis
-
-        Parameters
-        ----------
-        spectra : float
-            Wavelength axis vector
-        
-        Returns
-        -------
-        None
-        """
-
-        for sp in spectra:
-            self.spectrum.append(sp)
-
-    def list_wavelength_axis(self):
-        """
-        List all wavelength axis for the synthesis
-
-        Parameters
-        ----------
-        None
-        
-        Returns
-        -------
-        None
-        """
-
-        n_axis = len(self.spectrum)
-        if (self.verbose):
-            print("N. wavelength axis : {0}".format(n_axis))
-            for n, spectrum in enumerate(self.spectrum):
-                print(" - Axis {0} : min={1} -> max={2}".format(n, np.min(spectrum.wavelength_axis), np.max(spectrum.wavelength_axis)))
+                    if (self.atmospheres[atm].type is not 'straylight'):
+                        self.atmospheres[atm].parameters['ff'] = np.exp(self.atmospheres[atm].parameters['ff']) / total_ff
 
     def synthesize_spectral_region(self, spectral_region, perturbation=False):
         """
-        Synthesize all atmospheres
+        Synthesize all atmospheres for a single spectral region
 
         Parameters
         ----------
@@ -514,7 +579,8 @@ class Model(object):
         stokes = None
         stokes_out = None
 
-        for atmospheres in self.order_atmospheres:
+        # Loop over all atmospheres
+        for i, atmospheres in enumerate(self.order_atmospheres):
             
             for n, order in enumerate(atmospheres):
                                                                 
@@ -528,11 +594,15 @@ class Model(object):
                                 stokes_out = self.atmospheres[atm].spectrum.stokes_perturbed[:, ind_low:ind_top]
                             else:
                                 stokes_out = self.atmospheres[atm].spectrum.stokes[:, ind_low:ind_top]
-                                                                                
-                        if (k == 0):
-                            stokes = self.atmospheres[atm].ff * self.atmospheres[atm].synthesize(stokes_out)
-                        else:                        
-                            stokes += self.atmospheres[atm].ff * self.atmospheres[atm].synthesize(stokes_out)
+
+                        if (self.atmospheres[atm].type == 'straylight'):
+                            stokes = self.atmospheres[atm].synthesize()
+                            stokes += (1.0 - self.atmospheres[atm].parameters['ff']) * stokes_out                            
+                        else:
+                            if (k == 0):
+                                stokes = self.atmospheres[atm].synthesize(stokes_out)
+                            else:                        
+                                stokes += self.atmospheres[atm].synthesize(stokes_out)
                                     
                         ind_low, ind_top = self.atmospheres[atm].wvl_range
                         
@@ -540,6 +610,10 @@ class Model(object):
                             self.atmospheres[atm].spectrum.stokes_perturbed[:, ind_low:ind_top+1] = stokes
                         else:
                             self.atmospheres[atm].spectrum.stokes[:, ind_low:ind_top+1] = stokes
+
+            # stop()
+            # if (self.straylight[i] is not None):
+                # self.atmospheres[self.straylight[i]].synthesize()
 
     def synthesize(self, perturbation=False):
         """
@@ -557,6 +631,7 @@ class Model(object):
 
         """
 
+        self.normalize_ff()
         for k, v in self.spectrum.items():
             self.synthesize_spectral_region(k, perturbation=perturbation)
 
@@ -692,7 +767,7 @@ class Model(object):
 
         """
         for k, v in self.atmospheres.items():
-            v.set_reference_to_current_parameters()
+            v.set_reference()            
 
     def set_new_model(self, nodes):
         """
@@ -760,7 +835,7 @@ class Model(object):
         return U, w_new_inv, VT
         
 
-    def compute_chi2(self, obs, noise, only_chi2=False):
+    def compute_chi2(self, only_chi2=False):
         """
         Compute chi2 for all spectral regions
 
@@ -776,16 +851,125 @@ class Model(object):
         None
 
         """
+        chi2 = 0.0
+        n = len(self.nodes)
+        dchi2 = np.zeros(n)
+        ddchi2 = np.zeros((n,n))
         for k, v in self.spectrum.items():
-            residual = (v.stokes - obs)
-            chi2 = np.sum(residual**2 * self.factor_chi2)            
+            residual = (v.stokes - v.obs)
+            chi2 += np.sum(residual**2 * v.factor_chi2)
             
             if (not only_chi2):
-                dchi2 = -2.0 * np.sum(self.response * residual[None,:,:] * self.factor_chi2[None,:,:], axis=(1,2))            
-                ddchi2 = 2.0 * np.sum(self.response[None,:,:,:] * self.response[:,None,:,:] * self.factor_chi2[None,None,:,:], axis=(2,3))
+                dchi2 += -2.0 / v.dof * np.sum(self.response * residual[None,:,:] * v.factor_chi2[None,:,:], axis=(1,2))
+                ddchi2 += 2.0 / v.dof * np.sum(self.response[None,:,:,:] * self.response[:,None,:,:] * v.factor_chi2[None,None,:,:], axis=(2,3))                
                 return chi2, dchi2, ddchi2
             else:
                 return chi2
+
+        if (not only_chi2):            
+            return chi2, dchi2, ddchi2
+        else:
+            return chi2
+
+    def backtracking(self, dchi2, ddchi2, direction='down', max_iter=5, lambda_init=1e-3, current_chi2=1e10):
+        """
+        Do the backtracking to get an optimal value of lambda in the LM algorithm
+
+        Parameters
+        ----------
+        dchi2 : float
+            Gradient of the chi2
+        ddchi2 : float
+            Second order derivatives with which the Hessian is computed
+        direction : str, optional
+            Direction on which do the backtracking ('down'/'up' for decreasing/increasing lambda)
+        max_iter : int
+            Maximum number of iterations
+        lambda_init : float
+            Initial value of lambda
+        current_chi2 : float
+            Current best chi2 to compare with those of the backtracking
+        
+        Returns
+        -------
+        lambda_opt : float
+            Optimal value of lambda found. Bracketed value if bracketing has been possible or just the best value otherwise
+        bracketed : bool
+            True if the best value has been bracketed
+        best_chi2 : float
+            Best value of chi2 found
+        """
+        
+        lambdaLM = lambda_init
+
+        chi2_arr = []
+        lambdas = []
+        sols = []
+        keepon = True
+        bracketed = False
+        loop = 0
+        best_chi2 = current_chi2
+
+        while keepon:
+
+            H = 0.5 * ddchi2
+            H += np.diag(lambdaLM * np.diag(H))
+            gradF = 0.5 * dchi2
+
+            U, w_inv, VT = self.modified_svd_inverse(H, tol=1e-8)
+
+            # xnew = xold - H^-1 * grad F
+            delta = -VT.T.dot(np.diag(w_inv)).dot(U.T).dot(gradF)
+            
+            new_solution = self.nodes + delta
+            sols.append(new_solution)
+        
+            self.set_new_model(new_solution)
+
+            self.synthesize_and_compute_rf()
+
+            chi2_arr.append(self.compute_chi2(only_chi2=True))
+            lambdas.append(lambdaLM)
+
+            if (self.verbose):
+                if (direction == 'down'):
+                    print('  - Backtracking: {0:2d} - lambda: {1:7.5f} - chi2: {2:7.5f}'.format(loop, lambdaLM, chi2_arr[-1]))
+                else:
+                    print('  * Backtracking: {0:2d} - lambda: {1:7.5f} - chi2: {2:7.5f}'.format(loop, lambdaLM, chi2_arr[-1]))
+            
+            # If we improve the chi2
+            if (chi2_arr[-1] < best_chi2):
+                best_chi2 = chi2_arr[-1]
+
+            ind_min = np.argmin(chi2_arr)
+            
+            if (loop > 1):
+                
+                # Have we bracketed the minimum
+                if (ind_min != 0 and ind_min != len(chi2_arr)-1):
+                    keepon = False
+                    bracketed = True
+
+            # If lambda < 1e-3, then stop
+            if (lambdaLM < 1e-3 or loop > max_iter):
+                keepon = False
+                min_found = False
+            
+            if (direction == 'down'):
+                lambdaLM /= np.sqrt(10.0)
+            else:
+                lambdaLM *= np.sqrt(10.0)
+            
+            loop += 1
+
+        # Parabolic interpolation of the optimal value of lambda
+        if (bracketed):
+            coeff = np.polyfit(np.log(lambdas[ind_min-1:ind_min+2]), chi2_arr[ind_min-1:ind_min+2], 2)
+            lambda_opt = np.exp(-coeff[1] / (2.0*coeff[0]))
+        else:
+            lambda_opt = lambdas[ind_min]
+
+        return lambda_opt, bracketed, best_chi2
 
     def invert(self):
         """
@@ -801,80 +985,53 @@ class Model(object):
 
         """
 
-        self.spectrum['spec1'].observed_handle.open()
-        obs, noise = self.spectrum['spec1'].observed_handle.read()
-
-        dof = np.prod(obs.shape)
-
-        self.factor_chi2 = 1.0 / (dof * noise**2)
+        # Read current spectrum and stray light
+        for k, v in self.spectrum.items():
+            v.read_observation()
+            v.read_straylight()
 
         self.synthesize_and_compute_rf()
-    
+        
         f, ax = pl.subplots(nrows=2, ncols=2)
         ax = ax.flatten()
         for i in range(4):
-            ax[i].plot(obs[i,:], '--')
+            ax[i].plot(self.spectrum['spec1'].obs[i,:], '--')
             ax[i].plot(self.spectrum['spec1'].stokes[i,:], '.')
+
 
         lambdaLM = 10.0
         lambda_opt = 10.0
+        bestchi2 = 1e10        
     
         for cycle in range(self.n_cycles):
+            if (self.verbose):
+                print('-------------')
+                print('  Cycle {0}  '.format(cycle))
+                print('-------------')
+                
+
             self.find_active_parameters(cycle)
 
-            for iteration in range(5):
-                
-                self.synthesize_and_compute_rf(compute_rf=True)
-                chi2, dchi2, ddchi2 = self.compute_chi2(obs, noise)
+            stop()
 
-                if (self.verbose):
-                    print('It: {0} - chi2: {1} - lambda: {2}'.format(iteration, chi2, lambda_opt))
-                
-                chi2_arr = []
-                lambdas = []
-                sols = []
-                keepon = True
-                loop = 0
+            keepon = True
+            iteration = 0
 
+            self.synthesize_and_compute_rf(compute_rf=True)
+            chi2, dchi2, ddchi2 = self.compute_chi2()
+
+            while keepon:                                
+                
                 # Backtracking
-                while keepon:                    
+                lambda_opt, bracketed, best_chi2 = self.backtracking(dchi2, ddchi2, direction='down', max_iter=5, lambda_init=lambdaLM, current_chi2=chi2)
 
-                    H = 0.5 * ddchi2
-                    H += np.diag(lambdaLM * np.diag(H))
-                    gradF = 0.5 * dchi2
+                # If solution is not bracketed, then try on the other sense and use the best of the two
+                if (not bracketed):
+                    lambda_opt_up, bracketed, best_chi2_up = self.backtracking(dchi2, ddchi2, direction='up', max_iter=2, lambda_init=lambdaLM)                    
 
-                    U, w_inv, VT = self.modified_svd_inverse(H, tol=1e-8)
-
-                    # xnew = xold - H^-1 * grad F
-                    delta = -VT.T.dot(np.diag(w_inv)).dot(U.T).dot(gradF)
-                    
-                    new_solution = self.nodes + delta
-                    sols.append(new_solution)
-
-                    self.set_new_model(new_solution)
-
-                    self.synthesize_and_compute_rf()
-
-                    chi2_arr.append(self.compute_chi2(obs, noise, only_chi2=True))
-                    lambdas.append(lambdaLM)
-
-                    if (self.verbose):
-                        print('  - Backtracking: {0:2d} - lambda: {1:7.5f} - chi2: {2:7.5f}'.format(loop, lambdaLM, chi2_arr[-1]))
-                    
-                    if (loop > 0):
-                        if (chi2_arr[-1] > chi2_arr[-2]):
-                            keepon = False
-
-                    if (lambdaLM < 1e-3):
-                        keepon = False
-
-                    lambdaLM /= np.sqrt(10.0)
-                    loop += 1
-
-                # Parabolic interpolation of the optimal value of lambda
-                coeff = np.polyfit(np.log(lambdas[-3:]), chi2_arr[-3:], 2)
-                lambda_opt = np.exp(-coeff[1] / (2.0*coeff[0]))
-
+                    if (best_chi2_up < best_chi2):
+                        lambda_opt = lambda_opt_up
+                                                
                 if (self.verbose):
                     print('  * Optimal lambda: {0}'.format(lambda_opt))
 
@@ -883,21 +1040,41 @@ class Model(object):
                 H += np.diag(lambda_opt * np.diag(H))
                 gradF = 0.5 * dchi2
 
-                U, w_inv, VT = self.modified_svd_inverse(H, tol=1e-5)
+                U, w_inv, VT = self.modified_svd_inverse(H, tol=1e-8)
 
                 # xnew = xold - H^-1 * grad F
                 delta = -VT.T.dot(np.diag(w_inv)).dot(U.T).dot(gradF)
-                
+
+                # New solution
+                new_solution = self.nodes + delta                
+                self.set_new_model(new_solution)
+
                 self.nodes += delta
+
+                self.synthesize_and_compute_rf(compute_rf=True)
+                chi2, dchi2, ddchi2 = self.compute_chi2()                              
+
+                rel = 2.0 * (chi2 - bestchi2) / (chi2 + bestchi2)
 
                 for i in range(4):
                     ax[i].plot(self.spectrum['spec1'].stokes[i,:])
 
-                # Increase the optimal by 100 to find again the optimal value
-                lambdaLM *= 100.0
+                if (self.verbose):
+                    print('It: {0} - chi2: {1} - lambda: {2} - rel: {3}'.format(iteration, chi2, lambda_opt, rel))
 
-            self.flatten_parameters_to_reference()
-            stop()
+                # Increase the optimal by 100 to find again the optimal value
+                lambdaLM = 100.0 * lambda_opt
+
+                bestchi2 = copy.copy(chi2)
+
+                if (np.abs(rel) < 1e-4 or iteration > 10):
+                    keepon = False
+
+                iteration += 1
+                
+            self.set_new_model(self.nodes)
+
+            self.flatten_parameters_to_reference()            
 
     def plot_stokes(self):        
         for atmospheres in self.order_atmospheres:

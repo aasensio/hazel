@@ -86,7 +86,10 @@ class iterator(object):
                 m = v.model_handler.read(pixel=i)
                 v.set_parameters(m)
 
-            self.model.synthesize()
+            if (self.model.working_mode == 'inversion'):
+                self.model.invert()
+            else:
+                self.model.synthesize()
 
             for k, v in self.model.spectrum.items():
                 db[k][i,:,:] = self.model.spectrum[k].stokes
@@ -179,7 +182,10 @@ class iterator(object):
                 for k, v in self.model.atmospheres.items():                    
                     v.set_parameters(data_received[k])
                 
-                self.model.synthesize()                
+                if (self.model.working_mode == 'inversion'):
+                    self.model.invert()
+                else:
+                    self.model.synthesize()
 
                 data_to_send = {'index': task_index}
 

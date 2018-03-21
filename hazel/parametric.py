@@ -41,39 +41,46 @@ class Parametric_atmosphere(General_atmosphere):
         self.parameters['sigma'] = 0.0
         self.parameters['depth'] = 0.0
         self.parameters['a'] = 0.0
+        self.parameters['ff'] = np.log(1.0)
 
         self.nodes['lambda0'] = 0.0
         self.nodes['sigma'] = 0.0
         self.nodes['depth'] = 0.0
         self.nodes['a'] = 0.0
+        self.nodes['ff'] = 0.0
 
         self.n_nodes['lambda0'] = 0
         self.n_nodes['sigma'] = 0
         self.n_nodes['depth'] = 0
         self.n_nodes['a'] = 0
+        self.n_nodes['ff'] = 0
 
         self.epsilon['lambda0'] = 1.0
         self.epsilon['sigma'] = 0.1
         self.epsilon['depth'] = 0.5
         self.epsilon['a'] = 0.05
+        self.epsilon['ff'] = 0.05
 
         self.ranges['lambda0'] = None
         self.ranges['sigma'] = None
         self.ranges['depth'] = None
         self.ranges['a'] = None
+        self.ranges['ff'] = None
         
         self.cycles['lambda0'] = None
         self.cycles['sigma'] = None
         self.cycles['depth'] = None        
         self.cycles['a'] = None
+        self.cycles['ff'] = None
 
     def set_parameters(self, pars):
         self.parameters['lambda0'] = pars[0]
         self.parameters['sigma'] = pars[1]
         self.parameters['depth'] = pars[2]
         self.parameters['a'] = pars[3]
+        self.parameters['ff'] = pars[4]
 
-    def set_reference_to_current_parameters(self):
+    def set_reference(self):
         """
         Set reference model to that of the current parameters
 
@@ -163,6 +170,7 @@ class Parametric_atmosphere(General_atmosphere):
         sigma = self.parameters['sigma']
         d = self.parameters['depth']
         a = self.parameters['a']
+        ff = self.parameters['ff']
                 
         if (stokes is None):
             n_lambda = len(self.wvl_axis)
@@ -171,6 +179,6 @@ class Parametric_atmosphere(General_atmosphere):
 
         profile, _ = fvoigt(a, (self.wvl_axis - lambda0) / sigma)
 
-        stokes[0,:] *= (1.0 - d * profile)
+        stokes[0,:] *= ff * (1.0 - d * profile)
         
         return stokes

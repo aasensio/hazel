@@ -4,21 +4,7 @@ import hazel
 import h5py
 from ipdb import set_trace as stop
 
-version = 'single_invert'
-
-# Single
-if (version == 'single'):
-    mod = hazel.Model('conf_single.ini')
-    mod.synthesize()
-    f, ax = pl.subplots(nrows=2, ncols=2)
-    ax = ax.flatten()
-    for i in range(4):
-        ax[i].plot(mod.spectrum['spec1'].stokes[i,:])
-    pl.show()
-    pl.pause(0.001)
-
-    np.savetxt('10830_stokes.1d', mod.spectrum['spec1'].stokes.T + 1e-4 * np.random.randn(150,4), header='lambda SI SQ SU SV')
-    input("Press [enter] to continue.")
+version = 'serial_invert'
 
 
 # Single invert
@@ -34,6 +20,13 @@ if (version == 'single_invert'):
     # input("Press [enter] to continue.")
     
 
+# Serial invert
+if (version == 'serial_invert'):
+    iterator = hazel.iterator(use_mpi=False)
+    rank = iterator.get_rank()
+    mod = hazel.Model('conf_single_invert.ini')
+    iterator.use_model(model=mod)
+    iterator.run_all_pixels()
 
 # Serial
 if (version == 'serial'):

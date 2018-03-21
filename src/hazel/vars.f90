@@ -105,7 +105,8 @@ implicit none
 	
 	real(kind=8) :: chi2Level
 
-	
-		
+	real(kind=8), dimension(3) :: B1Input_old
+    real(kind=8) :: tau1Input_old, dopplerWidthInput_old
+    real(kind=8) :: dampingInput_old, dopplerVelocityInput_old, betaInput_old
 	
 end module vars

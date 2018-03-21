@@ -103,14 +103,14 @@ contains
 
         error = 0
         
-! Fill the statistical equilibrium equations
-        call fill_SEE(in_params, in_fixed, 1, error)        
+! ! Fill the statistical equilibrium equations
+!         call fill_SEE(in_params, in_fixed, 1, error)        
 
-! If the solution of the SEE gives an error, return
-        if (error == 1) return
+! ! If the solution of the SEE gives an error, return
+!         if (error == 1) return
                 
-! Calculate the absorption/emission coefficients for a given transition
-        call calc_rt_coef(in_params, in_fixed, in_observation, 1)
+! ! Calculate the absorption/emission coefficients for a given transition
+!         call calc_rt_coef(in_params, in_fixed, in_observation, 1)
                         
                 
 !****************       

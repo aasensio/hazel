@@ -21,10 +21,14 @@ pl.show()
 
 pl.pause(0.001)
 
+stray = np.zeros(150)
+stray[20:50] = 1.0
+
 noise = 1e-4 * np.ones((150,4))
 spec = mod.spectrum['spec1'].stokes.T + 1e-4 * np.random.randn(150,4)
 np.savetxt('observations/10830.wavelength', mod.spectrum['spec1'].wavelength_axis, header='lambda')
 np.savetxt('observations/10830_stokes.1d', np.hstack([spec, noise]), header='SI SQ SU SV sigmaI sigmaQ sigmaU sigmaV')
+np.savetxt('observations/10830_stray.1d', np.hstack([stray]), header='SI')
 np.savetxt('observations/10830.weights', np.array([1.0,1.0,1.0,1.0]), header='wI wQ wU wV')
 
 noise = 1e-4 * np.ones((150,4))

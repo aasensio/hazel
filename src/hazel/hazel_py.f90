@@ -24,13 +24,19 @@ subroutine c_hazel(index, B1Input, hInput, tau1Input, boundaryInput, &
     real(c_double), intent(in) :: hInput, tau1Input, dopplerWidthInput, dampingInput, dopplerVelocityInput, betaInput
     real(c_double), intent(out), dimension(nLambdaInput) :: wavelengthOutput
     real(c_double), intent(out), dimension(4,nLambdaInput) :: stokesOutput
-    
+
     integer :: n, nterml, ntermu, error
     
     real(c_double) :: ae, wavelength, reduction_factor, reduction_factor_omega, j10
     integer :: i, j
+    logical :: recompute_see_rtcoef
 
-        
+    recompute_see_rtcoef = .True.
+
+    if (dopplerVelocityInput_old == dopplerVelocityInput .and. dopplerWidthInput_old == dopplerWidthInput .and. dampingInput_old == dampingInput .and. all(B1Input_old == B1Input)) then
+        recompute_see_rtcoef = .False.
+    endif
+
     input_model_file = 'helium.mod'
     input_experiment = 'init_parameters.dat'        
     verbose_mode = 0
@@ -103,7 +109,21 @@ subroutine c_hazel(index, B1Input, hInput, tau1Input, boundaryInput, &
 
     fixed(index)%omax = minval(lambdaAxisInput)
     fixed(index)%omin = maxval(lambdaAxisInput)
+
+    if (recompute_see_rtcoef) then
+        
+        ! Fill the statistical equilibrium equations
+        call fill_SEE(params(index), fixed(index), 1, error)
+
+        ! If the solution of the SEE gives an error, return
+        if (error == 1) return
+                
+        ! Calculate the absorption/emission coefficients for a given transition
+        call calc_rt_coef(params(index), fixed(index), observation(index), 1)
     
+    endif
+
+! Do the synthesis
     call do_synthesis(params(index), fixed(index), observation(index), inversion(index)%stokes_unperturbed, error)
     
     do i = 1, 4
@@ -111,6 +131,11 @@ subroutine c_hazel(index, B1Input, hInput, tau1Input, boundaryInput, &
     enddo
     
     wavelengthOutput = observation(index)%wl + fixed(index)%wl
+
+    dopplerVelocityInput_old = dopplerVelocityInput
+    dopplerWidthInput_old = dopplerWidthInput
+    dampingInput_old = dampingInput
+    B1Input_old = B1Input
 
 
     ! if (allocated(epsilon)) deallocate(epsilon)

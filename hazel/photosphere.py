@@ -19,6 +19,7 @@ class SIR_atmosphere(General_atmosphere):
         
         super().__init__('photosphere')
         self.ff = 1.0        
+        self.macroturbulence = 0.0
         
         self.parameters['T'] = None
         self.parameters['vmic'] = None
@@ -26,6 +27,7 @@ class SIR_atmosphere(General_atmosphere):
         self.parameters['Bx'] = None
         self.parameters['By'] = None
         self.parameters['Bz'] = None
+        self.parameters['ff'] = None
 
         self.n_nodes['T'] = 0
         self.n_nodes['vmic'] = 0
@@ -33,6 +35,7 @@ class SIR_atmosphere(General_atmosphere):
         self.n_nodes['Bx'] = 0
         self.n_nodes['By'] = 0
         self.n_nodes['Bz'] = 0
+        self.n_nodes['ff'] = 0
 
         self.nodes['T'] = 0
         self.nodes['vmic'] = 0
@@ -40,6 +43,7 @@ class SIR_atmosphere(General_atmosphere):
         self.nodes['Bx'] = 0
         self.nodes['By'] = 0
         self.nodes['Bz'] = 0
+        self.nodes['ff'] = 0
 
         self.ranges['T'] = None
         self.ranges['vmic'] = None
@@ -47,6 +51,7 @@ class SIR_atmosphere(General_atmosphere):
         self.ranges['Bx'] = None
         self.ranges['By'] = None
         self.ranges['Bz'] = None
+        self.ranges['ff'] = None
 
         self.cycles['T'] = None
         self.cycles['vmic'] = None
@@ -54,6 +59,7 @@ class SIR_atmosphere(General_atmosphere):
         self.cycles['Bx'] = None
         self.cycles['By'] = None
         self.cycles['Bz'] = None
+        self.cycles['ff'] = None
 
         self.epsilon['T'] = 1000.0
         self.epsilon['vmic'] = 1.0
@@ -61,6 +67,7 @@ class SIR_atmosphere(General_atmosphere):
         self.epsilon['Bx'] = 200.0
         self.epsilon['By'] = 200.0
         self.epsilon['Bz'] = 200.0
+        self.epsilon['ff'] = 1.0
         
     def list_lines(self):
         """
@@ -172,7 +179,7 @@ class SIR_atmosphere(General_atmosphere):
             self.model_type = '1d'
             self.model_handler = Generic_SIR_file(model_file)
             self.model_handler.open()
-            out = self.model_handler.read()
+            out, ff = self.model_handler.read()
             self.model_handler.close()
             
             if (np.min(out[:,2]) > 0.0):
@@ -180,7 +187,7 @@ class SIR_atmosphere(General_atmosphere):
             else:
                 self.pe_present = False
                         
-            self.set_parameters(out)
+            self.set_parameters(out, ff)
             self.reference = copy.deepcopy(self.parameters)
         
         if (extension == 'h5'):
@@ -190,7 +197,7 @@ class SIR_atmosphere(General_atmosphere):
             self.model_handler = Generic_SIR_file(model_file)
             # self.model_file = model_file
 
-    def set_reference_to_current_parameters(self):
+    def set_reference(self):
         """
         Set reference model to that of the current parameters
 
@@ -202,18 +209,19 @@ class SIR_atmosphere(General_atmosphere):
         -------
         None
         """
+        self.nodes_to_model()
         self.reference = copy.deepcopy(self.parameters)
             
-    def set_parameters(self, model, macroturbulence=0.0):
+    def set_parameters(self, model, ff=1.0):
         """
         Set the parameters of the current model to those passed as argument
 
         Parameters
         ----------
         model : float
-            Array with the model
-        macroturbulence : float, optional
-            Value of the macroturbulence
+            Array with the model        
+        ff : float
+            Value of the filling factor
 
         Returns
         -------
@@ -233,8 +241,8 @@ class SIR_atmosphere(General_atmosphere):
         else:
             self.parameters['Pe'] = -np.ones(len(self.parameters['log_tau']))
             self.parameters['Pe'][-1] = 1.11634e-1        
-
-        self.macroturbulence = macroturbulence
+        
+        self.parameters['ff'] = ff
 
     def nodes_to_model(self):
         """
@@ -309,9 +317,9 @@ class SIR_atmosphere(General_atmosphere):
             stokes, rf = sir_code.synthRF(self.index, self.n_lambda, self.parameters['log_tau'], self.parameters['T'], 
                 self.parameters['Pe'], self.parameters['vmic'], self.parameters['v'], self.parameters['Bx'], self.parameters['By'], 
                 self.parameters['Bz'], self.macroturbulence)
-            return stokes[1:,:], rf
+            return self.parameters['ff'] * stokes[1:,:], rf
         else:
             stokes = sir_code.synth(self.index, self.n_lambda, self.parameters['log_tau'], self.parameters['T'], 
                 self.parameters['Pe'], self.parameters['vmic'], self.parameters['v'], self.parameters['Bx'], self.parameters['By'], 
                 self.parameters['Bz'], self.macroturbulence)
-            return stokes[1:,:]
+            return self.parameters['ff'] * stokes[1:,:]

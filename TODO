@@ -1,3 +1,10 @@
  - Modify use_configuration to separate building the model in parts, so that
 it is easier to use programmatically
+ - GUI for analysis of inversions and synthesis of models
+
+ - Quasi-Newton methods
+
+ - Sparse regularization of maps
+
+ - Regularization of parameters
 

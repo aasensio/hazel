@@ -54,6 +54,7 @@ class Hazel_atmosphere(General_atmosphere):
         self.parameters['deltav'] = 8.0
         self.parameters['beta'] = 1.0
         self.parameters['a'] = 0.0
+        self.parameters['ff'] = np.log(1.0)
 
         self.nodes['Bx'] = 0.0
         self.nodes['By'] = 0.0
@@ -63,6 +64,7 @@ class Hazel_atmosphere(General_atmosphere):
         self.nodes['deltav'] = 0.0
         self.nodes['beta'] = 0.0
         self.nodes['a'] = 0.0
+        self.nodes['ff'] = 0.0
 
         self.n_nodes['Bx'] = 0
         self.n_nodes['By'] = 0
@@ -72,6 +74,7 @@ class Hazel_atmosphere(General_atmosphere):
         self.n_nodes['deltav'] = 0
         self.n_nodes['beta'] = 0
         self.n_nodes['a'] = 0
+        self.n_nodes['ff'] = 0
 
         self.ranges['Bx'] = None
         self.ranges['By'] = None
@@ -81,6 +84,7 @@ class Hazel_atmosphere(General_atmosphere):
         self.ranges['deltav'] = None
         self.ranges['beta'] = None
         self.ranges['a'] = None
+        self.ranges['ff'] = None
 
         self.cycles['Bx'] = None
         self.cycles['By'] = None
@@ -90,6 +94,7 @@ class Hazel_atmosphere(General_atmosphere):
         self.cycles['deltav'] = None
         self.cycles['beta'] = None
         self.cycles['a'] = None
+        self.cycles['ff'] = None
 
         self.epsilon['Bx'] = 500.0
         self.epsilon['By'] = 500.0
@@ -99,8 +104,9 @@ class Hazel_atmosphere(General_atmosphere):
         self.epsilon['deltav'] = 5.0
         self.epsilon['beta'] = 1.0
         self.epsilon['a'] = 0.5
+        self.epsilon['ff'] = 1.0
 
-    def set_reference_to_current_parameters(self):
+    def set_reference(self):
         """
         Set reference model to that of the current parameters
 
@@ -112,6 +118,7 @@ class Hazel_atmosphere(General_atmosphere):
         -------
         None
         """
+        self.nodes_to_model()
         self.reference = copy.deepcopy(self.parameters)
 
     def set_parameters(self, pars):
@@ -123,6 +130,7 @@ class Hazel_atmosphere(General_atmosphere):
         self.parameters['deltav'] = pars[5]
         self.parameters['beta'] = pars[6]
         self.parameters['a'] = pars[7]
+        self.parameters['ff'] = pars[8]
 
     def load_reference_model(self, model_file, verbose):
         """
@@ -231,5 +239,7 @@ class Hazel_atmosphere(General_atmosphere):
             betaInput, nbarInput, omegaInput)
         
         l, stokes = hazel_code._synth(*args)
+
+        ff = self.parameters['ff']
         
-        return stokes / hsra_continuum(self.multiplets[self.active_line])
+        return ff * stokes / hsra_continuum(self.multiplets[self.active_line])

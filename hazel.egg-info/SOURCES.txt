@@ -16,6 +16,7 @@ hazel/parametric.py
 hazel/photosphere.py
 hazel/sir.py
 hazel/spectrum.py
+hazel/stray.py
 hazel/transforms.py
 hazel/util.py
 hazel.egg-info/PKG-INFO
@@ -94,3 +95,5 @@ src/sir/voigt.f
 src/sir/zeeman.f
 src/sir/zeeman_jk.f
 test/test.py
+test/test_single_inv.py
+test/test_single_syn.py
