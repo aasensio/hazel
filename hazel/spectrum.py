@@ -1,10 +1,11 @@
 import numpy as np
 from hazel.io import Generic_observed_file, Generic_stray_file
+from ipdb import set_trace as stop
 
 __all__ = ['Spectrum']
 
 class Spectrum(object):
-    def __init__(self, wvl=None, weights=None, observed_file=None, stray=None, name=None):
+    def __init__(self, wvl=None, weights=None, observed_file=None, stray=None, name=None, stokes_weights=None):
         
         self.wavelength_axis = None
         self.stokes = None
@@ -26,6 +27,9 @@ class Spectrum(object):
 
         if (name is not None):
             self.add_name(name)
+
+        if (stokes_weights is not None):
+            self.add_stokes_weights(stokes_weights)
 
     def add_spectrum(self, wvl):
         """
@@ -80,7 +84,7 @@ class Spectrum(object):
     
         """  
         self.observed_handle = Generic_observed_file(observed_file)
-        self.observed_handle.open()
+        self.n_pixel = self.observed_handle.get_npixel()
 
     def add_stray_file(self, stray_file):        
         """
@@ -115,6 +119,22 @@ class Spectrum(object):
         """  
         self.name = name
 
+    def add_stokes_weights(self, weights):
+        """
+        Add Stokes weights
+        
+        Parameters
+        ----------        
+        weights : float
+            Array of size 4 with the weights for all Stokes parameters
+        
+        Returns
+        -------
+        None
+    
+        """  
+        self.stokes_weights = weights
+
     def next_pixel(self):
         """
         Skip to next pixel
@@ -130,33 +150,50 @@ class Spectrum(object):
         """                  
         self.pixel += 1
 
-    def read_observation(self):
+    def open_observation(self):
+        """
+        Open the next pixel with observations
+        
+        Parameters
+        ----------        
+        None
+        
+        Returns
+        -------
+        None
+    
+        """          
+        self.observed_handle.open()
+
+    def read_observation(self, pixel=None):
         """
         Read the next pixel with observations
         
         Parameters
         ----------        
-        None
+        pixel : int
+            Pixel to read
         
         Returns
         -------
         None
     
         """          
-        self.obs, self.noise = self.observed_handle.read()
-        self.factor_chi2 = 1.0 / (self.noise**2 * self.dof)
+        self.obs, self.noise = self.observed_handle.read(pixel=pixel)
+        stop()
 
-    def read_straylight(self):
+    def read_straylight(self, pixel=None):
         """
         Read the next pixel with straylight
         
         Parameters
         ----------        
-        None
+        pixel : int
+            Pixel to read
         
         Returns
         -------
         None
     
         """          
-        self.stray = self.stray_handle.read()
+        self.stray = self.stray_handle.read(pixel=pixel)

@@ -27,6 +27,7 @@ cachetools
 import h5py
 from toolz.functoolz import memoize
 from cachetools import LRUCache
+from ipdb import set_trace as stop
 
 class LRUFileCache(LRUCache):
     """An LRU-cache that tries to close open files on eviction"""

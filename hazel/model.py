@@ -3,6 +3,7 @@ from hazel.photosphere import SIR_atmosphere
 from hazel.parametric import Parametric_atmosphere
 from hazel.stray import Straylight_atmosphere
 from hazel.configuration import Configuration
+from hazel.io import Generic_output_file
 from collections import OrderedDict
 from hazel.codes import hazel_code, sir_code
 from hazel.spectrum import Spectrum
@@ -11,13 +12,15 @@ import hazel.util
 import numpy as np
 import matplotlib.pyplot as pl
 import copy
+import os
 from pathlib import Path
 
 from ipdb import set_trace as stop
+
 __all__ = ['Model']
 
 class Model(object):
-    def __init__(self, config=None, verbose=None):
+    def __init__(self, config=None, working_mode='synthesis', verbose=True):
         
         self.photospheres = []
         self.chromospheres = []
@@ -28,91 +31,58 @@ class Model(object):
         self.parametric = []
         self.spectrum = []
         self.configuration = None
+        self.n_cycles = None
+        self.spectrum = {}
+        self.topologies = []
+        self.straylights = []
+        self.working_mode = working_mode
 
         self.epsilon = 1e-1
+
+        self.verbose = verbose
 
         if (config is not None):
             self.configuration = Configuration(config)
 
-            if (verbose is not None):
-                self.verbose = verbose
-            else:
-                self.verbose = bool(self.configuration.config_dict['working mode']['verbose'])
-
             self.use_configuration(self.configuration.config_dict)
-
+        
         # Initialize pyhazel
         hazel_code._init()
 
     def use_configuration(self, config_dict):
+        """
+        Use a configuration file
+
+        Parameters
+        ----------
+        config_dict : dict
+            Dictionary containing all the options from the configuration file previously read
+
+        Returns
+        -------
+        None
+        """
 
         # Deal with the spectral regions        
         tmp = config_dict['spectral regions']
 
+
+        # Output file
         self.output_file = config_dict['working mode']['output file']
-
-        self.working_mode = config_dict['working mode']['action']
-
-        spec = {}
-        topologies = []
-        straylights = []
-
-        for key, value in tmp.items():
-            if (self.verbose):
-                print('Adding spectral region {0}'.format(value['name']))
-
-            if ('wavelength file' not in value):
-                value['wavelength file'] = 'None'
-            if ('wavelength weight file' not in value):
-                value['wavelength weight file'] = 'None'
-            if ('observations file' not in value):
-                value['observations file'] = 'None'
-            if ('straylight file' not in value):
-                value['straylight file'] = 'None'
-
-
-            if (value['wavelength file'] == 'None'):
-                if ('lower, upper, n. wavelengths' in value):
-                    axis = value['lower, upper, n. wavelengths']
-                    wvl = np.linspace(float(axis[0]), float(axis[1]), int(axis[2]))
-                    print('  - Using wavelength axis from {0} to {1} with {2} steps'.format(float(axis[0]), float(axis[1]), int(axis[2])))
-            else:
-                if (self.verbose):
-                    print('  - Reading wavelength axis from {0}'.format(value['wavelength file']))
-                wvl = np.loadtxt(value['wavelength file'])
-
-            if (value['wavelength weight file'] == 'None'):
-                if (self.verbose):
-                    print('  - Setting all weights to 1')
-                weights = np.ones(len(wvl))
-            else:
-                if (self.verbose):
-                    print('  - Reading wavelength weights from {0}'.format(value['wavelength weight file']))
-                weights = np.loadtxt(value['wavelength weight file'])
-
-            if (value['observations file'] == 'None'):
-                if (self.verbose):
-                    print('  - Not using observations')
-                obs_file = None
-            else:
-                if (self.verbose):
-                    print('  - Using observations from {0}'.format(value['observations file']))
-                obs_file = value['observations file']
-
-            if (value['straylight file'] == 'None'):
-                if (self.verbose):
-                    print('  - Not using straylight')
-                stray_file = None
-            else:
-                if (self.verbose):
-                    print('  - Using straylight from {0}'.format(value['straylight file']))
-                stray_file = value['straylight file']
-                        
-            spec[value['name']] = Spectrum(wvl=wvl, weights=weights, observed_file=obs_file, stray=stray_file, name=value['name'])
-
-            topologies.append(value['topology'])            
         
-        self.spectrum = spec
+        # Working mode
+        # self.working_mode = config_dict['working mode']['action']
+
+        # Add spectral regions
+        for key, value in config_dict['spectral regions'].items():
+            self.add_spectral(value)
+
+        # Set number of cycles if present
+        if ('number of cycles' in config_dict['working mode']):
+            if (config_dict['working mode']['number of cycles'] != 'None'):
+                self.n_cycles = int(config_dict['working mode']['number of cycles'])
+                if (self.verbose):
+                    print('Using {0} cycles'.format(self.n_cycles))
         
         # Deal with the atmospheres
         tmp = config_dict['atmospheres']
@@ -147,18 +117,33 @@ class Model(object):
                     print('  - New available straylight : {0}'.format(value['name']))
 
                 self.add_straylight(value)
+
+        self.setup()
+
+    def setup(self):
+        """
+        Setup the model for synthesis/inversion. This setup includes adding the topologies, removing unused
+        atmospheres, reading the number of cycles for the inversion and some sanity checks
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
                             
         # Adding topologies
         if (self.verbose):
             print("Adding topologies") 
-        for value in topologies:
+        for value in self.topologies:
             self.add_topology(value)
 
         # Remove unused atmospheres defined in the configuration file and not in the topology
         if (self.verbose):
             print("Removing unused atmospheres")
-        self.remove_unused_atmosphere()
-        
+        self.remove_unused_atmosphere()        
 
         # Calculate indices for atmospheres
         index_chromosphere = 1
@@ -171,19 +156,30 @@ class Model(object):
                 v.index = index_chromosphere
                 index_chromosphere += 1
 
-        # self.initialize_ff()
+        # Check that number of pixels is the same for all atmospheric files if in synthesis mode
+        if (self.working_mode == 'synthesis'):
+            n_pixels = [v.n_pixel for k, v in self.atmospheres.items()]
+            all_equal = all(x == n_pixels[0] for x in n_pixels)
+            if (not all_equal):
+                for k, v in self.atmospheres.items():
+                    print('{0} -> {1}'.format(k, v.n_pixel))
+                raise Exception("Files with model atmospheres do not contain the same number of pixels")
+            else:
+                if (self.verbose):
+                    print('Number of pixels to read : {0}'.format(n_pixels[0]))
+                self.n_pixels = n_pixels[0]
 
-        # Check that number of pixels is the same for all read files
-        n_pixels = [v.n_pixel for k, v in self.atmospheres.items()]
-        all_equal = all(x == n_pixels[0] for x in n_pixels)
-        if (not all_equal):
-            for k, v in self.atmospheres.items():
-                print('{0} -> {1}'.format(k, v.n_pixel))
-            raise Exception("Files with model atmospheres do not contain the same number of pixels")
-        else:
-            if (self.verbose):
-                print('Number of pixels to read : {0}'.format(n_pixels[0]))
-            self.n_pixels = n_pixels[0]
+        if (self.working_mode == 'inversion'):
+            n_pixels = [v.n_pixel for k, v in self.spectrum.items()]
+            all_equal = all(x == n_pixels[0] for x in n_pixels)
+            if (not all_equal):
+                for k, v in self.spectrum.items():
+                    print('{0} -> {1}'.format(k, v.n_pixel))
+                raise Exception("Files with spectral regions do not contain the same number of pixels")
+            else:
+                if (self.verbose):
+                    print('Number of pixels to invert : {0}'.format(n_pixels[0]))
+                self.n_pixels = n_pixels[0]
         
 
         # Check that the number of pixels from all observations (in case of inversion) is the same
@@ -202,10 +198,108 @@ class Model(object):
             if (not all_equal):
                 raise Exception("Number of cycles in the nodes of active atmospheres is not always the same")
             else:
-                self.n_cycles = cycles[0]
+                if (self.n_cycles is None):
+                    self.n_cycles = cycles[0]
 
-        self.init_sir()
+        self.init_sir()        
 
+    def open_output(self):
+        self.output_handler = Generic_output_file(self.output_file)
+        self.output_handler.open(self)
+
+    def close_output(self):        
+        self.output_handler.close()
+
+    def add_spectral(self, spectral):
+        """
+        Programmatically add a spectral region
+
+        Parameters
+        ----------
+        spectral : dict
+            Dictionary containing the following data
+            'Name', 'Lower, upper, n.wavelengths', 'Topology', 'Stokes weights', 'Wavelength file', 'Wavelength weight file',
+            'Observations file', 'Straylight file', 'Mask file'
+
+        Returns
+        -------
+        None
+        """
+
+        # Make sure that all keys of the input dictionary are in lower case
+        # This is irrelevant if a configuration file is used because this has been
+        # already done
+        value = hazel.util.lower_dict_keys(spectral)
+
+    
+        if (self.verbose):            
+            print('Adding spectral region {0}'.format(value['name']))
+
+        if ('wavelength file' not in value):
+            value['wavelength file'] = 'None'
+        if ('wavelength weight file' not in value):
+            value['wavelength weight file'] = 'None'
+        if ('observations file' not in value):
+            value['observations file'] = 'None'
+        if ('straylight file' not in value):
+            value['straylight file'] = 'None'
+        if ('stokes weights' not in value):
+            value['stokes weights'] = 'None'
+        if ('mask file' not in value):
+            value['mask file'] = 'None'
+
+
+        if (value['wavelength file'] == 'None'):
+            if ('wavelength' in value):
+                axis = value['wavelength']
+                wvl = np.linspace(float(axis[0]), float(axis[1]), int(axis[2]))
+                print('  - Using wavelength axis from {0} to {1} with {2} steps'.format(float(axis[0]), float(axis[1]), int(axis[2])))
+        else:
+            if (self.verbose):
+                print('  - Reading wavelength axis from {0}'.format(value['wavelength file']))
+            wvl = np.loadtxt(value['wavelength file'])
+
+        if (value['wavelength weight file'] == 'None'):
+            if (self.verbose):
+                print('  - Setting all weights to 1')
+            weights = np.ones(len(wvl))
+        else:
+            if (self.verbose):
+                print('  - Reading wavelength weights from {0}'.format(value['wavelength weight file']))
+            weights = np.loadtxt(value['wavelength weight file'])
+
+        if (value['observations file'] == 'None'):
+            if (self.verbose):
+                print('  - Not using observations')
+            obs_file = None
+        else:
+            if (self.verbose):
+                print('  - Using observations from {0}'.format(value['observations file']))
+            obs_file = value['observations file']
+
+        if (value['straylight file'] == 'None'):
+            if (self.verbose):
+                print('  - Not using straylight')
+            stray_file = None
+        else:
+            if (self.verbose):
+                print('  - Using straylight from {0}'.format(value['straylight file']))
+            stray_file = value['straylight file']
+
+        if (value['stokes weights'] == 'None'):
+            if (self.verbose):
+                print('  - All Stokes parameters weighted the same')
+            stokes_weights = np.ones(4)
+        else:
+            if (self.verbose):
+                print('  - Using weights {0}'.format(value['stokes weights']))
+            stokes_weights = np.asarray(hazel.util.tofloat(value['stokes weights']))
+                    
+        self.spectrum[value['name']] = Spectrum(wvl=wvl, weights=weights, observed_file=obs_file, stray=stray_file, name=value['name'], stokes_weights=stokes_weights)
+
+        self.topologies.append(value['topology'])            
+        
+    
     def add_photosphere(self, atmosphere):
         """
         Programmatically add a photosphere
@@ -214,7 +308,7 @@ class Model(object):
         ----------
         atmosphere : dict
             Dictionary containing the following data
-            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength range', 'Reference atmospheric model',
+            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength', 'Reference atmospheric model',
             'Ranges', 'Nodes'
 
         Returns
@@ -229,24 +323,26 @@ class Model(object):
 
         self.atmospheres[atm['name']] = SIR_atmosphere()
         lines = [int(k) for k in list(atm['spectral lines'])]
-        wvl_range = [float(k) for k in atm['wavelength range']]
+        wvl_range = [float(k) for k in atm['wavelength']]
                     
         self.atmospheres[atm['name']].add_active_line(lines=lines, spectrum=self.spectrum[atm['spectral region']], 
             wvl_range=np.array(wvl_range))
 
-        my_file = Path(atm['reference atmospheric model'])
-        if (not my_file.exists()):
-            raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
+        if ('reference atmospheric model' in atm):
+            my_file = Path(atm['reference atmospheric model'])
+            if (not my_file.exists()):
+                raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
 
-        self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
+            self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
 
-        if (self.atmospheres[atm['name']].model_type == '3d'):
-            self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
-            
-        for k, v in atm['nodes'].items():
-            for k2, v2 in self.atmospheres[atm['name']].parameters.items():
-                if (k.lower() == k2.lower()):
-                    self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
+            if (self.atmospheres[atm['name']].model_type == '3d'):
+                self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
+
+        if ('nodes' in atm):            
+            for k, v in atm['nodes'].items():
+                for k2, v2 in self.atmospheres[atm['name']].parameters.items():
+                    if (k.lower() == k2.lower()):
+                        self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
 
         if ('ranges' in atm):
             for k, v in atm['ranges'].items():
@@ -266,7 +362,7 @@ class Model(object):
         ----------
         atmosphere : dict
             Dictionary containing the following data
-            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength range', 'Reference atmospheric model',
+            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength', 'Reference atmospheric model',
             'Ranges', 'Nodes'
 
         Returns
@@ -281,7 +377,7 @@ class Model(object):
         
         self.atmospheres[atm['name']] = Hazel_atmosphere()
                 
-        wvl_range = [float(k) for k in atm['wavelength range']]
+        wvl_range = [float(k) for k in atm['wavelength']]
 
         self.atmospheres[atm['name']].add_active_line(line=atm['line'], spectrum=self.spectrum[atm['spectral region']], 
             wvl_range=np.array(wvl_range))
@@ -289,21 +385,24 @@ class Model(object):
         if (self.verbose):
             print("    * Adding line : {0}".format(atm['line']))
 
-        my_file = Path(atm['reference atmospheric model'])
-        if (not my_file.exists()):
-            raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
+        if ('reference atmospheric model' in atm):
+            my_file = Path(atm['reference atmospheric model'])
+            if (not my_file.exists()):
+                raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
 
-        self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
+            self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
 
-        if (self.atmospheres[atm['name']].model_type == '3d'):
-            self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
+            if (self.atmospheres[atm['name']].model_type == '3d'):
+                self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
         
         # Set values of parameters
         self.atmospheres[atm['name']].height = float(atm['height'])
-        for k, v in atm['nodes'].items():
-            for k2, v2 in self.atmospheres[atm['name']].parameters.items():
-                if (k.lower() == k2.lower()):                            
-                    self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
+
+        if ('nodes' in atm):
+            for k, v in atm['nodes'].items():
+                for k2, v2 in self.atmospheres[atm['name']].parameters.items():
+                    if (k.lower() == k2.lower()):                            
+                        self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
 
         if ('ranges' in atm):
             for k, v in atm['ranges'].items():
@@ -322,7 +421,7 @@ class Model(object):
         ----------
         atmosphere : dict
             Dictionary containing the following data
-            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength range', 'Reference atmospheric model',
+            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength', 'Reference atmospheric model',
             'Ranges', 'Nodes'
 
         Returns
@@ -337,25 +436,27 @@ class Model(object):
 
         self.atmospheres[atm['name']] = Parametric_atmosphere()
                 
-        wvl_range = [float(k) for k in atm['wavelength range']]
+        wvl_range = [float(k) for k in atm['wavelength']]
 
         self.atmospheres[atm['name']].add_active_line(spectrum=self.spectrum[atm['spectral region']], 
             wvl_range=np.array(wvl_range))
 
-        my_file = Path(atm['reference atmospheric model'])
-        if (not my_file.exists()):
-            raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
+        if ('reference atmospheric model' in atm):
+            my_file = Path(atm['reference atmospheric model'])
+            if (not my_file.exists()):
+                raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
 
-        self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
+            self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
 
-        if (self.atmospheres[atm['name']].model_type == '3d'):
-            self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
+            if (self.atmospheres[atm['name']].model_type == '3d'):
+                self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
         
         # Set values of parameters
-        for k, v in atm['nodes'].items():
-            for k2, v2 in self.atmospheres[atm['name']].parameters.items():
-                if (k.lower() == k2.lower()):                            
-                    self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
+        if ('nodes' in atm):
+            for k, v in atm['nodes'].items():
+                for k2, v2 in self.atmospheres[atm['name']].parameters.items():
+                    if (k.lower() == k2.lower()):                            
+                        self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
 
         if ('ranges' in atm):
             for k, v in atm['ranges'].items():
@@ -375,7 +476,7 @@ class Model(object):
         ----------
         atmosphere : dict
             Dictionary containing the following data
-            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength range', 'Reference atmospheric model',
+            'Name', 'Spectral region', 'Height', 'Line', 'Wavelength', 'Reference atmospheric model',
             'Ranges', 'Nodes'
 
         Returns
@@ -390,7 +491,7 @@ class Model(object):
 
         self.atmospheres[atm['name']] = Straylight_atmosphere()
                 
-        wvl_range = [float(k) for k in atm['wavelength range']]
+        wvl_range = [float(k) for k in atm['wavelength']]
 
         self.atmospheres[atm['name']].add_active_line(spectrum=self.spectrum[atm['spectral region']], 
             wvl_range=np.array(wvl_range))
@@ -399,16 +500,18 @@ class Model(object):
         if (not my_file.exists()):
             raise FileExistsError("Input file for atmosphere {0} does not exist.".format(atm['name']))
 
-        self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
+        if ('reference atmospheric model' in atm):
+            self.atmospheres[atm['name']].load_reference_model(atm['reference atmospheric model'], self.verbose)
 
-        if (self.atmospheres[atm['name']].model_type == '3d'):
-            self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
+            if (self.atmospheres[atm['name']].model_type == '3d'):
+                self.atmospheres[atm['name']].n_pixel = self.atmospheres[atm['name']].model_handler.get_npixel()
         
         # Set values of parameters
-        for k, v in atm['nodes'].items():
-            for k2, v2 in self.atmospheres[atm['name']].parameters.items():
-                if (k.lower() == k2.lower()):                            
-                    self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
+        if ('nodes' in atm):
+            for k, v in atm['nodes'].items():
+                for k2, v2 in self.atmospheres[atm['name']].parameters.items():
+                    if (k.lower() == k2.lower()):                            
+                        self.atmospheres[atm['name']].cycles[k2] = hazel.util.toint(v)
 
         if ('ranges' in atm):
             for k, v in atm['ranges'].items():
@@ -489,6 +592,11 @@ class Model(object):
                 f.close()
                 
                 v.n_lambda = sir_code.init(v.index)
+
+                try:
+                    os.remove('malla.grid')
+                except OSError:
+                    pass
 
     def add_topology(self, atmosphere_order):
         """
@@ -857,11 +965,11 @@ class Model(object):
         ddchi2 = np.zeros((n,n))
         for k, v in self.spectrum.items():
             residual = (v.stokes - v.obs)
-            chi2 += np.sum(residual**2 * v.factor_chi2)
+            chi2 += np.sum(v.stokes_weights[:,None] * residual**2 * v.factor_chi2)
             
             if (not only_chi2):
-                dchi2 += -2.0 / v.dof * np.sum(self.response * residual[None,:,:] * v.factor_chi2[None,:,:], axis=(1,2))
-                ddchi2 += 2.0 / v.dof * np.sum(self.response[None,:,:,:] * self.response[:,None,:,:] * v.factor_chi2[None,None,:,:], axis=(2,3))                
+                dchi2 += -2.0 / v.dof * np.sum(v.stokes_weights[None,:,None] * self.response * residual[None,:,:] * v.factor_chi2[None,:,:], axis=(1,2))
+                ddchi2 += 2.0 / v.dof * np.sum(v.stokes_weights[None,None,:,None] * self.response[None,:,:,:] * self.response[:,None,:,:] * v.factor_chi2[None,None,:,:], axis=(2,3))                
                 return chi2, dchi2, ddchi2
             else:
                 return chi2
@@ -985,11 +1093,9 @@ class Model(object):
 
         """
 
-        # Read current spectrum and stray light
         for k, v in self.spectrum.items():
-            v.read_observation()
-            v.read_straylight()
-
+            v.factor_chi2 = 1.0 / (v.noise**2 * v.dof)
+        
         self.synthesize_and_compute_rf()
         
         f, ax = pl.subplots(nrows=2, ncols=2)
@@ -1011,8 +1117,6 @@ class Model(object):
                 
 
             self.find_active_parameters(cycle)
-
-            stop()
 
             keepon = True
             iteration = 0
@@ -1075,6 +1179,11 @@ class Model(object):
             self.set_new_model(self.nodes)
 
             self.flatten_parameters_to_reference()            
+
+    def read_observation(self):
+        for k, v in self.spectrum.items():
+            v.read_observation(pixel=0)
+            v.read_straylight(pixel=0)
 
     def plot_stokes(self):        
         for atmospheres in self.order_atmospheres:

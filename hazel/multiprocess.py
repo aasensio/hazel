@@ -36,12 +36,15 @@ class iterator(object):
         
         # Then broadcast        
         if (self.use_mpi):
-            if (self.rank == 0):                                
-                self.model = model 
+            if (self.rank == 0):
+                self.model = model
+
+                if (self.model.verbose):
+                    print ('Broadcasting models to all slaves')
 
                 self.comm.Barrier()               
                 self.comm.bcast(self.model, root=0)                
-                self.comm.Barrier()
+                self.comm.Barrier()                
             else:
                 model = None
 
@@ -69,32 +72,30 @@ class iterator(object):
         None
         """
 
-        # Open all output files
-        f = h5py.File(self.model.output_file, 'w')
-        db = {}
-        for k, v in self.model.spectrum.items():
-            n_stokes, n_lambda = v.stokes.shape            
-            db[k] = f.create_dataset(k, (self.model.n_pixels, n_stokes, n_lambda), dtype=np.float32)
-
+        self.model.open_output()
+        
         # Open all model files
         for k, v in self.model.atmospheres.items():
             v.model_handler.open()
         
         # Loop over all pixels doing the synthesis and saving the results
         for i in tqdm(range(self.model.n_pixels)):
-            for k, v in self.model.atmospheres.items():
-                m = v.model_handler.read(pixel=i)
-                v.set_parameters(m)
+            for k, v in self.model.atmospheres.items():                
+                args = v.model_handler.read(pixel=i)                
+                v.set_parameters(args)
 
             if (self.model.working_mode == 'inversion'):
+                # Read current spectrum and stray light
+                for k, v in self.model.spectrum.items():
+                    v.read_observation(pixel=i)
+                    v.read_straylight(pixel=i)
                 self.model.invert()
             else:
                 self.model.synthesize()
 
-            for k, v in self.model.spectrum.items():
-                db[k][i,:,:] = self.model.spectrum[k].stokes
+            self.model.output_handler.write(self.model, pixel=i)
 
-        f.close()
+        self.model.close_output()
                                             
 
     def mpi_master_work(self):
@@ -110,13 +111,14 @@ class iterator(object):
         -------
         None
         """
-        f = h5py.File(self.model.output_file, 'w')
-        db = {}
-        for k, v in self.model.spectrum.items():
-            n_stokes, n_lambda = v.stokes.shape            
-            db[k] = f.create_dataset(k, (self.model.n_pixels, n_stokes, n_lambda), dtype=np.float32)
 
-        # Loop over all pixels doing the synthesis and saving the results
+        self.model.open_output()
+
+        if (self.model.working_mode == 'inversion'):
+            for k, v in self.model.spectrum.items():
+                v.open_observation()
+        
+        # Loop over all pixels doing the synthesis/inversion and saving the results
         task_index = 0
         num_workers = self.size - 1
         closed_workers = 0
@@ -128,23 +130,29 @@ class iterator(object):
             v.model_handler.open()
 
         print("Starting calculation with {0} workers".format(num_workers), flush=True)
-
         
         with tqdm(total=self.model.n_pixels, ncols=140) as pbar:
             while (closed_workers < num_workers):
-                data_received = self.comm.recv(source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=self.status)            
+                data_received = self.comm.recv(source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=self.status)
                 source = self.status.Get_source()
                 tag = self.status.Get_tag()
                 
                 if tag == tags.READY:
                     # Worker is ready, send a task
                     if (task_index < self.model.n_pixels):
-                                    
+
                         data_to_send = {'index': task_index}
 
-                        for k, v in self.model.atmospheres.items():
-                            m = v.model_handler.read(pixel=task_index)
-                            data_to_send[k] = m
+                        if (self.model.working_mode == 'inversion'):
+                            # Read current spectrum and stray light
+                            for k, v in self.model.spectrum.items():
+                                v.read_observation(pixel=task_index)
+                                v.read_straylight(pixel=task_index)
+                                data_to_send[k] = [v.obs, v.noise, v.stray]
+                        else:
+                            for k, v in self.model.atmospheres.items():
+                                m = v.model_handler.read(pixel=task_index)
+                                data_to_send[k] = m
 
                         self.comm.send(data_to_send, dest=source, tag=tags.START)
 
@@ -156,9 +164,15 @@ class iterator(object):
                         self.comm.send(None, dest=source, tag=tags.EXIT)
                 elif tag == tags.DONE:
                     index = data_received['index']
+
+                    # Put the results passed through MPI into self.model for saving
+                    for k, v in self.model.spectrum.items():                
+                        v.stokes = data_received[k]
+
+                    self.model.output_handler.write(self.model, pixel=index)                    
                                     
-                    for k, v in self.model.spectrum.items():                    
-                        db[k][index,:,:] = data_received[k]                    
+                    # for k, v in self.model.spectrum.items():                    
+                        # db[k][index,:,:] = data_received[k]                    
                     
                     self.last_received = '{0}->{1}'.format(index, source)
                     pbar.set_postfix(sent=self.last_sent, received=self.last_received)
@@ -166,7 +180,7 @@ class iterator(object):
                 elif tag == tags.EXIT:                    
                     closed_workers += 1
 
-        f.close()
+        self.model.close_output()
 
     def mpi_slave_work(self):
         
@@ -178,13 +192,19 @@ class iterator(object):
             
             if tag == tags.START:                                
                 task_index = data_received['index']
+
                 
-                for k, v in self.model.atmospheres.items():                    
-                    v.set_parameters(data_received[k])
                 
                 if (self.model.working_mode == 'inversion'):
+                    
+                    for k, v in self.model.spectrum.items():
+                        v.obs, v.noise, v.stray = data_received[k]
+
                     self.model.invert()
                 else:
+                    for k, v in self.model.atmospheres.items():                    
+                        v.set_parameters(data_received[k])
+                        
                     self.model.synthesize()
 
                 data_to_send = {'index': task_index}

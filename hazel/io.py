@@ -1,10 +1,84 @@
 import numpy as np
-import hazel.h5py_pickle as h5py
+import h5py
 from astropy.io import fits
 import os
 from ipdb import set_trace as stop
 
-__all__ = ['Generic_observed_file', 'Generic_hazel_file', 'Generic_SIR_file', 'Generic_parametric_file', 'Generic_stray_file']
+__all__ = ['Generic_observed_file', 'Generic_hazel_file', 'Generic_SIR_file', 'Generic_parametric_file', 'Generic_stray_file', 
+    'Generic_output_file']
+
+class Generic_output_file(object):
+
+    def __init__(self, filename):
+        self.extension = os.path.splitext(filename)[1][1:]
+        self.filename = filename
+
+        if (self.extension == '1d'):
+            raise Exception("1d files not allowed as output")
+
+    def open(self, model):        
+        if (self.extension == 'h5'):
+            # Open the file            
+            self.handler = h5py.File(self.filename, 'w')
+            
+            # Generate all handlers for things we'll write here
+            self.out_spectrum = {}
+            for k, v in model.spectrum.items():
+                n_stokes, n_lambda = v.stokes.shape
+                self.out_spectrum[k] = self.handler.create_dataset(k, (model.n_pixels, n_stokes, n_lambda))
+
+            if (model.working_mode == 'inversion'):
+                self.out_model = {}
+                for k, v in model.atmospheres.items():
+                    db = self.handler.create_group(k)
+                    self.out_model[k] = {}
+                    for k2, v2 in v.reference.items():                    
+                        if (np.isscalar(v2)):
+                            n_depth = 1
+                        else:
+                            n_depth = len(v2)
+                        self.out_model[k][k2] = db.create_dataset(k2, (model.n_pixels, n_depth))
+            
+            return
+
+        if (self.extension == 'fits'):
+            self.handler = fits.open(self.filename, memmap=True)
+            return
+
+    def write(self, model, pixel=None):
+
+        if (self.extension == 'h5'):
+            for k, v in model.spectrum.items():                
+                self.out_spectrum[k][pixel,...] = v.stokes
+
+            if (model.working_mode == 'inversion'):
+                for k, v in model.atmospheres.items():                
+                    for k2, v2 in v.reference.items():                    
+                        self.out_model[k][k2][pixel,...] = v2
+
+        # if (self.extension == 'fits'):
+        #     return self.handler[0]fits.open(self.filename, memmap=True)
+        #     return
+
+    def close(self):
+        if (self.extension == '1d'):
+            return
+
+        if (self.extension == 'h5'):
+            self.handler.close()
+            del self.handler
+        
+
+    def get_npixel(self):
+        if (self.extension == '1d'):
+            return 1
+
+        if (self.extension == 'h5'):
+            self.open()
+            tmp, _ = self.handler['model'].shape
+            self.close()
+            return tmp
+
 
 class Generic_observed_file(object):
 
@@ -30,7 +104,7 @@ class Generic_observed_file(object):
             return tmp[0:4,:], tmp[4:,:]
 
         if (self.extension == 'h5'):
-            return self.handler['model'][pixel,...]
+            return self.handler['stokes'][pixel,...].T, self.handler['sigma'][pixel,...].T
 
         # if (self.extension == 'fits'):
         #     return self.handler[0]fits.open(self.filename, memmap=True)
@@ -42,6 +116,7 @@ class Generic_observed_file(object):
 
         if (self.extension == 'h5'):
             self.handler.close()
+            del self.handler
         
 
     def get_npixel(self):
@@ -50,7 +125,7 @@ class Generic_observed_file(object):
 
         if (self.extension == 'h5'):
             self.open()
-            tmp, _ = self.handler['model'].shape
+            tmp, _, _ = self.handler['stokes'].shape
             self.close()
             return tmp
 
@@ -90,6 +165,7 @@ class Generic_stray_file(object):
 
         if (self.extension == 'h5'):
             self.handler.close()
+            del self.handler
         
 
     def get_npixel(self):
@@ -137,6 +213,7 @@ class Generic_parametric_file(object):
 
         if (self.extension == 'h5'):
             self.handler.close()
+            del self.handler
         
 
     def get_npixel(self):
@@ -172,7 +249,7 @@ class Generic_hazel_file(object):
             return np.loadtxt(self.filename, skiprows=1)
 
         if (self.extension == 'h5'):
-            return self.handler['model'][pixel,...]
+            return self.handler['model'][pixel,...], self.handler['ff'][pixel]
 
         # if (self.extension == 'fits'):
         #     return self.handler[0]fits.open(self.filename, memmap=True)
@@ -184,6 +261,7 @@ class Generic_hazel_file(object):
 
         if (self.extension == 'h5'):
             self.handler.close()
+            del self.handler
         
 
     def get_npixel(self):
@@ -221,7 +299,7 @@ class Generic_SIR_file(object):
             return np.loadtxt(self.filename, skiprows=4), ff
 
         if (self.extension == 'h5'):
-            return self.handler['model'][pixel,...]
+            return self.handler['model'][pixel,...], self.handler['ff'][pixel]
 
     def close(self):
         if (self.extension == '1d'):
@@ -229,6 +307,7 @@ class Generic_SIR_file(object):
 
         if (self.extension == 'h5'):
             self.handler.close()
+            del self.handler
 
     def get_npixel(self):
         if (self.extension == '1d'):

@@ -1,151 +1,194 @@
-.. inputOutput-label:
-Input/output files
-===================
-
-Both input and output files for Hazel are NetCDF files.
+.. _input:
 
 Input files
------------
+===========
 
-The input file constains the observations and information about the
-observing position and boundary condition. The file consists of the
-following variables:
+Hazel v2.0 can accept several formats for input/output files. 1D formats are specific
+for Hazel, but 3D formats are defined in standard HDF5 or FITS formats.
 
--  lambda: vector of size *nlambda* containing the wavelength axis with
-   respect to the center of the multiplet (10829.0911 Angstrom for the multiplet at 10830 Angstrom).
-
--  map: array of size *(npixel,8,nlambda)* containing the Stokes vector
-   :math:`(I,Q,U,V)` and the associated standard deviation of the noise
-   :math:`(\sigma_I,\sigma_Q,\sigma_U,\sigma_V)`.
-
--  boundary: array of size *(npixel,4)* containing the boundary
-   condition for every inverted pixel.
-
--  height: vector of size *npixel* which contains the height of the
-   slabs for every pixel.
-
--  obs\_theta: vector of size *npixel* which contains the observing
-   angle :math:`\theta` for every pixel.
-
--  obs\_gamma: vector of size *npixel* which contains the observing
-   angle :math:`\gamma` that defines the positive reference for Stokes
-   :math:`Q` for every pixel.
-
--  mask: array of size *nx,ny* which tells whether this pixel will be
-   inverted.
-
--  normalization: variable indicating whether the profiles are
-   normalized to the peak amplitude or the continuum of Stokes
-   :math:`I`.
-
--  pars: array of size *npixel,npars* which contains the initial value
-   for the model parameters. These will be used to reinvert some pixels
-   or, for instance, to refine the ambiguous solutions.
-
-The routine ``gen_netcdf.pro`` on the directory ``IDL_routines`` and the
-``genNetCDF.py`` on ``pyRoutines`` shows functions that generate such a
-file by passing all the variables as parameters. The order of pars is
-the following, depending on the number of slabs:
-
--  1-component (vector of size 8): :math:`B`, :math:`\theta_B`,
-   :math:`\chi_B`, :math:`\tau`, :math:`v_\mathrm{dop}`, :math:`a`,
-   :math:`v_\mathrm{mac}`, :math:`\beta`
-
--  2-component 1+1 with same field (vector of size 11): :math:`B`,
-   :math:`\theta_B`, :math:`\chi_B`, :math:`\tau_1`, :math:`\tau_2`,
-   :math:`v_\mathrm{dop}`, :math:`a`, :math:`v_\mathrm{mac1}`,
-   :math:`v_\mathrm{mac2}`, :math:`\beta`, :math:`\beta_2`
-
--  2-component 1+1 with different field (vector of size 15):
-   :math:`B_1`, :math:`\theta_{B1}`, :math:`\chi_{B1}`, :math:`B_2`,
-   :math:`\theta_{B2}`, :math:`\chi_{B2}`, :math:`\tau_1`,
-   :math:`\tau_2`, :math:`v_\mathrm{dop}`, :math:`v_\mathrm{dop2}`,
-   :math:`a`, :math:`v_\mathrm{mac1}`, :math:`v_\mathrm{mac2}`,
-   :math:`\beta`, :math:`\beta_2`
-
--  2-component 2 with different field with filling factor (vector of
-   size 16): :math:`B_1`, :math:`\theta_{B1}`, :math:`\chi_{B1}`,
-   :math:`B_2`, :math:`\theta_{B2}`, :math:`\chi_{B2}`, :math:`\tau_1`,
-   :math:`\tau_2`, :math:`v_\mathrm{dop}`, :math:`v_\mathrm{dop2}`,
-   :math:`a`, :math:`v_\mathrm{mac1}`, :math:`v_\mathrm{mac2}`,
-   :math:`\mathrm{ff}`, :math:`\beta`, :math:`\beta_2`
-
-Data preparation
+Wavelength files
 ----------------
-Some data preprocessing has to be done in order to have reliable inversions with
-Hazel. The process takes the following steps:
 
--  **Data normalization**: the data has to be normalized to the local continuum. This
-   is sometimes slightly difficult because the nearby Si I line has strong wings and one should
-   use that pseudocontinuum. The very first step would be to remove large scale variations
-   of the continuum, so that it is as flat as possible (perhaps removing fringes if you have
-   any). Then, you proceed to remove the influence
-   of the Si I line. What our people typically use is to fit the Si I line using
-   almost all its blue wing and only part of the red wing. I guess you can do it using
-   an inversion code like SIR or use a Voigt function. You probably want to get photospheric
-   information from your observations, so maybe SIR is a better option. Once you have
-   the Si I line fitted, just extend the synthetic wing towards the He I line and then normalize
-   the spectrum by the synthetic profile. This way, you'll have the He I triplet correctly
-   normalized.
-   If the data is off-limb, things are typically easier because there is no continuum but
-   sometimes there is some stray-light that can give you a headache. In this case, 
-   the input should be normalized by the peak emission.
+Wavelength
+^^^^^^^^^^
+Wavelength files are defined with a text file with a single column and a header, and
+defines the wavelength axis in Angstrom of each spectral region.
 
--  **Wavelength calibration**: the data has to be wavelength calibrated. How to do it depends 
-   on whether you want an absolute calibration of velocities or not. If you want such absolute scale, the best is to do the wavelength
-   calibration using telluric lines and then transform everything to the Sun using the relative
-   velocity between the observed region and the Earth. If not, maybe using some weak 
-   surrounding photospheric lines is enough. Note that all wavelengths are given with respect
-   to the center of the multiplet, which is 10829.0911 Angstrom for the 10830 Angstrom one)
+::
+    
+    # lambda
+    1.082600000000000000e+04
+    1.082604697986577230e+04
+    1.082609395973154278e+04
+    1.082614093959731508e+04
+    1.082618791946308738e+04
+    1.082623489932885968e+04
+    ...
 
--  **Computation of the boundary condition and heliocentric angle**: every pixel should be labeled with its heliocentric angle (this is important for
-   observations close to the limb, where mu is changing fast) and its boundary condition.
-   So, you need to get a map of heliocentric angles together with your map of observed Stokes
-   profiles. Concerning the boundary condition, it is enough to compute the ratio between
-   the continuum intensity at every pixel and the average at the same heliocentric angle.
-
--  **Rotation of the reference system**: it is important to understand which is the reference direction for positive Stokes
-   Q in the observations. Note that the output of the code depends on the :math:`\gamma` angle, which exactly
-   defines this positive Q direction. Two possibilities appear. The first one is to set :math:`\gamma` in the code
-   so that you understand which is the reference direction in the code and then rotate the Stokes Q and U data
-   so that the reference direction for Stokes Q is aligned with that of the code. The second possibility is to
-   keep the data as it is and then put the appropriate value of :math:`\gamma` in the code to make both reference
-   directions equal. This is usually not difficult, but it requires to understand which is the reference direction
-   for the telescope, which is sometimes difficult to get. It is always a good advice to have the scattering
-   geometry in mind and try to adapt it to your observations. See :ref:`image_geometry` for more information.
+Wavelength weights
+^^^^^^^^^^^^^^^^^^
+Not defined
 
 
-Output files
-------------
+Observations files
+------------------
 
-The results of the inversion are saved on two files defined on the
-configuration file. The file with the inverted
-profiles contains the following variables:
+We describe now the files that contain the observations needed for the inversion mode. Observations
+can be described in 1D files for single-pixel inversions, or in 3D files with different flavors for
+many-pixels inversions.
 
--  lambda: vector of size *nlambda* containing the wavelength axis with
-   respect to the center of the multiplet (10829.0911 Angstrom for the multiplet at 10830 Angstrom)
+1D files
+^^^^^^^^
 
--  map: array of size *(npixel,4,nlambda)* containing the synthetic
-   Stokes vector :math:`(I,Q,U,V)` for every pixel.
+These are text files with a header and the value of the Stokes parameters and the standard deviation of the
+noise for each wavelength and Stokes parameter. An example follows:
 
-The file with the inverted parameters contains the following variable:
+::
 
--  map: array of size *(npixel,ncolumns)* containing the parameters of
-   the inversion.
+    # SI SQ SU SV sigmaI sigmaQ sigmaU sigmaV
+    9.398283088919315853e-01 2.307830414199267630e-04 -5.121676330588738812e-05 1.457157835263802345e-04 1.000000000000000048e-04 1.000000000000000048e-04 1.000000000000000048e-04 1.000000000000000048e-04
+    9.354598051184511709e-01 1.898170981935559632e-04 -1.157160550018296303e-04 -8.932093956208153021e-05 1.000000000000000048e-04 1.000000000000000048e-04 1.000000000000000048e-04 1.000000000000000048e-04
+    9.304626067718699822e-01 3.837834915890673399e-05 1.166320038345326575e-04 1.087068643459882281e-04 1.000000000000000048e-04 1.000000000000000048e-04 1.000000000000000048e-04 1.000000000000000048e-04
+    ....
 
-The number of columns depends on the selected model:
 
--  One-slab: nine columns with the vector
-   :math:`(B,\theta_B,\chi_B,h,\tau,v_\mathrm{th},a,v_\mathrm{mac},\beta)`.
+HDF5 3D files
+^^^^^^^^^^^^^
 
--  Two-slab with same magnetic field: eleven columns with the vector
-   :math:`(B,\theta_B,\chi_B,h,[\tau]_1,[\tau]_2,v_\mathrm{th},a,[v_\mathrm{mac}]_1,
-   [v_\mathrm{mac}]_2,\beta,\beta_2)`.
+HDF5 files with observations are defined with two double-precision datasets: ``stokes`` and ``sigma``, each one of size ``(n_pixel,n_lambda,4)``, 
+containing the four Stokes parameters and standard deviation of the noises for all pixels. In the following we show how to
+create a sample file:
 
--  Two-slab with different magnetic field: fifteen columns with the
-   vector
-   :math:`([B]_1,[\theta_B]_1,[\chi_B]_1,[B]_2,[\theta_B]_2,[\chi_B]_2,
-   h,[\tau]_1,[\tau]_2,[v_\mathrm{th}]_1,[v_\mathrm{th}]_2,a,[v_\mathrm{mac}]_1,[v_\mathrm{mac}]_2,\beta,\beta_2)`.
+::
 
-The file ``read_results.pro`` on the ``RunMPI`` directory shows how to
-read the files from IDL.
+    n_pixel = 100
+    n_lambda = 150
+
+    stokes_3d = np.zeros((n_pixel,n_lambda,4), dtype=np.float64)
+    sigma_3d = np.zeros((n_pixel,n_lambda,4), dtype=np.float64))
+
+    f = h5py.File('observations/10830_stokes.h5', 'w')
+    db_stokes = f.create_dataset('stokes', stokes_3d.shape, dtype=np.float64)
+    db_sigma = f.create_dataset('sigma', sigma_3d.shape, dtype=np.float64)
+    db_stokes[:] = stokes_3d
+    db_sigma[:] = sigma_3d
+    f.close()
+
+FITS 3D files
+^^^^^^^^^^^^^
+TBD.
+
+Straylight file
+^^^^^^^^^^^^^^^
+TBD
+
+Mask file
+^^^^^^^^^
+TBD.
+
+Photospheric models
+-------------------
+
+Photospheric models are used both in synthesis and inversion. In synthesis mode, they are used to
+obtain the emergent Stokes parameters. In inversion mode, they are used as an initial reference model that will
+be perturbed with nodes until a fit is obtained for the observed Stokes parameters.
+
+1D files
+^^^^^^^^
+
+These are text files which tabulates the depth dependence as a function of the log optical depth at 500 nm
+of the temperature [K], electron pressure [cgs], 
+microturbulent velocity [cm/s], bulk velocity [cm/s], and the cartesian components of the magnetic field,
+Bx, By and Bz [G]. Additionally, the filling factor is given in the header. An example follows:
+
+::
+
+    ff
+    1.0
+
+    logtau     T        Pe           vmic        v            Bx           By         Bz
+    1.2000   8879.7  2.99831E+03  0.000E+00  0.0000E+00   5.0000E+02    0.0000E+00  0.0000E+00   
+    1.1000   8720.2  2.46927E+03  0.000E+00  0.0000E+00   5.0000E+02    0.0000E+00  0.0000E+00   
+    1.0000   8551.0  1.98933E+03  0.000E+00  0.0000E+00   5.0000E+02    0.0000E+00  0.0000E+00   
+    0.9000   8372.2  1.56782E+03  0.000E+00  0.0000E+00   5.0000E+02    0.0000E+00  0.0000E+00   
+    0.8000   8183.7  1.20874E+03  0.000E+00  0.0000E+00   5.0000E+02    0.0000E+00  0.0000E+00   
+    0.7000   7985.6  9.11633E+02  0.000E+00  0.0000E+00   5.0000E+02    0.0000E+00  0.0000E+00
+    ...
+
+HDF5 3D files
+^^^^^^^^^^^^^
+
+HDF5 files with model photospheres are defined with two double-precision datasets: ``model`` and ``ff``. The first
+one has size ``(n_pixel,nz,8)``, containing the depth dependence of the 8 variables for all pixels. The second 
+one has size ``(n_pixel,)``, containing the filling factor for each pixel. In the following we show how to
+create a sample file:
+
+::
+
+    n_pixel = 100
+    nz = 50
+    
+    model_3d = np.zeros((n_pixel,nz,8), dtype=np.float64)
+    ff_3d = np.zeros((n_pixel,), dtype=np.float64)
+
+    f = h5py.File('photospheres/model_photosphere.h5', 'w')
+    db_model = f.create_dataset('model', model_3d.shape, dtype=np.float64)
+    db_ff = f.create_dataset('ff', ff_3d.shape, dtype=np.float64)
+    db_model[:] = model_3d
+    db_ff[:] = ff_3d
+    f.close()
+
+FITS 3D files
+^^^^^^^^^^^^^
+TBD
+
+Chromospheric models
+--------------------
+
+Chromospheric models are used both in synthesis and inversion. In synthesis mode, they are used to
+obtain the emergent Stokes parameters. In inversion mode, they are used as an initial reference model that will
+be perturbed with nodes until a fit is obtained for the observed Stokes parameters.
+
+1D files
+^^^^^^^^
+
+These are text files which tabulates the three cartesian components of the magnetic field [G], 
+the optical depth of the slab, the bulk velocity [km/s], the Doppler width of the line [km/s], 
+the enhancement factor beta, the damping a and the filling factor. An example follows:
+
+::
+
+    Bx    By   Bz   tau    v     deltav    beta    a     ff
+    0.0   0.0   0.0  1.0   0.0     8.0      1.0    0.0    1.0
+
+
+HDF5 3D files
+^^^^^^^^^^^^^
+
+HDF5 files with model chromospheres are defined with two double-precision datasets: ``model`` and ``ff``. The first
+one has size ``(n_pixel,8)``, containing the depth dependence of the 8 variables for all pixels. The second 
+one has size ``(n_pixel,)``, containing the filling factor for each pixel. In the following we show how to
+create a sample file:
+
+::
+
+    n_pixel = 100
+    
+    model_3d = np.zeros((n_pixel,8), dtype=np.float64)
+    ff_3d = np.zeros((n_pixel,), dtype=np.float64)
+
+    f = h5py.File('photospheres/model_chromosphere.h5', 'w')
+    db_model = f.create_dataset('model', model_3d.shape, dtype=np.float64)
+    db_ff = f.create_dataset('ff', ff_3d.shape, dtype=np.float64)
+    db_model[:] = model_3d
+    db_ff[:] = ff_3d
+    f.close()
+
+Parametric
+^^^^^^^^^^
+
+        Wavelength weight file = 'observations/10830.weights'
+        Observations file = 'observations/10830_stokes.h5'
+        Straylight file = 'observations/10830_stray.1d'
+        Mask file = None
+        Reference atmospheric model = 'photospheres/model_photosphere.1d'

@@ -19,7 +19,7 @@ class SIR_atmosphere(General_atmosphere):
         
         super().__init__('photosphere')
         self.ff = 1.0        
-        self.macroturbulence = 0.0
+        self.macroturbulence = np.zeros(1)
         
         self.parameters['T'] = None
         self.parameters['vmic'] = None
@@ -187,7 +187,7 @@ class SIR_atmosphere(General_atmosphere):
             else:
                 self.pe_present = False
                         
-            self.set_parameters(out, ff)
+            self.set_parameters([out, ff])
             self.reference = copy.deepcopy(self.parameters)
         
         if (extension == 'h5'):
@@ -195,6 +195,7 @@ class SIR_atmosphere(General_atmosphere):
                 print('    * Reading 3D model {0} as reference'.format(model_file))
             self.model_type = '3d'
             self.model_handler = Generic_SIR_file(model_file)
+            self.pe_present = True
             # self.model_file = model_file
 
     def set_reference(self):
@@ -212,13 +213,13 @@ class SIR_atmosphere(General_atmosphere):
         self.nodes_to_model()
         self.reference = copy.deepcopy(self.parameters)
             
-    def set_parameters(self, model, ff=1.0):
+    def set_parameters(self, model_in):
         """
         Set the parameters of the current model to those passed as argument
 
         Parameters
         ----------
-        model : float
+        model_in : float
             Array with the model        
         ff : float
             Value of the filling factor
@@ -227,6 +228,9 @@ class SIR_atmosphere(General_atmosphere):
         -------
         None
         """
+
+        model = model_in[0]
+        ff = model_in[1]
 
         self.parameters['log_tau'] = model[:,0]
         self.parameters['T'] = model[:,1]
@@ -321,5 +325,6 @@ class SIR_atmosphere(General_atmosphere):
         else:
             stokes = sir_code.synth(self.index, self.n_lambda, self.parameters['log_tau'], self.parameters['T'], 
                 self.parameters['Pe'], self.parameters['vmic'], self.parameters['v'], self.parameters['Bx'], self.parameters['By'], 
-                self.parameters['Bz'], self.macroturbulence)
+                self.parameters['Bz'], self.macroturbulence[0])
+            
             return self.parameters['ff'] * stokes[1:,:]

@@ -212,7 +212,6 @@ class Hazel_atmosphere(General_atmosphere):
         phiB = 180.0 / np.pi * np.arctan2(self.parameters['By'], self.parameters['Bx'])
         B1Input = np.asarray([B, thetaB, phiB])
 
-        # B1Input = np.asarray([self.parameters['B'], self.parameters['thetaB'], self.parameters['phiB']])
         hInput = self.height
         tau1Input = self.parameters['tau']
         transInput = 1

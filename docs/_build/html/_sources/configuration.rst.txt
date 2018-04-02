@@ -1,140 +1,129 @@
 Configuration
 =============
 
-The code is controlled by a single human-readable configuration file. 
-In order to use this option, you need to have the ``configparser``
-package installed in your system. It can be downloaded from
-``http://www.voidspace.org.uk/python/configobj.html`` or installed as a standard
-Python package using ``pip install configparser''. The serial version of the code
-is run using:
-
-::
-
-    ./run.py conf.ini
-
-and the parallel code is run with
-
-::
-
-    ./run.py conf.ini nProcessors
-
-An example of the file, that is self-explanatory, is:
+Although the code can be controlled programatically, it is much easier
+to control it using a single human-readable configuration file. 
 
 ::
 
     # Hazel configuration File
 
-    #####################
-    # General information
-    #####################
-
-    [Files]
-    Input model file = 'ATOMS/helium.mod'
-    File with observations = 'OBSERVATION/test_2comp.prof'
-    File with inverted profiles = 'test.inversion'
-    File with inverted parameters = 'test.parameters'
-
     [Working mode]
-    Action = 'inversion'                        # 'synthesis' or 'inversion'
-    Verbose = no
-    Linear system solver = 'LU'                 # 'LU' or 'CG'
-    Stopping volume for DIRECT = 0.001
+    Action = 'synthesis'                                            # 'synthesis' or 'inversion'
+    Verbose = True
+    Output file = output.h5
+    Number of cycles = 1
 
-    [General parameters]
-    Synthesis mode = 'exact'                    # 'thin' or 'exact'
-    Include stimulated emission = yes
-    Include magnetic field  = yes
-    Include Paschen-Back effect = yes
-    Include atomic level polarization = yes
-    Include magneto-optical effects in the RT = yes
-    Include stimulated emission in the RT = yes
-    Multiplet = 10830                           # 10830, 5876, 7065, 3889 A
-    Line-of-sight angles = 0.0, 0.0, 90.0       # theta, chi, gamma deg
-    Wavelength axis = -3.0, 2.5, 200            # Minimum, maximum and number of grid points
 
-    #####################
-    # Synthesis parameters
-    #####################
-    [Synthesis]
-    Number of slabs = '1'                       # '1' -> single slab, '1+1' -> two slabs with same field, '1+1B' -> 2 slabs with different field, '2' -> two slabs added with a filling factor
-    Boundary condition = 4.098e-5, 0.0, 0.0, 0.0      # I0, Q0, U0, V0. It can also be a file that contains the boundary condition vs wavelength (see boundary.dat in run directory)
-    a = 0.0
-    height = 3.0                                # Real height if positive, apparent height if negative arcsec
-    ff = 0.0
-        [[Slab 1]]
-        B =         0.0         # G
-        thetaB =    0.0         # deg
-        chiB =      0.0         # deg
-        vdopp =     8.0         # km/s
-        tau =       1.0
-        vmac =      0.0         # Positive is redshift km/s
-        beta =      1.0
-        [[Slab 2]]
-        B =         0.0         # G
-        thetaB =    0.0         # deg
-        chiB =      0.0         # deg
-        vdopp =     0.0         # km/s
-        tau =       0.0
-        vmac =      0.0         # Positive is redshift km/s
-        beta =      1.0
+    [Spectral regions]
+        [[Region 1]]
+        Name = spec1
+        Lower, upper, n. wavelengths = 10826, 10833, 150
+        Topology = ph2 #-> ch1 #-> te1 -> st1    
+        Stokes weights = 1.0, 1.0, 1.0, 1.0    
+        Wavelength file = 'observations/10830.wavelength'
+        Wavelength weight file = 'observations/10830.weights'
+        Observations file = 'observations/10830_stokes.1d'
+        Straylight file = 'observations/10830_stray.1d'
+        Mask file = None
 
-    #####################
-    # Ranges for the DIRECT method [min, max]
-    #####################
-    [Ranges]
-    a =             0,0.5
-    ff =            0.0,1.0
-        [[Slab 1]]
-        B =         800,1100
-        thetaB =    0,180
-        chiB =      0,180
-        vdopp =     2,12
-        tau =       0.1,2
-        vmac =      -5,5
-        beta =      0.5,2
-        [[Slab 2]]
-        B =         800,1100
-        thetaB =    0,180
-        chiB =      0,180
-        vdopp =     2,12
-        tau =       0.1,2
-        vmac =      -5,5
-        beta =      0.5,2
+    [Atmospheres]
+
+        [[Photosphere 2]]
+        Name = ph2
+        Reference atmospheric model = 'photospheres/model_photosphere.1d'
+        Spectral region = spec1
+        Wavelength range = 10826, 10833
+        Spectral lines = 300,
+
+            [[[Ranges]]]
+            T      = -3000.0, 3000.0
+            vmic   = 0.0, 3.0
+            v      = -10.0, 10.0
+            Bx     = -1000.0, 1000.0
+            By     = -1000.0, 1000.0
+            Bz     = -1000.0, 1000.0
+            ff     = 0.0, 1.0
+
+            [[[Nodes]]]
+            T      = 3, 3, 5, 5
+            vmic   = 1, 1, 1, 1
+            v      = 1, 1, 1, 1
+            Bx     = 1, 1, 1, 1
+            By     = 1, 1, 1, 1
+            Bz     = 1, 1, 1, 1
+            ff     = 0, 0, 0, 0
+
+            [[Regularization]]
+            T      = None
+            vmic   = None
+            v      = None
+            Bx     = None
+            By     = None
+            Bz     = None
+
+        [[Chromosphere 1]]
+        Name = ch1                                              # Name of the atmosphere component
+        Spectral region = spec1                                 # Spectral region to be used for synthesis
+        Height = 3.0                                            # Height of the slab
+        Line = 10830                                            # 10830, 5876
+        Wavelength range = 10826, 10833                         # Wavelength range used for synthesis
+        Reference atmospheric model = 'chromospheres/model_chromosphere.1d'    # File with model parameters
+
+            [[[Ranges]]]
+            Bx     = -500, 500
+            By     = -500, 500
+            Bz     = -500, 500
+            tau    = 0.1, 2.0
+            v      = -10.0, 10.0
+            deltav = 3.0, 12.0
+            beta   = 1.0, 2.0
+            a      = 0.0, 1.0
+            ff     = 0.0, 1.0
+            
+
+            [[[Nodes]]]
+            Bx     = 0, 0, 1, 1
+            By     = 0, 0, 1, 1
+            Bz     = 0, 0, 1, 1
+            tau    = 0, 0, 0, 0
+            v      = 0, 0, 0, 0
+            deltav = 0, 0, 0, 0
+            beta   = 0, 0, 0, 0
+            a      = 0, 0, 0, 0
+            ff     = 0, 0, 0, 0
+
+        [[Parametric 1]]
+        Name = te1
+        Spectral region = spec1
+        Wavelength range = 10826, 10833
+        Reference atmospheric model = 'telluric/model_telluric.1d'    # File with model parameters
+        Type = Gaussian           # Gaussian, Voigt, MoGaussian, MoVoigt 
+
+            [[[Ranges]]]
+            Lambda0 = -1.0, 1.0
+            Sigma = 0.3, 0.5
+            Depth = 0.2, 0.8
+            a = 0.0, 0.2
+            ff = 0.0, 1.0
         
-    #####################
-    # Parameters to invert
-    #####################
-    [Inversion]
-    Iterations in LM = 20
-    Number of cycles = 4
-    Inversion modes = 'DIRECT', 'LM', 'DIRECT', 'LM'        # 'DIRECT' for DIRECT algorithm and 'LM' for Levenberg-Marquardt
-        [[Cycles]]
-        a =             1, 1, 0, 0
-        ff =            0, 0, 0, 0
-            [[[Slab 1]]]
-            B =         0, 0, 1, 1
-            thetaB =    0, 0, 1, 1
-            chiB =      0, 0, 1, 1
-            vdopp =     1, 1, 0, 0
-            tau =       1, 1, 0, 0
-            vmac =      1, 1, 0, 0
-            beta =      0, 0, 0, 0
-            [[[Slab 2]]]
-            B =         0, 0, 0, 0
-            thetaB =    0, 0, 0, 0
-            chiB =      0, 0, 0, 0
-            vdopp =     0, 0, 0, 0
-            tau =       0, 0, 0, 0
-            vmac =      0, 0, 0, 0
-            beta =      0, 0, 0, 0
-        [[Weights]]
-            Stokes I =  1.0, 1.0, 1.0, 1.0
-            Stokes Q =  0.0, 0.0, 1.0, 1.0
-            Stokes U =  0.0, 0.0, 1.0, 1.0
-            Stokes V =  0.0, 0.0, 1.0, 1.0
+            [[[Nodes]]]
+            Lambda0 = 0, 0, 0, 0
+            Sigma = 0, 0, 0, 0
+            Depth = 0, 0, 0, 0
+            a = 0, 0, 0, 0
+            ff = 0, 0, 0, 0
 
+        [[Straylight 1]]
+        Name = st1
+        Spectral region = spec1
+        Wavelength range = 10826, 10833    
+        Reference atmospheric model = 'straylight/model_stray.1d'    # File with model parameters
 
-The code will convolve with a spectral point spread function if a file called ``psf.txt`` is placed on the
-directory where you run the code. This file contains a first line with the number of points of the PSF.
-Then a single column giving the transmission in a wavelength axis with a step equal to that of the observations.
-If this file is not present, no convolution will be done.
+            [[[Ranges]]]
+            v = -1.0, 1.0        
+            ff = 0.0, 1.0
+        
+            [[[Nodes]]]
+            v = 0, 0, 0, 0        
+            ff = 0, 0, 0, 0
