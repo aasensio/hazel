@@ -36,7 +36,7 @@ Now we can calculate :math:`\gamma` (must be measured from X to Y,
 anticlockwise). In this case, :math:`\gamma` gives:
 ::
 
-    gamma =(90 - alpha) = 56.3f
+    gamma =(90 - alpha) = 56.3d
 
 
 Then, the angles for this observation are:
