@@ -1,7 +1,6 @@
 import numpy as np
-import pyhazel
+from hazel import hazel
 import matplotlib.pyplot as pl
-from ipdb import set_trace as stop
 
 synModeInput = 5
 nSlabsInput = 1
@@ -31,7 +30,7 @@ boundaryInput  = np.zeros((nLambdaInput,4))
 boundaryInput[:,0] = 4.098e-5
 
 
-pyhazel.init()
+out = hazel()
 
 # Compute the Stokes parameters using many default parameters, using Allen's data
 n = 20
@@ -39,7 +38,7 @@ B = np.linspace(0.0,1200.0,n)
 inferred = np.zeros((2,n))
 for i in range(n):
 	B1Input = np.asarray([B[i],0.0,0.0])
-	[l, stokes, etaOutput, epsOutput] = pyhazel.synth(synModeInput, nSlabsInput, B1Input, B2Input, hInput, 
+	[l, stokes, etaOutput, epsOutput] = out.synth(synModeInput, nSlabsInput, B1Input, B2Input, hInput, 
                         tau1Input, tau2Input, boundaryInput, transInput, atomicPolInput, magoptInput, anglesInput, 
                         nLambdaInput, lambdaAxisInput, dopplerWidthInput, dopplerWidth2Input, dampingInput, 
                         dopplerVelocityInput, dopplerVelocity2Input, ffInput, betaInput, beta2Input, nbarInput, omegaInput, normalization)
@@ -57,6 +56,4 @@ pl.plot(inferred[1,:], inferred[0,:])
 pl.plot(np.arange(1200),np.arange(1200), '--')
 pl.show()
 
-# Now plot the Stokes parameters
-labels = ['I/Imax','Q/Imax','U/Imax','V/Imax']
 
